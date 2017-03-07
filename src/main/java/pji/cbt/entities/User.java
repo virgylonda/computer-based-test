@@ -1,6 +1,10 @@
 package pji.cbt.entities;
 
 import java.io.Serializable;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+
+import javax.xml.bind.DatatypeConverter;
 
 /**
  * User Entity Class
@@ -59,5 +63,19 @@ private Long user_id;
 	public void setRoles(String roles) {
 		this.roles = roles;
 	}
-		
+	
+	public String passwordToHash(String password){
+		MessageDigest md = null;
+		try {
+			md = MessageDigest.getInstance("MD5");
+		} catch (NoSuchAlgorithmException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		md.update(password.getBytes());
+		byte[] digest = md.digest();
+		String myHash = DatatypeConverter.printHexBinary(digest);
+		return myHash;
+	}
+	
 }

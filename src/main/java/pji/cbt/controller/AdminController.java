@@ -1,12 +1,14 @@
 package pji.cbt.controller;
 
+import java.security.MessageDigest;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
-
+import javax.xml.bind.DatatypeConverter;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -67,6 +69,7 @@ public class AdminController {
 	public ModelAndView saveTester(User user, RedirectAttributes redirectAttributes) {
 		ModelAndView model = new ModelAndView();
 		try {
+			user.setPassword(user.passwordToHash(user.getPassword()));
 			adminSvc.createUser(user);
 		} catch (Exception ex) {
 			System.out.println(ex);
@@ -77,6 +80,58 @@ public class AdminController {
 		}
 		model.setViewName("redirect:data");
 		redirectAttributes.addFlashAttribute("msg", "Tester account has been created successfully!!");
+		return model;
+	}
+	
+	@RequestMapping(path = "/users/datausers", method=RequestMethod.GET)
+	public ModelAndView dataUsers() {
+		ModelAndView model = new ModelAndView("datausers");
+		List<User> user = adminSvc.findAllUser("User");
+		model.addObject("data", user);
+		return model;
+	}
+	
+	@RequestMapping(path="/users/createnew", method= RequestMethod.GET)
+	public String formAddNewUsers(Model model2){
+		return "/formusers";
+	}
+	
+	@RequestMapping(path="/users/createnew", method= RequestMethod.POST)
+	public ModelAndView saveUsers(User user, RedirectAttributes redirectAttributes){
+		ModelAndView modelAndView = new ModelAndView();
+		try {
+			String pass = user.getPassword();
+			MessageDigest md = MessageDigest.getInstance("MD5");
+			md.update(pass.getBytes());
+			byte[] digest = md.digest();
+			String myHash = DatatypeConverter.printHexBinary(digest);
+			user.setPassword(myHash);
+			adminSvc.createUser(user);
+		} catch (Exception e) {
+			System.out.println(e);
+			ModelAndView modelGagal = new ModelAndView("formtester");
+			modelGagal.addObject("msg", "Fail, Username has been used!!");
+			modelGagal.addObject("data", user);
+			return modelGagal;
+		}
+		
+	modelAndView.setViewName("redirect:datausers");
+	redirectAttributes.addFlashAttribute("msg", "Create account User has been successfully!!");
+	return modelAndView;
+	}
+	
+	@RequestMapping(path="/users/delete/{user_id}", method=RequestMethod.GET)
+	public ModelAndView deleteUser(@PathVariable long user_id, RedirectAttributes attributes){
+		try{
+			adminSvc.deleteOne(user_id);
+		} catch (Exception e) {
+			ModelAndView model = new ModelAndView();
+			model.setViewName("redirect:../datausers");
+			attributes.addFlashAttribute("msgerror", "Delete Account User Failed! Try Again..");
+		}
+		ModelAndView model = new ModelAndView();
+		model.setViewName("redirect:../datausers");
+		attributes.addFlashAttribute("msgsuccess", "Delete Account User Succesfully!");
 		return model;
 	}
 }
