@@ -11,7 +11,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import pji.cbt.entities.User;
 import pji.cbt.iservices.AdminService;
-import pji.cbt.iservices.UserService;
+import pji.cbt.iservices.SoalService;
 
 @Controller
 public class MainController {
@@ -19,6 +19,9 @@ public class MainController {
 	@Autowired
 	private AdminService adminSvc;
     
+	@Autowired
+	private SoalService soalSvc;
+	
     @RequestMapping(value="/login",method = RequestMethod.GET)
     public ModelAndView homeLogin(){
     	ModelAndView model = new ModelAndView("login");
@@ -44,4 +47,10 @@ public class MainController {
     	}
     }
     
+    
+    @RequestMapping(value="/soal", method= RequestMethod.GET)
+    public String soalpage(Model modelsoal){
+    	modelsoal.addAttribute("soal",this.soalSvc.findAllSoal());
+    	return"/index_soal";
+    }
 }

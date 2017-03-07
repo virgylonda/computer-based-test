@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="pji.cbt.mapper.SoalMapper">
+	<resultMap type="pji.cbt.entities.Soal" id="resultSoal">
+		<id property="id_soal" column="id_soal"/>
+		<result property="soal" column="soal"/>
+		<result property="pilihan_1" column="pilihan_1"/>
+		<result property="pilihan_2" column="pilihan_2"/>
+	</resultMap>
+	
+	<select id="findAll" resultMap="resultSoal">
+		SELECT * FROM tb_soal;
+	</select>
+</mapper>
