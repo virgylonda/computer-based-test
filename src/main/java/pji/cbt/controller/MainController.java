@@ -48,7 +48,7 @@ public class MainController {
     }
     
     
-    @RequestMapping(value="/soal", method= RequestMethod.GET)
+    @RequestMapping(value="/user/soal", method= RequestMethod.GET)
     public String soalpage(Model modelsoal){
     	modelsoal.addAttribute("soal",this.soalSvc.findAllSoal());
     	return"/index_soal";
