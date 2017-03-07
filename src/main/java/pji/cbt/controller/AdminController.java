@@ -30,7 +30,6 @@ public class AdminController {
 	@RequestMapping(path = "/dashboard", method=RequestMethod.GET)
 	public ModelAndView homePage(HttpServletRequest request) {		
 		ModelAndView model = new ModelAndView();
-		model.addObject("admin", adminSvc.findAllAdmin());
 		model.setViewName("index");
 		return model;
 	}

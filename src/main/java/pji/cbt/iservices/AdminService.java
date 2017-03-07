@@ -5,7 +5,7 @@ import pji.cbt.entities.Admin;
 import pji.cbt.entities.User;
 
 public abstract interface AdminService {
-	public abstract List<Admin> findAllAdmin();
+	
 
 	public abstract List<User> findAllUser(String roles);
 	

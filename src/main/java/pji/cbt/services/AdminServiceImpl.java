@@ -16,10 +16,6 @@ public class AdminServiceImpl implements AdminService {
 	public AdminServiceImpl() {
 	}
 
-	public List<Admin> findAllAdmin() {
-		return aMapper.findAllAdmin();
-	}
-
 	public void createUser(User tester) {
 		aMapper.createUser(tester);
 	}

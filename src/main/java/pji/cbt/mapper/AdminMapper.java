@@ -14,8 +14,6 @@ import pji.cbt.entities.User;
 
 @Mapper
 public abstract interface AdminMapper {
-	@Select({ "SELECT * FROM admin" })
-	public abstract List<Admin> findAllAdmin();
 
 	@Select({ "SELECT * FROM tb_user WHERE roles = '${roles}'" })
 	public abstract List<User> findAllUser(@Param("roles") String roles);
