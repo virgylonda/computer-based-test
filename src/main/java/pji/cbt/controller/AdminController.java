@@ -108,7 +108,7 @@ public class AdminController {
 			adminSvc.createUser(user);
 		} catch (Exception e) {
 			System.out.println(e);
-			ModelAndView modelGagal = new ModelAndView("formtester");
+			ModelAndView modelGagal = new ModelAndView("formusers");
 			modelGagal.addObject("msg", "Fail, Username has been used!!");
 			modelGagal.addObject("data", user);
 			return modelGagal;
