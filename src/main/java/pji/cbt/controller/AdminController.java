@@ -28,45 +28,36 @@ public class AdminController {
 	}
 
 	@RequestMapping(path = "/dashboard", method=RequestMethod.GET)
-	public ModelAndView homePage(HttpServletRequest request) {		
-		ModelAndView model = new ModelAndView();
-		model.setViewName("index");
-		return model;
+	public String homePage(HttpServletRequest request, Model model) {		
+		return "index";
 	}
 
 	@RequestMapping(path = "/tester/data", method=RequestMethod.GET)
-	public ModelAndView dataTester() {
-		ModelAndView model = new ModelAndView("datatester");
+	public String dataTester(Model model) {
 		List<User> user = adminSvc.findAllUser("Tester");
-		model.addObject("data", user);
-		return model;
+		model.addAttribute("data", user);
+		return "datatester";
 	}
 	
 	@RequestMapping(path = "/tester/delete/{id}", method=RequestMethod.GET)
-	public ModelAndView deleteTester(@PathVariable long id, RedirectAttributes redirectAttributes) {
-		ModelAndView model = new ModelAndView();
+	public String deleteTester(@PathVariable long id, RedirectAttributes redirectAttributes, Model model) {
 		try {
 			adminSvc.deleteOne(id);
 		} catch (Exception ex) {
-			model.setViewName("redirect:../data");
 			redirectAttributes.addFlashAttribute("msgerror", "Fail to delete account!!");
+			return "redirect:../data";
 		}
-		
-		model.setViewName("redirect:../data");
 		redirectAttributes.addFlashAttribute("msgsuccess", "Success to delete account!!");
-		return model;
+		return "redirect:../data";
 	}
 
 	@RequestMapping(path ="/tester/form", method = RequestMethod.GET)
-	public ModelAndView formTester() {
-		ModelAndView model = new ModelAndView();
-		model.setViewName("formtester");
-		return model;
+	public String formTester(Model model) {
+		return "formtester";
 	}
 
 	@RequestMapping(path ="/tester/form", method = RequestMethod.POST)
-	public ModelAndView saveTester(User user, RedirectAttributes redirectAttributes) {
-		ModelAndView model = new ModelAndView();
+	public String saveTester(User user, RedirectAttributes redirectAttributes, Model model) {
 		String password = user.getPassword();
 		try {
 			user.setPassword(user.passwordToHash(user.getPassword()));
@@ -75,32 +66,28 @@ public class AdminController {
 			user.setPassword(password);
 			System.out.println(user.getPassword());
 			System.out.println(ex);
-			ModelAndView modelFailed = new ModelAndView("formtester");
-			modelFailed.addObject("msg", "Fail, Username has been used!!");
-			modelFailed.addObject("data", user);
-			return modelFailed;
+			model.addAttribute("msg", "Fail, Username has been used!!");
+			model.addAttribute("data", user);
+			return "formtester";
 		}
-		model.setViewName("redirect:data");
 		redirectAttributes.addFlashAttribute("msg", "Tester account has been created successfully!!");
-		return model;
+		return "redirect:data";
 	}
 	
 	@RequestMapping(path = "/users/datausers", method=RequestMethod.GET)
-	public ModelAndView dataUsers() {
-		ModelAndView model = new ModelAndView("datausers");
+	public String dataUsers(Model model) {
 		List<User> user = adminSvc.findAllUser("User");
-		model.addObject("data", user);
-		return model;
+		model.addAttribute("data", user);
+		return "datausers";
 	}
 	
 	@RequestMapping(path="/users/createnew", method= RequestMethod.GET)
-	public String formAddNewUsers(Model model2){
+	public String formAddNewUsers(Model model){
 		return "/formusers";
 	}
 	
 	@RequestMapping(path="/users/createnew", method= RequestMethod.POST)
-	public ModelAndView saveUsers(User user, RedirectAttributes redirectAttributes){
-		ModelAndView modelAndView = new ModelAndView();
+	public String saveUsers(User user, RedirectAttributes redirectAttributes, Model model){
 		String password = user.getPassword();
 		try {
 			String pass = user.getPassword();
@@ -113,29 +100,24 @@ public class AdminController {
 		} catch (Exception e) {
 			System.out.println(e);
 			user.setPassword(password);
-			ModelAndView modelGagal = new ModelAndView("formusers");
-			modelGagal.addObject("msg", "Fail, Username has been used!!");
-			modelGagal.addObject("data", user);
-			return modelGagal;
-		}
-		
-	modelAndView.setViewName("redirect:datausers");
+	
+			model.addAttribute("msg", "Fail, Username has been used!!");
+			model.addAttribute("data", user);
+			return "formusers";
+		}	
 	redirectAttributes.addFlashAttribute("msg", "Create account User has been successfully!!");
-	return modelAndView;
+	return "redirect:datausers";
 	}
 	
 	@RequestMapping(path="/users/delete/{user_id}", method=RequestMethod.GET)
-	public ModelAndView deleteUser(@PathVariable long user_id, RedirectAttributes attributes){
+	public String deleteUser(@PathVariable long user_id, RedirectAttributes attributes, Model model){
 		try{
 			adminSvc.deleteOne(user_id);
 		} catch (Exception e) {
-			ModelAndView model = new ModelAndView();
-			model.setViewName("redirect:../datausers");
 			attributes.addFlashAttribute("msgerror", "Delete Account User Failed! Try Again..");
+			return "redirect:../datausers";	
 		}
-		ModelAndView model = new ModelAndView();
-		model.setViewName("redirect:../datausers");
 		attributes.addFlashAttribute("msgsuccess", "Delete Account User Succesfully!");
-		return model;
+		return "redirect:../datausers";
 	}
 }

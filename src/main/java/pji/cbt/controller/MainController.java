@@ -23,27 +23,22 @@ public class MainController {
 	private SoalService soalSvc;
 	
     @RequestMapping(value="/login",method = RequestMethod.GET)
-    public ModelAndView homeLogin(){
-    	ModelAndView model = new ModelAndView("login");
-    	return model;
+    public String homeLogin(Model model){
+    	return "login";
     }
     
     @RequestMapping(value="/login/proccess",method = RequestMethod.POST)
-    public ModelAndView proccessLogin(String username, String password, HttpServletRequest request){
-    	ModelAndView model = new ModelAndView();
+    public String proccessLogin(String username, String password, HttpServletRequest request, Model model){
     	try {	
     		User user = adminSvc.findOneUser(username);
         	String roles = user.getRoles();
         	if(user.getPassword().equalsIgnoreCase(password) && roles.equals("Admin")){	
-        		model.setViewName("redirect: ../../../admin/dashboard");
-        		return model;
+        		return "redirect: ../../../admin/dashboard";
         	} else {
-        		model.setViewName("redirect:../login");
-        		return model;
+        		return "redirect:../login";
         	}
     	} catch (Exception e) {
-    		model.setViewName("redirect:../login");
-    		return model;
+    		return "redirect:../login";
     	}
     }
     
