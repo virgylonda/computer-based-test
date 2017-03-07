@@ -302,10 +302,6 @@
                             		</div>
                                     <form action="createnew" method="post" ng-app="">
                                     	<div class="form-group">
-                                            <label>Name User</label>
-                                            <input class="form-control" type="text" placeholder="Name New User" name="name" pattern="[a-zA-Z ]+" title="Only allow alphabet" required="required" th:attr="value = ${data !=null ? data.username : '' }"/>
-                                        </div>
-                                        <div class="form-group">
                                             <label>Username</label>
                                             <input class="form-control" type="text" placeholder="Enter username user" name="username" required="required" th:attr="value = ${data !=null ? data.username : '' }"/>
                                         </div>
@@ -313,9 +309,13 @@
                                             <label>Password</label>
                                             <input class="form-control" type="password" placeholder="Enter password user" name="password" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" title="Must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters" required="required" th:attr="value = ${data !=null ? data.username : '' }"/>
                                         	<input class="form-control" type="hidden" name="roles" value="User"/>
-                                        </div>                                
-                                        <button type="submit" class="btn btn-primary">Save User</button>
-                                        <button type="reset" class="btn btn-danger">Clear Form</button>
+                                        </div>   
+                                        <div class="form-group">
+                                            <label>User Name</label>
+                                            <input class="form-control" type="text" placeholder="Enter User Name" name="name" pattern="[a-zA-Z ]+" title="Only allow alphabet" required="required" th:attr="value = ${data !=null ? data.username : '' }"/>
+                                        </div>                             
+                                        <button type="submit" class="btn btn-primary">Submit</button>
+                                        <button type="reset" class="btn btn-danger">Reset</button>
                                     </form>
                                 </div>
                             </div>

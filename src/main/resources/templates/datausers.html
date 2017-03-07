@@ -320,7 +320,6 @@
                                             <th>No.</th>
                                             <th>Name</th>
                                             <th>Username</th>
-                                            <th>Password</th>
                                             <th>Action</th>
                                         </tr>
                                     </thead>
@@ -329,10 +328,8 @@
                                             <td th:text="${user != null ? iterationStatus.count : '' }"/>
                                             <td th:text="${user != null ? user.name : '' }"/>
                                             <td th:text="${user != null ? user.username : '' }"/>
-                                            <td th:text="${user != null ? user.password : '' }"/>
                                             <td>
                                             <a th:href="|delete/${user.user_id}|"><button type="button" class="btn btn-danger btn-xs">Delete</button></a>
-                                            <a th:href="|update/${user.user_id}|"><button type="button" class="btn btn-warning btn-xs">Update</button></a>
                                             </td>
                                         </tr>
                                     </tbody>
