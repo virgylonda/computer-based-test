@@ -67,10 +67,14 @@ public class AdminController {
 	@RequestMapping(path ="/tester/form", method = RequestMethod.POST)
 	public ModelAndView saveTester(User user, RedirectAttributes redirectAttributes) {
 		ModelAndView model = new ModelAndView();
+		String password = user.getPassword();
 		try {
 			user.setPassword(user.passwordToHash(user.getPassword()));
+			System.out.println("sudah ke hash");
 			adminSvc.createUser(user);
 		} catch (Exception ex) {
+			user.setPassword(password);
+			System.out.println(user.getPassword());
 			System.out.println(ex);
 			ModelAndView modelFailed = new ModelAndView("formtester");
 			modelFailed.addObject("msg", "Fail, Username has been used!!");
@@ -98,6 +102,7 @@ public class AdminController {
 	@RequestMapping(path="/users/createnew", method= RequestMethod.POST)
 	public ModelAndView saveUsers(User user, RedirectAttributes redirectAttributes){
 		ModelAndView modelAndView = new ModelAndView();
+		String password = user.getPassword();
 		try {
 			String pass = user.getPassword();
 			MessageDigest md = MessageDigest.getInstance("MD5");
@@ -108,6 +113,7 @@ public class AdminController {
 			adminSvc.createUser(user);
 		} catch (Exception e) {
 			System.out.println(e);
+			user.setPassword(password);
 			ModelAndView modelGagal = new ModelAndView("formusers");
 			modelGagal.addObject("msg", "Fail, Username has been used!!");
 			modelGagal.addObject("data", user);
