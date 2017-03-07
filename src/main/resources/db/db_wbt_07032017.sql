@@ -1,4 +1,16 @@
-#ADMIN,USER,DAN TESTER DIJADIKAN 1 TABLE
+--SEQUENCE
+
+CREATE SEQUENCE public.tb_tester_tester_id_seq
+  INCREMENT 1
+  MINVALUE 1
+  MAXVALUE 9223372036854775807
+  START 48
+  CACHE 1;
+ALTER TABLE public.tb_tester_tester_id_seq
+  OWNER TO postgres;
+
+
+--ADMIN,USER,DAN TESTER DIJADIKAN 1 TABLE
 
 CREATE TABLE public.tb_user
 (
@@ -11,7 +23,7 @@ CREATE TABLE public.tb_user
   CONSTRAINT unique_username UNIQUE (username)
 )
 
-#TABLE SOAL
+--TABLE SOAL
 
 CREATE TABLE public.tb_soal
 (
@@ -22,5 +34,5 @@ CREATE TABLE public.tb_soal
   CONSTRAINT tb_soal_pkey PRIMARY KEY (id_soal)
 )
 
-#TABLE JAWABAN MASIH BELUM DIBIKIN
+--TABLE JAWABAN MASIH BELUM DIBIKIN
 

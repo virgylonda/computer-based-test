@@ -70,7 +70,6 @@ public class AdminController {
 		String password = user.getPassword();
 		try {
 			user.setPassword(user.passwordToHash(user.getPassword()));
-			System.out.println("sudah ke hash");
 			adminSvc.createUser(user);
 		} catch (Exception ex) {
 			user.setPassword(password);
