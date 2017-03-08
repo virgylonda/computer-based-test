@@ -22,26 +22,10 @@ public class MainController {
 	@Autowired
 	private SoalService soalSvc;
 	
-    @RequestMapping(value="/login",method = RequestMethod.GET)
-    public String homeLogin(Model model){
+    @RequestMapping(value="/login")
+    public String homeLogin(){
     	return "login";
     }
-    
-    @RequestMapping(value="/login/proccess",method = RequestMethod.POST)
-    public String proccessLogin(String username, String password, HttpServletRequest request, Model model){
-    	try {	
-    		User user = adminSvc.findOneUser(username);
-        	String roles = user.getRoles();
-        	if(user.getPassword().equalsIgnoreCase(password) && roles.equals("Admin")){	
-        		return "redirect: ../../../admin/dashboard";
-        	} else {
-        		return "redirect:../login";
-        	}
-    	} catch (Exception e) {
-    		return "redirect:../login";
-    	}
-    }
-    
     
     @RequestMapping(value="/user/soal", method= RequestMethod.GET)
     public String soalpage(Model modelsoal){
