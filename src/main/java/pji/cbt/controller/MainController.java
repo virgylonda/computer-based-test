@@ -1,15 +1,11 @@
 package pji.cbt.controller;
 
-import javax.servlet.http.HttpServletRequest;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import pji.cbt.entities.User;
-import pji.cbt.iservices.SoalService;
 import pji.cbt.iservices.UserService;
 
 @Controller
@@ -17,9 +13,6 @@ public class MainController {
 
 	@Autowired
 	private UserService userSvc;
-    
-	@Autowired
-	private SoalService soalSvc;
 	
     @RequestMapping(value="/login",method = RequestMethod.GET)
     public String homeLogin(Model model){
@@ -42,9 +35,5 @@ public class MainController {
 //    }
     
     
-    @RequestMapping(value="/user/soal", method= RequestMethod.GET)
-    public String soalpage(Model modelsoal){
-    	modelsoal.addAttribute("soal",this.soalSvc.findAllSoal());
-    	return"/index_soal";
-    }
+  
 }
