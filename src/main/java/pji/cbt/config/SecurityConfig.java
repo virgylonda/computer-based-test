@@ -7,6 +7,7 @@ import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 
 @Configuration
@@ -30,5 +31,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 				.permitAll();
 		http.exceptionHandling().accessDeniedPage("/403");
 	}
+	
+	@Override
+	public void configure(WebSecurity web) throws Exception {
+	    web
+	       .ignoring()
+	       .antMatchers("/resources/**", "/static/**", "/asset/**", "/fonts/**", "/font-awesome/**","/css/**", "/js/**", "/images/**");
+}
 
 }
