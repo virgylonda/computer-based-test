@@ -32,9 +32,9 @@ public class AdminController {
 		return "index";
 	}
 
-	@RequestMapping(path = "/tester/data", method=RequestMethod.GET)
+	@RequestMapping(path = "/tester/list", method=RequestMethod.GET)
 	public String dataTester(Model model) {
-		List<User> user = adminSvc.findAllUser("Tester");
+		List<User> user = adminSvc.findAllUser(2);
 		model.addAttribute("data", user);
 		return "datatester";
 	}
@@ -42,26 +42,26 @@ public class AdminController {
 	@RequestMapping(path = "/tester/delete/{id}", method=RequestMethod.GET)
 	public String deleteTester(@PathVariable long id, RedirectAttributes redirectAttributes, Model model) {
 		try {
-			adminSvc.deleteOne(id);
+			this.adminSvc.deleteOne(id);
 		} catch (Exception ex) {
 			redirectAttributes.addFlashAttribute("msgerror", "Fail to delete account!!");
-			return "redirect:../data";
+			return "redirect:../list";
 		}
 		redirectAttributes.addFlashAttribute("msgsuccess", "Success to delete account!!");
-		return "redirect:../data";
+		return "redirect:../list";
 	}
 
-	@RequestMapping(path ="/tester/form", method = RequestMethod.GET)
+	@RequestMapping(path ="/tester/createnew", method = RequestMethod.GET)
 	public String formTester(Model model) {
 		return "formtester";
 	}
 
-	@RequestMapping(path ="/tester/form", method = RequestMethod.POST)
+	@RequestMapping(path ="/tester/createnew", method = RequestMethod.POST)
 	public String saveTester(User user, RedirectAttributes redirectAttributes, Model model) {
 		String password = user.getPassword();
 		try {
 			user.setPassword(user.passwordToHash(user.getPassword()));
-			adminSvc.createUser(user);
+			this.adminSvc.createUser(user);
 		} catch (Exception ex) {
 			user.setPassword(password);
 			System.out.println(user.getPassword());
@@ -71,13 +71,12 @@ public class AdminController {
 			return "formtester";
 		}
 		redirectAttributes.addFlashAttribute("msg", "Tester account has been created successfully!!");
-		return "redirect:data";
+		return "redirect:list";
 	}
 	
-	@RequestMapping(path = "/users/datausers", method=RequestMethod.GET)
+	@RequestMapping(path = "/users/list", method=RequestMethod.GET)
 	public String dataUsers(Model model) {
-		List<User> user = adminSvc.findAllUser("User");
-		model.addAttribute("data", user);
+		model.addAttribute("data", this.adminSvc.findAllUser(3));
 		return "datausers";
 	}
 	
@@ -90,13 +89,8 @@ public class AdminController {
 	public String saveUsers(User user, RedirectAttributes redirectAttributes, Model model){
 		String password = user.getPassword();
 		try {
-			String pass = user.getPassword();
-			MessageDigest md = MessageDigest.getInstance("MD5");
-			md.update(pass.getBytes());
-			byte[] digest = md.digest();
-			String myHash = DatatypeConverter.printHexBinary(digest);
-			user.setPassword(myHash);
-			adminSvc.createUser(user);
+			user.setPassword(user.passwordToHash(user.getPassword()));
+			this.adminSvc.createUser(user);
 		} catch (Exception e) {
 			System.out.println(e);
 			user.setPassword(password);
@@ -106,18 +100,18 @@ public class AdminController {
 			return "formusers";
 		}	
 	redirectAttributes.addFlashAttribute("msg", "Create account User has been successfully!!");
-	return "redirect:datausers";
+	return "redirect:list";
 	}
 	
-	@RequestMapping(path="/users/delete/{user_id}", method=RequestMethod.GET)
-	public String deleteUser(@PathVariable long user_id, RedirectAttributes attributes, Model model){
+	@RequestMapping(path="/users/delete/{id}", method=RequestMethod.GET)
+	public String deleteUser(@PathVariable long id, RedirectAttributes attributes, Model model){
 		try{
-			adminSvc.deleteOne(user_id);
+			this.adminSvc.deleteOne(id);
 		} catch (Exception e) {
 			attributes.addFlashAttribute("msgerror", "Delete Account User Failed! Try Again..");
-			return "redirect:../datausers";	
+			return "redirect:../list";	
 		}
 		attributes.addFlashAttribute("msgsuccess", "Delete Account User Succesfully!");
-		return "redirect:../datausers";
+		return "redirect:../list";
 	}
 }
