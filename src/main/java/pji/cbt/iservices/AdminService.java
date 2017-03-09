@@ -1,13 +1,11 @@
 package pji.cbt.iservices;
 
 import java.util.List;
-import pji.cbt.entities.Admin;
 import pji.cbt.entities.User;
 
 public abstract interface AdminService {
 	
-
-	public abstract List<User> findAllUser(String roles);
+	public abstract List<User> findAllUser(int role_id);
 	
 	public abstract User findOne(long id);
 
