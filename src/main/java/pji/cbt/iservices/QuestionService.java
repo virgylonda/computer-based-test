@@ -8,9 +8,9 @@ public interface QuestionService {
 
 	public List<Question> findAllQuestion();
 	
-	public Question findOne();
+	public Question findOneQuestion(int categoryId);
 	
-	public void deleteQuestion();
+	public void deleteQuestion(int id);
 	
-	public void createQuestion();
+	public void createQuestion(Question question);
 }

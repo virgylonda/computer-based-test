@@ -11,6 +11,7 @@ import pji.cbt.mapper.QuestionMapper;
 
 @Service
 public class QuestionServiceImp implements QuestionService {
+	
 	@Autowired
 	private QuestionMapper qMapper;
 
@@ -20,18 +21,20 @@ public class QuestionServiceImp implements QuestionService {
 	}
 
 	@Override
-	public Question findOne() {
-		return qMapper.findOne();
+	public Question findOneQuestion(int categoryId) {
+		return qMapper.findOneQuestion(categoryId);
 	}
 
 	@Override
-	public void deleteQuestion() {
-		qMapper.deleteQuestion();
+	public void deleteQuestion(int id) {
+		qMapper.deleteQuestion(id);
+		
 	}
 
 	@Override
-	public void createQuestion() {
-		qMapper.createQuestion();
+	public void createQuestion(Question question) {
+		qMapper.createQuestion(question);
 	}
 
+	
 }

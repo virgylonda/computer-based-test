@@ -11,7 +11,9 @@ import javax.xml.bind.DatatypeConverter;
  */
 public class User implements Serializable {
 
-private Long user_id;
+	private int id;
+	
+	private Long role_id;
 	
 	private String username;
 	
@@ -19,17 +21,25 @@ private Long user_id;
 	
 	private String name;
 	
-	private String roles;
+	private String email;
 
 	public User() {
 	}
-	
-	public Long getUser_id() {
-		return user_id;
+
+	public int getId() {
+		return id;
 	}
 
-	public void setUser_id(Long userId) {
-		this.user_id = userId;
+	public void setId(int id) {
+		this.id = id;
+	}
+
+	public Long getRole_id() {
+		return role_id;
+	}
+
+	public void setRole_id(Long role_id) {
+		this.role_id = role_id;
 	}
 
 	public String getUsername() {
@@ -55,15 +65,15 @@ private Long user_id;
 	public void setName(String name) {
 		this.name = name;
 	}
-	
-	public String getRoles() {
-		return roles;
+
+	public String getEmail() {
+		return email;
 	}
 
-	public void setRoles(String roles) {
-		this.roles = roles;
+	public void setEmail(String email) {
+		this.email = email;
 	}
-	
+
 	public String passwordToHash(String password){
 		MessageDigest md = null;
 		try {

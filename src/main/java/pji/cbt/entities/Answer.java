@@ -2,6 +2,9 @@ package pji.cbt.entities;
 
 import java.io.Serializable;
 
+/**
+ * Answer Entity Class
+ */
 public class Answer implements Serializable {
 	
 	private int id;

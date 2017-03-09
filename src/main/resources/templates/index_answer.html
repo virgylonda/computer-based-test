@@ -266,10 +266,7 @@
                             <a href="../dashboard"><i class="fa fa-dashboard fa-fw"></i> Dashboard</a>
                         </li>
                         <li>
-                            <a href="data"><i class="fa fa-user fa-fw"></i> Tester</a>
-                        </li>
-                        <li>
-                            <a href="../users/datausers"><i class="fa fa-user fa-fw"></i> User</a>
+                            <a href="tester/listanswers"><i class="fa fa-user fa-fw"></i> Answer</a>
                         </li>
                     </ul>
                     <!-- /#side-menu -->
@@ -282,7 +279,7 @@
         <div id="page-wrapper">
             <div class="row">
                 <div class="col-lg-12">
-                    <h1 class="page-header">Data Tester Account</h1>
+                    <h1 class="page-header">List Answer</h1>
                 </div>
                 <!-- /.col-lg-12 -->
             </div>
@@ -306,7 +303,6 @@
             </div>
             <div class="row">
             	<div class="col-lg-12">
-            		<a href="form"><button type="button" class="btn btn-primary">Add New Tester</button></a><br/><br/>
                     <div class="panel panel-default">
                         <div class="panel-heading">
                             DataTables Advanced Tables
@@ -318,17 +314,21 @@
                                     <thead>
                                         <tr>
                                             <th>No.</th>
+                                            <th>Question Id</th>
                                             <th>ordering</th>
                                             <th>Answer</th>
                                             <th>Correct Answer</th>
+                                            <th>Action</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr th:each="tester,iterationStatus : ${data}">
-                                            <td th:text="${tester != null ? iterationStatus.count : '' }"/>
-                                            <td th:text="${tester != null ? tester.username : '' }"/>
-                                            <td th:text="${tester != null ? tester.name : '' }"/>
-                                            <td><a th:href="|delete/${tester.user_id}|"><button type="button" class="btn btn-warning btn-xs">Delete</button></a></td>
+                                        <tr th:each="answer,iterationStatus : ${answer}">
+                                            <td th:text="${answer != null ? iterationStatus.count : '' }"/>
+                                            <td th:text="${answer != null ? answer.questionId : '' }"/>
+                                            <td th:text="${answer != null ? answer.ordering : '' }"/>
+                                            <td th:text="${answer != null ? answer.answer : '' }"/>
+                                            <td th:text="${answer != null ? answer.correctAnswer : '' }"/>
+                                            <td><a th:href="|delete/${answer.id}|"><button type="button" class="btn btn-warning btn-xs">Delete</button></a></td>
                                         </tr>
                                     </tbody>
                                 </table>

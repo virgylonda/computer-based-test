@@ -5,10 +5,30 @@
 <mapper namespace="pji.cbt.mapper.UserMapper">
 	<resultMap type="pji.cbt.entities.User" id="resultUser">
 		<id property="id" column="id"/>
+		<result property="role_id" column="role_id"/>
 		<result property="username" column="username"/>
+		<result property="name" column="name"/>
+		<result property="email" column="email"/>
 	</resultMap>
 	
-	<select id="findAll" resultMap="resultUser">
-		SELECT * FROM TB_TEST;
+	<select id="findAllUser" resultMap="resultUser">
+		SELECT * FROM tb_user where role_id = #{role_id}
 	</select>
+	
+	<select id="findOneUser" resultMap="resultUser">
+		SELECT * FROM tb_user WHERE username = #{username}
+	</select>
+	
+	<select id="findOne" resultMap="resultUser">
+		SELECT * FROM tb_user WHERE id= #{id}
+	</select>
+	
+	<select id="deleteOne" resultMap="resultUser">
+		DELETE FROM tb_user WHERE id = #{id}
+	</select>
+
+	<select id="createUser" resultMap="resultUser">
+		INSERT INTO tb_user(role_id,username,password,name,email) VALUES(#{role_id},#{username}, #{password}, #{name}, #{email})
+	</select>
+	
 </mapper>

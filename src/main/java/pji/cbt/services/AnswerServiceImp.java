@@ -11,20 +11,23 @@ import pji.cbt.mapper.AnswerMapper;
 
 @Service
 public class AnswerServiceImp implements AnswerService {
+	
 	@Autowired
 	private AnswerMapper aMapper;
+	
 	@Override
 	public List<Answer> findAllAnswer() {
 		return aMapper.findAllAnswer();
 	}
 
 	@Override
-	public Answer findOne() {
-		return aMapper.findOne();
+	public Answer findOne(int questionId) {
+		return aMapper.findOne(questionId);
 	}
 
 	@Override
-	public void deleteAnswer(){
-		aMapper.deleteAnswer();
+	public void deleteAnswer(int id) {
+		aMapper.deleteAnswer(id);
+		
 	}
 }

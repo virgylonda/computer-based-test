@@ -8,7 +8,7 @@ public interface AnswerService {
 
 	public List<Answer> findAllAnswer();
 	
-	public Answer findOne();
+	public Answer findOne(int questionId);
 	
-	public void deleteAnswer();
+	public void deleteAnswer(int id);
 }
