@@ -232,9 +232,9 @@
 						</li>
 						<li><a href="../dashboard"><i
 								class="fa fa-dashboard fa-fw"></i> Dashboard</a></li>
-						<li><a href="../tester/data"><i class="fa fa-user fa-fw"></i>
+						<li><a href="../tester/list"><i class="fa fa-user fa-fw"></i>
 								Tester</a></li>
-						<li><a href="../users/datausers"><i
+						<li><a href="../users/list"><i
 								class="fa fa-user fa-fw"></i> User</a></li>
 					</ul>
 					<!-- /#side-menu -->
@@ -284,18 +284,21 @@
 									<thead>
 										<tr>
 											<th>No.</th>
-
+											<th>Role</th>
 											<th>Username</th>
 											<th>Name</th>
+											<th>Email</th>
 											<th>Action</th>
 										</tr>
 									</thead>
 									<tbody>
 										<tr th:each="user,iterationStatus : ${data}">
 											<td th:text="${user != null ? iterationStatus.count : '' }" />
+											<td th:text="${user != null ? user.role_id : '' }" />
 											<td th:text="${user != null ? user.username : '' }" />
 											<td th:text="${user != null ? user.name : '' }" />
-											<td><a th:href="|delete/${user.user_id}|"><button
+											<td th:text="${user != null ? user.email : '' }" />
+											<td><a th:href="|delete/${user.id}|"><button
 														type="button" class="btn btn-warning btn-xs">Delete</button></a>
 											</td>
 										</tr>
