@@ -1,10 +1,8 @@
 package pji.cbt.entities;
 
 import java.io.Serializable;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
 
-import javax.xml.bind.DatatypeConverter;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 /**
  * User Entity Class
@@ -22,6 +20,8 @@ public class User implements Serializable {
 	private String name;
 	
 	private String email;
+	
+	private Roles roles;
 
 	public User() {
 	}
@@ -74,18 +74,10 @@ public class User implements Serializable {
 		this.email = email;
 	}
 
-	public String passwordToHash(String password){
-		MessageDigest md = null;
-		try {
-			md = MessageDigest.getInstance("MD5");
-		} catch (NoSuchAlgorithmException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		md.update(password.getBytes());
-		byte[] digest = md.digest();
-		String myHash = DatatypeConverter.printHexBinary(digest);
-		return myHash;
+	public String passwordToHash(String password){		
+		BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+		String hashedPassword = passwordEncoder.encode(password);
+		return hashedPassword;
 	}
 	
 }

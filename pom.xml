@@ -47,6 +47,12 @@
 			<version>9.4.1209</version>
 			<scope>runtime</scope>
 		</dependency>
+		
+		<!-- security -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-security</artifactId>
+		</dependency>
 
 		<!-- myBatis -->
 		<dependency>

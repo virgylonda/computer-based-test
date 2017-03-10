@@ -24,7 +24,7 @@ import pji.cbt.iservices.UserService;
 
 @Controller
 @RequestMapping("/admin" )
-public class UserController {
+public class AdminController {
 	
 	@Autowired
 	private UserService userSvc;
@@ -35,7 +35,7 @@ public class UserController {
 	@Autowired
 	private AnswerService ansSvc;
 
-	public UserController() {
+	public AdminController() {
 	}
 
 	@RequestMapping(path = "/dashboard", method=RequestMethod.GET)
