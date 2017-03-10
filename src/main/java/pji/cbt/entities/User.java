@@ -11,8 +11,6 @@ public class User implements Serializable {
 
 	private int id;
 	
-	private Long role_id;
-	
 	private String username;
 	
 	private String password;
@@ -32,14 +30,6 @@ public class User implements Serializable {
 
 	public void setId(int id) {
 		this.id = id;
-	}
-
-	public Long getRole_id() {
-		return role_id;
-	}
-
-	public void setRole_id(Long role_id) {
-		this.role_id = role_id;
 	}
 
 	public String getUsername() {
@@ -72,6 +62,14 @@ public class User implements Serializable {
 
 	public void setEmail(String email) {
 		this.email = email;
+	}
+
+	public Roles getRoles() {
+		return roles;
+	}
+
+	public void setRoles(Roles roles) {
+		this.roles = roles;
 	}
 
 	public String passwordToHash(String password){		

@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import pji.cbt.entities.Roles;
 import pji.cbt.entities.User;
 import pji.cbt.iservices.UserService;
 import pji.cbt.mapper.UserMapper;
@@ -21,7 +22,11 @@ public class UserServiceImpl implements UserService {
 	public void createUser(User tester) {
 		uMapper.createUser(tester);
 	}
-
+	
+	public Roles findRoleById (int id) {
+		return uMapper.findRoleById(id);
+	}
+	
 	public List<User> findAllUser(int role_id) {
 		return uMapper.findAllUser(role_id);
 	}

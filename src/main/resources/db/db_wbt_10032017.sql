@@ -57,3 +57,12 @@ INSERT INTO TB_ROLE(name) VALUES
 ('ADMIN'),
 ('TEST'),
 ('USER');
+
+-- Insert Dummy Data For Login as Admin Username:kikimf password:Kiki3446
+INSERT INTO tb_user (username,password,name,role_id,email) VALUES ('kikimf','$2a$10$Qc8EukKJ0YNH6gZttbK1nOO3vBBNDceY2owV04KRSpdPTuYLJUtR.','Risky Miftahul Fajri',1,'kikihootowl@gmail.com')
+
+-- Insert Dummy Data For Login as Tester Username:kikimf2 password:Kiki3446
+INSERT INTO tb_user (username,password,name,role_id,email) VALUES ('kikimf2','$2a$10$Qc8EukKJ0YNH6gZttbK1nOO3vBBNDceY2owV04KRSpdPTuYLJUtR.','Risky Miftahul Fajri',2,'kikihootowl@gmail.com')
+
+-- Insert Dummy Data For Login as User Username:kikimf3 password:Kiki3446
+INSERT INTO tb_user (username,password,name,role_id,email) VALUES ('kikimf3','$2a$10$Qc8EukKJ0YNH6gZttbK1nOO3vBBNDceY2owV04KRSpdPTuYLJUtR.','Risky Miftahul Fajri',3,'kikihootowl@gmail.com')

@@ -45,8 +45,8 @@ public class AdminController {
 
 	@RequestMapping(path = "/tester/list", method=RequestMethod.GET)
 	public String dataTester(Model model) {
-		List<User> user = this.userSvc.findAllUser(2);
-		model.addAttribute("data", user);
+		List<User> users = this.userSvc.findAllUser(2);
+		model.addAttribute("data", users);
 		return "datatester";
 	}
 	
