@@ -1,4 +1,4 @@
-package pji.cbt.services;
+package pji.cbt.services.impl;
 
 import java.util.List;
 
@@ -6,8 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import pji.cbt.entities.Question;
-import pji.cbt.iservices.QuestionService;
 import pji.cbt.mapper.QuestionMapper;
+import pji.cbt.services.QuestionService;
 
 @Service
 public class QuestionServiceImp implements QuestionService {

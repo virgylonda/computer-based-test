@@ -1,4 +1,4 @@
-package pji.cbt.iservices;
+package pji.cbt.services;
 
 
 import java.util.List;

@@ -1,4 +1,4 @@
-package pji.cbt.services;
+package pji.cbt.services.impl;
 
 import java.util.List;
 
@@ -7,8 +7,8 @@ import org.springframework.stereotype.Service;
 
 import pji.cbt.entities.Roles;
 import pji.cbt.entities.User;
-import pji.cbt.iservices.UserService;
 import pji.cbt.mapper.UserMapper;
+import pji.cbt.services.UserService;
 
 @Service
 public class UserServiceImpl implements UserService {
