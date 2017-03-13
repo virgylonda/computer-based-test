@@ -17,10 +17,11 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import pji.cbt.entities.Answer;
 import pji.cbt.entities.Question;
+import pji.cbt.entities.Roles;
 import pji.cbt.entities.User;
-import pji.cbt.iservices.AnswerService;
-import pji.cbt.iservices.QuestionService;
-import pji.cbt.iservices.UserService;
+import pji.cbt.services.AnswerService;
+import pji.cbt.services.QuestionService;
+import pji.cbt.services.UserService;
 
 @Controller
 @RequestMapping("/admin" )
@@ -48,6 +49,54 @@ public class AdminController {
 		List<User> users = this.userSvc.findAllUser(2);
 		model.addAttribute("data", users);
 		return "datatester";
+	}
+	
+	@RequestMapping(path = "/tester/edit/{id}", method=RequestMethod.GET)
+	public String formEditTester(@PathVariable long id, RedirectAttributes redirectAttributes, Model model) {
+		User user = userSvc.findOne(id);
+		List<Roles> roles = userSvc.findRoleAll();
+		model.addAttribute("data", user);
+		model.addAttribute("datarole", roles);
+		return "formedittester";
+	}
+	
+	@RequestMapping(path ="/tester/edit/save", method = RequestMethod.POST)
+	public String saveEditTester(User user, Roles roles ,RedirectAttributes redirectAttributes, Model model) {
+		user.setRoles(roles);
+		try {
+			this.userSvc.updateUser(user);
+		} catch (Exception ex) {
+			System.out.println(ex);
+			model.addAttribute("msg", "Fail, to update tester profile!!");
+			model.addAttribute("data", user);
+			return "formedittester";
+		}
+		redirectAttributes.addFlashAttribute("msg", "Tester account has been update successfully!!");
+		return "redirect:../list";
+	}
+	
+	@RequestMapping(path = "/users/edit/{id}", method=RequestMethod.GET)
+	public String formEditUser(@PathVariable long id, RedirectAttributes redirectAttributes, Model model) {
+		User user = userSvc.findOne(id);
+		List<Roles> roles = userSvc.findRoleAll();
+		model.addAttribute("data", user);
+		model.addAttribute("datarole", roles);
+		return "formedituser";
+	}
+	
+	@RequestMapping(path ="/users/edit/save", method = RequestMethod.POST)
+	public String saveEditUser(User user, Roles roles ,RedirectAttributes redirectAttributes, Model model) {
+		user.setRoles(roles);
+		try {
+			this.userSvc.updateUser(user);
+		} catch (Exception ex) {
+			System.out.println(ex);
+			model.addAttribute("msg", "Fail, to update user profile!!");
+			model.addAttribute("data", user);
+			return "formedituser";
+		}
+		redirectAttributes.addFlashAttribute("msg", "User account has been update successfully!!");
+		return "redirect:../list";
 	}
 	
 	@RequestMapping(path = "/tester/delete/{id}", method=RequestMethod.GET)

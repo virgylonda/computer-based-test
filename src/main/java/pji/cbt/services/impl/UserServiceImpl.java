@@ -31,18 +31,23 @@ public class UserServiceImpl implements UserService {
 		return uMapper.findAllUser(role_id);
 	}
 
-	@Override
 	public User findOne(long id) {
 		return uMapper.findOne(id);
 	}
 
-	@Override
 	public void deleteOne(long id) {
 		uMapper.deleteOne(id);
 	}
 
-	@Override
 	public User findOneUser(String username) {
 		return uMapper.findOneUser(username);
+	}
+
+	public void updateUser(User paramUser) {
+		uMapper.updateUser(paramUser);
+	}
+
+	public List<Roles> findRoleAll() {
+		return uMapper.findRoleAll();
 	}
 }

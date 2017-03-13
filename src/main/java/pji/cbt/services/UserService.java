@@ -20,4 +20,9 @@ public interface UserService {
 	public abstract void deleteOne(long id);
 	
 	public abstract User findOneUser(String username);
+	
+	public void updateUser(User paramUser);
+	
+	public List<Roles> findRoleAll();
+	
 }

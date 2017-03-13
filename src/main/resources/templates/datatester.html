@@ -328,11 +328,11 @@
                                     <tbody>
                                         <tr th:each="tester,iterationStatus : ${data}">
                                             <td th:text="${tester != null ? iterationStatus.count : '' }"/>
-                                            <td th:text="${tester != null ? tester.roles.name : '' }"/>
+                                            <td th:text="${tester != null ? tester.roles.roleName : '' }"/>
                                             <td th:text="${tester != null ? tester.username : '' }"/>
-                                            <td th:text="${tester != null ? tester.name : '' }"/>
+                                            <td th:text="${tester != null ? tester.userName : '' }"/>
                                             <td th:text="${tester != null ? tester.email : '' }"/>
-                                            <td><a th:href="|delete/${tester.id}|"><button type="button" class="btn btn-warning btn-xs">Delete</button></a> <a th:href="|edit/${tester.id}|"><button type="button" class="btn btn-primary btn-xs">Edit</button></a></td>
+                                            <td><a th:href="|delete/${tester.userId}|"><button type="button" class="btn btn-warning btn-xs">Delete</button></a> <a th:href="|edit/${tester.userId}|"><button type="button" class="btn btn-primary btn-xs">Edit</button></a></td>
                                         </tr>
                                     </tbody>
                                 </table>

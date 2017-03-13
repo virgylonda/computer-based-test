@@ -27,4 +27,8 @@ public interface UserMapper {
 	public abstract void deleteOne(long id);
 
 	public abstract void createUser(User paramTester);
+	
+	public void updateUser(User paramUser);
+	
+	public List<Roles> findRoleAll();
 }

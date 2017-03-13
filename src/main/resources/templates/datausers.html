@@ -294,11 +294,11 @@
 									<tbody>
 										<tr th:each="user,iterationStatus : ${data}">
 											<td th:text="${user != null ? iterationStatus.count : '' }" />
-											<td th:text="${user != null ? user.roles.name : '' }" />
+											<td th:text="${user != null ? user.roles.roleName : '' }" />
 											<td th:text="${user != null ? user.username : '' }" />
-											<td th:text="${user != null ? user.name : '' }" />
+											<td th:text="${user != null ? user.userName : '' }" />
 											<td th:text="${user != null ? user.email : '' }" />
-											<td><a th:href="|delete/${user.id}|"><button type="button" class="btn btn-warning btn-xs">Delete</button></a> <a th:href="|edit/${user.id}|"><button type="button" class="btn btn-primary btn-xs">Edit</button></a></td>
+											<td><a th:href="|delete/${user.userId}|"><button type="button" class="btn btn-warning btn-xs">Delete</button></a> <a th:href="|edit/${user.userId}|"><button type="button" class="btn btn-primary btn-xs">Edit</button></a></td>
 										</tr>
 									</tbody>
 								</table>

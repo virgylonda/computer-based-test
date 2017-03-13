@@ -2,26 +2,26 @@ package pji.cbt.entities;
 
 public class Roles {
 	
-	private int id;
+private int roleId;
 	
-	private String name;
+	private String roleName;
 	
 	private String description;
 
-	public int getId() {
-		return id;
+	public int getRoleId() {
+		return roleId;
 	}
 
-	public void setId(int id) {
-		this.id = id;
+	public void setRoleId(int id) {
+		this.roleId = id;
 	}
 
-	public String getName() {
-		return name;
+	public String getRoleName() {
+		return roleName;
 	}
 
-	public void setName(String name) {
-		this.name = name;
+	public void setRoleName(String name) {
+		this.roleName = name;
 	}
 
 	public String getDescription() {
@@ -34,7 +34,7 @@ public class Roles {
 
 	@Override
 	public String toString() {
-		return "Roles [id=" + id + ", name=" + name + ", description=" + description + "]";
+		return "Roles [id=" + roleId + ", name=" + roleName + ", description=" + description + "]";
 	}
 
 }

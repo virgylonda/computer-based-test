@@ -9,13 +9,13 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
  */
 public class User implements Serializable {
 
-	private int id;
+private int userId;
 	
 	private String username;
 	
 	private String password;
 	
-	private String name;
+	private String userName;
 	
 	private String email;
 	
@@ -24,12 +24,12 @@ public class User implements Serializable {
 	public User() {
 	}
 
-	public int getId() {
-		return id;
+	public int getUserId() {
+		return userId;
 	}
 
-	public void setId(int id) {
-		this.id = id;
+	public void setUserId(int id) {
+		this.userId = id;
 	}
 
 	public String getUsername() {
@@ -48,12 +48,12 @@ public class User implements Serializable {
 		this.password = password;
 	}
 
-	public String getName() {
-		return name;
+	public String getUserName() {
+		return userName;
 	}
 
-	public void setName(String name) {
-		this.name = name;
+	public void setUserName(String name) {
+		this.userName = name;
 	}
 
 	public String getEmail() {
