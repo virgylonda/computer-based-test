@@ -3,8 +3,11 @@ package pji.cbt.controller;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -25,6 +28,9 @@ import pji.cbt.services.UserService;
 public class AdminController {
 	
 	@Autowired
+	HttpSession session; 
+	
+	@Autowired
 	private UserService userSvc;
 	
 	@Autowired
@@ -37,10 +43,21 @@ public class AdminController {
 	}
 
 	@RequestMapping(path = "/dashboard", method=RequestMethod.GET)
-	public String homePage(HttpServletRequest request, Model model) {		
+	public String homePage(HttpServletRequest request, Model model, Authentication authentication) {		
+		User user = userSvc.findOneUser(authentication.getName());
+		session = request.getSession();
+		session.setAttribute("idlogin", user.getUserId());
 		return "index";
 	}
 
+	@RequestMapping(path = "/editprofile", method=RequestMethod.GET)
+	public String editProfile(Model model) {	
+		int idlogin = Integer.parseInt(session.getAttribute("idlogin").toString());
+		User user = userSvc.findOne(idlogin);
+		model.addAttribute("data", user);
+		return "editprofileadmin";
+	}
+	
 	@RequestMapping(path = "/tester/list", method=RequestMethod.GET)
 	public String dataTester(Model model) {
 		List<User> users = this.userSvc.findAllUser(2);
@@ -70,6 +87,36 @@ public class AdminController {
 		}
 		redirectAttributes.addFlashAttribute("msg", "Tester account has been update successfully!!");
 		return "redirect:../list";
+	}
+	
+	@RequestMapping(path ="/editprofile/save", method = RequestMethod.POST)
+	public String saveEditProfile(User user, Roles roles ,RedirectAttributes redirectAttributes, Model model) {
+		user.setRoles(roles);
+		try {
+			this.userSvc.updateUser(user);
+		} catch (Exception ex) {
+			System.out.println(ex);
+			model.addAttribute("msg", "Fail, to update tester profile!!");
+			model.addAttribute("data", user);
+			return "editprofileadmin";
+		}
+		redirectAttributes.addFlashAttribute("msg", "Your account has been update successfully!!");
+		return "redirect:/admin/dashboard";
+	}
+	
+	@RequestMapping(path ="/editpassword/save", method = RequestMethod.POST)
+	public String saveEditPassword(int iduser, String oldpassword, String newpassword, String retypepassword, RedirectAttributes redirectAttributes, Model model) {
+		BCryptPasswordEncoder BCrypt = new BCryptPasswordEncoder();
+		User user = userSvc.findOne(iduser);
+		System.out.println(oldpassword);
+		if(!BCrypt.matches(oldpassword, user.getPassword())){
+			model.addAttribute("msgpassword", "Fail, wrong old password!!");
+			model.addAttribute("data", user);
+			return "editprofileadmin";
+		}
+		
+		redirectAttributes.addFlashAttribute("msg", "Your account has been update successfully!!");
+		return "redirect:/admin/dashboard";
 	}
 	
 	@RequestMapping(path = "/users/edit/{id}", method=RequestMethod.GET)
@@ -223,4 +270,5 @@ public class AdminController {
 		return "";
 		
 	}
+	
 }
