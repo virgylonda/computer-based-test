@@ -1,6 +1,8 @@
 package pji.cbt.entities;
 
-public class Roles {
+import java.io.Serializable;
+
+public class Roles implements Serializable{
 	
 private int roleId;
 	

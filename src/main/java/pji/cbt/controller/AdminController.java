@@ -112,7 +112,7 @@ public class AdminController {
 			model.addAttribute("msgpassword", "Fail, wrong old password!!");
 			model.addAttribute("data", user);
 			return "editprofileadmin";
-		} else if (newpassword!=retypepassword) {
+		} else if (!newpassword.equals(retypepassword)) {
 			model.addAttribute("msgpassword", "Fail, your new password doesn't match!!");
 			model.addAttribute("data", user);
 			return "editprofileadmin";
