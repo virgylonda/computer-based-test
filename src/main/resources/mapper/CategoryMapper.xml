@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="pji.cbt.mapper.CategoryMapper">
+	<resultMap type="pji.cbt.entities.Category" id="resultCategory">
+		<id property="id" column="id"/>
+		<result property="questionCategory" column="question_category"/>
+		<result property="description" column="description"/>
+	</resultMap>
+
+<select id="findAllCategory" resultMap="resultCategory">
+		SELECT * FROM tb_question_category
+	</select>
+	
+<select id="deleteOne" resultMap="resultCategory">
+		DELETE FROM tb_question_category WHERE id = #{id}
+	</select>
+	
+<select id="createCategory" resultMap="resultCategory">
+		INSERT INTO tb_question_category(question_category,description) VALUES(#{questionCategory}, #{description})
+	</select>
+
+<select id="findOneCategory" resultMap="resultCategory">
+		SELECT * FROM tb_question_category WHERE id = #{id}
+	</select>
+
+<update id='updateCategory'>
+		UPDATE tb_question_category SET question_category = #{questionCategory}, description = #{description} WHERE id = #{id}
+	</update>
+	
+</mapper>
