@@ -105,16 +105,16 @@ public class AdminController {
 	}
 	
 	@RequestMapping(path ="/editpassword/save", method = RequestMethod.POST)
-	public String saveEditPassword(int iduser, String oldpassword, String newpassword, String retypepassword, RedirectAttributes redirectAttributes, Model model) {
+	public String saveEditPassword(int iduser, String oldpassword, String newpassword, RedirectAttributes redirectAttributes, Model model) {
 		BCryptPasswordEncoder BCrypt = new BCryptPasswordEncoder();
 		User user = userSvc.findOne(iduser);
-		System.out.println(oldpassword);
 		if(!BCrypt.matches(oldpassword, user.getPassword())){
 			model.addAttribute("msgpassword", "Fail, wrong old password!!");
 			model.addAttribute("data", user);
 			return "editprofileadmin";
 		}
-		
+		user.setPassword(user.passwordToHash(newpassword));
+		userSvc.updatePassword(user);
 		redirectAttributes.addFlashAttribute("msg", "Your account has been update successfully!!");
 		return "redirect:/admin/dashboard";
 	}

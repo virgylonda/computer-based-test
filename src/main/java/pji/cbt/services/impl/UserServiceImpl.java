@@ -47,6 +47,10 @@ public class UserServiceImpl implements UserService {
 		uMapper.updateUser(paramUser);
 	}
 
+	public void updatePassword(User paramUser) {
+		uMapper.updatePassword(paramUser);
+	}
+	
 	public List<Roles> findRoleAll() {
 		return uMapper.findRoleAll();
 	}

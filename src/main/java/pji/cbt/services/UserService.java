@@ -23,6 +23,8 @@ public interface UserService {
 	
 	public void updateUser(User paramUser);
 	
+	public void updatePassword(User paramUser);
+	
 	public List<Roles> findRoleAll();
 	
 }

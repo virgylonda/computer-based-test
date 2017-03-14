@@ -30,5 +30,7 @@ public interface UserMapper {
 	
 	public void updateUser(User paramUser);
 	
+	public void updatePassword(User paramUser);
+	
 	public List<Roles> findRoleAll();
 }
