@@ -165,8 +165,9 @@ public class AdminController {
 	}
 
 	@RequestMapping(path ="/tester/createnew", method = RequestMethod.POST)
-	public String saveTester(User user, RedirectAttributes redirectAttributes, Model model) {
+	public String saveTester(User user, Roles role,RedirectAttributes redirectAttributes, Model model) {
 		String password = user.getPassword();
+		user.setRoles(role);
 		try {
 			user.setPassword(user.passwordToHash(user.getPassword()));
 			this.userSvc.createUser(user);
@@ -194,8 +195,9 @@ public class AdminController {
 	}
 	
 	@RequestMapping(path="/users/createnew", method= RequestMethod.POST)
-	public String saveUsers(User user, RedirectAttributes redirectAttributes, Model model){
+	public String saveUsers(User user, Roles role ,RedirectAttributes redirectAttributes, Model model){
 		String password = user.getPassword();
+		user.setRoles(role);
 		try {
 			user.setPassword(user.passwordToHash(user.getPassword()));
 			this.userSvc.createUser(user);

@@ -19,7 +19,7 @@
 	</resultMap>
 	
 	<select id="findAllUser" resultMap="resultUser">
-		SELECT u.id AS id_user, u.username, u.password, u.name AS name_user, u.email, u.role_id, r.id AS id_role, r.name AS name_role, r.description FROM tb_user u JOIN tb_role r ON u.role_id=r.id WHERE u.role_id = #{roles.roleId}
+		SELECT u.id AS id_user, u.username, u.password, u.name AS name_user, u.email, u.role_id, r.id AS id_role, r.name AS name_role, r.description FROM tb_user u JOIN tb_role r ON u.role_id=r.id WHERE u.role_id = #{roles.roleId} ORDER BY u.id
 	</select>
 	
 	<select id="findRoleById" resultMap="resultRoles">
