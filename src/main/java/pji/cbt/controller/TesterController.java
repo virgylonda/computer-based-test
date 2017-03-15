@@ -43,7 +43,7 @@ public class TesterController {
 	}
 	
 		@RequestMapping(path="/dashboard", method=RequestMethod.GET)
-		public String testerPage(HttpServletRequest request, Model Model,  Authentication authentication) {
+		public String testerPage(HttpServletRequest request, Model Model, Authentication authentication) {
 			User user = userSvc.findOneUser(authentication.getName());
 			session = request.getSession();
 			session.setAttribute("idlogin", user.getUserId());
@@ -77,13 +77,10 @@ public class TesterController {
 		public String saveEditPassword(int iduser, String oldpassword, String newpassword, String retypepassword, RedirectAttributes redirectAttributes, Model model) {
 			BCryptPasswordEncoder BCrypt = new BCryptPasswordEncoder();
 			User user = userSvc.findOne(iduser);
-			System.out.println(oldpassword);
-			System.out.println(newpassword);
-			System.out.println(retypepassword);
 			if(!BCrypt.matches(oldpassword, user.getPassword())){
 				model.addAttribute("msgpassword", "Fail, wrong old password!!");
 				model.addAttribute("data", user);
-				return "editprofileadmin";
+				return "editprofiletester";
 			} else if (!newpassword.equals(retypepassword)) {
 				model.addAttribute("msgpassword", "Fail, your new password doesn't match!!");
 				model.addAttribute("data", user);

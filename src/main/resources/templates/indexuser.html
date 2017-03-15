@@ -29,6 +29,10 @@
 
         <div id="page-wrapper">
             <div class="row">
+            	<div class="col-lg-12" th:if="${msg != null}">
+            		<div class="alert alert-success" th:text="${msg != null ? msg : '' }">
+                    </div>
+            	</div>
                 <div class="col-lg-12">
                     <h1 class="page-header">Welcome To Dashboard User</h1>
                     <h3>Guidance to fill the test</h3><br/>
@@ -40,10 +44,6 @@
                     
                     <p>~ Good luck ~</p>
                 </div>
-                <div class="col-lg-12" th:if="${msg != null}">
-            		<div class="alert alert-success" th:text="${msg != null ? msg : '' }">
-                    </div>
-            	</div>
                 <!-- /.col-lg-12 -->
             </div>
             <!-- /.row -->
