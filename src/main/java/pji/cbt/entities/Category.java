@@ -4,15 +4,15 @@ import java.io.Serializable;
 
 public class Category implements Serializable {
 
-	private long id;
+	private long idCategory;
 	private String questionCategory;
 	private String description;
 	
-	public long getId() {
-		return id;
+	public long getIdCategory() {
+		return idCategory;
 	}
-	public void setId(long id) {
-		this.id = id;
+	public void setIdCategory(long idCategory) {
+		this.idCategory = idCategory;
 	}
 	public String getQuestionCategory() {
 		return questionCategory;

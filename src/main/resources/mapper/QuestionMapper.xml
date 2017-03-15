@@ -3,27 +3,38 @@
 	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="pji.cbt.mapper.QuestionMapper">
+	
 	<resultMap type="pji.cbt.entities.Question" id="resultQuestion">
-		<id property="id" column="id"/>
-		<result property="categoryId" column="category_id"/>
-		<result property="ordering" column="ordering"/>
+		<id property="idQuestion" column="id"/>
+		<result property="orderingQuestion" column="ordering"/>
 		<result property="question" column="question"/>
+		<association property="category" column="category_id" resultMap="resultCategory"/>
 	</resultMap>
+	
+	<resultMap type="pji.cbt.entities.Category" id="resultCategory">
+		<id property="idCategory" column="id"/>
+		<result property="questionCategory" column="question_category"/>
+		<result property="description" column="description"/>
+	</resultMap>
+
+	<select id="findAllCategory" resultMap="resultCategory">
+		SELECT * FROM tb_question_category
+	</select>
 	
 	<select id="findAllQuestion" resultMap="resultQuestion">
 		SELECT * FROM tb_question
 	</select>
 	
 	<select id="deleteQuestion" parameterType="int" flushCache="true" statementType="PREPARED">
-		DELETE FROM tb_question WHERE id = #{id}
+		DELETE FROM tb_question WHERE id = #{idQuestion}
 	</select>
 	
 	<select  id="findOneQuestion" resultMap="resultQuestion">
-		SELECT * FROM tb_question WHERE category_id = #{categoryId}
+		SELECT * FROM tb_question WHERE id = #{idQuestion}
 	</select>
 	
 	<insert id="createQuestion" parameterType="pji.cbt.entities.Question" flushCache="true" statementType="PREPARED" keyProperty="" keyColumn="">
-		INSERT INTO tb_question (category_id, ordering, question) values (#{categoryId},#{ordering},#{question})
+		INSERT INTO tb_question (category_id, ordering, question) values (#{category.idCategory},(SELECT count(ordering)+1 FROM tb_question WHERE category_id = #{category.idCategory}),#{question})
 	</insert>
 	
 </mapper>

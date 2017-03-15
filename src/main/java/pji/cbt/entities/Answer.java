@@ -7,29 +7,29 @@ import java.io.Serializable;
  */
 public class Answer implements Serializable {
 	
-	private int id;
-	private int questionId;
-	private int ordering;
+	private int idAnswer;
+	private Question questionAnswer;
+	private int orderingAnswer;
 	private String answer;
 	private boolean correctAnswer;
 	
-	public int getId() {
-		return id;
+	public Question getQuestionAnswer() {
+		return questionAnswer;
 	}
-	public void setId(int id) {
-		this.id = id;
+	public void setQuestionAnswer(Question questionAnswer) {
+		this.questionAnswer = questionAnswer;
 	}
-	public int getQuestionId() {
-		return questionId;
+	public int getIdAnswer() {
+		return idAnswer;
 	}
-	public void setQuestionId(int questionId) {
-		this.questionId = questionId;
+	public void setIdAnswer(int idAnswer) {
+		this.idAnswer = idAnswer;
 	}
-	public int getOrdering() {
-		return ordering;
+	public int getOrderingAnswer() {
+		return orderingAnswer;
 	}
-	public void setOrdering(int ordering) {
-		this.ordering = ordering;
+	public void setOrderingAnswer(int ordering) {
+		this.orderingAnswer = ordering;
 	}
 	public String getAnswer() {
 		return answer;

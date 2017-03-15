@@ -30,4 +30,8 @@ public class AnswerServiceImp implements AnswerService {
 		aMapper.deleteAnswer(id);
 		
 	}
+	
+	public void createAnswer(Answer answer){
+		aMapper.createAnswer(answer);
+	}
 }

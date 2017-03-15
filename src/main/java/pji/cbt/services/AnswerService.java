@@ -11,4 +11,6 @@ public interface AnswerService {
 	public Answer findOne(int questionId);
 	
 	public void deleteAnswer(int id);
+	
+	public void createAnswer(Answer answer);
 }

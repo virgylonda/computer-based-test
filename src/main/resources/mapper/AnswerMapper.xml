@@ -4,11 +4,18 @@
 	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="pji.cbt.mapper.AnswerMapper">
 	<resultMap type="pji.cbt.entities.Answer" id="resultAnswer">
-		<id property="id" column="id"/>
-		<result property="questionId" column="question_id"/>
-		<result property="ordering" column="ordering"/>
+		<id property="idAnswer" column="id"/>
+		<result property="orderingAnswer" column="ordering"/>
 		<result property="answer" column="answer"/>
 		<result property="correctAnswer" column="correct_answer"/>
+		<association property="questionAnswer" column="question_id" resultMap="resultQuestion"/>
+	</resultMap>
+	
+	<resultMap type="pji.cbt.entities.Question" id="resultQuestion">
+		<id property="idQuestion" column="id"/>
+		<result property="orderingQuestion" column="ordering"/>
+		<result property="question" column="question"/>
+		<association property="category" column="category_id" resultMap="resultCategory"/>
 	</resultMap>
 	
 	<select id="findAllAnswer" resultMap="resultAnswer">
@@ -16,11 +23,15 @@
 	</select>
 	
 	<select id="deleteAnswer" parameterType="int" flushCache="true" statementType="PREPARED">
-		DELETE FROM tb_question WHERE id = #{id};
+		DELETE FROM tb_question WHERE id = #{idAnswer};
 	</select>
 	
-	<select id="findOne" resultMap="resultAnswer">
-		SELECT * FROM tb_question WHERE question_id = #{questionId) ;
+	<select id="findOneAnswer" resultMap="resultAnswer">
+		SELECT * FROM tb_question WHERE question_id = #{questionAnswer.idQuestion) ;
 	</select>
+	
+	<insert id="createAnswer" parameterType="pji.cbt.entities.Answer" flushCache="true" statementType="PREPARED" keyProperty="" keyColumn="">
+		INSERT INTO tb_answer (question_id, ordering, answer, correct_answer) values (#{questionAnswer.idQuestion},(SELECT count(ordering)+1 FROM tb_answer WHERE question_id = #{questionAnswer.idQuestion}),#{answer},#{correctAnswer})
+	</insert>
 	
 </mapper>

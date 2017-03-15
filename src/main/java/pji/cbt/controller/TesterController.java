@@ -1,5 +1,6 @@
 package pji.cbt.controller;
 
+
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -11,14 +12,18 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import pji.cbt.entities.Answer;
 import pji.cbt.entities.Category;
 import pji.cbt.entities.Question;
 import pji.cbt.entities.Roles;
 import pji.cbt.entities.User;
+import pji.cbt.services.AnswerService;
 import pji.cbt.services.CategoryService;
 import pji.cbt.services.QuestionService;
 import pji.cbt.services.UserService;
@@ -35,6 +40,9 @@ public class TesterController {
 	
 	@Autowired
 	private QuestionService quesSvc;
+	
+	@Autowired
+	private AnswerService ansSvc;
 
 	@Autowired
 	private CategoryService ctgSvc;
@@ -160,7 +168,26 @@ public class TesterController {
 		
 		
 		@RequestMapping(path = "/createnewquestion/{id}", method = RequestMethod.GET)
-		public String formAddNewQuestion(Model model) {
+		public String formAddNewQuestion(@PathVariable int id, Model model) {
+			model.addAttribute("idcategory", id);
 			return "formQuestion";
 		}
-}
+		
+		@RequestMapping(path = "/createnewquestion/save", method = RequestMethod.POST)
+		public String saveNewQuestion(@RequestBody Category category, Question question,@RequestBody List<Answer> answers, Model model) {
+			question.setCategory(category);
+			try {
+				for(Answer answer : answers){
+					answer.setQuestionAnswer(question);
+					ansSvc.createAnswer(answer);
+					System.out.println(answer.getAnswer());
+					System.out.println(answer.isCorrectAnswer());
+				}
+				quesSvc.createQuestion(question);
+			} catch (Exception ex) {
+				System.out.println(ex);
+				return "formQuestion";
+			}
+			return "redirect:/tester/question/list/"+question.getCategory().getIdCategory();
+		}
+} 

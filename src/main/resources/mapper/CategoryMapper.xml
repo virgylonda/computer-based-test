@@ -4,17 +4,17 @@
 	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="pji.cbt.mapper.CategoryMapper">
 	<resultMap type="pji.cbt.entities.Category" id="resultCategory">
-		<id property="id" column="id"/>
+		<id property="idCategory" column="id"/>
 		<result property="questionCategory" column="question_category"/>
 		<result property="description" column="description"/>
 	</resultMap>
 
-<select id="findAllCategory" resultMap="resultCategory">
+	<select id="findAllCategory" resultMap="resultCategory">
 		SELECT * FROM tb_question_category
 	</select>
 	
 <select id="deleteOne" resultMap="resultCategory">
-		DELETE FROM tb_question_category WHERE id = #{id}
+		DELETE FROM tb_question_category WHERE id = #{idCategory}
 	</select>
 	
 <select id="createCategory" resultMap="resultCategory">
@@ -22,11 +22,11 @@
 	</select>
 
 <select id="findOneCategory" resultMap="resultCategory">
-		SELECT * FROM tb_question_category WHERE id = #{id}
+		SELECT * FROM tb_question_category WHERE id = #{idCategory}
 	</select>
 
 <update id='updateCategory'>
-		UPDATE tb_question_category SET question_category = #{questionCategory}, description = #{description} WHERE id = #{id}
+		UPDATE tb_question_category SET question_category = #{questionCategory}, description = #{description} WHERE id = #{idCategory}
 	</update>
 	
 </mapper>

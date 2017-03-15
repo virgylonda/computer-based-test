@@ -4,22 +4,23 @@ import java.io.Serializable;
 
 public class Question implements Serializable {
 	
-	private int id;
-	private int categoryId;
-	private int ordering;
+	private int idQuestion;
+	private int orderingQuestion;
 	private String question;
+	private Category category;
 	
-	public int getId() {
-		return id;
+	
+	public int getIdQuestion() {
+		return idQuestion;
 	}
-	public void setId(int id) {
-		this.id = id;
+	public void setIdQuestion(int id) {
+		this.idQuestion = id;
 	}
-	public int getOrdering() {
-		return ordering;
+	public int getOrderingQuestion() {
+		return orderingQuestion;
 	}
-	public void setOrdering(int ordering) {
-		this.ordering = ordering;
+	public void setOrderingQuestion(int ordering) {
+		this.orderingQuestion = ordering;
 	}
 	public String getQuestion() {
 		return question;
@@ -27,8 +28,11 @@ public class Question implements Serializable {
 	public void setQuestion(String question) {
 		this.question = question;
 	}
-	public int getCategoryId() {
-		return categoryId;
+	public void setCategory(Category category) {
+		this.category = category;
+	}
+	public Category getCategory() {
+		return category;
 	}
 	
 }

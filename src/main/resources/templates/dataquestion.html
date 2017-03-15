@@ -73,7 +73,7 @@
 											<td
 												th:text="${question != null ? iterationStatus.count : '' }" />
 											<td th:text="${question != null ? question.question : '' }" />
-											<td><a th:href="|./delete/${question.id}|"><button
+											<td><a th:href="|./delete/${question.idQuestion}|"><button
 														type="button" class="btn btn-warning btn-xs">Delete</button></a></td>
 										</tr>
 									</tbody>
