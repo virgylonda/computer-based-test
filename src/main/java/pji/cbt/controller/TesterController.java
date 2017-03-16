@@ -11,6 +11,8 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,6 +22,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import pji.cbt.entities.Answer;
 import pji.cbt.entities.Category;
+import pji.cbt.entities.FormQuestion;
 import pji.cbt.entities.Question;
 import pji.cbt.entities.Roles;
 import pji.cbt.entities.User;
@@ -174,20 +177,19 @@ public class TesterController {
 		}
 		
 		@RequestMapping(path = "/createnewquestion/save", method = RequestMethod.POST)
-		public String saveNewQuestion(@RequestBody Category category, Question question,@RequestBody List<Answer> answers, Model model) {
-			question.setCategory(category);
+		public String saveNewQuestion(FormQuestion formQuestion, Model model) {
+			System.out.println(formQuestion.getCategory().getIdCategory());
+			System.out.println(formQuestion.getQuestion().getQuestion());	
+			for(Answer answer : formQuestion.getAnswers()){
+				System.out.println(answer.isCorrectAnswer());
+				System.out.println(answer.getAnswer());
+			}
 			try {
-				for(Answer answer : answers){
-					answer.setQuestionAnswer(question);
-					ansSvc.createAnswer(answer);
-					System.out.println(answer.getAnswer());
-					System.out.println(answer.isCorrectAnswer());
-				}
-				quesSvc.createQuestion(question);
+				
 			} catch (Exception ex) {
 				System.out.println(ex);
 				return "formQuestion";
 			}
-			return "redirect:/tester/question/list/"+question.getCategory().getIdCategory();
+			return "redirect:/tester/question/list/"+formQuestion.getCategory().getIdCategory();
 		}
 } 

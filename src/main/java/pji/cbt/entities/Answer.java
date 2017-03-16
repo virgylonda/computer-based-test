@@ -13,6 +13,18 @@ public class Answer implements Serializable {
 	private String answer;
 	private boolean correctAnswer;
 	
+	public Answer(){
+		
+	}
+	
+	public Answer(int idAnswer, Question questionAnswer, int orderingAnswer, String answer, boolean correctAnswer){
+		this.idAnswer = idAnswer;
+		this.questionAnswer = questionAnswer;
+		this.orderingAnswer = orderingAnswer;
+		this.answer = answer;
+		this.correctAnswer = correctAnswer;
+	}
+	
 	public Question getQuestionAnswer() {
 		return questionAnswer;
 	}

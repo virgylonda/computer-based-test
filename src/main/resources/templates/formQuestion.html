@@ -7,36 +7,8 @@
     <meta http-equiv="X-UA-Compatible" content="width=device-width, initial-scale=1"/>
 
     <title>Form Question</title>
-    <script>
-    	function myFunction() {
-    	 
-    		if(document.getElementById("optionsRadios1")checked == true){
-    		  document.getElementById('optionsRadios1').value='TRUE'; 
-    	  } else {
-    		  document.getElementById('optionsRadios1').value='FALSE';
-    	  }
-    	  
-    	  if(document.getElementById("optionsRadios2")checked == true){
-    		  document.getElementById('optionsRadios2').value='TRUE'; 
-    	  } else {
-    		  document.getElementById('optionsRadios2').value='FALSE';
-    	  }
-    	  
-    	  if(document.getElementById("optionsRadios3")checked == true){
-    		  document.getElementById('optionsRadios3').value='TRUE'; 
-    	  } else {
-    		  document.getElementById('optionsRadios3').value='FALSE';
-    	  }
-    	  
-    	  if(document.getElementById("optionsRadios4")checked == true){
-    		  document.getElementById('optionsRadios4').value='TRUE'; 
-    	  } else {
-    		  document.getElementById('optionsRadios4').value='FALSE';
-    	  }
-    	}
-    </script>
-
-     <!-- Core CSS - Include with every page -->
+  
+    <!-- Core CSS - Include with every page -->
     <link href="/asset/css/bootstrap.min.css" rel="stylesheet"/>
 	<link href="/asset/font-awesome/css/font-awesome.css" rel="stylesheet"/>
 
@@ -75,33 +47,33 @@
 									<form action="/tester/createnewquestion/save" method="post">
 										<div class="form-group">
 											<label>Question</label>
-											<input type="hidden" name="idCategory" th:attr=" value=${idcategory !=null ? idcategory : '' }"/>
-											<textarea class="form-control" placeholder="Enter Question" name="question" required="required" th:attr="value = ${data !=null ? data.question : '' }"></textarea>
+											<input type="hidden" name="category.idCategory" th:attr=" value=${idcategory !=null ? idcategory : '' }"/>
+											<textarea class="form-control" placeholder="Enter Question" name="question.question" required="required" th:attr="value = ${data !=null ? data.question : '' }"></textarea>
 										</div>
 										<div class="form-group">
                                             <label>Answer</label>
                                             <div class="radio">
                                                 <label>
-                                                    <input type="radio" name="correctAnswer[]" onclick="myFunction()" id="optionsRadios1" value="" checked="checked"/>
-                                                    <input class="form-control" name="answer[]" placeholder="Enter answer A"/>
+                                                    <input type="radio" name="answers[0].correctAnswer" id="optionsRadios1" value="TRUE" checked="checked"/>
+                                                    <input class="form-control" name="answers[0].answer" placeholder="Enter answer A"/>
                                                 </label>
                                             </div>
                                             <div class="radio">
                                                 <label>
-                                                    <input type="radio" name="correctAnswer[]" onclick="myFunction()" id="optionsRadios2" value=""/>
-                                                    <input class="form-control" name="answer[]" placeholder="Enter answer B"/>
+                                                    <input type="radio" name="answers[1].correctAnswer" id="optionsRadios2" value="TRUE"/>
+                                                    <input class="form-control" name="answers[1].answer" placeholder="Enter answer B"/>
                                                 </label>
                                             </div>
                                             <div class="radio">
                                                 <label>
-                                                    <input type="radio" name="correctAnswer[]" onclick="myFunction()" id="optionsRadios3" value=""/>
-                                                    <input class="form-control" name="answer[]" placeholder="Enter answer C"/>
+                                                    <input type="radio" name="answers[2].correctAnswer"  id="optionsRadios3" value="TRUE"/>
+                                                    <input class="form-control" name="answers[2].answer" placeholder="Enter answer C"/>
                                                 </label>
                                             </div>
                                             <div class="radio">
                                                 <label>
-                                                    <input type="radio" name="correctAnswer[]" onclick="myFunction()" id="optionsRadios4" value=""/>
-                                                    <input class="form-control" name="answer[]" placeholder="Enter answer D"/>
+                                                    <input type="radio" name="answers[3].correctAnswer" id="optionsRadios4" value="TRUE"/>
+                                                    <input class="form-control" name="answers[3].answer" placeholder="Enter answer D"/>
                                                 </label>
                                             </div>
                                         </div>
