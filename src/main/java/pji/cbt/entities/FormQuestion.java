@@ -5,11 +5,21 @@ import java.util.List;
 
 public class FormQuestion implements Serializable{
 	
+	private String choice;
+	
 	private Category category;
 	
 	private Question question;
 	
 	private List<Answer> answers;
+
+	public String getChoice() {
+		return choice;
+	}
+
+	public void setChoice(String choice) {
+		this.choice = choice;
+	}
 
 	public List<Answer> getAnswers() {
 		return answers;

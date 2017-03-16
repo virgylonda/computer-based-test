@@ -178,11 +178,18 @@ public class TesterController {
 		
 		@RequestMapping(path = "/createnewquestion/save", method = RequestMethod.POST)
 		public String saveNewQuestion(FormQuestion formQuestion, Model model) {
-			System.out.println(formQuestion.getCategory().getIdCategory());
-			System.out.println(formQuestion.getQuestion().getQuestion());	
+			int choice = Integer.valueOf(formQuestion.getChoice());
+			System.out.println(choice);
+			int i = 0;
 			for(Answer answer : formQuestion.getAnswers()){
-				System.out.println(answer.isCorrectAnswer());
+				if(choice==i){
+					answer.setCorrectAnswer(true);
+				} else {
+					answer.setCorrectAnswer(false);
+				}
+				i++;
 				System.out.println(answer.getAnswer());
+				System.out.println(answer.isCorrectAnswer());
 			}
 			try {
 				
