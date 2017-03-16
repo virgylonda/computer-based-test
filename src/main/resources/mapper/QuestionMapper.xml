@@ -33,7 +33,7 @@
 		SELECT * FROM tb_question WHERE id = #{idQuestion}
 	</select>
 	
-	<insert id="createQuestion" parameterType="pji.cbt.entities.Question" flushCache="true" statementType="PREPARED" keyProperty="" keyColumn="">
+	<insert id="createQuestion" parameterType="pji.cbt.entities.Question" flushCache="true" statementType="PREPARED" useGeneratedKeys="true" keyProperty="idQuestion" keyColumn="id">
 		INSERT INTO tb_question (category_id, ordering, question) values (#{category.idCategory},(SELECT count(ordering)+1 FROM tb_question WHERE category_id = #{category.idCategory}),#{question})
 	</insert>
 	
