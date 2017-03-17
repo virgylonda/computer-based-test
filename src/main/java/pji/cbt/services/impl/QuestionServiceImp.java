@@ -19,15 +19,21 @@ public class QuestionServiceImp implements QuestionService {
 	public List<Question> findAllQuestion() {
 		return qMapper.findAllQuestion();
 	}
-
+	
 	@Override
-	public Question findOneQuestion(int categoryId) {
-		return qMapper.findOneQuestion(categoryId);
+	public List<Question> findAllQuestionByCategory(int idCategory) {
+		return qMapper.findAllQuestionByCategory(idCategory);
+	}
+
+	
+	@Override
+	public Question findOneQuestion(int idQuestion) {
+		return qMapper.findOneQuestion(idQuestion);
 	}
 
 	@Override
-	public void deleteQuestion(int id) {
-		qMapper.deleteQuestion(id);
+	public void deleteQuestion(int idQuestion) {
+		qMapper.deleteQuestion(idQuestion);
 		
 	}
 

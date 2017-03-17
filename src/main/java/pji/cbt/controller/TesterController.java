@@ -163,9 +163,9 @@ public class TesterController {
 		}
 		
 		@RequestMapping(path="/question/list/{id}",method=RequestMethod.GET)
-		public String dataQuestion(Model model){
-			List<Question> question = this.quesSvc.findAllQuestion();
-			model.addAttribute("data", question);
+		public String dataQuestion(@PathVariable int id, Model model){
+			List<Question> questions = this.quesSvc.findAllQuestionByCategory(id);
+			model.addAttribute("data", questions);
 			return "dataquestion";
 		}
 		
