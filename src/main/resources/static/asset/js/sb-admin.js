@@ -16,3 +16,15 @@ $(function() {
         }
     })
 })
+
+function getCheckBoxValues() {
+	var checkbox;
+	$('[name="checkname"]').each(function() {
+		if ($(this).prop('checked') == true) {
+			alert(this.value);
+			window.open("" + this.value);
+		}
+	});
+
+	console.log(checkbox);
+}

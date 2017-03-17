@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+<title>Start Test</title>
+
+<!-- Core CSS - Include with every page -->
+<link href="/asset/css/bootstrap.min.css" rel="stylesheet" />
+<link href="/asset/font-awesome/css/font-awesome.css" rel="stylesheet" />
+
+<!-- Page-Level Plugin CSS - Dashboard -->
+<link href="/asset/css/plugins/morris/morris-0.4.3.min.css"
+	rel="stylesheet" />
+<link href="/asset/css/plugins/timeline/timeline.css" rel="stylesheet" />
+
+<!-- SB Admin CSS - Include with every page -->
+<link href="/asset/css/sb-admin.css" rel="stylesheet" />
+
+</head>
+
+<body>
+	<div id="wrapper">
+		<div th:replace="navbaruser :: common-navbar" />
+
+		<div id="page-wrapper">
+			<div class="row">
+				<div class="col-lg-12">
+					<h1 class="page-header">Welcome to Test</h1>
+				</div>
+				<!-- /.col-lg-12 -->
+				<div class="articles">
+					<p>The Test of Java Development Training(JDT) tests how well
+						how well someone understands about java programming</p>
+					<p>The test is composed of 10 items that increase in
+						difficulty. After each item has been presented, the reader is
+						asked a question. The tester records the reader’s answer in a
+						response box below the test item.</p>
+					<p>At the end of the test, the tester scores each of the
+						reader’s responses. A results page is created that shows the
+						reader’s overall score as well as a list showing the everyday
+						reading tasks that the reader can and cannot do.</p>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-lg-12">
+		
+					<!--  value is url  -->
+					<p style="color: blue;">Please choose your test</p>
+					<input type="radio" name="checkname" value='user/dashboard'
+						checked="checked" /> PHP <input type="radio" name="checkname"
+						value='/user/dashboard' /> Java <input type="radio" name="checkname"
+						value='/user/dashboard' /> C#
+
+				</div>
+				<br /> <br />
+				<div class="row">
+					<div class="col-lg-12">
+						<!--  <p style="color:red;">to start your test click button START</p>-->
+						<button type="submit"
+							class="btn btn-xs btn-primary margin10-right paddingNew"
+							name="save" value="CheckBoxValues" onclick="getCheckBoxValues() ">START</button>
+						<br /> <br />
+
+						<!-- /.panel -->
+					</div>
+				</div>
+				<!-- /.panel -->
+			</div>
+		</div>
+	</div>
+	<!-- /#wrapper -->
+
+	<!-- Core Scripts - Include with every page -->
+	<script src="/asset/js/jquery-1.10.2.js"></script>
+	<script src="/asset/js/bootstrap.min.js"></script>
+	<script src="/asset/js/plugins/metisMenu/jquery.metisMenu.js"></script>
+
+	<!-- Page-Level Plugin Scripts - Dashboard -->
+	<script src="/asset/js/plugins/morris/raphael-2.1.0.min.js"></script>
+	<script src="/asset/js/plugins/morris/morris.js"></script>
+
+	<!-- SB Admin Scripts - Include with every page -->
+	<script src="/asset/js/sb-admin.js"></script>
+
+	<!-- Page-Level Demo Scripts - Dashboard - Use for reference -->
+	<script src="/asset/js/demo/dashboard-demo.js"></script>
+
+</body>
+
+</html>

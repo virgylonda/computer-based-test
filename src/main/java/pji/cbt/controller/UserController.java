@@ -79,5 +79,10 @@ public class UserController {
 		redirectAttributes.addFlashAttribute("msg", "Your account has been update successfully!!");
 		return "redirect:/user/dashboard";
 	}
+	
+	@RequestMapping(path = "/test", method=RequestMethod.GET)
+	public String Test(HttpServletRequest request, Model model) {		
+		return "startbuttontest";
+	}
 
 }
