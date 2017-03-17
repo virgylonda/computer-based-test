@@ -11,13 +11,9 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import pji.cbt.entities.Answer;
@@ -25,10 +21,12 @@ import pji.cbt.entities.Category;
 import pji.cbt.entities.FormQuestion;
 import pji.cbt.entities.Question;
 import pji.cbt.entities.Roles;
+import pji.cbt.entities.TestUser;
 import pji.cbt.entities.User;
 import pji.cbt.services.AnswerService;
 import pji.cbt.services.CategoryService;
 import pji.cbt.services.QuestionService;
+import pji.cbt.services.TestUserService;
 import pji.cbt.services.UserService;
 
 @Controller
@@ -49,6 +47,9 @@ public class TesterController {
 
 	@Autowired
 	private CategoryService ctgSvc;
+	
+	@Autowired
+	private TestUserService testSvc;
 	
 	public TesterController(){
 	}
@@ -199,5 +200,19 @@ public class TesterController {
 				return "formQuestion";
 			}
 			return "redirect:/tester/question/list/"+formQuestion.getCategory().getIdCategory();
+		}
+		
+		@RequestMapping(path="/listscore/{userId}",method=RequestMethod.GET)
+		public String dataScoreTest(@PathVariable Integer userId, Model model){
+			List<TestUser> scores = this.testSvc.findTestByUserId(userId);
+			model.addAttribute("scores",scores);
+			return "index_score";
+		}
+		
+		@RequestMapping(path="/testuser",method=RequestMethod.GET)
+		public String dataUserTest(Model model){
+			List<User> userTest = this.userSvc.findAllUser(3);
+			model.addAttribute("userTest",userTest);
+			return "index_usertest";
 		}
 } 
