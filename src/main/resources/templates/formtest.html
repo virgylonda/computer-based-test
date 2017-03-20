@@ -45,37 +45,19 @@
 									<div class="alert alert-danger" th:if="${msg != null}"
 										th:text="${msg != null ? msg : '' }"></div>
 									<form action="/tester/createnewquestion/save" method="post">
-										<div class="form-group">
+										<div class="form-group" th:each="test, iterationStatus : ${data}">
 											<label>Question</label>
-											<input type="hidden" name="category.idCategory" th:attr=" value=${idcategory !=null ? idcategory : '' }"/>
-											<textarea class="form-control" placeholder="Enter Question" name="question.question" required="required" th:attr="value = ${data !=null ? data.question : '' }"></textarea>
-										</div>
+											<input type="hidden" name="test.idCategory" th:attr=" value=${idcategory !=null ? idcategory : '' }"/>
+											<textarea readonly="readonly" class="form-control" placeholder="Enter Question" required="required" th:text="${test.question !=null ? test.question.question : '' }"></textarea>
 										<div class="form-group">
                                             <label>Answer</label>
-                                            <div class="radio">
+                                            <div class="radio" th:each="choiceanswer, iterationStatus : ${test.answers}">
                                                 <label>
-                                                    <input type="radio" name="choice" id="optionsRadios1" value="0" checked="checked"/>
-                                                    <input class="form-control" name="answers[0].answer" placeholder="Enter answer A"/>
+                                                    <input type="radio" name="choice" id="optionsRadios1" value="0"/>
+                                                    <input disabled="disabled" class="form-control" style="border: 0px; background-color:white" th:attr="value=${choiceanswer.answer !=null ? choiceanswer.answer : '' }"/>
                                                 </label>
-                                            </div>
-                                            <div class="radio">
-                                                <label>
-                                                    <input type="radio" name="choice" id="optionsRadios2" value="1"/>
-                                                    <input class="form-control" name="answers[1].answer" placeholder="Enter answer B"/>
-                                                </label>
-                                            </div>
-                                            <div class="radio">
-                                                <label>
-                                                    <input type="radio" name="choice"  id="optionsRadios3" value="2"/>
-                                                    <input class="form-control" name="answers[2].answer" placeholder="Enter answer C"/>
-                                                </label>
-                                            </div>
-                                            <div class="radio">
-                                                <label>
-                                                    <input type="radio" name="choice" id="optionsRadios4" value="3"/>
-                                                    <input class="form-control" name="answers[3].answer" placeholder="Enter answer D"/>
-                                                </label>
-                                            </div>
+                                            </div>                                            
+                                        </div>
                                         </div>
 										<button type="submit" class="btn btn-primary">Submit</button>
 										<button type="reset" class="btn btn-danger">Reset</button>
