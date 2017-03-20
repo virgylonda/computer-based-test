@@ -1,5 +1,7 @@
 package pji.cbt.controller;
 
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
@@ -12,8 +14,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import pji.cbt.entities.Category;
 import pji.cbt.entities.Roles;
 import pji.cbt.entities.User;
+import pji.cbt.services.CategoryService;
 import pji.cbt.services.UserService;
 
 @Controller
@@ -26,6 +30,8 @@ public class UserController {
 	@Autowired
 	private UserService userSvc;
 	
+	@Autowired
+	private CategoryService ctgSvc;
 	
 	@RequestMapping(path="/dashboard", method=RequestMethod.GET)
 	public String userPage(HttpServletRequest request, Model Model, Authentication authentication){
@@ -82,7 +88,9 @@ public class UserController {
 	
 	@RequestMapping(path = "/test", method=RequestMethod.GET)
 	public String Test(HttpServletRequest request, Model model) {		
-		return "startbuttontest";
+		List<Category>category = this.ctgSvc.findAllCategory();
+		model.addAttribute("data", category);
+		return "listtest";
 	}
 
 }

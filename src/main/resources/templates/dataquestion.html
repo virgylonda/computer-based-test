@@ -54,6 +54,7 @@
 			</div>
 			<div class="row">
 				<div class="col-lg-12">
+					<a th:href="|/tester/createnewquestion/${id}|"><button type="button" class="btn btn-primary">Add New Question</button></a><br/><br/>
 					<div class="panel panel-default">
 						<div class="panel-heading">DataTables Advanced Tables</div>
 						<!-- /.panel-heading -->
@@ -73,8 +74,10 @@
 											<td
 												th:text="${question != null ? iterationStatus.count : '' }" />
 											<td th:text="${question != null ? question.question : '' }" />
-											<td><a th:href="|./delete/${question.idQuestion}|"><button
-														type="button" class="btn btn-warning btn-xs">Delete</button></a></td>
+											<td>
+												<a th:href="|./delete/${question.idQuestion}|"><button type="button" class="btn btn-danger btn-xs">Delete</button></a>
+												<a th:href="|./delete/${question.idQuestion}|"><button type="button" class="btn btn-warning btn-xs">Edit</button></a>
+											</td>
 										</tr>
 									</tbody>
 								</table>

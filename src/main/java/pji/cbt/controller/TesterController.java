@@ -167,6 +167,7 @@ public class TesterController {
 		public String dataQuestion(@PathVariable int id, Model model){
 			List<Question> questions = this.quesSvc.findAllQuestionByCategory(id);
 			model.addAttribute("data", questions);
+			model.addAttribute("id", id);
 			return "dataquestion";
 		}
 		
