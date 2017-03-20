@@ -86,7 +86,7 @@ public class UserController {
 		return "redirect:/user/dashboard";
 	}
 	
-	@RequestMapping(path = "/test", method=RequestMethod.GET)
+	@RequestMapping(path = "/test/list", method=RequestMethod.GET)
 	public String Test(HttpServletRequest request, Model model) {		
 		List<Category>category = this.ctgSvc.findAllCategory();
 		model.addAttribute("data", category);

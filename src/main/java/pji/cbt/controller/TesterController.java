@@ -142,6 +142,18 @@ public class TesterController {
 			return "redirect:../list";
 		}
 		
+		@RequestMapping(path = "/question/delete/{id}", method=RequestMethod.GET)
+		public String deleteQuestion(@PathVariable long id, RedirectAttributes redirectAttributes, Model model) {
+			try {
+				this.ctgSvc.deleteOne(id);
+			} catch (Exception ex) {
+				redirectAttributes.addFlashAttribute("msgerror", "Fail to delete category!!");
+				return "redirect:../list";
+			}
+			redirectAttributes.addFlashAttribute("msgsuccess", "Success to delete category!!");
+			return "redirect:../list";
+		}
+		
 		@RequestMapping(path = "/category/edit/{id}", method=RequestMethod.GET)
 		public String findOneCategory(@PathVariable long id, RedirectAttributes redirectAttributes, Model model) {
 			Category category = this.ctgSvc.findOneCategory(id);
