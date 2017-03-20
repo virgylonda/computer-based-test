@@ -21,8 +21,8 @@ public class AnswerServiceImp implements AnswerService {
 	}
 
 	@Override
-	public Answer findOne(int questionId) {
-		return aMapper.findOne(questionId);
+	public Answer findOne(int idAnswer) {
+		return aMapper.findOne(idAnswer);
 	}
 
 	@Override
@@ -33,5 +33,10 @@ public class AnswerServiceImp implements AnswerService {
 	
 	public void createAnswer(Answer answer){
 		aMapper.createAnswer(answer);
+	}
+
+	@Override
+	public List<Answer> findAnswerByQuestion(int idQuestion) {
+		return aMapper.findAnswerByQuestion(idQuestion);
 	}
 }

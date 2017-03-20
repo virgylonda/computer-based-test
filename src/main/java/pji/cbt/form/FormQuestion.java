@@ -1,7 +1,11 @@
-package pji.cbt.entities;
+package pji.cbt.form;
 
 import java.io.Serializable;
 import java.util.List;
+
+import pji.cbt.entities.Answer;
+import pji.cbt.entities.Category;
+import pji.cbt.entities.Question;
 
 public class FormQuestion implements Serializable{
 	
@@ -44,4 +48,12 @@ public class FormQuestion implements Serializable{
 	public void setQuestion(Question question) {
 		this.question = question;
 	}
+
+	@Override
+	public String toString() {
+		return "FormQuestion [choice=" + choice + ", category=" + category + ", question=" + question + ", answers="
+				+ answers + "]";
+	}
+	
+	
 }

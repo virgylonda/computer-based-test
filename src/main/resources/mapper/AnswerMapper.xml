@@ -7,7 +7,7 @@
 	<resultMap type="pji.cbt.entities.Answer" id="resultAnswer">
 		<id property="idAnswer" column="id"/>
 		<result property="orderingAnswer" column="ordering"/>
-		<result property="answanswerer" column="answer"/>
+		<result property="answer" column="answer"/>
 		<result property="correctAnswer" column="correct_answer"/>
 		<association property="questionAnswer" column="question_id" resultMap="resultQuestion"/>
 	</resultMap>
@@ -19,16 +19,26 @@
 		<association property="category" column="category_id" resultMap="resultCategory"/>
 	</resultMap>
 	
+	<resultMap type="pji.cbt.entities.Category" id="resultCategory">
+		<id property="idCategory" column="id"/>
+		<result property="questionCategory" column="question_category"/>
+		<result property="description" column="description"/>
+	</resultMap>
+	
 	<select id="findAllAnswer" resultMap="resultAnswer">
-		SELECT * FROM tb_question;
+		SELECT * FROM tb_answer;
 	</select>
 	
 	<select id="deleteAnswer" parameterType="int" flushCache="true" statementType="PREPARED">
-		DELETE FROM tb_question WHERE id = #{idAnswer};
+		DELETE FROM tb_answer WHERE id = #{idAnswer};
 	</select>
 	
-	<select id="findOneAnswer" resultMap="resultAnswer">
-		SELECT * FROM tb_question WHERE question_id = #{questionAnswer.idQuestion) ;
+	<select id="findOne" resultMap="resultAnswer">
+		SELECT * FROM tb_answer WHERE id = #{idAnswer} ;
+	</select>
+	
+	<select id="findAnswerByQuestion" resultMap="resultAnswer">
+		SELECT * FROM tb_answer WHERE question_id = #{questionAnswer.idQuestion} ;
 	</select>
 	
 	<insert id="createAnswer" parameterType="pji.cbt.entities.Answer" flushCache="true" statementType="PREPARED" keyProperty="" keyColumn="">

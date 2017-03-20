@@ -11,7 +11,9 @@ public interface AnswerMapper {
 
 	public List<Answer> findAllAnswer();
 	
-	public Answer findOne(int questionId);
+	public Answer findOne(int idAnswer);
+	
+	public List<Answer> findAnswerByQuestion(int idQuestion);
 	
 	public void deleteAnswer(int id);
 	

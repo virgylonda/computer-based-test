@@ -1,5 +1,6 @@
 package pji.cbt.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -14,10 +15,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import pji.cbt.entities.Answer;
 import pji.cbt.entities.Category;
+import pji.cbt.entities.Question;
 import pji.cbt.entities.Roles;
 import pji.cbt.entities.User;
+import pji.cbt.form.FormQuestion;
+import pji.cbt.services.AnswerService;
 import pji.cbt.services.CategoryService;
+import pji.cbt.services.QuestionService;
 import pji.cbt.services.UserService;
 
 @Controller
@@ -26,6 +32,12 @@ public class UserController {
 	
 	@Autowired
 	HttpSession session; 
+	
+	@Autowired
+	private QuestionService queSvc;
+	
+	@Autowired
+	private AnswerService ansSvc;
 	
 	@Autowired
 	private UserService userSvc;
@@ -88,9 +100,31 @@ public class UserController {
 	
 	@RequestMapping(path = "/test/list", method=RequestMethod.GET)
 	public String Test(HttpServletRequest request, Model model) {		
-		List<Category>category = this.ctgSvc.findAllCategory();
-		model.addAttribute("data", category);
+		List<Category> categories = this.ctgSvc.findAllCategory();
+		model.addAttribute("data", categories);
 		return "listtest";
+	}
+	
+	@RequestMapping(path = "/test/dotest", method=RequestMethod.POST)
+	public String doTest(Category category, Model model) {
+		List<Question> questions = queSvc.findAllQuestionByCategory(category.getIdCategory());
+		List<FormQuestion> formQuestions = new ArrayList<FormQuestion>();
+		for(Question question : questions){
+			FormQuestion formQuestion = new FormQuestion();
+			formQuestion.setQuestion(question);
+			System.out.println(question.getQuestion());
+			System.out.println(question.getIdQuestion());
+			List<Answer> answers = ansSvc.findAnswerByQuestion(question.getIdQuestion());			
+			formQuestion.setAnswers(answers);
+			formQuestion.setCategory(category);
+			formQuestions.add(formQuestion);
+			for (Answer ans : answers){
+				System.out.println(ans.getAnswer()); 
+				System.out.println(ans.getIdAnswer()); 
+			}
+		}	
+		model.addAttribute("data", formQuestions);
+		return "formtest";
 	}
 
 }

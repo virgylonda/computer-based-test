@@ -36,7 +36,7 @@
             </div>
             <div class="row">
             	<div class="col-lg-12">
-            		<p class="articles">attention, this test can only be done once, and can not be repeated, please fill all the questions with the best answers</p>
+            		<p class="articles">attention, this test can only be done once, and can not be repeated,please fill all the questions with the best answers</p>
                     <div class="panel panel-default">
                         <div class="panel-heading">
                             List Of Test
@@ -58,7 +58,12 @@
 											<td th:text="${category != null ? iterationStatus.count : '' }" />
 											<td th:text="${category != null ? category.questionCategory : '' }" />
 											<td th:text="${category != null ? category.description : '' }" />
-											<td><a th:href="|/tester/category/delete/${category.idCategory}|"><button type="button" class="btn btn-primary btn-xs">Begin Test</button></a></td>
+											<td>
+												<form action="/user/test/dotest" method="post">
+													<input type="hidden" name="idCategory" th:attr="value = ${category != null ? category.idCategory : '' }"/>
+													<button type="submit" class="btn btn-primary btn-xs">Begin Test</button>
+												</form>
+											</td>
 										</tr>
 									</tbody>
                                 </table>

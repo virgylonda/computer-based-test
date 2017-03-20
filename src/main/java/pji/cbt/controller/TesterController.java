@@ -18,11 +18,11 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import pji.cbt.entities.Answer;
 import pji.cbt.entities.Category;
-import pji.cbt.entities.FormQuestion;
 import pji.cbt.entities.Question;
 import pji.cbt.entities.Roles;
 import pji.cbt.entities.TestUser;
 import pji.cbt.entities.User;
+import pji.cbt.form.FormQuestion;
 import pji.cbt.services.AnswerService;
 import pji.cbt.services.CategoryService;
 import pji.cbt.services.QuestionService;
