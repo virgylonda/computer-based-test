@@ -13,19 +13,19 @@
 		SELECT * FROM tb_question_category
 	</select>
 	
-<select id="deleteOne" resultMap="resultCategory">
+	<select id="deleteOne" resultMap="resultCategory">
 		DELETE FROM tb_question_category WHERE id = #{idCategory}
 	</select>
 	
-<select id="createCategory" resultMap="resultCategory">
+	<select id="createCategory" resultMap="resultCategory">
 		INSERT INTO tb_question_category(question_category,description) VALUES(#{questionCategory}, #{description})
 	</select>
 
-<select id="findOneCategory" resultMap="resultCategory">
+	<select id="findOneCategory" resultMap="resultCategory">
 		SELECT * FROM tb_question_category WHERE id = #{idCategory}
 	</select>
 
-<update id='updateCategory'>
+	<update id='updateCategory'>
 		UPDATE tb_question_category SET question_category = #{questionCategory}, description = #{description} WHERE id = #{idCategory}
 	</update>
 	

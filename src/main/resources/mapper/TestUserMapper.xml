@@ -20,8 +20,6 @@
 	
 	<resultMap type="pji.cbt.entities.TestUser" id="resultTestUser">
 		<id property="testId" column="id"/>
-		<result property="userId" column="user_id"/>
-		<result property="categoryId" column="category_id"/>
 		<result property="started" column="started"/>
 		<result property="ended" column="ended"/>
 		<result property="score" column="score"/>
@@ -38,8 +36,11 @@
 	<select id="findTestByUserId" resultMap="resultTestUser">
 		SELECT t.id, t.user_id, t.category_id, t.started, t.ended, t.score, c.question_category, c.description, u.name, u.username, u.email
 		FROM tb_user_test t, tb_user u, tb_question_category c 
-		WHERE t.category_id = c.id and t.user_id = u.id and user_id = #{userId}
+		WHERE t.category_id = c.id and t.user_id = u.id and user_id = #{user.userId}
 	</select>
 
+	<select id="saveTest" resultMap="resultTestUser">
+		INSERT INTO tb_user_test(user_id,category_id,started,ended,score) VALUES(#{users.userId},#{categories.idCategory}, #{started}, #{ended}, #{score})
+	</select>
 	
 </mapper>

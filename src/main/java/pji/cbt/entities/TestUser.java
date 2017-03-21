@@ -5,40 +5,22 @@ import java.util.Date;
 
 public class TestUser implements Serializable{
 
-	private Integer testId;
-	private Integer userId;
-	private Integer categoryId;
+	private int testId;
 	private Date started;
 	private Date ended;
-	private Long score;
+	private double score;
 	private User users;
 	private Category categories;
 	
 	public TestUser() {
 	}
 
-	public Integer getTestId() {
+	public int getTestId() {
 		return testId;
 	}
 
-	public void setTestId(Integer testId) {
+	public void setTestId(int testId) {
 		this.testId = testId;
-	}
-
-	public Integer getUserId() {
-		return userId;
-	}
-
-	public void setUserId(Integer userId) {
-		this.userId = userId;
-	}
-
-	public Integer getCategoryId() {
-		return categoryId;
-	}
-
-	public void setCategoryId(Integer categoryId) {
-		this.categoryId = categoryId;
 	}
 
 	public Date getStarted() {
@@ -57,11 +39,11 @@ public class TestUser implements Serializable{
 		this.ended = ended;
 	}
 
-	public Long getScore() {
+	public double getScore() {
 		return score;
 	}
 
-	public void setScore(Long score) {
+	public void setScore(double score) {
 		this.score = score;
 	}
 
@@ -79,6 +61,5 @@ public class TestUser implements Serializable{
 
 	public void setCategories(Category categories) {
 		this.categories = categories;
-	}
-	
+	}	
 }

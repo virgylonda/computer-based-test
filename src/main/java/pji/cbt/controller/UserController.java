@@ -1,8 +1,11 @@
 package pji.cbt.controller;
 
 import java.sql.Timestamp;
+import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -21,12 +24,14 @@ import pji.cbt.entities.Answer;
 import pji.cbt.entities.Category;
 import pji.cbt.entities.Question;
 import pji.cbt.entities.Roles;
+import pji.cbt.entities.TestUser;
 import pji.cbt.entities.User;
 import pji.cbt.form.FormAnswer;
 import pji.cbt.form.FormQuestion;
 import pji.cbt.services.AnswerService;
 import pji.cbt.services.CategoryService;
 import pji.cbt.services.QuestionService;
+import pji.cbt.services.TestUserService;
 import pji.cbt.services.UserService;
 
 @Controller
@@ -38,6 +43,9 @@ public class UserController {
 
 	@Autowired
 	HttpSession session; 
+	
+	@Autowired
+	private TestUserService tstSvc;
 	
 	@Autowired
 	private QuestionService queSvc;
@@ -112,8 +120,10 @@ public class UserController {
 	}
 	
 	@RequestMapping(path = "/test/dotest", method=RequestMethod.POST)
-	public String doTest(Category category, Model model) {
+	public String doTest(Category category, Model model, Timestamp timestamp) {
+		timestamp = new Timestamp(System.currentTimeMillis());
 		List<Question> questions = queSvc.findAllQuestionByCategory(category.getIdCategory());
+		String startTest = sdf.format(timestamp);
 		List<FormQuestion> formQuestions = new ArrayList<FormQuestion>();
 		for(Question question : questions){
 			FormQuestion formQuestion = new FormQuestion();
@@ -122,18 +132,22 @@ public class UserController {
 			formQuestion.setAnswers(answers);
 			formQuestion.setCategory(category);
 			formQuestions.add(formQuestion);
-		}	
+		}
+		model.addAttribute("idCategory", category.getIdCategory());
 		model.addAttribute("data", formQuestions);
+		model.addAttribute("start", startTest);
 		return "formtest";
 	}
 
 	@RequestMapping(path = "/test/save", method=RequestMethod.POST)
-	public String saveTest(FormAnswer formAnswer, Model model) {
-		Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+	public String saveTest(FormAnswer formAnswer, HttpServletRequest request, Model model, Timestamp timestamp) {
+		TestUser testUser = new TestUser();
+		User user = new User();
+		user.setUserId(Integer.parseInt(session.getAttribute("idlogin").toString()));
+		timestamp = new Timestamp(System.currentTimeMillis());
 		double point = 0;
 		double quest = formAnswer.getChoices().size();
 		for(String choice : formAnswer.getChoices()){
-			System.out.println(choice);
 			if(choice.equalsIgnoreCase("true")){
 				point++;
 			}
@@ -141,7 +155,19 @@ public class UserController {
 		double score = point/quest*100;
 		score = Math.round(score * 100);
 		score = score/100;
-		System.out.println(sdf.format(timestamp));
+		DateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+			try {
+				Date dateStart = format.parse(formAnswer.getStartTest());
+				testUser.setStarted(dateStart);
+				Date dateEnd = format.parse(formAnswer.getStartTest());
+				testUser.setEnded(dateEnd);
+			} catch (ParseException e) {
+				e.printStackTrace();
+			}
+		testUser.setCategories(formAnswer.getCategory());
+		testUser.setScore(score);
+		testUser.setUsers(user);
+		tstSvc.saveTest(testUser);
 		return "redirect:/user/test/list";
 	}
 }

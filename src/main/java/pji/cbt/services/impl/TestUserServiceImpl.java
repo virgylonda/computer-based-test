@@ -18,8 +18,13 @@ public class TestUserServiceImpl implements TestUserService {
 	public TestUserServiceImpl() {
 	}
 	
-	public List<TestUser> findTestByUserId(Integer userId) {
+	public List<TestUser> findTestByUserId(int userId) {
 		return uMapper.findTestByUserId(userId);
+	}
+
+	@Override
+	public void saveTest(TestUser testUser) {
+		uMapper.saveTest(testUser);
 	}
 	
 }

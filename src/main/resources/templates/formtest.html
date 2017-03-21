@@ -45,6 +45,8 @@
 									<div class="alert alert-danger" th:if="${msg != null}"
 										th:text="${msg != null ? msg : '' }"></div>
 									<form action="/user/test/save" method="post">
+										<input type="hidden" name="startTest" th:attr="value=${start}"/>
+										<input type="hidden" name="category.idCategory" th:attr="value=${idCategory}"/>
 										<div class="form-group" th:each="test, iterationStatus : ${data}">
 											<label>Question</label>
 											<textarea readonly="readonly" class="form-control" placeholder="Enter Question" required="required" th:text="${test.question !=null ? test.question.question : '' }"></textarea>
