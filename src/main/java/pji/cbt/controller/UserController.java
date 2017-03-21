@@ -1,5 +1,7 @@
 package pji.cbt.controller;
 
+import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,6 +22,7 @@ import pji.cbt.entities.Category;
 import pji.cbt.entities.Question;
 import pji.cbt.entities.Roles;
 import pji.cbt.entities.User;
+import pji.cbt.form.FormAnswer;
 import pji.cbt.form.FormQuestion;
 import pji.cbt.services.AnswerService;
 import pji.cbt.services.CategoryService;
@@ -30,6 +33,9 @@ import pji.cbt.services.UserService;
 @RequestMapping("/user")
 public class UserController {
 	
+	@Autowired
+	private static final SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+
 	@Autowired
 	HttpSession session; 
 	
@@ -112,19 +118,30 @@ public class UserController {
 		for(Question question : questions){
 			FormQuestion formQuestion = new FormQuestion();
 			formQuestion.setQuestion(question);
-			System.out.println(question.getQuestion());
-			System.out.println(question.getIdQuestion());
 			List<Answer> answers = ansSvc.findAnswerByQuestion(question.getIdQuestion());			
 			formQuestion.setAnswers(answers);
 			formQuestion.setCategory(category);
 			formQuestions.add(formQuestion);
-			for (Answer ans : answers){
-				System.out.println(ans.getAnswer()); 
-				System.out.println(ans.getIdAnswer()); 
-			}
 		}	
 		model.addAttribute("data", formQuestions);
 		return "formtest";
 	}
 
+	@RequestMapping(path = "/test/save", method=RequestMethod.POST)
+	public String saveTest(FormAnswer formAnswer, Model model) {
+		Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+		double point = 0;
+		double quest = formAnswer.getChoices().size();
+		for(String choice : formAnswer.getChoices()){
+			System.out.println(choice);
+			if(choice.equalsIgnoreCase("true")){
+				point++;
+			}
+		}
+		double score = point/quest*100;
+		score = Math.round(score * 100);
+		score = score/100;
+		System.out.println(sdf.format(timestamp));
+		return "redirect:/user/test/list";
+	}
 }

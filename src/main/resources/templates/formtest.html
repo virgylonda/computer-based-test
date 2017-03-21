@@ -47,20 +47,18 @@
 									<form action="/user/test/save" method="post">
 										<div class="form-group" th:each="test, iterationStatus : ${data}">
 											<label>Question</label>
-											<input type="hidden" name="test.idCategory" th:attr=" value=${idcategory !=null ? idcategory : '' }"/>
 											<textarea readonly="readonly" class="form-control" placeholder="Enter Question" required="required" th:text="${test.question !=null ? test.question.question : '' }"></textarea>
 										<div class="form-group">
                                             <label>Answer</label>
                                             <div class="radio" th:each="choiceanswer : ${test.answers}">
                                                 <label>
-                                                    <input type="radio" id="optionsRadios1" th:attr="name=${'choices['+iterationStatus.count+']'}, value=${choiceanswer.correctAnswer !=null ? choiceanswer.correctAnswer : '' }"/>
+                                                    <input type="radio" id="optionsRadios1" th:attr="name=${'choices['+(iterationStatus.count-1)+']'}, value=${choiceanswer.correctAnswer !=null ? choiceanswer.correctAnswer : '' }"/>
                                                     <input disabled="disabled" class="form-control" style="border: 0px; background-color:white" th:attr="value=${choiceanswer.answer !=null ? choiceanswer.answer : '' }"/>
                                                 </label>
                                             </div>                                            
                                         </div>
                                         </div>
 										<button type="submit" class="btn btn-primary">Submit</button>
-										<button type="reset" class="btn btn-danger">Reset</button>
 									</form>
 								</div>
 							</div>
