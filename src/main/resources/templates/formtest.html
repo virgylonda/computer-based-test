@@ -3,31 +3,33 @@
 
 <head>
 
-    <meta charset="utf-8"/>
-    <meta http-equiv="X-UA-Compatible" content="width=device-width, initial-scale=1"/>
+<meta charset="utf-8" />
+<meta http-equiv="X-UA-Compatible"
+	content="width=device-width, initial-scale=1" />
 
-    <title>Form Question</title>
-  
-    <!-- Core CSS - Include with every page -->
-    <link href="/asset/css/bootstrap.min.css" rel="stylesheet"/>
-	<link href="/asset/font-awesome/css/font-awesome.css" rel="stylesheet"/>
+<title>Form Question</title>
 
-    <!-- Page-Level Plugin CSS - Dashboard -->
-    <link href="/asset/css/plugins/morris/morris-0.4.3.min.css" rel="stylesheet"/>
-    <link href="/asset/css/plugins/timeline/timeline.css" rel="stylesheet"/>
+<!-- Core CSS - Include with every page -->
+<link href="/asset/css/bootstrap.min.css" rel="stylesheet" />
+<link href="/asset/font-awesome/css/font-awesome.css" rel="stylesheet" />
 
-    <!-- SB Admin CSS - Include with every page -->
-    <link href="/asset/css/sb-admin.css" rel="stylesheet"/>
+<!-- Page-Level Plugin CSS - Dashboard -->
+<link href="/asset/css/plugins/morris/morris-0.4.3.min.css"
+	rel="stylesheet" />
+<link href="/asset/css/plugins/timeline/timeline.css" rel="stylesheet" />
+
+<!-- SB Admin CSS - Include with every page -->
+<link href="/asset/css/sb-admin.css" rel="stylesheet" />
 
 </head>
 
 <body>
 
-    <div id="wrapper">
+	<div id="wrapper">
 
 		<div th:replace="navbarusertest :: common-navbar" />
-		        
-        <div id="page-wrapper">
+
+		<div id="page-wrapper">
 			<div class="row">
 				<div class="col-lg-12">
 					<h1 class="page-header">Questions</h1>
@@ -45,22 +47,53 @@
 									<div class="alert alert-danger" th:if="${msg != null}"
 										th:text="${msg != null ? msg : '' }"></div>
 									<form action="/user/test/save" method="post">
-										<input type="hidden" name="startTest" th:attr="value=${start}"/>
-										<input type="hidden" name="category.idCategory" th:attr="value=${idCategory}"/>
-										<div class="form-group" th:each="test, iterationStatus : ${data}">
+										<input type="hidden" name="startTest" th:attr="value=${start}" />
+										<input type="hidden" name="category.idCategory"
+											th:attr="value=${idCategory}" />
+										<div class="form-group"
+											th:each="test, iterationStatus : ${data}">
 											<label>Question</label>
-											<textarea readonly="readonly" class="form-control" placeholder="Enter Question" required="required" th:text="${test.question !=null ? test.question.question : '' }"></textarea>
-										<div class="form-group">
-                                            <label>Answer</label>
-                                            <div class="radio" th:each="choiceanswer : ${test.answers}">
-                                                <label>
-                                                    <input type="radio" id="optionsRadios1" th:attr="name=${'choices['+(iterationStatus.count-1)+']'}, value=${choiceanswer.correctAnswer !=null ? choiceanswer.correctAnswer : '' }"/>
-                                                    <input disabled="disabled" class="form-control" style="border: 0px; background-color:white" th:attr="value=${choiceanswer.answer !=null ? choiceanswer.answer : '' }"/>
-                                                </label>
-                                            </div>                                            
-                                        </div>
-                                        </div>
-										<button type="submit" class="btn btn-primary">Submit</button>
+											<textarea readonly="readonly" class="form-control"
+												placeholder="Enter Question" required="required"
+												th:text="${test.question !=null ? test.question.question : '' }"></textarea>
+											<div class="form-group">
+												<label>Answer</label>
+												<div class="radio" th:each="choiceanswer : ${test.answers}">
+													<label> <input type="radio" id="optionsRadios1"
+														th:attr="name=${'choices['+(iterationStatus.count-1)+']'}, value=${choiceanswer.correctAnswer !=null ? choiceanswer.correctAnswer : '' }" />
+														<input disabled="disabled" class="form-control"
+														style="border: 0px; background-color: white"
+														th:attr="value=${choiceanswer.answer !=null ? choiceanswer.answer : '' }" />
+													</label>
+												</div>
+											</div>
+										</div>
+										<!-- Trigger the modal with a button -->
+										<button type="button" class="btn btn-info btn-lg"
+											data-toggle="modal" data-target="#myModal">Finish</button>
+
+										<!-- Modal -->
+										<div id="myModal" class="modal fade" role="dialog">
+											<div class="modal-dialog">
+
+												<!-- Modal content-->
+												<div class="modal-content">
+													<div class="modal-header">
+														<button type="button" class="close" data-dismiss="modal">&times;</button>
+														<h4 class="modal-title">Attention!</h4>
+													</div>
+													<div class="modal-body">
+														<p>Are you Sure want to finish it?</p>
+													</div>
+													<div class="modal-footer">
+													<button type="submit" class="btn btn-primary">Submit</button>
+														<button type="button" class="btn btn-default"
+															data-dismiss="modal">Cancel</button>
+													</div>
+												</div>
+
+												</div>
+											</div>
 									</form>
 								</div>
 							</div>
@@ -76,23 +109,23 @@
 		</div>
 		<!-- /#page-wrapper -->
 
-    </div>
-    <!-- /#wrapper -->
+	</div>
+	<!-- /#wrapper -->
 
-   <!-- Core Scripts - Include with every page -->
-    <script src="/asset/js/jquery-1.10.2.js"></script>
-    <script src="/asset/js/bootstrap.min.js"></script>
-    <script src="/asset/js/plugins/metisMenu/jquery.metisMenu.js"></script>
+	<!-- Core Scripts - Include with every page -->
+	<script src="/asset/js/jquery-1.10.2.js"></script>
+	<script src="/asset/js/bootstrap.min.js"></script>
+	<script src="/asset/js/plugins/metisMenu/jquery.metisMenu.js"></script>
 
-    <!-- Page-Level Plugin Scripts - Dashboard -->
-    <script src="/asset/js/plugins/morris/raphael-2.1.0.min.js"></script>
-    <script src="/asset/js/plugins/morris/morris.js"></script>
+	<!-- Page-Level Plugin Scripts - Dashboard -->
+	<script src="/asset/js/plugins/morris/raphael-2.1.0.min.js"></script>
+	<script src="/asset/js/plugins/morris/morris.js"></script>
 
-    <!-- SB Admin Scripts - Include with every page -->
-    <script src="/asset/js/sb-admin.js"></script>
+	<!-- SB Admin Scripts - Include with every page -->
+	<script src="/asset/js/sb-admin.js"></script>
 
-    <!-- Page-Level Demo Scripts - Dashboard - Use for reference -->
-    <script src="/asset/js/demo/dashboard-demo.js"></script>
+	<!-- Page-Level Demo Scripts - Dashboard - Use for reference -->
+	<script src="/asset/js/demo/dashboard-demo.js"></script>
 
 </body>
 
