@@ -222,9 +222,9 @@ public class TesterController {
 			return "index_score";
 		}
 		
-		@RequestMapping(path="/testuser",method=RequestMethod.GET)
+		@RequestMapping(path="/user/score",method=RequestMethod.GET)
 		public String dataUserTest(Model model){
-			List<User> userTest = this.userSvc.findAllUser(3);
+			List<TestUser> userTest = this.testSvc.findUserSummaryScore();
 			model.addAttribute("userTest",userTest);
 			return "index_usertest";
 		}

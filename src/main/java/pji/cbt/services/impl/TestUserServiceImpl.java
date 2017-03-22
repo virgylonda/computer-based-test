@@ -21,6 +21,10 @@ public class TestUserServiceImpl implements TestUserService {
 	public List<TestUser> findTestByUserId(int userId) {
 		return uMapper.findTestByUserId(userId);
 	}
+	
+	public List<TestUser> findUserSummaryScore() {
+		return uMapper.findUserSummaryScore();
+	}
 
 	@Override
 	public void saveTest(TestUser testUser) {

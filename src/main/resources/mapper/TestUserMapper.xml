@@ -39,6 +39,11 @@
 		WHERE t.category_id = c.id and t.user_id = u.id and user_id = #{user.userId}
 	</select>
 
+	<select id="findUserSummaryScore" resultMap="resultTestUser">
+		SELECT u.name AS name, u.email AS email , MIN(t.started) AS started, MAX(t.ended) AS ended, AVG(t.score) AS score FROM tb_user_test t JOIN tb_user u ON t.user_id=u.id GROUP BY t.user_id, u.name, u.email
+	</select>
+		
+
 	<select id="saveTest" resultMap="resultTestUser">
 		INSERT INTO tb_user_test(user_id,category_id,started,ended,score) VALUES(#{users.userId},#{categories.idCategory}, #{started}, #{ended}, #{score})
 	</select>
