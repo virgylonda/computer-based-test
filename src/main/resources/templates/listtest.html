@@ -19,9 +19,14 @@
     <!-- SB Admin CSS - Include with every page -->
     <link href="/asset/css/sb-admin.css" rel="stylesheet"/>
 
+	<script type="text/javascript">
+	window.history.forward();	function noBackAndClose() { window.history.forward(); }
+	</script>
+
 </head>
 
-<body>
+<body onload="noBackAndClose();" 
+	onpageshow="if (event.persisted) noBackAndClose();" onunload="">
 
     <div id="wrapper">
 
