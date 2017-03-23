@@ -9,6 +9,7 @@ public class TestUser implements Serializable{
 	private Date started;
 	private Date ended;
 	private double score;
+	private String status;
 	private User users;
 	private Category categories;
 	
@@ -37,6 +38,14 @@ public class TestUser implements Serializable{
 
 	public void setEnded(Date ended) {
 		this.ended = ended;
+	}
+
+	public String getStatus() {
+		return status;
+	}
+
+	public void setStatus(String status) {
+		this.status = status;
 	}
 
 	public double getScore() {

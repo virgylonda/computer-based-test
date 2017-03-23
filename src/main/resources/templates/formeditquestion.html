@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="width=device-width, initial-scale=1"/>
+
+    <title>Form Question</title>
+  
+    <!-- Core CSS - Include with every page -->
+    <link href="/asset/css/bootstrap.min.css" rel="stylesheet"/>
+	<link href="/asset/font-awesome/css/font-awesome.css" rel="stylesheet"/>
+
+    <!-- Page-Level Plugin CSS - Dashboard -->
+    <link href="/asset/css/plugins/morris/morris-0.4.3.min.css" rel="stylesheet"/>
+    <link href="/asset/css/plugins/timeline/timeline.css" rel="stylesheet"/>
+
+    <!-- SB Admin CSS - Include with every page -->
+    <link href="/asset/css/sb-admin.css" rel="stylesheet"/>
+
+</head>
+
+<body>
+
+    <div id="wrapper">
+
+		<div th:replace="navbartester :: common-navbar" />
+		        
+        <div id="page-wrapper">
+			<div class="row">
+				<div class="col-lg-12">
+					<h1 class="page-header">Add Question</h1>
+				</div>
+				<!-- /.col-lg-12 -->
+			</div>
+			<!-- /.row -->
+			<div class="row">
+				<div class="col-lg-12">
+					<div class="panel panel-default">
+						<div class="panel-heading">Formulir Tester Question</div>
+						<div class="panel-body">
+							<div class="row">
+								<div class="col-lg-8">
+									<div class="alert alert-danger" th:if="${msg != null}"
+										th:text="${msg != null ? msg : '' }"></div>
+									<form action="/tester/edit/save" method="post">
+										<div class="form-group">
+											<label>Question</label>
+											<textarea class="form-control" placeholder="Enter Question" name="question.question" required="required" th:text="${dataedit.question != null ? dataedit.question.question : '' }"></textarea>
+										</div>
+										<div class="form-group">
+                                            <label>Answer</label>
+                                            <div class="radio" th:each="answer,iterationStatus : ${dataedit.answers}">
+                                                <label>
+                                                    <input type="radio" name="choice" id="optionsRadios1" th:attr="value=${iterationStatus.count-1}, checked=${answer.correctAnswer}"/>
+                                                    <input class="form-control" th:attr="value=${answer.answer}, name=${'answers['+(iterationStatus.count-1)+'].answer'}"/>
+                                                </label>
+                                            </div>
+                                        </div>
+										<button type="submit" class="btn btn-primary">Submit</button>
+										<button type="reset" class="btn btn-danger">Reset</button>
+									</form>
+								</div>
+							</div>
+							<!-- /.row (nested) -->
+						</div>
+						<!-- /.panel-body -->
+					</div>
+					<!-- /.panel -->
+				</div>
+				<!-- /.col-lg-12 -->
+			</div>
+			<!-- /.row -->
+		</div>
+		<!-- /#page-wrapper -->
+
+    </div>
+    <!-- /#wrapper -->
+
+   <!-- Core Scripts - Include with every page -->
+    <script src="/asset/js/jquery-1.10.2.js"></script>
+    <script src="/asset/js/bootstrap.min.js"></script>
+    <script src="/asset/js/plugins/metisMenu/jquery.metisMenu.js"></script>
+
+    <!-- Page-Level Plugin Scripts - Dashboard -->
+    <script src="/asset/js/plugins/morris/raphael-2.1.0.min.js"></script>
+    <script src="/asset/js/plugins/morris/morris.js"></script>
+
+    <!-- SB Admin Scripts - Include with every page -->
+    <script src="/asset/js/sb-admin.js"></script>
+
+    <!-- Page-Level Demo Scripts - Dashboard - Use for reference -->
+    <script src="/asset/js/demo/dashboard-demo.js"></script>
+
+</body>
+
+</html>

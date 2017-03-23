@@ -63,7 +63,7 @@
 											<td th:text="${user != null ? user.started : '' }" />
 											<td th:text="${user != null ? user.ended : '' }" />
 											<td th:text="${user != null ? user.score : '' }" />
-											<td><a th:href="|delete/${user.users.userId}|"><button type="button" class="btn btn-success btn-xs">Detail</button></a></td>
+											<td><a th:href="|/tester/user/score/detail/${user.users.userId}|"><button type="button" class="btn btn-success btn-xs">Detail</button></a></td>
 										</tr>
 									</tbody>
 								</table>

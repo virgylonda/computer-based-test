@@ -11,4 +11,8 @@ public interface TestUserService {
 	public void saveTest(TestUser testUser);
 	
 	public List<TestUser> findUserSummaryScore();
+	
+	public List<TestUser> findTestAssignment(int userId);
+	
+	public void deleteByIdUserAndIdCategory(TestUser testUser);
 }

@@ -8,7 +8,7 @@
     <meta name="description" content=""/>
     <meta name="author" content=""/>
 
-    <title>Data Category</title>
+    <title>Data Assignment</title>
 
     <!-- Core CSS - Include with every page -->
     <link href="/asset/css/bootstrap.min.css" rel="stylesheet"/>
@@ -27,35 +27,18 @@
     <div id="wrapper">
 
 		<div th:replace="navbartester :: common-navbar" />
-		        
+
         <div id="page-wrapper">
             <div class="row">
                 <div class="col-lg-12">
-                    <h1 class="page-header">Data Category</h1>
+                    <h1 class="page-header">Data Assignment</h1>
                 </div>
                 <!-- /.col-lg-12 -->
             </div>
-            <div class="row" th:if="${msgerror != null}">
-            	<div class="col-lg-12">
-            		<div class="alert alert-danger" th:text="${msgerror != null ? msgerror : '' }">
-            		</div>
-            	</div>
-            </div>
-            <div class="row" th:if="${msgsuccess != null}">
-            	<div class="col-lg-12">
-            		<div class="alert alert-success" th:text="${msgsuccess != null ? msgsuccess : '' }">
-                    </div>
-            	</div>
-            </div>
-            <div class="row" th:if="${msg != null}">
-            	<div class="col-lg-12">
-            		<div class="alert alert-success" th:text="${msg != null ? msg : '' }">
-                    </div>
-            	</div>
-            </div>
+            <form action="/tester/user/assignment/save" method="post">
+            <input type="hidden" name="user.userId" th:attr = "value=${dataid}"/>
             <div class="row">
             	<div class="col-lg-12">
-            		<a href="../createnewcategory"><button type="button" class="btn btn-primary">Add New Category</button></a><br/><br/>
                     <div class="panel panel-default">
                         <div class="panel-heading">
                             DataTables Advanced Tables
@@ -69,19 +52,21 @@
 											<th>No.</th>
 											<th>Category Question</th>
 											<th>Description</th>
-											<th>Action</th>
-											<th>Questions</th>
+											<th width="40px"></th>
 										</tr>
 									</thead>
                                     <tbody>
-											<tr th:each="category,iterationStatus : ${data}">
+										<tr th:each="category,iterationStatus : ${data}">
 											<td th:text="${category != null ? iterationStatus.count : '' }" />
-											<td th:text="${category != null ? category.questionCategory : '' }" />
-											<td th:text="${category != null ? category.description : '' }" />
-											<td><a th:href="|/tester/category/delete/${category.idCategory}|"><button type="button" class="btn btn-danger btn-xs">Delete</button></a> 
-											<a th:href="|/tester/category/edit/${category.idCategory}|"><button type="button" class="btn btn-warning btn-xs">Edit</button></a></td>
-											<td><a th:href="|/tester/createnewquestion/${category.idCategory}|"><button type="button" class="btn btn-submit btn-xs">Add Questions</button></a>
-											<a th:href="|/tester/question/list/${category.idCategory}|"><button type="button" class="btn btn-success btn-xs">List Questions</button></a></td>
+											<td th:text="${category != null ? category.categories.questionCategory : '' }" />
+											<td th:text="${category != null ? category.categories.description : '' }" />
+											<td>
+												<div class="form-group">
+                                            		<div class="checkbox">
+                                                    	<input type="checkbox" name="categories" th:attr="value=${category.categories.idCategory}, checked=${category.testId != 0 ? 'true':'false'}" th:disabled="${category.status == null ? 'false': category.status == 'Not yet' ? 'false':'true'}"/>
+                                            		</div>
+                                        		</div>
+											</td>
 										</tr>
 									</tbody>
                                 </table>
@@ -93,6 +78,9 @@
                     <!-- /.panel -->
                 </div>
             </div>
+            <button type="submit" class="btn btn-primary">Submit</button>
+            <a href="/tester/user/assignment"><button type="button" class="btn btn-danger">Cancel</button></a>
+            </form>
             <!-- /.row -->
         </div>
         <!-- /#page-wrapper -->

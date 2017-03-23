@@ -22,6 +22,7 @@ import pji.cbt.entities.Question;
 import pji.cbt.entities.Roles;
 import pji.cbt.entities.TestUser;
 import pji.cbt.entities.User;
+import pji.cbt.form.FormAssignment;
 import pji.cbt.form.FormQuestion;
 import pji.cbt.services.AnswerService;
 import pji.cbt.services.CategoryService;
@@ -190,6 +191,17 @@ public class TesterController {
 			return "formQuestion";
 		}
 		
+		@RequestMapping(path = "/question/edit/{id}", method = RequestMethod.GET)
+		public String formEditQuestion(@PathVariable int id, Model model) {
+			Question question = quesSvc.findOneQuestion(id);
+			List<Answer> answers = ansSvc.findAnswerByQuestion(id);
+			FormQuestion formQuestion = new FormQuestion();
+			formQuestion.setQuestion(question);
+			formQuestion.setAnswers(answers);
+			model.addAttribute("dataedit", formQuestion);
+			return "formeditquestion";
+		}
+		
 		@RequestMapping(path = "/createnewquestion/save", method = RequestMethod.POST)
 		public String saveNewQuestion(FormQuestion formQuestion, Model model) {
 			int choice = Integer.valueOf(formQuestion.getChoice());
@@ -215,7 +227,7 @@ public class TesterController {
 			return "redirect:/tester/question/list/"+formQuestion.getCategory().getIdCategory();
 		}
 		
-		@RequestMapping(path="/listscore/{userId}",method=RequestMethod.GET)
+		@RequestMapping(path="user/score/detail/{userId}",method=RequestMethod.GET)
 		public String dataScoreTest(@PathVariable Integer userId, Model model){
 			List<TestUser> scores = this.testSvc.findTestByUserId(userId);
 			model.addAttribute("scores",scores);
@@ -227,5 +239,39 @@ public class TesterController {
 			List<TestUser> userTest = this.testSvc.findUserSummaryScore();
 			model.addAttribute("userTest",userTest);
 			return "index_usertest";
+		}
+		
+		@RequestMapping(path="/user/assignment",method=RequestMethod.GET)
+		public String dataUserAssignment(Model model){
+			model.addAttribute("data", this.userSvc.findAllUser(3));
+			return "testassignment";
+		}
+		
+		@RequestMapping(path="/user/assignment/list/{id}",method=RequestMethod.GET)
+		public String dataUserAssignmentList(@PathVariable int id, Model model){
+			List <TestUser> tests = testSvc.findTestAssignment(id);
+			model.addAttribute("dataid", id);
+			model.addAttribute("data", tests);
+			return "listassignment";
+		}
+		
+		@RequestMapping(path="/user/assignment/save",method=RequestMethod.POST)
+		public String dataUserAssignmentSave(FormAssignment formAssignment,RedirectAttributes redirectAttributes, Model model){
+			try{
+				for(int idCategory : formAssignment.explodeString(formAssignment.getCategories())){
+					TestUser testUser = new TestUser();
+					Category category = new Category();
+					category.setIdCategory(idCategory);
+					testUser.setCategories(category);
+					testUser.setUsers(formAssignment.getUser());
+					testSvc.deleteByIdUserAndIdCategory(testUser);
+					testSvc.saveTest(testUser);
+				}
+			} catch (Exception ex) {
+				redirectAttributes.addFlashAttribute("msgerror","Fail asign test to user!!");
+				return "redirect:/tester/user/assignment";
+			}
+			redirectAttributes.addFlashAttribute("msgsuccess","Success asign test to user!!");
+			return "redirect:/tester/user/assignment";
 		}
 } 
