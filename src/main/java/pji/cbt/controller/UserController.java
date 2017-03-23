@@ -95,9 +95,6 @@ public class UserController {
 			RedirectAttributes redirectAttributes, Model model) {
 		BCryptPasswordEncoder BCrypt = new BCryptPasswordEncoder();
 		User user = userSvc.findOne(iduser);
-		System.out.println(oldpassword);
-		System.out.println(newpassword);
-		System.out.println(retypepassword);
 		if (!BCrypt.matches(oldpassword, user.getPassword())) {
 			model.addAttribute("msgpassword", "Fail, wrong old password!!");
 			model.addAttribute("data", user);

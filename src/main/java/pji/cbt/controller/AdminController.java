@@ -173,7 +173,6 @@ public class AdminController {
 			this.userSvc.createUser(user);
 		} catch (Exception ex) {
 			user.setPassword(password);
-			System.out.println(user.getPassword());
 			System.out.println(ex);
 			model.addAttribute("msg", "Fail, Username has been used!!");
 			model.addAttribute("data", user);
