@@ -51,7 +51,7 @@
 	</update>
 	
 	<update id='updatePassword'>
-	    UPDATE tb_user SET password = #{password} WHERE id = #{userId}
+	    UPDATE tb_user SET started = #{started} WHERE id = #{userId}
 	</update>
 	
 </mapper>

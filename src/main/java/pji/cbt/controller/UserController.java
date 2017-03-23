@@ -37,46 +37,46 @@ import pji.cbt.services.UserService;
 @Controller
 @RequestMapping("/user")
 public class UserController {
-	
+
 	@Autowired
 	private static final SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
 	@Autowired
-	HttpSession session; 
-	
+	HttpSession session;
+
 	@Autowired
 	private TestUserService tstSvc;
-	
+
 	@Autowired
 	private QuestionService queSvc;
-	
+
 	@Autowired
 	private AnswerService ansSvc;
-	
+
 	@Autowired
 	private UserService userSvc;
-	
+
 	@Autowired
 	private CategoryService ctgSvc;
-	
-	@RequestMapping(path="/dashboard", method=RequestMethod.GET)
-	public String userPage(HttpServletRequest request, Model Model, Authentication authentication){
+
+	@RequestMapping(path = "/dashboard", method = RequestMethod.GET)
+	public String userPage(HttpServletRequest request, Model Model, Authentication authentication) {
 		User user = userSvc.findOneUser(authentication.getName());
 		session = request.getSession();
 		session.setAttribute("idlogin", user.getUserId());
 		return "indexuser";
 	}
-	
-	@RequestMapping(path = "/editprofile", method=RequestMethod.GET)
-	public String editProfile(Model model) {	
+
+	@RequestMapping(path = "/editprofile", method = RequestMethod.GET)
+	public String editProfile(Model model) {
 		int idlogin = Integer.parseInt(session.getAttribute("idlogin").toString());
 		User user = userSvc.findOne(idlogin);
 		model.addAttribute("data", user);
 		return "editprofileuser";
 	}
-	
-	@RequestMapping(path ="/editprofile/save", method = RequestMethod.POST)
-	public String saveEditProfile(User user, Roles roles ,RedirectAttributes redirectAttributes, Model model) {
+
+	@RequestMapping(path = "/editprofile/save", method = RequestMethod.POST)
+	public String saveEditProfile(User user, Roles roles, RedirectAttributes redirectAttributes, Model model) {
 		user.setRoles(roles);
 		try {
 			this.userSvc.updateUser(user);
@@ -89,15 +89,16 @@ public class UserController {
 		redirectAttributes.addFlashAttribute("msg", "Your account has been update successfully!!");
 		return "redirect:/user/dashboard";
 	}
-	
-	@RequestMapping(path ="/editpassword/save", method = RequestMethod.POST)
-	public String saveEditPassword(int iduser, String oldpassword, String newpassword, String retypepassword, RedirectAttributes redirectAttributes, Model model) {
+
+	@RequestMapping(path = "/editpassword/save", method = RequestMethod.POST)
+	public String saveEditPassword(int iduser, String oldpassword, String newpassword, String retypepassword,
+			RedirectAttributes redirectAttributes, Model model) {
 		BCryptPasswordEncoder BCrypt = new BCryptPasswordEncoder();
 		User user = userSvc.findOne(iduser);
 		System.out.println(oldpassword);
 		System.out.println(newpassword);
 		System.out.println(retypepassword);
-		if(!BCrypt.matches(oldpassword, user.getPassword())){
+		if (!BCrypt.matches(oldpassword, user.getPassword())) {
 			model.addAttribute("msgpassword", "Fail, wrong old password!!");
 			model.addAttribute("data", user);
 			return "editprofileuser";
@@ -111,63 +112,66 @@ public class UserController {
 		redirectAttributes.addFlashAttribute("msg", "Your account has been update successfully!!");
 		return "redirect:/user/dashboard";
 	}
-	
-	@RequestMapping(path = "/test/list", method=RequestMethod.GET)
-	public String Test(HttpServletRequest request, Model model) {		
-		List<Category> categories = this.ctgSvc.findAllCategory();
-		model.addAttribute("data", categories);
+
+	@RequestMapping(path = "/test/list", method = RequestMethod.GET)
+	public String Test(HttpServletRequest request, Model model) {
+		List<TestUser> testUser = tstSvc
+				.findTestHaveAssign(Integer.parseInt(session.getAttribute("idlogin").toString()));
+		model.addAttribute("data", testUser);
 		return "listtest";
 	}
-	
-	@RequestMapping(path = "/test/dotest", method=RequestMethod.POST)
-	public String doTest(Category category, Model model, Timestamp timestamp) {
+
+	@RequestMapping(path = "/test/dotest", method = RequestMethod.POST)
+	public String doTest(Category category, TestUser testUser, Model model, Timestamp timestamp) {
 		timestamp = new Timestamp(System.currentTimeMillis());
 		List<Question> questions = queSvc.findAllQuestionByCategory(category.getIdCategory());
 		String startTest = sdf.format(timestamp);
+		try {
+			Date date = sdf.parse(startTest);
+			testUser.setStarted(date);
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+		testUser.setStatus("Done");
 		List<FormQuestion> formQuestions = new ArrayList<FormQuestion>();
-		for(Question question : questions){
+		tstSvc.updateStartTest(testUser);
+		for (Question question : questions) {
 			FormQuestion formQuestion = new FormQuestion();
 			formQuestion.setQuestion(question);
-			List<Answer> answers = ansSvc.findAnswerByQuestion(question.getIdQuestion());			
+			List<Answer> answers = ansSvc.findAnswerByQuestion(question.getIdQuestion());
 			formQuestion.setAnswers(answers);
 			formQuestion.setCategory(category);
 			formQuestions.add(formQuestion);
 		}
-		model.addAttribute("idCategory", category.getIdCategory());
+		model.addAttribute("idTest", testUser.getTestId());
 		model.addAttribute("data", formQuestions);
-		model.addAttribute("start", startTest);
 		return "formtest";
 	}
 
 	@RequestMapping(path = "/test/save", method=RequestMethod.POST)
 	public String saveTest(FormAnswer formAnswer, HttpServletRequest request, Model model, Timestamp timestamp) {
-		TestUser testUser = new TestUser();
-		User user = new User();
-		user.setUserId(Integer.parseInt(session.getAttribute("idlogin").toString()));
 		timestamp = new Timestamp(System.currentTimeMillis());
-		double point = 0;
-		double quest = formAnswer.getChoices().size();
-		for(String choice : formAnswer.getChoices()){
-			if(choice.equalsIgnoreCase("true")){
-				point++;
-			}
+		TestUser testUser = new TestUser();
+		testUser.setTestId(formAnswer.getTestId());
+		String endTest = sdf.format(timestamp);
+		try {
+			Date date = sdf.parse(endTest);
+			testUser.setEnded(date);
+		} catch (ParseException e) {
+			e.printStackTrace();
 		}
+		double point=0;
+		double quest = formAnswer.getChoices().size();
+			for(String choice : formAnswer.getChoices()){
+				if(choice.equalsIgnoreCase("true")){
+					point++;
+				}
+			}
 		double score = point/quest*100;
 		score = Math.round(score * 100);
 		score = score/100;
-		DateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-			try {
-				Date dateStart = format.parse(formAnswer.getStartTest());
-				testUser.setStarted(dateStart);
-				Date dateEnd = format.parse(formAnswer.getStartTest());
-				testUser.setEnded(dateEnd);
-			} catch (ParseException e) {
-				e.printStackTrace();
-			}
-		testUser.setCategories(formAnswer.getCategory());
 		testUser.setScore(score);
-		testUser.setUsers(user);
-		tstSvc.saveTest(testUser);
+		tstSvc.updateEndTest(testUser);
 		return "redirect:/user/test/list";
 	}
 }

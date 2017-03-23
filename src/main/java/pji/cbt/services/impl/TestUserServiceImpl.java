@@ -11,21 +11,21 @@ import pji.cbt.services.TestUserService;
 
 @Service
 public class TestUserServiceImpl implements TestUserService {
-	
+
 	@Autowired
 	private TestUserMapper uMapper;
 
 	public TestUserServiceImpl() {
 	}
-	
+
 	public List<TestUser> findTestByUserId(int userId) {
 		return uMapper.findTestByUserId(userId);
 	}
-	
+
 	public List<TestUser> findUserSummaryScore() {
 		return uMapper.findUserSummaryScore();
 	}
-	
+
 	@Override
 	public void saveTest(TestUser testUser) {
 		uMapper.saveTest(testUser);
@@ -40,5 +40,20 @@ public class TestUserServiceImpl implements TestUserService {
 	public void deleteByIdUserAndIdCategory(TestUser testUser) {
 		uMapper.deleteByIdUserAndIdCategory(testUser);
 	}
-	
+
+	@Override
+	public void updateStartTest(TestUser testUser) {
+		uMapper.updateStartTest(testUser);
+	}
+
+	@Override
+	public List<TestUser> findTestHaveAssign(int userId) {
+		return uMapper.findTestHaveAssign(userId);
+	}
+
+	@Override
+	public void updateEndTest(TestUser testUser) {
+		uMapper.updateEndTest(testUser);
+	}
+
 }

@@ -1,13 +1,12 @@
 package pji.cbt.form;
 
-import java.io.Serializable;
 import java.util.List;
 
 import pji.cbt.entities.Answer;
 import pji.cbt.entities.Category;
 import pji.cbt.entities.Question;
 
-public class FormQuestion implements Serializable{
+public class FormQuestion{
 	
 	private String choice;
 	

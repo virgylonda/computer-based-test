@@ -18,15 +18,9 @@
 
     <!-- SB Admin CSS - Include with every page -->
     <link href="/asset/css/sb-admin.css" rel="stylesheet"/>
-
-	<script type="text/javascript">
-	window.history.forward();	function noBackAndClose() { window.history.forward(); }
-	</script>
-
 </head>
 
-<body onload="noBackAndClose();" 
-	onpageshow="if (event.persisted) noBackAndClose();" onunload="">
+<body>
 
     <div id="wrapper">
 
@@ -61,12 +55,14 @@
                                     <tbody>
 											<tr th:each="category,iterationStatus : ${data}">
 											<td th:text="${category != null ? iterationStatus.count : '' }" />
-											<td th:text="${category != null ? category.questionCategory : '' }" />
-											<td th:text="${category != null ? category.description : '' }" />
+											<td th:text="${category != null ? category.categories.questionCategory : '' }" />
+											<td th:text="${category != null ? category.categories.description : '' }" />
 											<td>
 												<form action="/user/test/dotest" method="post">
-													<input type="hidden" name="idCategory" th:attr="value = ${category != null ? category.idCategory : '' }"/>
-													<button type="submit" class="btn btn-primary btn-xs">Begin Test</button>
+													<input type="hidden" name="testId" th:attr="value = ${category != null ? category.testId : '' }"/>
+													<input type="hidden" name="idCategory" th:attr="value = ${category != null ? category.categories.idCategory : '' }"/>
+													<button type="submit" class="btn btn-primary btn-xs" th:if="${category.status != 'Done'}">Begin Test</button>
+													<button th:if="${category.status == 'Done'}" type="button" class="btn btn-default btn-circle" disabled="disabled"><i class="fa fa-check"></i></button>
 												</form>
 											</td>
 										</tr>

@@ -33,12 +33,12 @@
 		<result property="questionCategory" column="question_category"/>
 		<result property="description" column="description"/>
 	</resultMap>
-		
+
 	<select id="findTestByUserId" resultMap="resultTestUser">
-		SELECT t.id AS testId, t.user_id, t.category_id, t.started, t.ended, t.score, c.question_category, c.description, u.name, u.username, u.email
-		FROM tb_user_test t, tb_user u, tb_question_category c 
-		WHERE t.category_id = c.id and t.user_id = u.id and user_id = #{user.userId}
-	</select>
+ 		SELECT t.id AS testId, t.user_id, t.category_id, t.started, t.ended, t.score, c.question_category, c.description, u.name, u.username, u.email
+  		FROM tb_user_test t, tb_user u, tb_question_category c 
+  		WHERE t.category_id = c.id and t.user_id = u.id and user_id = #{user.userId}
+ 	</select>
 
 	<select id="findUserSummaryScore" resultMap="resultTestUser">
 		SELECT u.id, u.name AS name, u.email AS email , MIN(t.started) AS started, MAX(t.ended) AS ended, ROUND(AVG(t.score),2) AS score FROM tb_user_test t JOIN tb_user u ON t.user_id=u.id GROUP BY t.user_id, u.id, u.name, u.email
@@ -48,6 +48,10 @@
 		SELECT c.id, c.question_category, c.description, t.id AS testId, t.status FROM tb_question_category c LEFT JOIN tb_user_test t ON c.id=t.category_id AND t.user_id = #{user.userId}
 	</select>
 	
+	<select id="findTestHaveAssign" resultMap="resultTestUser">
+		SELECT c.id, c.question_category, c.description, t.id AS testId, t.status FROM tb_question_category c JOIN tb_user_test t ON c.id=t.category_id WHERE t.user_id = #{user.userId} ORDER BY c.question_category
+	</select>
+	
 	<delete id="deleteByIdUserAndIdCategory">
 		DELETE FROM tb_user_test WHERE user_id = #{users.userId} AND category_id = #{categories.idCategory}
 	</delete>
@@ -55,5 +59,13 @@
 	<select id="saveTest" resultMap="resultTestUser">
 		INSERT INTO tb_user_test(user_id,category_id) VALUES(#{users.userId},#{categories.idCategory})
 	</select>
+	
+	<update id="updateStartTest">
+		UPDATE tb_user_test SET started = #{started}, status = #{status} WHERE id = #{testId}
+	</update>
+	
+	<update id="updateEndTest">
+		UPDATE tb_user_test SET ended = #{ended}, score = #{score} WHERE id = #{testId}
+	</update>
 	
 </mapper>

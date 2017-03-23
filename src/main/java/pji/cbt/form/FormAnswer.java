@@ -5,12 +5,18 @@ import java.util.List;
 import pji.cbt.entities.Category;
 
 public class FormAnswer {
-
-	private Category category;
 	
-	private String startTest;
+	private int testId;
 	
 	private List<String> choices;
+
+	public int getTestId() {
+		return testId;
+	}
+
+	public void setTestId(int testId) {
+		this.testId = testId;
+	}
 
 	public List<String> getChoices() {
 		return choices;
@@ -18,22 +24,6 @@ public class FormAnswer {
 
 	public void setChoices(List<String> choice) {
 		this.choices = choice;
-	}
-	
-	public String getStartTest() {
-		return startTest;
-	}
-
-	public void setStartTest(String startTest) {
-		this.startTest = startTest;
-	}
-
-	public Category getCategory() {
-		return category;
-	}
-
-	public void setCategory(Category category) {
-		this.category = category;
 	}
 	
 }
