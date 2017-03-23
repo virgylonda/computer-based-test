@@ -45,4 +45,8 @@
 		INSERT INTO tb_answer (question_id, ordering, answer, correct_answer) values (#{questionAnswer.idQuestion},(SELECT count(ordering)+1 FROM tb_answer WHERE question_id = #{questionAnswer.idQuestion}),#{answer},#{correctAnswer})
 	</insert>
 	
+	<update id='editAnswer'>
+	    UPDATE tb_answer SET answer = #{answer}, correct_answer = #{correctAnswer} WHERE id = #{idAnswer}
+	</update>
+	
 </mapper>

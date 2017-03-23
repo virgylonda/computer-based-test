@@ -44,8 +44,9 @@
 								<div class="col-lg-8">
 									<div class="alert alert-danger" th:if="${msg != null}"
 										th:text="${msg != null ? msg : '' }"></div>
-									<form action="/tester/edit/save" method="post">
+									<form action="/tester/question/edit/save" method="post">
 										<div class="form-group">
+											<input type="hidden" th:attr ="value=${dataedit.question.idQuestion}" name="question.idQuestion"/> 
 											<label>Question</label>
 											<textarea class="form-control" placeholder="Enter Question" name="question.question" required="required" th:text="${dataedit.question != null ? dataedit.question.question : '' }"></textarea>
 										</div>
@@ -54,6 +55,7 @@
                                             <div class="radio" th:each="answer,iterationStatus : ${dataedit.answers}">
                                                 <label>
                                                     <input type="radio" name="choice" id="optionsRadios1" th:attr="value=${iterationStatus.count-1}, checked=${answer.correctAnswer}"/>
+                                                    <input type="hidden" th:attr="value=${answer.idAnswer}, name=${'answers['+(iterationStatus.count-1)+'].idAnswer'}"/>
                                                     <input class="form-control" th:attr="value=${answer.answer}, name=${'answers['+(iterationStatus.count-1)+'].answer'}"/>
                                                 </label>
                                             </div>

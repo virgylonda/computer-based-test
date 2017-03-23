@@ -202,6 +202,23 @@ public class TesterController {
 			return "formeditquestion";
 		}
 		
+		@RequestMapping(path = "/question/edit/save", method = RequestMethod.POST)
+		public String EditSaveQuestion(FormQuestion formQuestion, Model model) {	
+			int choice = Integer.valueOf(formQuestion.getChoice());
+			quesSvc.editQuestion(formQuestion.getQuestion());
+			int i = 0;
+			for(Answer answer : formQuestion.getAnswers()){
+				if(choice==i){
+					answer.setCorrectAnswer(true);
+				} else {
+					answer.setCorrectAnswer(false);
+				}
+				ansSvc.editAnswer(answer);
+				i++;
+			}
+			return "redirect:/tester/dashboard";
+		}
+		
 		@RequestMapping(path = "/createnewquestion/save", method = RequestMethod.POST)
 		public String saveNewQuestion(FormQuestion formQuestion, Model model) {
 			int choice = Integer.valueOf(formQuestion.getChoice());

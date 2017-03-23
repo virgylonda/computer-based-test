@@ -42,5 +42,11 @@ public class QuestionServiceImp implements QuestionService {
 		qMapper.createQuestion(question);
 	}
 
+	@Override
+	public void editQuestion(Question question) {
+		qMapper.editQuestion(question);
+		
+	}
+
 	
 }

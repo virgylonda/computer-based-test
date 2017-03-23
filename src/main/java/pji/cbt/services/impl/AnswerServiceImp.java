@@ -39,4 +39,10 @@ public class AnswerServiceImp implements AnswerService {
 	public List<Answer> findAnswerByQuestion(int idQuestion) {
 		return aMapper.findAnswerByQuestion(idQuestion);
 	}
+
+	@Override
+	public void editAnswer(Answer answer) {
+		aMapper.editAnswer(answer);
+		
+	}
 }

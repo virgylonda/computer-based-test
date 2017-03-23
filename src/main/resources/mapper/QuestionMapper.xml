@@ -41,4 +41,8 @@
 		INSERT INTO tb_question (category_id, ordering, question) values (#{category.idCategory},(SELECT count(ordering)+1 FROM tb_question WHERE category_id = #{category.idCategory}),#{question})
 	</insert>
 	
+	<update id='editQuestion'>
+	    UPDATE tb_question SET question = #{question} WHERE id = #{idQuestion}
+	</update>
+	
 </mapper>

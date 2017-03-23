@@ -13,6 +13,8 @@ public interface QuestionService {
 	public void deleteQuestion(int idQuestion);
 	
 	public void createQuestion(Question question);
+
+	public void editQuestion(Question question);
 	
 	public List<Question> findAllQuestionByCategory(int idCategory);
 }

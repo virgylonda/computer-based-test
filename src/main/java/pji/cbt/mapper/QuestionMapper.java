@@ -17,5 +17,7 @@ public interface QuestionMapper {
 	
 	public void createQuestion(Question question);
 	
+	public void editQuestion(Question question);
+	
 	public List<Question> findAllQuestionByCategory(int idCategory);
 }
