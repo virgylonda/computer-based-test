@@ -21,6 +21,8 @@ public interface TestUserMapper {
 	
 	public void deleteByIdUserAndIdCategory(TestUser testUser);
 	
+	public void deleteByIdUserAndStatus(int userId);
+	
 	public void updateStartTest(TestUser testUser);
 	
 	public void updateEndTest(TestUser testUser);

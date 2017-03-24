@@ -20,5 +20,7 @@ public interface TestUserService {
 	
 	public void updateStartTest(TestUser testUser);
 	
+	public void deleteByIdUserAndStatus(int userId);
+	
 	public void updateEndTest(TestUser testUser);
 }

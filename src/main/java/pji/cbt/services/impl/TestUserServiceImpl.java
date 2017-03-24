@@ -56,4 +56,9 @@ public class TestUserServiceImpl implements TestUserService {
 		uMapper.updateEndTest(testUser);
 	}
 
+	@Override
+	public void deleteByIdUserAndStatus(int userId) {
+		uMapper.deleteByIdUserAndStatus(userId);
+	}
+
 }
