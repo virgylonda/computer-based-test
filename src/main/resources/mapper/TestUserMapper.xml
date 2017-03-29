@@ -24,8 +24,8 @@
 		<result property="ended" column="ended"/>
 		<result property="status" column="status"/>
 		<result property="score" column="score"/>
-		<association property="users"  resultMap="resultUser" />
-		<association property="categories"  resultMap="resultCategory" />
+		<association property="users" column="user_id"  resultMap="resultUser" />
+		<association property="categories" column="category_id" resultMap="resultCategory" />
 	</resultMap>
 	
 	<resultMap type="pji.cbt.entities.Category" id="resultCategory">
@@ -54,6 +54,10 @@
 	
 	<delete id="deleteByIdUserAndIdCategory">
 		DELETE FROM tb_user_test WHERE user_id = #{users.userId} AND category_id = #{categories.idCategory}
+	</delete>
+	
+	<delete id="deleteByIdUserAndStatus">
+		DELETE FROM tb_user_test WHERE user_id = #{userId} AND status = 'Not yet'
 	</delete>
 		
 	<select id="saveTest" resultMap="resultTestUser">
