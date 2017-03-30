@@ -202,6 +202,24 @@ public class TesterController {
 			return "formeditquestion";
 		}
 		
+		@RequestMapping(path = "/question/deletequestion/{id}/{idQuestion}", method=RequestMethod.GET)
+		public String deleteQuestion(@PathVariable int id,@PathVariable int idQuestion, RedirectAttributes redirectAttributes, Model model) {
+			Question question = quesSvc.findOneQuestion(idQuestion);
+			Category category = new Category();
+			category.setIdCategory(id);
+			question.setCategory(category);
+			try {
+				this.quesSvc.deleteQuestion(idQuestion);
+				this.quesSvc.updateOrderingQuestion(question.getCategory().getIdCategory(),question.getOrderingQuestion());
+			} catch (Exception ex) {
+				redirectAttributes.addFlashAttribute("msgerror", "Fail to delete question!!");
+				return "redirect:/tester/question/list/{id}";
+			}
+			redirectAttributes.addFlashAttribute("msgsuccess", "Success to delete question!!");
+			System.out.println("xxxxx");
+			return "redirect:/tester/question/list/{id}";
+		}
+		
 		@RequestMapping(path = "/question/edit/save", method = RequestMethod.POST)
 		public String EditSaveQuestion(FormQuestion formQuestion, Model model) {	
 			int choice = Integer.valueOf(formQuestion.getChoice());

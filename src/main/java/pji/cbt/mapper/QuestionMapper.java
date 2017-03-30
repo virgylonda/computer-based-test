@@ -16,6 +16,8 @@ public interface QuestionMapper {
 	
 	public Question findAllQuestionByCategoryLimit(@Param("idCategory")int idCategory,@Param("limit") int limit,@Param("offset") int offset);
 	
+	public void updateOrderingQuestion(@Param("category") int category, @Param("ordering") int ordering);
+	
 	public void deleteQuestion(int idQuestion);
 	
 	public void createQuestion(Question question);

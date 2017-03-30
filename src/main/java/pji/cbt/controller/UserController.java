@@ -138,6 +138,7 @@ public class UserController {
 		}
 		FormQuestion formQuestion = new FormQuestion();
 		formQuestion.setQuestion(question);
+		System.out.println(question.getIdQuestion());
 		List<Answer> answers = ansSvc.findAnswerByQuestion(question.getIdQuestion());
 		formQuestion.setAnswers(answers);
 		formQuestion.setCategory(category);

@@ -5,24 +5,24 @@
 <mapper namespace="pji.cbt.mapper.QuestionMapper">
 	
 	<resultMap type="pji.cbt.entities.Question" id="resultQuestion">
-		<id property="idQuestion" column="id"/>
+		<id property="idQuestion" column="idQuestion"/>
 		<result property="orderingQuestion" column="ordering"/>
 		<result property="question" column="question"/>
 		<association property="category" column="category_id" resultMap="resultCategory"/>
 	</resultMap>
 	
 	<resultMap type="pji.cbt.entities.Category" id="resultCategory">
-		<id property="idCategory" column="id"/>
+		<id property="idCategory" column="id_category"/>
 		<result property="questionCategory" column="question_category"/>
 		<result property="description" column="description"/>
 	</resultMap>
 
 	<select id="findAllCategory" resultMap="resultCategory">
-		SELECT * FROM tb_question_category
+		SELECT c.id AS id_category, c.* FROM tb_question_category c
 	</select>
 	
 	<select id="findAllQuestion" resultMap="resultQuestion">
-		SELECT * FROM tb_question
+		SELECT q.id AS idQuestion, q.* FROM tb_question q
 	</select>
 	
 	<select id="deleteQuestion" parameterType="int" flushCache="true" statementType="PREPARED">
@@ -30,15 +30,15 @@
 	</select>
 	
 	<select  id="findOneQuestion" resultMap="resultQuestion">
-		SELECT * FROM tb_question WHERE id = #{idQuestion}
+		SELECT q.id AS idQuestion, q.* FROM tb_question q WHERE q.id = #{idQuestion}
 	</select>
 	
 	<select  id="findAllQuestionByCategory" resultMap="resultQuestion">
-		SELECT * FROM tb_question WHERE category_id = #{idCategory}
+		SELECT q.id AS idQuestion, q.* FROM tb_question q WHERE q.category_id = #{idCategory}
 	</select>
 	
 	<select  id="findAllQuestionByCategoryLimit" resultMap="resultQuestion">
-		SELECT * FROM tb_question WHERE category_id = #{idCategory} LIMIT #{limit} OFFSET #{offset}
+		SELECT q.id AS idQuestion, q.* FROM tb_question q WHERE q.category_id = #{idCategory} LIMIT #{limit} OFFSET #{offset}
 	</select>
 	
 	<insert id="createQuestion" parameterType="pji.cbt.entities.Question" flushCache="true" statementType="PREPARED" useGeneratedKeys="true" keyProperty="idQuestion" keyColumn="id">
@@ -47,6 +47,10 @@
 	
 	<update id='editQuestion'>
 	    UPDATE tb_question SET question = #{question} WHERE id = #{idQuestion}
+	</update>
+	
+	<update id='updateOrderingQuestion'>
+	    UPDATE tb_question SET ordering = ordering-1 WHERE category_id = #{category} AND ordering > #{ordering}
 	</update>
 	
 </mapper>
