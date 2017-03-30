@@ -3,6 +3,7 @@ package pji.cbt.mapper;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import pji.cbt.entities.Question;
 
@@ -12,6 +13,8 @@ public interface QuestionMapper {
 	public List<Question> findAllQuestion();
 	
 	public Question findOneQuestion(int idQuestion);
+	
+	public Question findAllQuestionByCategoryLimit(@Param("idCategory")int idCategory,@Param("limit") int limit,@Param("offset") int offset);
 	
 	public void deleteQuestion(int idQuestion);
 	

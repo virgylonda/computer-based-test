@@ -10,6 +10,8 @@ public interface QuestionService {
 	
 	public Question findOneQuestion(int idQuestion);
 	
+	public Question findAllQuestionByCategoryLimit(int idCategory, int limit, int offset);
+	
 	public void deleteQuestion(int idQuestion);
 	
 	public void createQuestion(Question question);

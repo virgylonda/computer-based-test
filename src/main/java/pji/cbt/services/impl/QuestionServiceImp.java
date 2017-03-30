@@ -48,5 +48,10 @@ public class QuestionServiceImp implements QuestionService {
 		
 	}
 
+	@Override
+	public Question findAllQuestionByCategoryLimit(int idCategory, int limit, int offset) {
+		return qMapper.findAllQuestionByCategoryLimit(idCategory, limit, offset);
+	}
+
 	
 }

@@ -1,7 +1,6 @@
 package pji.cbt.controller;
 
 import java.sql.Timestamp;
-import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -29,7 +28,6 @@ import pji.cbt.entities.User;
 import pji.cbt.form.FormAnswer;
 import pji.cbt.form.FormQuestion;
 import pji.cbt.services.AnswerService;
-import pji.cbt.services.CategoryService;
 import pji.cbt.services.QuestionService;
 import pji.cbt.services.TestUserService;
 import pji.cbt.services.UserService;
@@ -55,9 +53,13 @@ public class UserController {
 
 	@Autowired
 	private UserService userSvc;
-
-	@Autowired
-	private CategoryService ctgSvc;
+	
+	public double calculateScore(double point, double quest ){
+		double score = point/quest*100;
+		score = Math.round(score * 100);
+		score = score/100;
+		return score;
+	}
 
 	@RequestMapping(path = "/dashboard", method = RequestMethod.GET)
 	public String userPage(HttpServletRequest request, Model Model, Authentication authentication) {
@@ -119,9 +121,9 @@ public class UserController {
 	}
 
 	@RequestMapping(path = "/test/dotest", method = RequestMethod.POST)
-	public String doTest(Category category, TestUser testUser, Model model, Timestamp timestamp) {
+	public String doTest(Category category, FormAnswer formAnswer, TestUser testUser, Model model, int init,Timestamp timestamp) {
 		timestamp = new Timestamp(System.currentTimeMillis());
-		List<Question> questions = queSvc.findAllQuestionByCategory(category.getIdCategory());
+		Question question = queSvc.findAllQuestionByCategoryLimit(category.getIdCategory(),1,init-1);
 		String startTest = sdf.format(timestamp);
 		try {
 			Date date = sdf.parse(startTest);
@@ -130,23 +132,25 @@ public class UserController {
 			e.printStackTrace();
 		}
 		testUser.setStatus("Done");
-		List<FormQuestion> formQuestions = new ArrayList<FormQuestion>();
-		tstSvc.updateStartTest(testUser);
-		for (Question question : questions) {
-			FormQuestion formQuestion = new FormQuestion();
-			formQuestion.setQuestion(question);
-			List<Answer> answers = ansSvc.findAnswerByQuestion(question.getIdQuestion());
-			formQuestion.setAnswers(answers);
-			formQuestion.setCategory(category);
-			formQuestions.add(formQuestion);
+		TestUser testUser2 = tstSvc.findUserTestById(testUser.getTestId());
+		if(testUser2.getStarted()==null){	
+			tstSvc.updateStartTest(testUser);
 		}
+		FormQuestion formQuestion = new FormQuestion();
+		formQuestion.setQuestion(question);
+		List<Answer> answers = ansSvc.findAnswerByQuestion(question.getIdQuestion());
+		formQuestion.setAnswers(answers);
+		formQuestion.setCategory(category);
+		
+		model.addAttribute("init", init);
+		model.addAttribute("category", category.getIdCategory());
 		model.addAttribute("idTest", testUser.getTestId());
-		model.addAttribute("data", formQuestions);
+		model.addAttribute("data", formQuestion);
 		return "formtest";
 	}
 
 	@RequestMapping(path = "/test/save", method=RequestMethod.POST)
-	public String saveTest(FormAnswer formAnswer, HttpServletRequest request, Model model, Timestamp timestamp) {
+	public String saveTest(FormAnswer formAnswer, int init, Model model, Timestamp timestamp) {
 		timestamp = new Timestamp(System.currentTimeMillis());
 		TestUser testUser = new TestUser();
 		testUser.setTestId(formAnswer.getTestId());
@@ -164,11 +168,9 @@ public class UserController {
 					point++;
 				}
 			}
-		double score = point/quest*100;
-		score = Math.round(score * 100);
-		score = score/100;
-		testUser.setScore(score);
+		testUser.setScore(calculateScore(point, quest));
 		tstSvc.updateEndTest(testUser);
 		return "redirect:/user/test/list";
 	}
+	
 }

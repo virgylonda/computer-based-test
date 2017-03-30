@@ -46,19 +46,20 @@
 								<div class="col-lg-8">
 									<div class="alert alert-danger" th:if="${msg != null}"
 										th:text="${msg != null ? msg : '' }"></div>
-									<form action="/user/test/save" method="post">
+									<form action="/user/test/dotest" method="post">
+										<input type="hidden" name="init" id="init" th:attr="value=${init}" />
+										<input type="hidden" name="idCategory" id="init" th:attr="value=${category}" />
 										<input type="hidden" name="testId" th:attr="value=${idTest}" />
-										<div class="form-group"
-											th:each="test, iterationStatus : ${data}">
+										<div class="form-group">
 											<label>Question</label>
 											<textarea readonly="readonly" class="form-control"
 												placeholder="Enter Question" required="required"
-												th:text="${test.question !=null ? test.question.question : '' }"></textarea>
+												th:text="${data.question !=null ? data.question.question : '' }"></textarea>
 											<div class="form-group">
 												<label>Answer</label>
-												<div class="radio" th:each="choiceanswer : ${test.answers}">
-													<label> <input type="radio" id="optionsRadios1"
-														th:attr="name=${'choices['+(iterationStatus.count-1)+']'}, value=${choiceanswer.correctAnswer !=null ? choiceanswer.correctAnswer : '' }" />
+												<div class="radio" th:each="choiceanswer : ${data.answers}">
+													<label> 
+														<input type="radio" id="optionsRadios1" name="choices" th:attr="value=${choiceanswer.correctAnswer !=null ? choiceanswer.correctAnswer : '' }"/>
 														<input disabled="disabled" class="form-control"
 														style="border: 0px; background-color: white"
 														th:attr="value=${choiceanswer.answer !=null ? choiceanswer.answer : '' }" />
@@ -67,9 +68,15 @@
 											</div>
 										</div>
 										<!-- Trigger the modal with a button -->
-										<button type="button" class="btn btn-info btn-lg"
-											data-toggle="modal" data-target="#myModal">Finish</button>
-
+										<ul class="pager">
+                    						<li class="previous pull-left">
+												<button th:if="${init!=1}" type="submit" class="btn btn-default" onclick="DoBack()">&lt; Back</button>
+												<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">Finish</button>
+											</li>
+											<li class="next pull-right">
+												<button type="submit" class="btn btn-default" onclick="DoNext()">Next &gt;</button>
+											</li>
+										</ul>
 										<!-- Modal -->
 										<div id="myModal" class="modal fade" role="dialog">
 											<div class="modal-dialog">
@@ -124,6 +131,22 @@
 
 	<!-- Page-Level Demo Scripts - Dashboard - Use for reference -->
 	<script src="/asset/js/demo/dashboard-demo.js"></script>
+	
+	<script>
+		function DoBack(){
+			var x = parseInt(document.getElementById("init").value)
+		  		document.getElementById("init").value = x-1;
+		  		return true;
+		};
+		function DoNext(){
+			var x = parseInt(document.getElementById("init").value)
+			  document.getElementById("init").value = x+1;
+			  return true;
+		}
+	</script>
+	<script>
+		
+	</script>
 
 </body>
 

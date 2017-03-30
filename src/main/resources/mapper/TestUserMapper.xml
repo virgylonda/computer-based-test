@@ -52,6 +52,10 @@
 		SELECT c.id, c.question_category, c.description, t.id AS testId, t.status FROM tb_question_category c JOIN tb_user_test t ON c.id=t.category_id WHERE t.user_id = #{user.userId} ORDER BY c.question_category
 	</select>
 	
+	<select id="findUserTestById" resultMap="resultTestUser">
+		SELECT t.started, t.ended, t.score, t.status FROM tb_user_test t WHERE t.id = #{testId}
+	</select>
+	
 	<delete id="deleteByIdUserAndIdCategory">
 		DELETE FROM tb_user_test WHERE user_id = #{users.userId} AND category_id = #{categories.idCategory}
 	</delete>

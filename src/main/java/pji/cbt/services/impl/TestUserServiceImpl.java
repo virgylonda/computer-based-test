@@ -61,4 +61,9 @@ public class TestUserServiceImpl implements TestUserService {
 		uMapper.deleteByIdUserAndStatus(userId);
 	}
 
+	@Override
+	public TestUser findUserTestById(int testId) {
+		return uMapper.findUserTestById(testId);
+	}
+
 }

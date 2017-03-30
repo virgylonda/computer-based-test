@@ -10,6 +10,8 @@ public interface TestUserService {
 	
 	public List<TestUser> findTestHaveAssign(int userId);
 	
+	public TestUser findUserTestById(int testId);
+	
 	public void saveTest(TestUser testUser);
 	
 	public List<TestUser> findUserSummaryScore();
