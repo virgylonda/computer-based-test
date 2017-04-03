@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import ch.qos.logback.core.net.SyslogOutputStream;
 import pji.cbt.entities.Answer;
 import pji.cbt.entities.Category;
 import pji.cbt.entities.Question;
@@ -44,7 +45,7 @@ public class UserController {
 
 	@Autowired
 	private TestUserService tstSvc;
-
+	
 	@Autowired
 	private QuestionService queSvc;
 
@@ -121,9 +122,30 @@ public class UserController {
 	}
 
 	@RequestMapping(path = "/test/dotest", method = RequestMethod.POST)
-	public String doTest(Category category, FormAnswer formAnswer, TestUser testUser, Model model, int init,Timestamp timestamp) {
+	public String doTest(HttpServletRequest request, Category category, FormAnswer formAnswer, TestUser testUser, Model model, int init, Timestamp timestamp) {
 		timestamp = new Timestamp(System.currentTimeMillis());
-		Question question = queSvc.findAllQuestionByCategoryLimit(category.getIdCategory(),1,init-1);
+		Question ques = queSvc.findCountQuestion(category.getIdCategory());
+		Question question = queSvc.findAllQuestionByCategoryLimit(category.getIdCategory(),1,init);
+
+		if(request.getSession().getAttribute("answer")==null){
+			session = request.getSession();
+			List<FormAnswer> frmAnswers = new ArrayList<FormAnswer>();
+			for (int i = 0; i < ques.getOrderingQuestion(); i++) {
+				FormAnswer formAnswerer = new FormAnswer();
+				frmAnswers.add(formAnswerer);
+			}
+			session.setAttribute("answer", frmAnswers);
+		} else {
+			List<FormAnswer> frmAnswers = (List<FormAnswer>) request.getSession().getAttribute("answer");
+			if(formAnswer.getCheckBut().equalsIgnoreCase("next")){
+				frmAnswers.set(init-1, formAnswer);
+			} else if(formAnswer.getCheckBut().equalsIgnoreCase("back")){
+				frmAnswers.set(init+1, formAnswer);
+			}	
+		}
+		
+		List<FormAnswer> frmAnswers = (List<FormAnswer>) request.getSession().getAttribute("answer");
+		
 		String startTest = sdf.format(timestamp);
 		try {
 			Date date = sdf.parse(startTest);
@@ -138,7 +160,6 @@ public class UserController {
 		}
 		FormQuestion formQuestion = new FormQuestion();
 		formQuestion.setQuestion(question);
-		System.out.println(question.getIdQuestion());
 		List<Answer> answers = ansSvc.findAnswerByQuestion(question.getIdQuestion());
 		formQuestion.setAnswers(answers);
 		formQuestion.setCategory(category);
@@ -147,6 +168,8 @@ public class UserController {
 		model.addAttribute("category", category.getIdCategory());
 		model.addAttribute("idTest", testUser.getTestId());
 		model.addAttribute("data", formQuestion);
+		model.addAttribute("sessionChoice", frmAnswers.get(init).getChoices());
+		model.addAttribute("max", ques.getOrderingQuestion());
 		return "formtest";
 	}
 
@@ -162,14 +185,8 @@ public class UserController {
 		} catch (ParseException e) {
 			e.printStackTrace();
 		}
-		double point=0;
-		double quest = formAnswer.getChoices().size();
-			for(String choice : formAnswer.getChoices()){
-				if(choice.equalsIgnoreCase("true")){
-					point++;
-				}
-			}
-		testUser.setScore(calculateScore(point, quest));
+		
+		//testUser.setScore(calculateScore(point, quest));
 		tstSvc.updateEndTest(testUser);
 		return "redirect:/user/test/list";
 	}

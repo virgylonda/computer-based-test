@@ -18,6 +18,8 @@ public interface QuestionMapper {
 	
 	public void updateOrderingQuestion(@Param("category") int category, @Param("ordering") int ordering);
 	
+	public Question findCountQuestion(int idCategory);
+	
 	public void deleteQuestion(int idQuestion);
 	
 	public void createQuestion(Question question);

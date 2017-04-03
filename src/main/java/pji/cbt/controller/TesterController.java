@@ -143,16 +143,21 @@ public class TesterController {
 			return "redirect:../list";
 		}
 		
-		@RequestMapping(path = "/question/delete/{id}", method=RequestMethod.GET)
-		public String deleteQuestion(@PathVariable long id, RedirectAttributes redirectAttributes, Model model) {
+		@RequestMapping(path = "/question/delete/{category}/{id}", method=RequestMethod.GET)
+		public String deleteQuestion(@PathVariable int id, @PathVariable int category, RedirectAttributes redirectAttributes, Model model) {
+			Question question = quesSvc.findOneQuestion(id);
+			Category categories = new Category();
+			categories.setIdCategory(category);
+			question.setCategory(categories);
 			try {
-				this.ctgSvc.deleteOne(id);
+				this.quesSvc.deleteQuestion(id);
+				this.quesSvc.updateOrderingQuestion(question.getCategory().getIdCategory(), question.getOrderingQuestion());
 			} catch (Exception ex) {
-				redirectAttributes.addFlashAttribute("msgerror", "Fail to delete category!!");
-				return "redirect:../list";
+				redirectAttributes.addFlashAttribute("msgerror", "Fail to delete question!!");
+				return "redirect:/tester/question/list/{category}";
 			}
-			redirectAttributes.addFlashAttribute("msgsuccess", "Success to delete category!!");
-			return "redirect:../list";
+			redirectAttributes.addFlashAttribute("msgsuccess", "Success to delete question!!");
+			return "redirect:/tester/question/list/{category}";
 		}
 		
 		@RequestMapping(path = "/category/edit/{id}", method=RequestMethod.GET)
@@ -200,24 +205,6 @@ public class TesterController {
 			formQuestion.setAnswers(answers);
 			model.addAttribute("dataedit", formQuestion);
 			return "formeditquestion";
-		}
-		
-		@RequestMapping(path = "/question/deletequestion/{id}/{idQuestion}", method=RequestMethod.GET)
-		public String deleteQuestion(@PathVariable int id,@PathVariable int idQuestion, RedirectAttributes redirectAttributes, Model model) {
-			Question question = quesSvc.findOneQuestion(idQuestion);
-			Category category = new Category();
-			category.setIdCategory(id);
-			question.setCategory(category);
-			try {
-				this.quesSvc.deleteQuestion(idQuestion);
-				this.quesSvc.updateOrderingQuestion(question.getCategory().getIdCategory(),question.getOrderingQuestion());
-			} catch (Exception ex) {
-				redirectAttributes.addFlashAttribute("msgerror", "Fail to delete question!!");
-				return "redirect:/tester/question/list/{id}";
-			}
-			redirectAttributes.addFlashAttribute("msgsuccess", "Success to delete question!!");
-			System.out.println("xxxxx");
-			return "redirect:/tester/question/list/{id}";
 		}
 		
 		@RequestMapping(path = "/question/edit/save", method = RequestMethod.POST)

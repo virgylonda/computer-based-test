@@ -49,7 +49,9 @@
 									<form action="/user/test/dotest" method="post">
 										<input type="hidden" name="init" id="init" th:attr="value=${init}" />
 										<input type="hidden" name="idCategory" id="init" th:attr="value=${category}" />
+										<input type="hidden" name="checkBut" id="checkBut"/>
 										<input type="hidden" name="testId" th:attr="value=${idTest}" />
+										<input type="hidden" name="questionId" th:attr="value=${data.question.idQuestion}" />
 										<div class="form-group">
 											<label>Question</label>
 											<textarea readonly="readonly" class="form-control"
@@ -59,7 +61,7 @@
 												<label>Answer</label>
 												<div class="radio" th:each="choiceanswer : ${data.answers}">
 													<label> 
-														<input type="radio" id="optionsRadios1" name="choices" th:attr="value=${choiceanswer.correctAnswer !=null ? choiceanswer.correctAnswer : '' }"/>
+														<input type="radio" id="optionsRadios1" name="choices" th:attr="value=${choiceanswer.idAnswer !=null ? choiceanswer.idAnswer : '' }" th:checked="${choiceanswer.idAnswer==sessionChoice ? 'true':'false'}" />
 														<input disabled="disabled" class="form-control"
 														style="border: 0px; background-color: white"
 														th:attr="value=${choiceanswer.answer !=null ? choiceanswer.answer : '' }" />
@@ -70,11 +72,11 @@
 										<!-- Trigger the modal with a button -->
 										<ul class="pager">
                     						<li class="previous pull-left">
-												<button th:if="${init!=1}" type="submit" class="btn btn-default" onclick="DoBack()">&lt; Back</button>
-												<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">Finish</button>
+												<button th:if="${init!=0}" type="submit" class="btn btn-default" onclick="DoBack()">&lt; Back</button>
 											</li>
 											<li class="next pull-right">
-												<button type="submit" class="btn btn-default" onclick="DoNext()">Next &gt;</button>
+												<button th:if="${init==max-1}" type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">Finish</button>
+												<button th:if="${init!=max-1}" type="submit" class="btn btn-default" onclick="DoNext()">Next &gt;</button>
 											</li>
 										</ul>
 										<!-- Modal -->
@@ -136,11 +138,13 @@
 		function DoBack(){
 			var x = parseInt(document.getElementById("init").value)
 		  		document.getElementById("init").value = x-1;
+				document.getElementById("checkBut").value = "back";
 		  		return true;
 		};
 		function DoNext(){
 			var x = parseInt(document.getElementById("init").value)
 			  document.getElementById("init").value = x+1;
+			  document.getElementById("checkBut").value = "next";
 			  return true;
 		}
 	</script>

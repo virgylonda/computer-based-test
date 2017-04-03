@@ -75,7 +75,7 @@
 												th:text="${question != null ? iterationStatus.count : '' }" />
 											<td th:text="${question != null ? question.question : '' }" />
 											<td>
-												<a th:href="|/tester/question/deletequestion/${id}/${question.idQuestion}|"><button type="button" class="btn btn-danger btn-xs">Delete</button></a>
+												<a th:href="|/tester/question/delete/${id}/${question.idQuestion}|"><button type="button" class="btn btn-danger btn-xs">Delete</button></a>
 												<a th:href="|/tester/question/edit/${question.idQuestion}|"><button type="button" class="btn btn-warning btn-xs">Edit</button></a>
 											</td>
 										</tr>

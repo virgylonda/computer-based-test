@@ -54,10 +54,15 @@ public class QuestionServiceImp implements QuestionService {
 	}
 
 	@Override
-	public void updateOrderingQuestion(int category, int ordering) {
-		qMapper.updateOrderingQuestion(category, ordering);
-		
+	public Question findCountQuestion(int idCategory) {
+		return qMapper.findCountQuestion(idCategory);
 	}
 
+	@Override
+	public void updateOrderingQuestion(int category, int ordering) {
+		qMapper.updateOrderingQuestion(category, ordering);
+	}
+
+	
 	
 }

@@ -5,24 +5,24 @@
 <mapper namespace="pji.cbt.mapper.QuestionMapper">
 	
 	<resultMap type="pji.cbt.entities.Question" id="resultQuestion">
-		<id property="idQuestion" column="idQuestion"/>
+		<id property="idQuestion" column="id"/>
 		<result property="orderingQuestion" column="ordering"/>
 		<result property="question" column="question"/>
 		<association property="category" column="category_id" resultMap="resultCategory"/>
 	</resultMap>
 	
 	<resultMap type="pji.cbt.entities.Category" id="resultCategory">
-		<id property="idCategory" column="id_category"/>
+		<id property="idCategory" column="id"/>
 		<result property="questionCategory" column="question_category"/>
 		<result property="description" column="description"/>
 	</resultMap>
 
 	<select id="findAllCategory" resultMap="resultCategory">
-		SELECT c.id AS id_category, c.* FROM tb_question_category c
+		SELECT * FROM tb_question_category
 	</select>
 	
 	<select id="findAllQuestion" resultMap="resultQuestion">
-		SELECT q.id AS idQuestion, q.* FROM tb_question q
+		SELECT * FROM tb_question
 	</select>
 	
 	<select id="deleteQuestion" parameterType="int" flushCache="true" statementType="PREPARED">
@@ -30,15 +30,19 @@
 	</select>
 	
 	<select  id="findOneQuestion" resultMap="resultQuestion">
-		SELECT q.id AS idQuestion, q.* FROM tb_question q WHERE q.id = #{idQuestion}
+		SELECT * FROM tb_question WHERE id = #{idQuestion}
 	</select>
 	
 	<select  id="findAllQuestionByCategory" resultMap="resultQuestion">
-		SELECT q.id AS idQuestion, q.* FROM tb_question q WHERE q.category_id = #{idCategory}
+		SELECT * FROM tb_question WHERE category_id = #{idCategory}
 	</select>
 	
 	<select  id="findAllQuestionByCategoryLimit" resultMap="resultQuestion">
-		SELECT q.id AS idQuestion, q.* FROM tb_question q WHERE q.category_id = #{idCategory} LIMIT #{limit} OFFSET #{offset}
+		SELECT * FROM tb_question WHERE category_id = #{idCategory}  ORDER BY ordering LIMIT #{limit} OFFSET #{offset}
+	</select>
+	
+	<select  id="findCountQuestion" resultMap="resultQuestion">
+		SELECT COUNT(ordering) AS ordering FROM tb_question WHERE category_id = #{idCategory}
 	</select>
 	
 	<insert id="createQuestion" parameterType="pji.cbt.entities.Question" flushCache="true" statementType="PREPARED" useGeneratedKeys="true" keyProperty="idQuestion" keyColumn="id">

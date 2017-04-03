@@ -1,14 +1,22 @@
- package pji.cbt.form;
-
-import java.util.List;
-
-import pji.cbt.entities.Category;
+package pji.cbt.form;
 
 public class FormAnswer {
 	
+	private int questionId;
+	
 	private int testId;
 	
-	private List<String> choices;
+	private int choices;
+	
+	private String checkBut;
+	
+	public int getQuestionId() {
+		return questionId;
+	}
+
+	public void setQuestionId(int questionId) {
+		this.questionId = questionId;
+	}
 
 	public int getTestId() {
 		return testId;
@@ -18,12 +26,20 @@ public class FormAnswer {
 		this.testId = testId;
 	}
 
-	public List<String> getChoices() {
+	public int getChoices() {
 		return choices;
 	}
 
-	public void setChoices(List<String> choice) {
+	public void setChoices(int choice) {
 		this.choices = choice;
+	}
+
+	public String getCheckBut() {
+		return checkBut;
+	}
+
+	public void setCheckBut(String checkBut) {
+		this.checkBut = checkBut;
 	}
 	
 }
