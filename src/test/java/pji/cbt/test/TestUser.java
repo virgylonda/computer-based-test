@@ -1,6 +1,10 @@
 package pji.cbt.test;
 
 import static org.junit.Assert.*;
+
+import java.util.ArrayList;
+import java.util.List;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,7 +22,39 @@ public class TestUser {
 	private UserService userSvc;
 	
 	@Test
-	public void createNewUserReturnNewUser() {
+	public void findAllUser_Return_AllUser() {
+		//Arrange				
+		List<User> users = new ArrayList<User>();
+		
+		//Act
+		users = userSvc.findAllUser(2);
+		
+		//Assert
+		for(User user : users){
+			assertEquals(user.getRoles().getRoleId(),2);
+			System.out.println(user.getUsername());
+		}
+	}
+	
+	@Test
+	public void findOneUserById_Return_IdUser() {
+		//Arrange		
+		Roles role = userSvc.findRoleById(2);
+		User user = new User("firdaus","$2a$10$Qc8EukKJ0YNH6gZttbK1nOO3vBBNDceY2owV04KRSpdPTuYLJUtR.","Firadaus","firadaus@gmail.com",role);
+		
+		//Act
+		userSvc.createUser(user);
+		System.out.println(user.getUserId());
+		User userEx = userSvc.findOne(user.getUserId());
+		System.out.println(user.getUserId());
+		System.out.println(user.getUsername());
+		
+		//Assert
+		assertEquals(user.getUserId(),userEx.getUserId());
+	}
+	
+	@Test
+	public void createNewUser_Return_NewUser() {
 		//Arrange
 		Roles role = userSvc.findRoleById(2);
 		User user = new User("zafrul","$2a$10$Qc8EukKJ0YNH6gZttbK1nOO3vBBNDceY2owV04KRSpdPTuYLJUtR.","Muhammad Zafrullah","zafrul@gmail.com",role);
@@ -34,8 +70,12 @@ public class TestUser {
 		assertEquals(user.getEmail(),userEx.getEmail());
 	}
 
+	
+	//
+	
+	
 	@Test
-	public void deleteUserReturnNull() {
+	public void deleteUser_Return_Null() {
 		//Arrange		
 		Roles role = userSvc.findRoleById(2);
 		User user = new User("zafrul12","$2a$10$Qc8EukKJ0YNH6gZttbK1nOO3vBBNDceY2owV04KRSpdPTuYLJUtR.","Muhammad Zafrullah","zafrul@gmail.com",role);
@@ -50,10 +90,28 @@ public class TestUser {
 	}
 	
 	@Test
-	public void updateUserReturnChangeUser() {
+	public void findOneUserByUsername_Return_Username() {
 		//Arrange		
 		Roles role = userSvc.findRoleById(2);
-		User user = new User("zafrul1528735687236","$2a$10$Qc8EukKJ0YNH6gZttbK1nOO3vBBNDceY2owV04KRSpdPTuYLJUtR.","Muh","za@gmail.com",role);
+		User user = new User("ichsan","$2a$10$Qc8EukKJ0YNH6gZttbK1nOO3vBBNDceY2owV04KRSpdPTuYLJUtR.","Ichsan Pribadi","ichsanprivatee.IP@gmail.com",role);
+		
+		//Act
+		userSvc.createUser(user);
+		System.out.println(user.getUserId());
+		User userEx = userSvc.findOneUser(user.getUsername());
+		System.out.println(user.getUsername());
+		System.out.println(user.getUserName());
+		System.out.println(user.getRoles());
+		
+		//Assert
+		assertEquals(user.getUsername(),userEx.getUsername());
+	}
+	
+	@Test
+	public void updateUser_Return_ChangeUser() {
+		//Arrange		
+		Roles role = userSvc.findRoleById(2);
+		User user = new User("zafrulloh","$2a$10$Qc8EukKJ0YNH6gZttbK1nOO3vBBNDceY2owV04KRSpdPTuYLJUtR.","Muh","za@gmail.com",role);
 		String userName = "Muhammad Zafrullah";
 		
 		//Act
@@ -69,10 +127,10 @@ public class TestUser {
 	}
 	
 	@Test
-	public void updateUserPasswordReturnChangeUserPassword() {
+	public void updateUserPassword_Return_ChangeUserPassword() {
 		//Arrange		
 		Roles role = userSvc.findRoleById(2);
-		User user = new User("zafrul9091","$2a$10$Qc8EukKJ0YNH6gZttbK1nOO3vBBNDceY2owV04KRSpdPTuYLJUtR.","MuhZafrullah","zaMuh@gmail.com",role);
+		User user = new User("risky","$2a$10$Qc8EukKJ0YNH6gZttbK1nOO3vBBNDceY2owV04KRSpdPTuYLJUtR.","Risky Miftahull","riski.miftahul@gmail.com",role);
 		String password = "$2a$06$pcFNCQflblU0GizKEsue0etBNqHOgYmDrbVns7adqLp7DfbNhfdJC";
 		
 		//Act
@@ -88,21 +146,7 @@ public class TestUser {
 		assertEquals(password, user.getPassword());
 	}
 	
-	@Test
-	public void findOneUserReturnNumber1() {
-		//Arrange		
-		Roles role = userSvc.findRoleById(2);
-		User user = new User("zafrul554","$2a$10$Qc8EukKJ0YNH6gZttbK1nOO3vBBNDceY2owV04KRSpdPTuYLJUtR.","Muhdiyah","Bravo@gmail.com",role);
-		
-		//Act
-		userSvc.createUser(user);
-		System.out.println(user.getUserId());
-		User userEx = userSvc.findOne(user.getUserId());
-		System.out.println(user.getUsername());
-		System.out.println(user.getUserName());
-		System.out.println(user.getRoles());
-		
-		//Assert
-		assertEquals(user.getUserName(),userEx.getUserName());
-	}
+	
+	//	
+	
 }
