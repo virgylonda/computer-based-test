@@ -17,9 +17,9 @@
 		DELETE FROM tb_question_category WHERE id = #{idCategory}
 	</select>
 	
-	<select id="createCategory" resultMap="resultCategory">
+	<insert id="createCategory" flushCache="true" parameterType="pji.cbt.entities.Category" statementType="PREPARED" useGeneratedKeys="true" keyProperty="idCategory" keyColumn="id">
 		INSERT INTO tb_question_category(question_category,description) VALUES(#{questionCategory}, #{description})
-	</select>
+	</insert>
 
 	<select id="findOneCategory" resultMap="resultCategory">
 		SELECT * FROM tb_question_category WHERE id = #{idCategory}
