@@ -71,7 +71,18 @@ public class TestUser {
 	}
 
 	
-	//
+	@Test
+	public void findRoleUserById_Return_roleId() {
+		//Arrange		
+		Roles role = new Roles();
+		
+		//Act
+		role = userSvc.findRoleById(1);
+		
+		//Assert
+		assertEquals(role.getRoleId(),1);
+		
+	}
 	
 	
 	@Test
@@ -80,6 +91,7 @@ public class TestUser {
 		Roles role = userSvc.findRoleById(2);
 		User user = new User("zafrul12","$2a$10$Qc8EukKJ0YNH6gZttbK1nOO3vBBNDceY2owV04KRSpdPTuYLJUtR.","Muhammad Zafrullah","zafrul@gmail.com",role);
 	
+		//Act
 		userSvc.createUser(user);
 		System.out.println(user.getUserId());
 		userSvc.deleteOne(user.getUserId());
@@ -147,6 +159,23 @@ public class TestUser {
 	}
 	
 	
-	//	
+	@Test
+	public void findRoleAll_Return_RoleAll() {
+		//Arrange				
+		List<Roles> roles = new ArrayList<Roles>();
+		int[] x = {2,3};
+		int i = 0; 
+		
+		//Act
+		roles = userSvc.findRoleAll();
+		
+		//Assert
+		
+		for(Roles role : roles){
+			assertEquals(role.getRoleId(), x[i]);
+			i++;
+			System.out.println(role.getRoleId());
+		}
+	}
 	
 }

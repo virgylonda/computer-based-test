@@ -28,6 +28,10 @@ public class Category implements Serializable {
 	}
 	
 	public Category(){
-		
+	}
+	
+	public Category(String questionCategory, String description){
+		this.questionCategory = questionCategory;
+		this.description = description;
 	}
 }
