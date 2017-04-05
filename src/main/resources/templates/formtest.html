@@ -93,7 +93,7 @@
 														<p>Are you Sure want to finish it?</p>
 													</div>
 													<div class="modal-footer">
-													<button type="submit" class="btn btn-primary">Submit</button>
+													<button type="submit" class="btn btn-primary" onclick="DoFinish()">Submit</button>
 														<button type="button" class="btn btn-default"
 															data-dismiss="modal">Cancel</button>
 													</div>
@@ -145,6 +145,12 @@
 			var x = parseInt(document.getElementById("init").value)
 			  document.getElementById("init").value = x+1;
 			  document.getElementById("checkBut").value = "next";
+			  return true;
+		}
+		function DoFinish(){
+			var x = parseInt(document.getElementById("init").value)
+			  document.getElementById("init").value = x+1;
+			  document.getElementById("checkBut").value = "finish";
 			  return true;
 		}
 	</script>

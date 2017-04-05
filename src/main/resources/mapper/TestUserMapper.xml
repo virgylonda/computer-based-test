@@ -49,7 +49,7 @@
 	</select>
 	
 	<select id="findTestHaveAssign" resultMap="resultTestUser">
-		SELECT c.id, c.question_category, c.description, t.id AS testId, t.status FROM tb_question_category c JOIN tb_user_test t ON c.id=t.category_id WHERE t.user_id = #{user.userId} ORDER BY c.question_category
+		SELECT c.id, c.question_category, c.description, t.id AS testId, t.status FROM tb_question_category c JOIN tb_user_test t ON c.id=t.category_id WHERE t.user_id = #{user.userId} ORDER BY t.id
 	</select>
 	
 	<select id="findUserTestById" resultMap="resultTestUser">

@@ -141,11 +141,13 @@ public class UserController {
 				frmAnswers.set(init-1, formAnswer);
 			} else if(formAnswer.getCheckBut().equalsIgnoreCase("back")){
 				frmAnswers.set(init+1, formAnswer);
-			}	
+			} else if(formAnswer.getCheckBut().equalsIgnoreCase("finish")){
+				frmAnswers.set(init-1, formAnswer);
+				return "redirect:/user/test/save";
+			}		
 		}
 		
 		List<FormAnswer> frmAnswers = (List<FormAnswer>) request.getSession().getAttribute("answer");
-		
 		String startTest = sdf.format(timestamp);
 		try {
 			Date date = sdf.parse(startTest);
@@ -173,11 +175,24 @@ public class UserController {
 		return "formtest";
 	}
 
-	@RequestMapping(path = "/test/save", method=RequestMethod.POST)
-	public String saveTest(FormAnswer formAnswer, int init, Model model, Timestamp timestamp) {
+	@RequestMapping(path = "/test/save", method=RequestMethod.GET)
+	public String saveTest(HttpServletRequest request, Model model, Timestamp timestamp) {
 		timestamp = new Timestamp(System.currentTimeMillis());
 		TestUser testUser = new TestUser();
-		testUser.setTestId(formAnswer.getTestId());
+		session = request.getSession();
+		List<FormAnswer> formAnswers = (List<FormAnswer>) request.getSession().getAttribute("answer");
+		int point = 0;
+		for(FormAnswer formAnswer : formAnswers){
+			testUser.setTestId(formAnswer.getTestId());
+			Answer answer = ansSvc.findOne(formAnswer.getChoices());
+			if(answer.isCorrectAnswer()){
+				point= point + 1;
+			}
+		}
+		double score = calculateScore(point,formAnswers.size());
+		
+		testUser.setScore(score);
+		session.setAttribute("answer", null);
 		String endTest = sdf.format(timestamp);
 		try {
 			Date date = sdf.parse(endTest);
@@ -186,7 +201,6 @@ public class UserController {
 			e.printStackTrace();
 		}
 		
-		//testUser.setScore(calculateScore(point, quest));
 		tstSvc.updateEndTest(testUser);
 		return "redirect:/user/test/list";
 	}
