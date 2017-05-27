@@ -4,6 +4,7 @@ import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
@@ -19,7 +20,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import ch.qos.logback.core.net.SyslogOutputStream;
 import pji.cbt.entities.Answer;
 import pji.cbt.entities.Category;
 import pji.cbt.entities.Question;
@@ -121,14 +121,30 @@ public class UserController {
 		return "listtest";
 	}
 
+	@SuppressWarnings("unchecked")
 	@RequestMapping(path = "/test/dotest", method = RequestMethod.POST)
 	public String doTest(HttpServletRequest request, Category category, FormAnswer formAnswer, TestUser testUser, Model model, int init, Timestamp timestamp) {
+		Question question = new Question();
+		List<Question> listQuest = new ArrayList<Question>();
 		timestamp = new Timestamp(System.currentTimeMillis());
+		session = request.getSession();
+		
+		if (session.getAttribute("listQuest")!=null){
+			listQuest=(List<Question>) session.getAttribute("listQuest");
+			if(init<listQuest.size()){
+				question = listQuest.get(init);
+			}
+		} else {
+			listQuest = queSvc.findAllQuestionByCategory(category.getIdCategory());
+			Collections.shuffle(listQuest);
+			question = listQuest.get(init);
+		}
+		session.setAttribute("listQuest", listQuest);
 		Question ques = queSvc.findCountQuestion(category.getIdCategory());
-		Question question = queSvc.findAllQuestionByCategoryLimit(category.getIdCategory(),1,init);
+		//Question question = queSvc.findAllQuestionByCategoryLimit(category.getIdCategory(),1,init);
+		
 
-		if(request.getSession().getAttribute("answer")==null){
-			session = request.getSession();
+		if(session.getAttribute("answer")==null){
 			List<FormAnswer> frmAnswers = new ArrayList<FormAnswer>();
 			for (int i = 0; i < ques.getOrderingQuestion(); i++) {
 				FormAnswer formAnswerer = new FormAnswer();
@@ -136,7 +152,7 @@ public class UserController {
 			}
 			session.setAttribute("answer", frmAnswers);
 		} else {
-			List<FormAnswer> frmAnswers = (List<FormAnswer>) request.getSession().getAttribute("answer");
+			List<FormAnswer> frmAnswers = (List<FormAnswer>) session.getAttribute("answer");
 			if(formAnswer.getCheckBut().equalsIgnoreCase("next")){
 				frmAnswers.set(init-1, formAnswer);
 			} else if(formAnswer.getCheckBut().equalsIgnoreCase("back")){
@@ -147,7 +163,7 @@ public class UserController {
 			}		
 		}
 		
-		List<FormAnswer> frmAnswers = (List<FormAnswer>) request.getSession().getAttribute("answer");
+		List<FormAnswer> frmAnswers = (List<FormAnswer>) session.getAttribute("answer");
 		String startTest = sdf.format(timestamp);
 		try {
 			Date date = sdf.parse(startTest);
