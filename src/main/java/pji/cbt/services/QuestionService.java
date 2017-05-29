@@ -2,8 +2,6 @@ package pji.cbt.services;
 
 import java.util.List;
 
-import org.apache.ibatis.annotations.Param;
-
 import pji.cbt.entities.Question;
 
 public interface QuestionService {
@@ -17,6 +15,8 @@ public interface QuestionService {
 	public void updateOrderingQuestion(int category, int ordering);
 	
 	public Question findCountQuestion(int idCategory);
+	
+	public List<Question> findQuestionRandomOrder(int idCategory);
 	
 	public void deleteQuestion(int idQuestion);
 	

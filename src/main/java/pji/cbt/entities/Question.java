@@ -9,6 +9,15 @@ public class Question implements Serializable {
 	private String question;
 	private Category category;
 	
+	public Question() {
+	}
+	
+	public Question(int idQuestion, int orderingQuestion, String question, Category category) {
+		this.idQuestion = idQuestion;
+		this.orderingQuestion = orderingQuestion;
+		this.question = question;
+		this.category = category;
+	}
 	
 	public int getIdQuestion() {
 		return idQuestion;

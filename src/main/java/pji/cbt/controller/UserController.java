@@ -4,7 +4,6 @@ import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
@@ -135,14 +134,13 @@ public class UserController {
 				question = listQuest.get(init);
 			}
 		} else {
-			listQuest = queSvc.findAllQuestionByCategory(category.getIdCategory());
-			Collections.shuffle(listQuest);
+			listQuest = queSvc.findQuestionRandomOrder(category.getIdCategory());
+			//Collections.shuffle(listQuest);
 			question = listQuest.get(init);
 		}
 		session.setAttribute("listQuest", listQuest);
 		Question ques = queSvc.findCountQuestion(category.getIdCategory());
-		//Question question = queSvc.findAllQuestionByCategoryLimit(category.getIdCategory(),1,init);
-		
+		//Question question = queSvc.findAllQuestionByCategoryLimit(category.getIdCategory(),1,init);		
 
 		if(session.getAttribute("answer")==null){
 			List<FormAnswer> frmAnswers = new ArrayList<FormAnswer>();

@@ -20,6 +20,8 @@ public interface QuestionMapper {
 	
 	public Question findCountQuestion(int idCategory);
 	
+	public List<Question> findQuestionRandomOrder(int idCategory);
+	
 	public void deleteQuestion(int idQuestion);
 	
 	public void createQuestion(Question question);
@@ -27,4 +29,5 @@ public interface QuestionMapper {
 	public void editQuestion(Question question);
 	
 	public List<Question> findAllQuestionByCategory(int idCategory);
+	
 }

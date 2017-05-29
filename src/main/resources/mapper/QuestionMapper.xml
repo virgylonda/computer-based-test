@@ -45,6 +45,10 @@
 		SELECT COUNT(ordering) AS ordering FROM tb_question WHERE category_id = #{idCategory}
 	</select>
 	
+	<select  id="findQuestionRandomOrder" resultMap="resultQuestion">
+		SELECT * FROM tb_question where category_id = #{idCategory} ORDER BY RANDOM()
+	</select>
+	
 	<insert id="createQuestion" parameterType="pji.cbt.entities.Question" flushCache="true" statementType="PREPARED" useGeneratedKeys="true" keyProperty="idQuestion" keyColumn="id">
 		INSERT INTO tb_question (category_id, ordering, question) values (#{category.idCategory},(SELECT count(ordering)+1 FROM tb_question WHERE category_id = #{category.idCategory}),#{question})
 	</insert>

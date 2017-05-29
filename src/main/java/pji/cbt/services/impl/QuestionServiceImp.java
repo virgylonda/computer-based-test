@@ -57,6 +57,11 @@ public class QuestionServiceImp implements QuestionService {
 	public Question findCountQuestion(int idCategory) {
 		return qMapper.findCountQuestion(idCategory);
 	}
+	
+	@Override
+	public List<Question> findQuestionRandomOrder(int idCategory){
+		return qMapper.findQuestionRandomOrder(idCategory);
+	}
 
 	@Override
 	public void updateOrderingQuestion(int category, int ordering) {
