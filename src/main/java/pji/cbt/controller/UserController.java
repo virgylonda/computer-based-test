@@ -4,6 +4,7 @@ import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
@@ -44,7 +45,7 @@ public class UserController {
 
 	@Autowired
 	private TestUserService tstSvc;
-	
+
 	@Autowired
 	private QuestionService queSvc;
 
@@ -53,11 +54,11 @@ public class UserController {
 
 	@Autowired
 	private UserService userSvc;
-	
-	public double calculateScore(double point, double quest ){
-		double score = point/quest*100;
+
+	public double calculateScore(double point, double quest) {
+		double score = point / quest * 100;
 		score = Math.round(score * 100);
-		score = score/100;
+		score = score / 100;
 		return score;
 	}
 
@@ -122,27 +123,35 @@ public class UserController {
 
 	@SuppressWarnings("unchecked")
 	@RequestMapping(path = "/test/dotest", method = RequestMethod.POST)
-	public String doTest(HttpServletRequest request, Category category, FormAnswer formAnswer, TestUser testUser, Model model, int init, Timestamp timestamp) {
+	public String doTest(HttpServletRequest request, Category category, FormAnswer formAnswer, TestUser testUser,
+			Model model, int init, Timestamp timestamp) {
 		Question question = new Question();
 		List<Question> listQuest = new ArrayList<Question>();
 		timestamp = new Timestamp(System.currentTimeMillis());
 		session = request.getSession();
-		
-		if (session.getAttribute("listQuest")!=null){
-			listQuest=(List<Question>) session.getAttribute("listQuest");
-			if(init<listQuest.size()){
+
+		if (session.getAttribute("listQuest") != null) {
+			listQuest = (List<Question>) session.getAttribute("listQuest");
+			if (init < listQuest.size()) {
 				question = listQuest.get(init);
 			}
 		} else {
 			listQuest = queSvc.findQuestionRandomOrder(category.getIdCategory());
-			//Collections.shuffle(listQuest);
+			for (Question q : listQuest) {
+				List<Answer> listAnswer = new ArrayList<Answer>();
+				listAnswer.addAll(ansSvc.findAnswerByQuestion(q.getIdQuestion()));
+				Collections.shuffle(listAnswer);
+				session.setAttribute("listAnswer" + q.getIdQuestion(), listAnswer);
+			}
+			Collections.shuffle(listQuest);
 			question = listQuest.get(init);
 		}
 		session.setAttribute("listQuest", listQuest);
 		Question ques = queSvc.findCountQuestion(category.getIdCategory());
-		//Question question = queSvc.findAllQuestionByCategoryLimit(category.getIdCategory(),1,init);		
+		// Question question =
+		// queSvc.findAllQuestionByCategoryLimit(category.getIdCategory(),1,init);
 
-		if(session.getAttribute("answer")==null){
+		if (session.getAttribute("answer") == null) {
 			List<FormAnswer> frmAnswers = new ArrayList<FormAnswer>();
 			for (int i = 0; i < ques.getOrderingQuestion(); i++) {
 				FormAnswer formAnswerer = new FormAnswer();
@@ -151,16 +160,16 @@ public class UserController {
 			session.setAttribute("answer", frmAnswers);
 		} else {
 			List<FormAnswer> frmAnswers = (List<FormAnswer>) session.getAttribute("answer");
-			if(formAnswer.getCheckBut().equalsIgnoreCase("next")){
-				frmAnswers.set(init-1, formAnswer);
-			} else if(formAnswer.getCheckBut().equalsIgnoreCase("back")){
-				frmAnswers.set(init+1, formAnswer);
-			} else if(formAnswer.getCheckBut().equalsIgnoreCase("finish")){
-				frmAnswers.set(init-1, formAnswer);
+			if (formAnswer.getCheckBut().equalsIgnoreCase("next")) {
+				frmAnswers.set(init - 1, formAnswer);
+			} else if (formAnswer.getCheckBut().equalsIgnoreCase("back")) {
+				frmAnswers.set(init + 1, formAnswer);
+			} else if (formAnswer.getCheckBut().equalsIgnoreCase("finish")) {
+				frmAnswers.set(init - 1, formAnswer);
 				return "redirect:/user/test/save";
-			}		
+			}
 		}
-		
+
 		List<FormAnswer> frmAnswers = (List<FormAnswer>) session.getAttribute("answer");
 		String startTest = sdf.format(timestamp);
 		try {
@@ -171,15 +180,15 @@ public class UserController {
 		}
 		testUser.setStatus("Done");
 		TestUser testUser2 = tstSvc.findUserTestById(testUser.getTestId());
-		if(testUser2.getStarted()==null){	
+		if (testUser2.getStarted() == null) {
 			tstSvc.updateStartTest(testUser);
 		}
 		FormQuestion formQuestion = new FormQuestion();
 		formQuestion.setQuestion(question);
-		List<Answer> answers = ansSvc.findAnswerByQuestion(question.getIdQuestion());
-		formQuestion.setAnswers(answers);
+		// List<Answer> answers = ansSvc.findAnswerByQuestion(question.getIdQuestion());
+		formQuestion.setAnswers((List<Answer>) session.getAttribute("listAnswer" + question.getIdQuestion()));
 		formQuestion.setCategory(category);
-		
+
 		model.addAttribute("init", init);
 		model.addAttribute("category", category.getIdCategory());
 		model.addAttribute("idTest", testUser.getTestId());
@@ -189,22 +198,22 @@ public class UserController {
 		return "formtest";
 	}
 
-	@RequestMapping(path = "/test/save", method=RequestMethod.GET)
+	@RequestMapping(path = "/test/save", method = RequestMethod.GET)
 	public String saveTest(HttpServletRequest request, Model model, Timestamp timestamp) {
 		timestamp = new Timestamp(System.currentTimeMillis());
 		TestUser testUser = new TestUser();
 		session = request.getSession();
 		List<FormAnswer> formAnswers = (List<FormAnswer>) request.getSession().getAttribute("answer");
 		int point = 0;
-		for(FormAnswer formAnswer : formAnswers){
+		for (FormAnswer formAnswer : formAnswers) {
 			testUser.setTestId(formAnswer.getTestId());
 			Answer answer = ansSvc.findOne(formAnswer.getChoices());
-			if(answer.isCorrectAnswer()){
-				point= point + 1;
+			if (answer.isCorrectAnswer()) {
+				point = point + 1;
 			}
 		}
-		double score = calculateScore(point,formAnswers.size());
-		
+		double score = calculateScore(point, formAnswers.size());
+
 		testUser.setScore(score);
 		session.setAttribute("answer", null);
 		String endTest = sdf.format(timestamp);
@@ -214,9 +223,9 @@ public class UserController {
 		} catch (ParseException e) {
 			e.printStackTrace();
 		}
-		
+
 		tstSvc.updateEndTest(testUser);
 		return "redirect:/user/test/list";
 	}
-	
+
 }
