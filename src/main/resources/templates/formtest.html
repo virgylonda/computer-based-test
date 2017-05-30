@@ -31,8 +31,12 @@
 
 		<div id="page-wrapper">
 			<div class="row">
-				<div class="col-lg-12">
+				<div class="col-lg-6">
 					<h1 class="page-header">Questions</h1>
+				</div>
+				<div class="col-lg-6">
+					<input type="hidden" id="timeALL" value="1" />					
+					<h4 class="page-header">Time remaining <span id="time">00:00</span> minutes!</h4>
 				</div>
 				<!-- /.col-lg-12 -->
 			</div>
@@ -40,7 +44,9 @@
 			<div class="row">
 				<div class="col-lg-12">
 					<div class="panel panel-default">
-						<div class="panel-heading">Form Question</div>
+						<div class="panel-heading">
+							Form Question
+						</div>
 						<div class="panel-body">
 							<div class="row">
 								<div class="col-lg-8">
@@ -53,7 +59,7 @@
 										<input type="hidden" name="testId" th:attr="value=${idTest}" />
 										<input type="hidden" name="questionId" th:attr="value=${data.question.idQuestion}" />
 										<div class="form-group">
-											<label>Question</label>
+											<label>Question</label>											
 											<textarea readonly="readonly" class="form-control"
 												placeholder="Enter Question" required="required"
 												th:text="${data.question !=null ? data.question.question : '' }"></textarea>
@@ -133,6 +139,17 @@
 
 	<!-- Page-Level Demo Scripts - Dashboard - Use for reference -->
 	<script src="/asset/js/demo/dashboard-demo.js"></script>
+	<script src="/asset/js/demo/form-timer.js"></script>
+	<script>
+	window.onload = function () 
+		{
+			xTime = document.getElementById("timeALL").value;
+		    var fiveMinutes = 60 * parseInt(xTime),
+		        display = document.querySelector('#time');
+				startTimer(fiveMinutes, display);
+	};
+	
+	</script>
 	
 	<script>
 		function DoBack(){
@@ -154,6 +171,7 @@
 			  return true;
 		}
 	</script>
+	
 	<script>
 		
 	</script>
