@@ -1,12 +1,15 @@
 package pji.cbt.entities;
 
 import java.io.Serializable;
+import java.sql.Timestamp;
 
 public class Category implements Serializable {
 
 	private int idCategory;
 	private String questionCategory;
 	private String description;
+	private String questionType;
+	private int timeLimit;
 	
 	public int getIdCategory() {
 		return idCategory;
@@ -34,4 +37,22 @@ public class Category implements Serializable {
 		this.questionCategory = questionCategory;
 		this.description = description;
 	}
+	public String getQuestionType() {
+		return questionType;
+	}
+	public void setQuestionType(String questionType) {
+		this.questionType = questionType;
+	}
+	public int getTimeLimit() {
+		return timeLimit;
+	}
+	public void setTimeLimit(int timeLimit) {
+		this.timeLimit = timeLimit;
+	}
+	
+	
+	
+		
+		
+	
 }
