@@ -69,6 +69,8 @@
 											<th>No.</th>
 											<th>Category Question</th>
 											<th>Description</th>
+											<th>Question Type</th>
+											<th>Time Limit</th>
 											<th>Action</th>
 											<th>Questions</th>
 										</tr>
@@ -78,6 +80,8 @@
 											<td th:text="${category != null ? iterationStatus.count : '' }" />
 											<td th:text="${category != null ? category.questionCategory : '' }" />
 											<td th:text="${category != null ? category.description : '' }" />
+											<td th:text="${category != null ? category.questionType : '' }" />
+											<td th:text="${category != null ? category.timeLimit+' Minute' : '' } " />
 											<td><a th:href="|/tester/category/delete/${category.idCategory}|"><button type="button" class="btn btn-danger btn-xs">Delete</button></a> 
 											<a th:href="|/tester/category/edit/${category.idCategory}|"><button type="button" class="btn btn-warning btn-xs">Edit</button></a></td>
 											<td><a th:href="|/tester/createnewquestion/${category.idCategory}|"><button type="button" class="btn btn-submit btn-xs">Add Questions</button></a>
@@ -87,7 +91,7 @@
                                 </table>
                             </div>
                         </div>
-                        <!-- /.panel-body -->
+                        <!-- /.panel-body -->  
                     </div>
                    
                     <!-- /.panel -->
