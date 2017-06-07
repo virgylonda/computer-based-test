@@ -29,6 +29,7 @@ import pji.cbt.entities.User;
 import pji.cbt.form.FormAnswer;
 import pji.cbt.form.FormQuestion;
 import pji.cbt.services.AnswerService;
+import pji.cbt.services.CategoryService;
 import pji.cbt.services.QuestionService;
 import pji.cbt.services.TestUserService;
 import pji.cbt.services.UserService;
@@ -48,6 +49,9 @@ public class UserController {
 
 	@Autowired
 	private QuestionService queSvc;
+	
+	@Autowired
+	private CategoryService catSvc;
 
 	@Autowired
 	private AnswerService ansSvc;
@@ -56,7 +60,7 @@ public class UserController {
 	private UserService userSvc;
 
 	public double calculateScore(double point, double quest) {
-		double score = point / quest * 100;
+		double score = (point / quest) * 100;
 		score = Math.round(score * 100);
 		score = score / 100;
 		return score;
@@ -129,7 +133,8 @@ public class UserController {
 		List<Question> listQuest = new ArrayList<Question>();
 		timestamp = new Timestamp(System.currentTimeMillis());
 		session = request.getSession();
-
+		Category c=new Category();
+		c=catSvc.findOneCategory(category.getIdCategory());
 		if (session.getAttribute("listQuest") != null) {
 			listQuest = (List<Question>) session.getAttribute("listQuest");
 			if (init < listQuest.size()) {
@@ -148,9 +153,6 @@ public class UserController {
 		}
 		session.setAttribute("listQuest", listQuest);
 		Question ques = queSvc.findCountQuestion(category.getIdCategory());
-		// Question question =
-		// queSvc.findAllQuestionByCategoryLimit(category.getIdCategory(),1,init);
-
 		if (session.getAttribute("answer") == null) {
 			List<FormAnswer> frmAnswers = new ArrayList<FormAnswer>();
 			for (int i = 0; i < ques.getOrderingQuestion(); i++) {
@@ -188,10 +190,10 @@ public class UserController {
 		// List<Answer> answers = ansSvc.findAnswerByQuestion(question.getIdQuestion());
 		formQuestion.setAnswers((List<Answer>) session.getAttribute("listAnswer" + question.getIdQuestion()));
 		formQuestion.setCategory(category);
-
 		model.addAttribute("init", init);
 		model.addAttribute("category", category.getIdCategory());
 		model.addAttribute("idTest", testUser.getTestId());
+		model.addAttribute("timeLimit",c.getTimeLimit());
 		model.addAttribute("data", formQuestion);
 		model.addAttribute("sessionChoice", frmAnswers.get(init).getChoices());
 		model.addAttribute("max", ques.getOrderingQuestion());
@@ -213,7 +215,6 @@ public class UserController {
 			}
 		}
 		double score = calculateScore(point, formAnswers.size());
-
 		testUser.setScore(score);
 		session.setAttribute("answer", null);
 		String endTest = sdf.format(timestamp);
@@ -223,7 +224,7 @@ public class UserController {
 		} catch (ParseException e) {
 			e.printStackTrace();
 		}
-
+  
 		tstSvc.updateEndTest(testUser);
 		return "redirect:/user/test/list";
 	}
