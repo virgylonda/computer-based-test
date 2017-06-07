@@ -103,15 +103,22 @@ CREATE TABLE public.tb_question
       ON UPDATE CASCADE ON DELETE CASCADE
 )
 
--- DROP TABLE public.tb_question_category;
+DROP TABLE IF EXISTS tb_question_category;
 
-CREATE TABLE public.tb_question_category
-(
-  id integer NOT NULL DEFAULT nextval('tb_question_category_id_seq'::regclass),
-  question_category character varying(100) NOT NULL,
-  description character varying(255),
-  CONSTRAINT tb_question_category_pkey PRIMARY KEY (id)
+CREATE TABLE "public"."tb_question_category"(
+"id" int4 DEFAULT nextval('tb_question_category_id_seq'::regclass) NOT NULL,
+"question_category" varchar(100) COLLATE "default" NOT NULL,
+"description" varchar(255) COLLATE "default",
+"question_type" varchar(30) COLLATE "default",
+"time_limit" numeric(32)
 )
+WITH (OIDS=FALSE)
+
+;
+
+ALTER TABLE "public"."tb_question_category" ADD PRIMARY KEY ("id");
+
+
 
 -- DROP TABLE public.tb_role;
 
