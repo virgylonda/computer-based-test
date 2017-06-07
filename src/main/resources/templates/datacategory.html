@@ -84,7 +84,7 @@
 											<td th:text="${category != null ? category.timeLimit+' Minute' : '' } " />
 											<td><a th:href="|/tester/category/delete/${category.idCategory}|"><button type="button" class="btn btn-danger btn-xs">Delete</button></a> 
 											<a th:href="|/tester/category/edit/${category.idCategory}|"><button type="button" class="btn btn-warning btn-xs">Edit</button></a></td>
-											<td><a th:href="|/tester/createnewquestion/${category.idCategory}|"><button type="button" class="btn btn-submit btn-xs">Add Questions</button></a>
+											<td><a th:href="|/tester/createnewquestion/${category.idCategory}/${category.questionType}|"><button type="button" class="btn btn-submit btn-xs">Add Questions</button></a>
 											<a th:href="|/tester/question/list/${category.idCategory}|"><button type="button" class="btn btn-success btn-xs">List Questions</button></a></td>
 										</tr>
 									</tbody>

@@ -190,10 +190,16 @@ public class TesterController {
 		}
 		
 		
-		@RequestMapping(path = "/createnewquestion/{id}", method = RequestMethod.GET)
-		public String formAddNewQuestion(@PathVariable int id, Model model) {
+		@RequestMapping(path = "/createnewquestion/{id}/{questionType}", method = RequestMethod.GET)
+		public String formAddNewQuestion(@PathVariable int id, @PathVariable String questionType, Model model) {
 			model.addAttribute("idcategory", id);
-			return "formQuestion";
+			if(questionType.equalsIgnoreCase("essay")){
+				return "formQuestionEssay";
+			}
+			else{
+				return "formQuestion";	
+			}
+			
 		}
 		
 		@RequestMapping(path = "/question/edit/{id}", method = RequestMethod.GET)
