@@ -35,7 +35,7 @@
 					<h1 class="page-header">Questions</h1>
 				</div>
 				<div class="col-lg-6">
-					<input type="hidden" id="timeALL" value="1" />					
+					<input type="hidden" id="timeAll" name="timeLimit" th:attr="value=${timeLimit}" />										
 					<h4 class="page-header">Time remaining <span id="time">00:00</span> minutes!</h4>
 				</div>
 				<!-- /.col-lg-12 -->
@@ -107,7 +107,7 @@
 
 												</div>
 											</div>
-									</form>
+									</form> 
 								</div>
 							</div>
 							<!-- /.row (nested) -->
@@ -143,7 +143,7 @@
 	<script>
 	window.onload = function () 
 		{
-			xTime = document.getElementById("timeALL").value;
+			xTime = document.getElementById("timeAll").value;
 		    var fiveMinutes = 60 * parseInt(xTime),
 		        display = document.querySelector('#time');
 				startTimer(fiveMinutes, display);
@@ -161,7 +161,7 @@
 		function DoNext(){
 			var x = parseInt(document.getElementById("init").value)
 			  document.getElementById("init").value = x+1;
-			  document.getElementById("checkBut").value = "next";
+			  document.getElementById("checkBut").value = "next"
 			  return true;
 		}
 		function DoFinish(){

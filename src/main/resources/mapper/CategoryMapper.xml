@@ -28,7 +28,7 @@
 	</select>
 
 	<update id='updateCategory'>
-		UPDATE tb_question_category SET question_category = #{questionCategory}, description = #{description}, question_type = #{questionType} WHERE id = #{idCategory}
+		UPDATE tb_question_category SET question_category = #{questionCategory}, question_type = #{questionType}, time_limit = #{timeLimit}, description = #{description} WHERE id = #{idCategory}
 	</update>
 	
 </mapper>
