@@ -181,11 +181,12 @@ public class TesterController {
 			return "redirect:../list";
 		}
 		
-		@RequestMapping(path="/question/list/{id}",method=RequestMethod.GET)
-		public String dataQuestion(@PathVariable int id, Model model){
+		@RequestMapping(path="/question/list/{id}/{questionType}",method=RequestMethod.GET)
+		public String dataQuestion(@PathVariable int id, @PathVariable String questionType, Model model){
 			List<Question> questions = this.quesSvc.findAllQuestionByCategory(id);
 			model.addAttribute("data", questions);
 			model.addAttribute("id", id);
+			model.addAttribute("questionType", questionType);
 			return "dataquestion";
 		}
 		
@@ -193,6 +194,7 @@ public class TesterController {
 		@RequestMapping(path = "/createnewquestion/{id}/{questionType}", method = RequestMethod.GET)
 		public String formAddNewQuestion(@PathVariable int id, @PathVariable String questionType, Model model) {
 			model.addAttribute("idcategory", id);
+			model.addAttribute("questionType", questionType);
 			if(questionType.equalsIgnoreCase("essay")){
 				return "formQuestionEssay";
 			}
@@ -252,7 +254,26 @@ public class TesterController {
 				System.out.println(ex);
 				return "formQuestion";
 			}
-			return "redirect:/tester/question/list/"+formQuestion.getCategory().getIdCategory();
+			return "redirect:/tester/question/list/"+formQuestion.getCategory().getIdCategory()+"/"+formQuestion.getCategory().getQuestionType();
+		}
+		
+		@RequestMapping(path = "/createnewquestionessay/save", method = RequestMethod.POST)
+		public String saveNewQuestionEssay(FormQuestion formQuestion, Model model) {
+			Question question = formQuestion.getQuestion();
+			question.setCategory(formQuestion.getCategory());
+			try{
+				quesSvc.createQuestion(question);
+				Answer answer = new Answer();
+				answer.setCorrectAnswer(true);
+				answer.setQuestionAnswer(question);
+				answer.setAnswer("Jawaban essay diperiksa secara langsung");
+				ansSvc.createAnswer(answer);
+			}
+			catch (Exception ex) {
+				System.out.println(ex);
+				return "formQuestionessay";
+			}
+			return "redirect:/tester/question/list/"+formQuestion.getCategory().getIdCategory()+"/"+formQuestion.getCategory().getQuestionType();
 		}
 		
 		@RequestMapping(path="user/score/detail/{userId}",method=RequestMethod.GET)

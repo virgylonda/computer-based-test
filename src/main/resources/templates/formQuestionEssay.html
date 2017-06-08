@@ -44,11 +44,16 @@
 								<div class="col-lg-8">
 									<div class="alert alert-danger" th:if="${msg != null}"
 										th:text="${msg != null ? msg : '' }"></div>
-									<form action="/tester/createnewquestion/save" method="post">
+									<form action="/tester/createnewquestionessay/save" method="post">
 										<div class="form-group">
 											<label>Question</label>
+											<input type="hidden" name="category.questionType" th:attr=" value=${questionType !=null ? questionType : '' }"/>
 											<input type="hidden" name="category.idCategory" th:attr=" value=${idcategory !=null ? idcategory : '' }"/>
-											<textarea class="form-control" placeholder="Enter Question" name="question.question" required="required" th:attr="value = ${data !=null ? data.question : '' }" rows="5" cols="40"></textarea>
+											<textarea class="form-control" placeholder="Enter Question" name="question.question" required="required" th:attr="value = ${data !=null ? data.question : '' }" rows="10" cols="40"></textarea>
+											
+											<label>Points</label>
+											<br/>
+											<input type="text" name="question.points" placeholder="Enter Points" required="required" th:attr="value = ${data !=null ? data.points : '' }"/>
 										</div>
 										<button type="submit" class="btn btn-primary">Submit</button>
 										<button type="reset" class="btn btn-danger">Reset</button>
