@@ -129,7 +129,6 @@ public class UserController {
 		List<Question> listQuest = new ArrayList<Question>();
 		timestamp = new Timestamp(System.currentTimeMillis());
 		session = request.getSession();
-
 		if (session.getAttribute("listQuest") != null) {
 			listQuest = (List<Question>) session.getAttribute("listQuest");
 			if (init < listQuest.size()) {
@@ -185,12 +184,14 @@ public class UserController {
 		}
 		FormQuestion formQuestion = new FormQuestion();
 		formQuestion.setQuestion(question);
-		// List<Answer> answers = ansSvc.findAnswerByQuestion(question.getIdQuestion());
+		// List<Answer> answers =
+		// ansSvc.findAnswerByQuestion(question.getIdQuestion());
 		formQuestion.setAnswers((List<Answer>) session.getAttribute("listAnswer" + question.getIdQuestion()));
 		formQuestion.setCategory(category);
 
 		model.addAttribute("init", init);
 		model.addAttribute("category", category.getIdCategory());
+		model.addAttribute("limit", category.getTimeLimit());
 		model.addAttribute("idTest", testUser.getTestId());
 		model.addAttribute("data", formQuestion);
 		model.addAttribute("sessionChoice", frmAnswers.get(init).getChoices());

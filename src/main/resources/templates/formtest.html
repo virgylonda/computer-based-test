@@ -53,6 +53,9 @@
 									<div class="alert alert-danger" th:if="${msg != null}"
 										th:text="${msg != null ? msg : '' }"></div>
 									<form action="/user/test/dotest" method="post">
+										<input type="hidden" name="timeLimit" id="limitTime" th:attr="value=${limit}" />
+										<input type="hidden" id="limitTime" th:attr="value=${limit} - " />
+										
 										<input type="hidden" name="init" id="init" th:attr="value=${init}" />
 										<input type="hidden" name="idCategory" id="init" th:attr="value=${category}" />
 										<input type="hidden" name="checkBut" id="checkBut"/>
@@ -144,9 +147,11 @@
 	window.onload = function () 
 		{
 			xTime = document.getElementById("timeALL").value;
-		    var fiveMinutes = 60 * parseInt(xTime),
+			var limit = document.getElementById("limitTime").value;
+			var timeLimit = limit * 60;
+		    var time = timeLimit * parseInt(xTime),
 		        display = document.querySelector('#time');
-				startTimer(fiveMinutes, display);
+				startTimer(time, display);
 	};
 	
 	</script>

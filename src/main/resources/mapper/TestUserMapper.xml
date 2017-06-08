@@ -32,6 +32,8 @@
 		<id property="idCategory" column="id"/>
 		<result property="questionCategory" column="question_category"/>
 		<result property="description" column="description"/>
+		<result property="questionType" column="question_type"/>
+		<result property="timeLimit" column="time_limit"/>
 	</resultMap>
 
 	<select id="findTestByUserId" resultMap="resultTestUser">
@@ -45,11 +47,11 @@
 	</select>
 	
 	<select id="findTestAssignment" resultMap="resultTestUser">
-		SELECT c.id, c.question_category, c.description, t.id AS testId, t.status FROM tb_question_category c LEFT JOIN tb_user_test t ON c.id=t.category_id AND t.user_id = #{user.userId}
+		SELECT c.id, c.question_category, c.description, c.question_type, c.time_limit, t.id AS testId, t.status FROM tb_question_category c LEFT JOIN tb_user_test t ON c.id=t.category_id AND t.user_id = #{user.userId}
 	</select>
 	
 	<select id="findTestHaveAssign" resultMap="resultTestUser">
-		SELECT c.id, c.question_category, c.description, t.id AS testId, t.status FROM tb_question_category c JOIN tb_user_test t ON c.id=t.category_id WHERE t.user_id = #{user.userId} ORDER BY t.id
+		SELECT c.id, c.question_category, c.description, c.question_type, c.time_limit, t.id AS testId, t.status FROM tb_question_category c JOIN tb_user_test t ON c.id=t.category_id WHERE t.user_id = #{user.userId} ORDER BY t.id
 	</select>
 	
 	<select id="findUserTestById" resultMap="resultTestUser">
