@@ -97,6 +97,7 @@ CREATE TABLE public.tb_question
   category_id integer,
   ordering integer NOT NULL,
   question character varying(500) NOT NULL,
+  time_limit numeric(32),
   CONSTRAINT tb_question_pkey PRIMARY KEY (id),
   CONSTRAINT tb_question_category_id_fkey FOREIGN KEY (category_id)
       REFERENCES public.tb_question_category (id) MATCH SIMPLE

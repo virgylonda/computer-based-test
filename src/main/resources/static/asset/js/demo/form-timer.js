@@ -14,7 +14,7 @@ function startTimer(duration, display)
 	        timer = parseInt(timer);
 	        if (--timer < 0) {			
 	            timer = duration;
-				alert("Test Completed, Score your test 100 Point.");
+				alert("Test Completed, Thank You");
 				document.getElementById("timeALL").value = 0;
 				//window.location.href = "http://localhost:9091";
 	        }
