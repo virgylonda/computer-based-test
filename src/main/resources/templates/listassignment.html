@@ -63,7 +63,7 @@
 											<td th:text="${category != null ? category.categories.questionCategory : '' }" />
 											<td th:text="${category != null ? category.categories.description : '' }" />
 											<td th:text="${category != null ? category.categories.questionType : '' }" />
-											<td th:text="${category != null ? category.categories.timeLimit : '' }" />
+											<td th:text="${category != null ? category.categories.timeLimit / 60 +' Minute' : '' }" />
 											<td>
 												<div class="form-group">
                                             		<div class="checkbox">

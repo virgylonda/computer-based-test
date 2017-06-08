@@ -9,7 +9,8 @@ function startTimer(duration, display)
 	        minutes = minutes < 10 ? "0" + minutes : minutes;
 	        seconds = seconds < 10 ? "0" + seconds : seconds;
 	        
-			
+	        duration--;
+	        
 	        display.textContent = minutes + ":" + seconds;
 	        timer = parseInt(timer);
 	        if (--timer < 0) {			
@@ -19,5 +20,5 @@ function startTimer(duration, display)
 				//window.location.href = "http://localhost:9091";
 	        }
 	    }, 1000);
-	   
+	    return duration;
 	}
