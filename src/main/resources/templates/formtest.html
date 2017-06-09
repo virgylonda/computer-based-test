@@ -37,7 +37,7 @@
 				<div class="col-lg-6">
 					<input type="hidden" id="timeALL" value="1" />
 					<h4 class="page-header">
-						Time remaining <span id="time">00:00</span> minutes!
+							 remaining <span id="time">00:00</span> minutes!
 					</h4>
 				</div>
 				<!-- /.col-lg-12 -->
@@ -53,16 +53,14 @@
 									<div class="alert alert-danger" th:if="${msg != null}"
 										th:text="${msg != null ? msg : '' }"></div>
 									<form action="/user/test/dotest" method="post">
-										<input type="hidden" name="timeLimit" id="limitTime"
-											th:attr="value=${limit}" /> <input type="text"
-											id="limitTime" th:attr="value=${limit}" /> <input
-											type="hidden" name="init" id="init" th:attr="value=${init}" />
+										<input type="hidden" name="timeLimit" id="limitTime" th:attr="value=${limit}" />
+											<input type="text" id="limitTime" th:attr="value=${limit}" />
+											<input type="hidden" name="init" id="init" th:attr="value=${init}" />
 										<input type="hidden" name="idCategory" id="init"
-											th:attr="value=${category}" /> <input type="hidden"
-											name="checkBut" id="checkBut" /> <input type="hidden"
-											name="testId" th:attr="value=${idTest}" /> <input
-											type="hidden" name="questionId"
-											th:attr="value=${data.question.idQuestion}" />
+											th:attr="value=${category}" />
+											<input type="hidden" name="checkBut" id="checkBut" />
+											<input type="hidden" name="testId" th:attr="value=${idTest}" />
+											<input type="hidden" name="questionId" th:attr="value=${data.question.idQuestion}" />
 										<div class="form-group">
 											<label>Question</label>
 											<textarea readonly="readonly" class="form-control"
@@ -158,11 +156,8 @@
 	window.onload = function () 
 		{
 			xTime = document.getElementById("timeALL").value;
-			var limit = document.getElementById("limitTime").value;
-		    var time = limit * parseInt(xTime),
-		        display = document.querySelector('#time');
-			var timeCount = startTimer(time, display);
-			document.getElementById("limitTime").value = timeCount;
+			display = document.querySelector('#time');
+			startTimer(document.getElementById("limitTime").value, display);
 	};
 	
 	</script>
