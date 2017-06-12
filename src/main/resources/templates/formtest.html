@@ -54,7 +54,7 @@
 										th:text="${msg != null ? msg : '' }"></div>
 									<form action="/user/test/dotest" method="post">
 										<input type="hidden" name="timeLimit" id="limitTime" th:attr="value=${limit}" />
-											<input type="text" id="limitTime" th:attr="value=${limit}" />
+											<input type="hidden" id="limitTime" th:attr="value=${limit}" />
 											<input type="hidden" name="init" id="init" th:attr="value=${init}" />
 										<input type="hidden" name="idCategory" id="init"
 											th:attr="value=${category}" />
@@ -176,6 +176,7 @@
 			  return true;
 		}
 		function DoFinish(){
+			endTest();
 			var x = parseInt(document.getElementById("init").value)
 			  document.getElementById("init").value = x+1;
 			  document.getElementById("checkBut").value = "finish";

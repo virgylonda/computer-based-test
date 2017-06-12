@@ -14,7 +14,7 @@ function startTimer(duration, display)
 	        timer = parseInt(timer);
 	        if (--timer < 0) {			
 	            timer = duration;
-				alert("Test Completed, Thank You");
+				alert("Time has ended, Thank You");
 				document.getElementById("timeALL").value = 0;
 				//window.location.href = "http://localhost:9091";
 	        }
@@ -24,3 +24,7 @@ function startTimer(duration, display)
 	        }
 	    }, 1000);
 	}
+
+function endTest(){
+	alert("Thankyou for completed the test");
+}
