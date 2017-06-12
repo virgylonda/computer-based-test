@@ -81,7 +81,7 @@
 											<td th:text="${category != null ? category.questionCategory : '' }" />
 											<td th:text="${category != null ? category.description : '' }" />
 											<td th:text="${category != null ? category.questionType : '' }" />
-											<td th:text="${category != null ? category.timeLimit+' Minute' : '' } " />
+											<td th:text="${category != null ? category.timeLimit / 60 +' Minute' : '' } " />
 											<td><a th:href="|/tester/category/delete/${category.idCategory}|"><button type="button" class="btn btn-danger btn-xs">Delete</button></a> 
 											<a th:href="|/tester/category/edit/${category.idCategory}|"><button type="button" class="btn btn-warning btn-xs">Edit</button></a></td>
 											<td><a th:href="|/tester/createnewquestion/${category.idCategory}/${category.questionType}|"><button type="button" class="btn btn-submit btn-xs">Add Questions</button></a>

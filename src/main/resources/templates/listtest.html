@@ -60,7 +60,7 @@
 											<td th:text="${category != null ? category.categories.questionCategory : '' }" />
 											<td th:text="${category != null ? category.categories.description : '' }" />
 											<td th:text="${category != null ? category.categories.questionType : '' }" />
-											<td th:text="${category != null ? category.categories.timeLimit : '' }" />
+											<td th:text="${category != null ? category.categories.timeLimit / 60 +' Minute': '' }" />
 											<td>
 												<form action="/user/test/dotest" method="post">
 													<input type="hidden" name="testId" th:attr="value = ${category != null ? category.testId : '' }"/>

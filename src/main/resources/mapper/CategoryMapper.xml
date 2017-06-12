@@ -20,7 +20,7 @@
 	</select>
 	
 	<insert id="createCategory" flushCache="true" parameterType="pji.cbt.entities.Category" statementType="PREPARED" useGeneratedKeys="true" keyProperty="idCategory" keyColumn="id">
-		INSERT INTO tb_question_category(question_category,description,question_type,time_limit) VALUES(#{questionCategory}, #{description}, #{questionType}, #{timeLimit})
+		INSERT INTO tb_question_category(question_category,description,question_type,time_limit) VALUES(#{questionCategory}, #{description}, #{questionType}, #{timeLimit} * 60)
 	</insert>
 
 	<select id="findOneCategory" resultMap="resultCategory">
