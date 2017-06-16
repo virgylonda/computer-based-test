@@ -112,6 +112,20 @@ public class TesterController {
 			return "datacategory";
 		}
 		
+		@RequestMapping(path="/category/test",method=RequestMethod.GET)
+		public String testCategory(Model model){
+			List<Category>category = this.ctgSvc.findAllCategory();
+			model.addAttribute("data", category);
+			return "datacategory";
+		}
+		//ini 
+		@RequestMapping(path="/test/user",method=RequestMethod.GET)
+		public String testUser(Model model){
+			List<User> user = this.userSvc.findAllUsers();
+			model.addAttribute("data", user);
+			return "datausers";
+		}
+		
 		@RequestMapping(path="/createnewcategory", method= RequestMethod.GET)
 		public String formAddNewUsers(Model model){
 			return "/formcategory";

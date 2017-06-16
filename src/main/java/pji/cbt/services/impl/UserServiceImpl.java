@@ -31,6 +31,10 @@ public class UserServiceImpl implements UserService {
 		return uMapper.findAllUser(role_id);
 	}
 
+	public List<User> findAllUsers() {
+		return uMapper.findAllUsers();
+	}
+	
 	public User findOne(long id) {
 		return uMapper.findOne(id);
 	}
@@ -54,4 +58,5 @@ public class UserServiceImpl implements UserService {
 	public List<Roles> findRoleAll() {
 		return uMapper.findRoleAll();
 	}
+
 }

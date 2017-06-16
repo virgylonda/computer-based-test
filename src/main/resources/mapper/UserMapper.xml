@@ -53,5 +53,8 @@
 	<update id='updatePassword'>
 	    UPDATE tb_user SET password = #{password} WHERE id = #{userId}
 	</update>
-	
+	<select id="findAllUsers" resultMap="resultUser">
+	SELECT u.id AS id_user, u.username, u.password, u.name AS name_user, u.email, u.role_id, r.id AS id_role, r.name AS name_role, r.description FROM tb_user u JOIN tb_role r ON u.role_id=r.id  ORDER BY u.id
+	</select>
+
 </mapper>

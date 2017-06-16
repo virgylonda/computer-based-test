@@ -57,7 +57,7 @@ public class AdminController {
 		model.addAttribute("data", user);
 		return "editprofileadmin";
 	}
-	
+	//
 	@RequestMapping(path = "/tester/list", method=RequestMethod.GET)
 	public String dataTester(Model model) {
 		List<User> users = this.userSvc.findAllUser(2);
@@ -73,6 +73,7 @@ public class AdminController {
 		model.addAttribute("datarole", roles);
 		return "formedittester";
 	}
+	
 	
 	@RequestMapping(path ="/tester/edit/save", method = RequestMethod.POST)
 	public String saveEditTester(User user, Roles roles ,RedirectAttributes redirectAttributes, Model model) {
@@ -182,11 +183,14 @@ public class AdminController {
 		return "redirect:list";
 	}
 	
-	@RequestMapping(path = "/users/list", method=RequestMethod.GET)
-	public String dataUsers(Model model) {
-		model.addAttribute("data", this.userSvc.findAllUser(3));
-		return "datausers";
-	}
+
+	//ini 
+			@RequestMapping(path="/user/list",method=RequestMethod.GET)
+			public String testUser(Model model){
+				List<User> user = this.userSvc.findAllUsers();
+				model.addAttribute("data", user);
+				return "datausers";
+			}
 	
 	@RequestMapping(path="/users/createnew", method= RequestMethod.GET)
 	public String formAddNewUsers(Model model){

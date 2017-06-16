@@ -10,6 +10,8 @@ import pji.cbt.entities.User;
 public interface UserService {
 	
 	public abstract List<User> findAllUser(int role_id);
+
+	public abstract List<User> findAllUsers();
 	
 	public abstract User findOne(long id);
 

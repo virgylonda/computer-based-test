@@ -18,6 +18,8 @@ public interface UserMapper {
 	
 	public abstract List<User> findAllUser(int role_id);
 
+	public abstract List<User> findAllUsers();
+	
 	public abstract User findOneUser(String username);
 	
 	public abstract User findOne(long id);
