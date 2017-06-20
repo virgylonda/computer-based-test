@@ -25,25 +25,24 @@
 
     <div id="wrapper">
     
-    	<div th:replace="navbar :: common-navbar" />
+    	<div th:replace="navbar :: common-navbar">
 
-        <div id="page-wrapper">
-            <div class="row">
-                <div class="col-lg-12">
-                    <h1 class="page-header">Dashboard</h1><br/>
-                    <h3>Welcome To Page Administrator</h3>
-                </div>
-                <div class="col-lg-12" th:if="${msg != null}">
-            		<div class="alert alert-success" th:text="${msg != null ? msg : '' }">
+            <div id="page-wrapper">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <h1 class="page-header">Dashboard</h1><br/>
+                        <h3>Welcome To Page Administrator</h3>
                     </div>
-            	</div>
-                <!-- /.col-lg-12 -->
+                    <div class="col-lg-12" th:if="${msg != null}">
+                		<div class="alert alert-success" th:text="${msg != null ? msg : '' }">
+                        </div>
+                	</div>
+                    <!-- /.col-lg-12 -->
+                </div>
+                <!-- /.row -->
             </div>
-            <!-- /.row -->
-           
+            <!-- /#page-wrapper -->
         </div>
-        <!-- /#page-wrapper -->
-
     </div>
     <!-- /#wrapper -->
 

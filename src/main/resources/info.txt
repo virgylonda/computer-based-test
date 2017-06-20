@@ -1,0 +1,5 @@
+folder view digunakan untuk angular
+folder js untuk angular.
+
+folder templates digunakan untuk thymeleaf.
+
