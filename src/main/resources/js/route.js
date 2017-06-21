@@ -1,7 +1,7 @@
 cbtApp.config(function($stateProvider) {
 	$stateProvider
 	.state('home', {
-		url: '/',
+		url: 'admin-dashboard',
 		views: {
 					'main@': {
 						templateUrl: 'views/admin-dashboard.html'
@@ -42,6 +42,18 @@ cbtApp.config(function($stateProvider) {
 				},
 		data: {
 					displayName: 'Profile Admin'
+			  }
+	})
+	.state('home.testerlist.addtester', {
+		url: '/addtester',
+		views: {
+					'main@': {
+						templateUrl: 'views/formtester.html',
+						controller :"AdminAddTesterController"
+					}
+				},
+		data: {
+					displayName: 'Add New Tester'
 			  }
 	})
 });

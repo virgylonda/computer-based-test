@@ -8,14 +8,15 @@
 		<div class="alert alert-danger" th:text="${msgerror != null ? msgerror : '' }">
 		</div>
 	</div>
-</div>
-<div class="row" th:if="${msgsuccess != null}">
+</div> -->
+<div class="row">
 	<div class="col-lg-12">
-		<div class="alert alert-success" th:text="${msgsuccess != null ? msgsuccess : '' }">
+		<div class="alert alert-success"">
+        {{statusAllert}}
         </div>
 	</div>
 </div>
-<div class="row" th:if="${msg != null}">
+<!-- <div class="row" th:if="${msg != null}">
 	<div class="col-lg-12">
 		<div class="alert alert-success" th:text="${msg != null ? msg : '' }">
         </div>
@@ -23,7 +24,8 @@
 </div> -->
 <div class="row">
 	<div class="col-lg-12">
-		<a href="createnew"><button type="button" class="btn btn-primary">Add New Tester</button></a><br/><br/>
+		<a ui-sref="home.testerlist.addtester"><button type="button" class="btn btn-primary">Add New Tester</button>
+        </a><br/><br/>
         <div class="panel panel-default">
             <div class="panel-heading">
                 DataTables Advanced Tables
@@ -43,14 +45,15 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr th:each="tester,iterationStatus : ${data}">
+                        <!-- lakukan ng-repeat disini -->
+                            <!-- <tr th:each="tester,iterationStatus : ${data}">
                                 <td th:text="${tester != null ? iterationStatus.count : '' }"/>
                                 <td th:text="${tester != null ? tester.roles.roleName : '' }"/>
                                 <td th:text="${tester != null ? tester.username : '' }"/>
                                 <td th:text="${tester != null ? tester.userName : '' }"/>
                                 <td th:text="${tester != null ? tester.email : '' }"/>
                                 <td><a th:href="|delete/${tester.userId}|"><button type="button" class="btn btn-warning btn-xs">Delete</button></a> <a th:href="|edit/${tester.userId}|"><button type="button" class="btn btn-primary btn-xs">Edit</button></a></td>
-                            </tr>
+                            </tr> -->
                         </tbody>
                     </table>
                 </div>
