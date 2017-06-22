@@ -10,6 +10,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -166,20 +167,25 @@ public class AdminRestController {
 	}
 
 	@RequestMapping(path ="/tester/createnew", method = RequestMethod.POST)
-	public String saveTester(User user, Roles role,RedirectAttributes redirectAttributes, Model model) {
-		String password = user.getPassword();
-		user.setRoles(role);
+	public String saveTester(@RequestBody User user) {
+		String password =null;
+		if (user!=null){
+		 password = user.getPassword();
+		} else {
+			System.out.println("user is null");
+		}
+		//user.setRoles(role);
 		try {
 			user.setPassword(user.passwordToHash(user.getPassword()));
 			this.userSvc.createUser(user);
 		} catch (Exception ex) {
 			user.setPassword(password);
 			System.out.println(ex);
-			model.addAttribute("msg", "Fail, Username has been used!!");
-			model.addAttribute("data", user);
+			//model.addAttribute("msg", "Fail, Username has been used!!");
+			//model.addAttribute("data", user);
 			return "formtester";
 		}
-		redirectAttributes.addFlashAttribute("msg", "Tester account has been created successfully!!");
+		//redirectAttributes.addFlashAttribute("msg", "Tester account has been created successfully!!");
 		return "redirect:list";
 	}
 	

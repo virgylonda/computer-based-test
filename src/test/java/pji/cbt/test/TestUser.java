@@ -66,7 +66,7 @@ public class TestUser {
 		
 		//Assert
 		assertEquals(user.getUsername(),userEx.getUsername());
-		assertEquals(user.getUserName(),userEx.getUserName());
+		assertEquals(user.getName(),userEx.getName());
 		assertEquals(user.getEmail(),userEx.getEmail());
 	}
 
@@ -112,7 +112,7 @@ public class TestUser {
 		System.out.println(user.getUserId());
 		User userEx = userSvc.findOneUser(user.getUsername());
 		System.out.println(user.getUsername());
-		System.out.println(user.getUserName());
+		System.out.println(user.getName());
 		System.out.println(user.getRoles());
 		
 		//Assert
@@ -130,12 +130,12 @@ public class TestUser {
 		userSvc.createUser(user);
 		System.out.println(user.getUserId());
 		
-		user.setUserName(userName);
+		user.setName(userName);
 		System.out.println(user.getUserId());
 		userSvc.updateUser(user);
 		
 		//Assert
-		assertEquals(userName,user.getUserName());
+		assertEquals(userName,user.getName());
 	}
 	
 	@Test
