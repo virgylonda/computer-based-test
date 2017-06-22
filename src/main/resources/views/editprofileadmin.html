@@ -53,8 +53,8 @@
             <div class="panel-body">
                 <div class="row">
                     <div class="col-lg-8" ng-app="demo" ng-controller="demoController">
-                    	<div class="alert alert-danger" th:if="${msgpassword != null}" th:text="${msgpassword != null ? msgpassword : '' }">
-                		</div>
+                    	<!-- <div class="alert alert-danger" th:if="${msgpassword != null}" th:text="${msgpassword != null ? msgpassword : '' }">
+                		</div> -->
                         <form action="/admin/editpassword/save" method="post">
                             <div class="form-group">
                                 <label>Old Password</label>

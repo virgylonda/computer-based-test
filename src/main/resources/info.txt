@@ -1,5 +1,11 @@
-folder view digunakan untuk angular
-folder js untuk angular.
+#folder view digunakan untuk angular
+#folder js untuk angular.
 
-folder templates digunakan untuk thymeleaf.
+#folder templates digunakan untuk thymeleaf.
 
+
+#Cara me-Run
+1. install node.js
+2. masuk ke direktori resource disini, buka CMD atau gitBash
+3. ketikan : npm start
+4. applikasi akan otomatis terbuka pada browser di port 9092

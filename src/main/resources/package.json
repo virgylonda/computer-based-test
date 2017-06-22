@@ -1,0 +1,32 @@
+{
+  "name": "computer-based-test-angularjs",
+  "version": "1.0.0",
+  "description": "online test application PJI",
+  "main": "index.js",
+  "dependencies": {
+    "angular-material": "^1.1.4"
+  },
+  "devDependencies": {
+    "jasmine": "^2.6.0",
+    "karma": "^1.7.0",
+    "karma-chrome-launcher": "^2.1.1",
+    "karma-jasmine": "^1.1.0"
+  },
+  "scripts": {
+    "test": "-test",
+    "start": "http-server ./ -a localhost -p 9092 -c-1 -o"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/virgylonda/computer-based-test.git"
+  },
+  "keywords": [
+    "cbt"
+  ],
+  "author": "Edric Laksa Putra",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/virgylonda/computer-based-test/issues"
+  },
+  "homepage": "https://github.com/virgylonda/computer-based-test#readme"
+}

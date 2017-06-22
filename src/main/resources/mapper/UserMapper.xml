@@ -7,7 +7,7 @@
 		<id property="userId" column="id_user"/>
 		<result property="username" column="username"/>
 		<result property="password" column="password"/>
-		<result property="userName" column="name_user"/>
+		<result property="name" column="name_user"/>
 		<result property="email" column="email"/>
 		<association property="roles" column="role_id" resultMap="resultRoles" />
 	</resultMap>
@@ -43,11 +43,11 @@
 	</select>
 
 	<insert id="createUser" flushCache="true" parameterType="pji.cbt.entities.User" statementType="PREPARED" useGeneratedKeys="true" keyProperty="userId" keyColumn="id">
-		INSERT INTO tb_user(role_id,username,password,name,email) VALUES(#{roles.roleId},#{username}, #{password}, #{userName}, #{email})
+		INSERT INTO tb_user(role_id,username,password,name,email) VALUES(#{roles.roleId},#{username}, #{password}, #{name}, #{email})
 	</insert>
 	
 	<update id='updateUser'>
-	    UPDATE tb_user SET name = #{userName}, email = #{email}, role_id = #{roles.roleId} WHERE id = #{userId}
+	    UPDATE tb_user SET name = #{name}, email = #{email}, role_id = #{roles.roleId} WHERE id = #{userId}
 	</update>
 	
 	<update id='updatePassword'>
