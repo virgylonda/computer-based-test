@@ -23,8 +23,7 @@
 </div> -->
 <div class="row">
 	<div class="col-lg-12">
-		<a href="createnew"><button type="button"
-				class="btn btn-primary">Add New Users</button></a><br />
+		<a ui-sref="home.userlist.adduser"><button type="button" class="btn btn-primary">Add New Users</button></a><br />
 		<br />
 		<div class="panel panel-default">
 			<div class="panel-heading">DataTables Advanced Tables</div>
@@ -44,14 +43,23 @@
 							</tr>
 						</thead>
 						<tbody>
-							<tr th:each="user,iterationStatus : ${data}">
-								<td th:text="${user != null ? iterationStatus.count : '' }" />
-								<td th:text="${user != null ? user.roles.roleName : '' }" />
-								<td th:text="${user != null ? user.username : '' }" />
-								<td th:text="${user != null ? user.userName : '' }" />
-								<td th:text="${user != null ? user.email : '' }" />
-								<td><a th:href="|delete/${user.userId}|"><button type="button" class="btn btn-warning btn-xs">Delete</button></a> <a th:href="|edit/${user.userId}|"><button type="button" class="btn btn-primary btn-xs">Edit</button></a></td>
-							</tr>
+							<tr dir-paginate="user in arrayUsers | orderBy:sortKey:reverse|filter: search:strict |itemsPerPage:10">
+                                <td>{{$index + 1}}</td>
+                                <td>{{user.roles.roleName}}</td>
+                                <td>{{user.username}}</td>
+                                <td>{{user.name}}</td>
+                                <td>{{user.email}}</td>
+                                <td>
+                                    <button ui-sref="home.userlist" class="btn btn-success" >
+                                            <span class="glyphicon glyphicon-edit" aria-hidden="true" />
+                                            Edit
+                                    </button>
+                                    <button ui-sref="home.userlist" class="btn btn-danger" >
+                                            <span class="glyphicon glyphicon-edit" aria-hidden="true" />
+                                            Delete
+                                    </button>
+                                </td>
+                            </tr>
 						</tbody>
 					</table>
 				</div>

@@ -15,7 +15,8 @@ cbtApp.config(function($stateProvider) {
 		url: '/testerlist',
 		views: {
 					'main@': {
-						templateUrl: 'views/datatester.html'
+						templateUrl: 'views/datatester.html',
+						controller : "AdminListTesterController"
 					}
 				},
 		data: {
@@ -26,7 +27,8 @@ cbtApp.config(function($stateProvider) {
 		url: '/userlist',
 		views: {
 					'main@': {
-						templateUrl: 'views/datausers.html'
+						templateUrl: 'views/datausers.html',
+						controller : "AdminListUsersController"
 					}
 				},
 		data: {
@@ -54,6 +56,30 @@ cbtApp.config(function($stateProvider) {
 				},
 		data: {
 					displayName: 'Add New Tester'
+			  }
+	})
+	.state('home.userlist.adduser', {
+		url: '/adduser',
+		views: {
+					'main@': {
+						templateUrl: 'views/formusers.html',
+						controller :"AdminAddUserController"
+					}
+				},
+		data: {
+					displayName: 'Add New User'
+			  }
+	})
+	.state('home.testerlist.edittester', {
+		url: '/edittester/?id',
+		views: {
+					'main@': {
+						templateUrl: 'views/editprofiletester.html',
+						controller : "AdminEditTesterController"
+					}
+				},
+		data: {
+					displayName: 'Tester Edit'
 			  }
 	})
 });

@@ -19,6 +19,14 @@ cbtApp.factory('AdminServices', ['$http','$q', function($http,$q){
 			}.bind(this));
 		},
 
+		getTester: function(id){
+			return $http.get('http://localhost:9091/rest/admin/tester/edit/'+id).then(function success(res){
+				return res;
+			}, function error(err){
+				return $q.reject(err.data);
+			}.bind(this));
+		},
+
 		editTester: function(id, formData){
 			return $http.post('http://localhost:9091/rest/admin/tester/edit'+id, formData).then(function success(res){
 				return res;
@@ -34,20 +42,11 @@ cbtApp.factory('AdminServices', ['$http','$q', function($http,$q){
 				return $q.reject(err.data);
 			}.bind(this));
 		},
-
-		getTester: function(username){
-			return $http.get('masukan API getTester disini'+username).then(function success(res){
-				res = true;
-			}, function error(err){
-				res = false;
-			}.bind(this));
-			return res;
-		},
 		// Untuk tester
 
 		//Untuk User
 		addUser: function(formData) {
-			return $http.post('http://localhost:9091/rest/admin/user/createnew', formData).then(function success(res){
+			return $http.post('http://localhost:9091/rest/admin/users/createnew', formData).then(function success(res){
 				return res;
 			}, function error(err){
 				return $q.reject(err.data);
