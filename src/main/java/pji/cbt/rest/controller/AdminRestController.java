@@ -67,12 +67,12 @@ public class AdminRestController {
 	}
 	
 	@RequestMapping(path = "/tester/edit/{id}", method=RequestMethod.GET)
-	public String formEditTester(@PathVariable long id, RedirectAttributes redirectAttributes, Model model) {
+	public User formEditTester(@PathVariable long id) {
 		User user = userSvc.findOne(id);
 		List<Roles> roles = userSvc.findRoleAll();
-		model.addAttribute("data", user);
-		model.addAttribute("datarole", roles);
-		return "formedittester";
+//		model.addAttribute("data", user);
+//		model.addAttribute("datarole", roles);
+		return user;
 	}
 	
 	
@@ -202,9 +202,9 @@ public class AdminRestController {
 	}
 	
 	@RequestMapping(path="/users/createnew", method= RequestMethod.POST)
-	public String saveUsers(User user, Roles role ,RedirectAttributes redirectAttributes, Model model){
+	public String saveUsers(@RequestBody User user){
 		String password = user.getPassword();
-		user.setRoles(role);
+//		user.setRoles(role);
 		try {
 			user.setPassword(user.passwordToHash(user.getPassword()));
 			this.userSvc.createUser(user);
@@ -212,11 +212,11 @@ public class AdminRestController {
 			System.out.println(e);
 			user.setPassword(password);
 	
-			model.addAttribute("msg", "Fail, Username has been used!!");
-			model.addAttribute("data", user);
+//			model.addAttribute("msg", "Fail, Username has been used!!");
+//			model.addAttribute("data", user);
 			return "formusers";
 		}	
-	redirectAttributes.addFlashAttribute("msg", "Create account User has been successfully!!");
+//	redirectAttributes.addFlashAttribute("msg", "Create account User has been successfully!!");
 	return "redirect:list";
 	}
 	
