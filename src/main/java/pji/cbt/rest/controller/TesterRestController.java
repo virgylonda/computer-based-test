@@ -6,14 +6,20 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.springframework.web.util.UriComponentsBuilder;
 
 import pji.cbt.entities.Answer;
 import pji.cbt.entities.Category;
@@ -54,285 +60,212 @@ public class TesterRestController {
 	public TesterRestController(){
 	}
 	
-		@RequestMapping(path="/dashboard", method=RequestMethod.GET)
-		public String testerPage(HttpServletRequest request, Model Model, Authentication authentication) {
-			User user = userSvc.findOneUser(authentication.getName());
-			session = request.getSession();
-			session.setAttribute("idlogin", user.getUserId());
-			return "indextester";
+	/**
+	 * View List of Category Question
+	 * @return findAllCategory
+	 */
+	@RequestMapping(path="/category/list",method=RequestMethod.GET)
+	public List<Category> findAllCategory(){
+		return ctgSvc.findAllCategory();
+	}
+	
+    /**
+     * Create 
+     * @param category
+     * @param ucBuilder
+     * @return New Category Question HttpStatus.CREATED
+     */
+    @RequestMapping(value = "/testers/addcategory", method = RequestMethod.POST)
+    public ResponseEntity<Void> createCategory(@RequestBody Category category, UriComponentsBuilder ucBuilder) {
+        System.out.println("Creating Category " + category.getDescription());
+
+    	try {
+    		ctgSvc.createCategory(category);
+    	}catch (Exception e) {
+    		System.out.println(e);
 		}
-		
-		@RequestMapping(path = "/editprofile", method=RequestMethod.GET)
-		public String editProfile(Model model) {	
-			int idlogin = Integer.parseInt(session.getAttribute("idlogin").toString());
-			User user = userSvc.findOne(idlogin);
-			model.addAttribute("data", user);
-			return "editprofiletester";
+ 
+        HttpHeaders headers = new HttpHeaders();
+        headers.setLocation(ucBuilder.path("/testers/category/{id}").buildAndExpand(category.getIdCategory()).toUri());
+        return new ResponseEntity<Void>(headers, HttpStatus.CREATED);
+    }
+	
+    /**
+     * Update
+     * @param id
+     * @param category
+     * @return  Category Question  HttpStatus.OK
+     */
+    @RequestMapping(value = "/testers/updatecategory/{id}", method = RequestMethod.PUT)
+    public ResponseEntity<Category> updateCategory(@PathVariable("id") long id, @RequestBody Category category) {
+        System.out.println("Updating Category " + id);
+         
+        Category currentCategory = ctgSvc.findOneCategory(id);
+         
+        if (currentCategory==null) {
+            System.out.println("Category with id " + id + " not found");
+            return new ResponseEntity<Category>(HttpStatus.NOT_FOUND);
+        }
+        
+        currentCategory.setQuestionCategory(category.getQuestionCategory());
+        currentCategory.setDescription(category.getDescription());
+        currentCategory.setQuestionType(category.getQuestionType());
+        currentCategory.setTimeLimit(category.getTimeLimit());
+                    
+        ctgSvc.updateCategory(currentCategory);
+        return new ResponseEntity<Category>(currentCategory, HttpStatus.OK);
+    }
+	
+    /**
+     * Delete by Category Question
+     * @param id
+     * @return HttpStatus.NO_CONTENT
+     */
+    @RequestMapping(value = "/testers/deletecategory/{id}", method = RequestMethod.DELETE)
+    public ResponseEntity<Category> deleteCategory(@PathVariable("id") long id) {
+        System.out.println("Fetching & Deleting Category with id " + id);
+ 
+        Category category = ctgSvc.findOneCategory(id);
+        if (category == null) {
+            System.out.println("Unable to delete. Category with id " + id + " not found");
+            return new ResponseEntity<Category>(HttpStatus.NOT_FOUND);
+        }
+ 
+        ctgSvc.deleteOne(id);
+        return new ResponseEntity<Category>(HttpStatus.NO_CONTENT);
+    }
+	
+    
+	/**
+	 * View List of Question by Category Question
+	 * @param id
+	 * @return findAllQuestionByCategory
+	 */
+	@RequestMapping(path="/question/list/{id}",method=RequestMethod.GET)
+	public List<Question> findAllQuestionByCategory(@PathVariable int id){
+		return quesSvc.findAllQuestionByCategory(id);
+	}
+ 
+    /**
+     * Create Question by id Question and Category Question
+     * @param question
+     * @param ucBuilder
+     * @return Question HttpStatus.CREATED
+     */
+    @RequestMapping(value = "/testers/addquestion", method = RequestMethod.POST)
+    public ResponseEntity<Void> createQuestion(@RequestBody Question question, UriComponentsBuilder ucBuilder) {
+        System.out.println("Creating Question " + question.getQuestion());
+
+    	try {
+    		quesSvc.createQuestion(question);
+    	}catch (Exception e) {
+    		System.out.println(e);
 		}
-		
-		@RequestMapping(path ="/editprofile/save", method = RequestMethod.POST)
-		public String saveEditProfile(User user, Roles roles ,RedirectAttributes redirectAttributes, Model model) {
-			user.setRoles(roles);
-			try {
-				this.userSvc.updateUser(user);
-			} catch (Exception ex) {
-				System.out.println(ex);
-				model.addAttribute("msg", "Fail, to update tester profile!!");
-				model.addAttribute("data", user);
-				return "editprofiletester";
-			}
-			redirectAttributes.addFlashAttribute("msg", "Your account has been update successfully!!");
-			return "redirect:/tester/dashboard";
-		}
-		
-		@RequestMapping(path ="/editpassword/save", method = RequestMethod.POST)
-		public String saveEditPassword(int iduser, String oldpassword, String newpassword, String retypepassword, RedirectAttributes redirectAttributes, Model model) {
-			BCryptPasswordEncoder BCrypt = new BCryptPasswordEncoder();
-			User user = userSvc.findOne(iduser);
-			if(!BCrypt.matches(oldpassword, user.getPassword())){
-				model.addAttribute("msgpassword", "Fail, wrong old password!!");
-				model.addAttribute("data", user);
-				return "editprofiletester";
-			} else if (!newpassword.equals(retypepassword)) {
-				model.addAttribute("msgpassword", "Fail, your new password doesn't match!!");
-				model.addAttribute("data", user);
-				return "editprofiletester";
-			}
-			user.setPassword(user.passwordToHash(newpassword));
-			userSvc.updatePassword(user);
-			redirectAttributes.addFlashAttribute("msg", "Your account has been update successfully!!");
-			return "redirect:/tester/dashboard";
-		}
-		
-		//ini coba bisa
-		@RequestMapping(path="/category/list",method=RequestMethod.GET)
-		public List<Category> findAllCategory(){
-			System.out.println("-------------------------------------------");
-			return ctgSvc.findAllCategory();
-		}
-		
-		//ini coba gk bisa
-		@RequestMapping(path="/category/test",method=RequestMethod.GET)
-		public String testCategory(Model model){
-			List<Category>category = this.ctgSvc.findAllCategory();
-			model.addAttribute("data", category);
-			return "datacategory";
-		}
-		//ini gk bisa,munculnya kok user?
-		@RequestMapping(path="/test/user",method=RequestMethod.GET)
-		public List<User> findAllUsers(){
-			System.out.println("-------------------------------------------");
-			return userSvc.findAllUsers();
-		}
-		
-		@RequestMapping(path="/createnewcategory", method= RequestMethod.GET)
-		public String formAddNewUsers(Model model){
-			return "/formcategory";
-		}
-		
-		@RequestMapping(path="/createnewcategory", method= RequestMethod.POST)
-		public String createCategory(Category category, RedirectAttributes redirectAttributes, Model model){
-			try {
-				this.ctgSvc.createCategory(category);
-			} catch (Exception e) {
-				System.out.println(e);
-				model.addAttribute("msg", "Fail, Category name has been used!!");
-				model.addAttribute("data", category);
-				return "formcategory";
-			}	
-		redirectAttributes.addFlashAttribute("msg", "Create new category has been successfully!!");
-		return "redirect:../tester/category/list";
-		}
-		
-		@RequestMapping(path = "/category/delete/{id}", method=RequestMethod.GET)
-		public String deleteCategory(@PathVariable long id, RedirectAttributes redirectAttributes, Model model) {
-			try {
-				this.ctgSvc.deleteOne(id);
-			} catch (Exception ex) {
-				redirectAttributes.addFlashAttribute("msgerror", "Fail to delete category!!");
-				return "redirect:../list";
-			}
-			redirectAttributes.addFlashAttribute("msgsuccess", "Success to delete category!!");
-			return "redirect:../list";
-		}
-		
-		@RequestMapping(path = "/question/delete/{category}/{id}", method=RequestMethod.GET)
-		public String deleteQuestion(@PathVariable int id, @PathVariable int category, RedirectAttributes redirectAttributes, Model model) {
-			Question question = quesSvc.findOneQuestion(id);
-			Category categories = new Category();
-			categories.setIdCategory(category);
-			question.setCategory(categories);
-			try {
-				this.quesSvc.deleteQuestion(id);
-				this.quesSvc.updateOrderingQuestion(question.getCategory().getIdCategory(), question.getOrderingQuestion());
-			} catch (Exception ex) {
-				redirectAttributes.addFlashAttribute("msgerror", "Fail to delete question!!");
-				return "redirect:/tester/question/list/{category}";
-			}
-			redirectAttributes.addFlashAttribute("msgsuccess", "Success to delete question!!");
-			return "redirect:/tester/question/list/{category}";
-		}
-		
-		//ini coba masih ragu.gk muncul apa apa
-		@RequestMapping(path = "/category/edit/{id}", method=RequestMethod.GET)
-		public Category findOneCategory(){
-			System.out.println("-------------------------------------------");
-			return ctgSvc.findOneCategory(3);
-		}
-		
-		@RequestMapping(path ="/category/edit/editcategory", method = RequestMethod.POST)
-		public String updateCategory(Category category, RedirectAttributes redirectAttributes, Model model) {
-			try {
-				this.ctgSvc.updateCategory(category);
-			} catch (Exception ex) {
-				System.out.println(ex);
-				model.addAttribute("msg", "Fail, to update question category!!");
-				model.addAttribute("data", category);
-				return "formeditcategory";
-			}
-			redirectAttributes.addFlashAttribute("msg", "Question category has been update successfully!!");
-			return "redirect:../list";
-		}
-		
-		//ini coba gk mucul apa apa juga
-		@RequestMapping(path="/question/list/{id}/{questionType}",method=RequestMethod.GET)
-		public 
-			List<Question> findAllQuestionByCategory(){
-			System.out.println("-------------------------------------------");
-			return quesSvc.findAllQuestionByCategory(3);
-		}
-		
-		
-		@RequestMapping(path = "/createnewquestion/{id}/{questionType}", method = RequestMethod.GET)
-		public String formAddNewQuestion(@PathVariable int id, @PathVariable String questionType, Model model) {
-			model.addAttribute("idcategory", id);
-			model.addAttribute("questionType", questionType);
-			if(questionType.equalsIgnoreCase("essay")){
-				return "formQuestionEssay";
-			}
-			else{
-				return "formQuestion";	
-			}
-			
-		}
-		
-		@RequestMapping(path = "/question/edit/{id}", method = RequestMethod.GET)
-		public String formEditQuestion(@PathVariable int id, Model model) {
-			Question question = quesSvc.findOneQuestion(id);
-			List<Answer> answers = ansSvc.findAnswerByQuestion(id);
-			FormQuestion formQuestion = new FormQuestion();
-			formQuestion.setQuestion(question);
-			formQuestion.setAnswers(answers);
-			model.addAttribute("dataedit", formQuestion);
-			return "formeditquestion";
-		}
-		
-		@RequestMapping(path = "/question/edit/save", method = RequestMethod.POST)
-		public String EditSaveQuestion(FormQuestion formQuestion, Model model) {	
-			int choice = Integer.valueOf(formQuestion.getChoice());
-			quesSvc.editQuestion(formQuestion.getQuestion());
-			int i = 0;
-			for(Answer answer : formQuestion.getAnswers()){
-				if(choice==i){
-					answer.setCorrectAnswer(true);
-				} else {
-					answer.setCorrectAnswer(false);
-				}
-				ansSvc.editAnswer(answer);
-				i++;
-			}
-			return "redirect:/tester/dashboard";
-		}
-		
-		@RequestMapping(path = "/createnewquestion/save", method = RequestMethod.POST)
-		public String saveNewQuestion(FormQuestion formQuestion, Model model) {
-			int choice = Integer.valueOf(formQuestion.getChoice());
-			Question question = formQuestion.getQuestion();
-			question.setCategory(formQuestion.getCategory());
-			int i = 0;
-			try {
-				quesSvc.createQuestion(question);
-				for(Answer answer : formQuestion.getAnswers()){
-					if(choice==i){
-						answer.setCorrectAnswer(true);
-					} else {
-						answer.setCorrectAnswer(false);
-					}
-					answer.setQuestionAnswer(question);
-					ansSvc.createAnswer(answer);
-					i++;
-				}
-			} catch (Exception ex) {
-				System.out.println(ex);
-				return "formQuestion";
-			}
-			return "redirect:/tester/question/list/"+formQuestion.getCategory().getIdCategory()+"/"+formQuestion.getCategory().getQuestionType();
-		}
-		
-		@RequestMapping(path = "/createnewquestionessay/save", method = RequestMethod.POST)
-		public String saveNewQuestionEssay(FormQuestion formQuestion, Model model) {
-			Question question = formQuestion.getQuestion();
-			question.setCategory(formQuestion.getCategory());
-			try{
-				quesSvc.createQuestion(question);
-				Answer answer = new Answer();
-				answer.setCorrectAnswer(true);
-				answer.setQuestionAnswer(question);
-				answer.setAnswer("Jawaban essay diperiksa secara langsung");
-				ansSvc.createAnswer(answer);
-			}
-			catch (Exception ex) {
-				System.out.println(ex);
-				return "formQuestionessay";
-			}
-			return "redirect:/tester/question/list/"+formQuestion.getCategory().getIdCategory()+"/"+formQuestion.getCategory().getQuestionType();
-		}
-		
-		//inicoba sama juga gk ada isi nya
-		
-		@RequestMapping(path="user/score/detail/{userId}",method=RequestMethod.GET)
-		public List<TestUser> findTestByUserId(){
-			System.out.println("-------------------------------------------");
-			return testSvc.findTestByUserId(2);
-		}
-		
-		//ini coba juga gk ada isinya
-		@RequestMapping(path="/user/score",method=RequestMethod.GET)
-		public List<TestUser> findUserSummaryScore(){
-			System.out.println("-------------------------------------------");
-			return testSvc.findUserSummaryScore();
-		}
-		
-		@RequestMapping(path="/user/assignment",method=RequestMethod.GET)
-		public String dataUserAssignment(Model model){
-			model.addAttribute("data", this.userSvc.findAllUser(3));
-			return "testassignment";
-		}
-		
-		//ini coba bisa
-		@RequestMapping(path="/user/assignment/list/{id}",method=RequestMethod.GET)
-		public List <TestUser> findTestAssignment(){
-			System.out.println("-------------------------------------------");
-			return testSvc.findTestAssignment(3);
-		}
-		
-		@RequestMapping(path="/user/assignment/save",method=RequestMethod.POST)
-		public String dataUserAssignmentSave(FormAssignment formAssignment,RedirectAttributes redirectAttributes, Model model){
-			try{
-				testSvc.deleteByIdUserAndStatus(formAssignment.getUser().getUserId());
-				for(int idCategory : formAssignment.explodeString(formAssignment.getCategories())){
-					TestUser testUser = new TestUser();
-					Category category = new Category();
-					category.setIdCategory(idCategory);
-					testUser.setCategories(category);
-					testUser.setUsers(formAssignment.getUser());
-					testSvc.saveTest(testUser);
-				}
-			} catch (Exception ex) {
-				redirectAttributes.addFlashAttribute("msgerror","Fail asign test to user!!");
-				return "redirect:/tester/user/assignment";
-			}
-			redirectAttributes.addFlashAttribute("msgsuccess","Success asign test to user!!");
-			return "redirect:/tester/user/assignment";
-		}
-} 
+ 
+        HttpHeaders headers = new HttpHeaders();
+        headers.setLocation(ucBuilder.path("/testers/question/{id}").buildAndExpand(question.getIdQuestion()).toUri());
+        return new ResponseEntity<Void>(headers, HttpStatus.CREATED);
+    }
+	
+	/**
+	 * Update  by id Question and Category Question
+	 * @param id
+	 * @param question
+	 * @return Question HttpStatus.OK
+	 */
+	@RequestMapping(path = "/question/edit/{id}", method = RequestMethod.PUT)
+	public ResponseEntity<Question> formEditQuestion(@PathVariable("id") int id, @RequestBody Question question) {
+    System.out.println("Updating Question " + id);
+        
+        
+        Question currentQuestion = quesSvc.findOneQuestion(id);
+        List<Answer> answers = ansSvc.findAnswerByQuestion(id);
+         
+        if (currentQuestion==null) {
+            System.out.println("Question with id " + id + " not found");
+            return new ResponseEntity<Question>(HttpStatus.NOT_FOUND);
+        }
+        currentQuestion.setQuestion(question.getQuestion());
+                    
+        quesSvc.editQuestion(currentQuestion);
+        return new ResponseEntity<Question>(currentQuestion, HttpStatus.OK);
+    }
+	
+    /**
+     * Delete  by  id Question and Category Question
+     * @param id
+     * @return Question HttpStatus.NOT_FOUND
+     */
+    @RequestMapping(value = "/testers/deletequestion/{id}", method = RequestMethod.DELETE)
+    public ResponseEntity<Question> deleteQuestion(@PathVariable("id") int id) {
+        System.out.println("Fetching & Deleting Question with id " + id);
+ 
+        Question question = quesSvc.findOneQuestion(id);
+        if (question == null) {
+            System.out.println("Unable to delete. Question with id " + id + " not found");
+            return new ResponseEntity<Question>(HttpStatus.NOT_FOUND);
+        }
+ 
+        quesSvc.deleteQuestion(id);
+        return new ResponseEntity<Question>(HttpStatus.NO_CONTENT);
+    }
+	
+    /**
+     * View List of Result Score User 
+     * @param id
+     * @return findUserTestById
+     */
+    @RequestMapping(value = "/testers/scores/users/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<TestUser> getAllScoresByUsers2(@PathVariable("id") int id) {
+        System.out.println("Fetching Scores with user id " + id);
+        TestUser testUser = testSvc.findUserTestById(id);
+        return new ResponseEntity<TestUser>(testUser, HttpStatus.OK);
+    }
+    
+	
+	/**
+	 * View List of  Detail Result Score User by id user_test
+	 * @param userId
+	 * @return findTestByUserIdDetail
+	 */
+	@RequestMapping(path="user/score/detail/{userId}",method=RequestMethod.GET)
+	public List<TestUser> findTestByUserId(@PathVariable int userId){
+		return testSvc.findTestByUserId(userId);
+	}
+   
+	/**
+	 * View List of Assignment User
+	 * @return findAllAssignment
+	 */
+	@RequestMapping(path="/user/assignment",method=RequestMethod.GET)
+	public List<User> findAllAssignment(){
+		return userSvc.findAllUser(3);
+	}
+    
+    /**
+     * View List Assignment User by id_user
+     * @param id
+     * @return findTestAssignmentById
+     */
+    @RequestMapping(value = "/testers/assignment/list/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    public List<TestUser> findTestAssignmentById(@PathVariable("id") int id) {
+        System.out.println("Fetching Assignment with user id " + id);
+        return testSvc.findTestAssignment(id);
+    }
+	
+
+	/**
+	 * List Category Detail by id
+	 * @param id
+	 * @param redirectAttributes
+	 * @param model
+	 * @return findOneCategory
+	 */
+	@RequestMapping(path = "/category/edit/{id}", method=RequestMethod.GET)
+	public Category findOneCategory(@PathVariable long id, RedirectAttributes redirectAttributes, Model model) {
+		Category category = this.ctgSvc.findOneCategory(id);
+		model.addAttribute("data", category);
+		return category;
+	}
+	
+}

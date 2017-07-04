@@ -10,11 +10,23 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.util.UriComponentsBuilder;
 
 import pji.cbt.entities.Answer;
 import pji.cbt.entities.Question;
@@ -43,206 +55,129 @@ public class AdminRestController {
 	public AdminRestController() {
 	}
 
-	@RequestMapping(path = "/dashboard", method=RequestMethod.GET)
-	public String homePage(HttpServletRequest request, Model model, Authentication authentication) {		
-		User user = userSvc.findOneUser(authentication.getName());
-		session = request.getSession();
-		session.setAttribute("idlogin", user.getUserId());
-		return "index";
-	}
-
-	
-	//cobaini gk bisa
-	@RequestMapping(path = "/editprofile", method=RequestMethod.GET)
-	public	User findOne(){
-		System.out.println("-------------------------------------------");
-		return userSvc.findOne(18);
-	}
-	
-	//coba ini bisa
+	/**
+	 * View tester account
+	 * @return AllTester
+	 */
 	@RequestMapping(path = "/tester/list", method=RequestMethod.GET)
 	public List<User> findAllUser(){
-		System.out.println("-------------------------------------------");
 		return userSvc.findAllUser(2);
 	}
 	
-	@RequestMapping(path = "/tester/edit/{id}", method=RequestMethod.GET)
-	public User formEditTester(@PathVariable long id) {
-		User user = userSvc.findOne(id);
-		List<Roles> roles = userSvc.findRoleAll();
-//		model.addAttribute("data", user);
-//		model.addAttribute("datarole", roles);
-		return user;
-	}
+	/**
+	 * View user account
+	 * @param id
+	 * @return user HttpStatus.OK
+	 */
+	@RequestMapping(value = "/users/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<User> getUser(@PathVariable("id") long id) {
+        System.out.println("Fetching User with id " + id);
+        User user = userSvc.findOne(id);
+        if (user == null) {
+            System.out.println("User with id " + id + " not found");
+            return new ResponseEntity<User>(HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<User>(user, HttpStatus.OK);
+    }
 	
-	
-	@RequestMapping(path ="/tester/edit/save", method = RequestMethod.POST)
-	public String saveEditTester(User user, Roles roles ,RedirectAttributes redirectAttributes, Model model) {
-		user.setRoles(roles);
-		try {
-			this.userSvc.updateUser(user);
-		} catch (Exception ex) {
-			System.out.println(ex);
-			model.addAttribute("msg", "Fail, to update tester profile!!");
-			model.addAttribute("data", user);
-			return "formedittester";
-		}
-		redirectAttributes.addFlashAttribute("msg", "Tester account has been update successfully!!");
-		return "redirect:../list";
-	}
-	
-	@RequestMapping(path ="/editprofile/save", method = RequestMethod.POST)
-	public String saveEditProfile(User user, Roles roles ,RedirectAttributes redirectAttributes, Model model) {
-		user.setRoles(roles);
-		try {
-			this.userSvc.updateUser(user);
-		} catch (Exception ex) {
-			System.out.println(ex);
-			model.addAttribute("msg", "Fail, to update tester profile!!");
-			model.addAttribute("data", user);
-			return "editprofileadmin";
-		}
-		redirectAttributes.addFlashAttribute("msg", "Your account has been update successfully!!");
-		return "redirect:/admin/dashboard";
-	}
-	
-	@RequestMapping(path ="/editpassword/save", method = RequestMethod.POST)
-	public String saveEditPassword(int iduser, String oldpassword, String newpassword, String retypepassword, RedirectAttributes redirectAttributes, Model model) {
-		BCryptPasswordEncoder BCrypt = new BCryptPasswordEncoder();
-		User user = userSvc.findOne(iduser);
-		if(!BCrypt.matches(oldpassword, user.getPassword())){
-			model.addAttribute("msgpassword", "Fail, wrong old password!!");
-			model.addAttribute("data", user);
-			return "editprofileadmin";
-		} else if (!newpassword.equals(retypepassword)) {
-			model.addAttribute("msgpassword", "Fail, your new password doesn't match!!");
-			model.addAttribute("data", user);
-			return "editprofileadmin";
-		}
-		user.setPassword(user.passwordToHash(newpassword));
-		userSvc.updatePassword(user);
-		redirectAttributes.addFlashAttribute("msg", "Your account has been update successfully!!");
-		return "redirect:/admin/dashboard";
-	}
-	
-	@RequestMapping(path = "/users/edit/{id}", method=RequestMethod.GET)
-	public String formEditUser(@PathVariable long id, RedirectAttributes redirectAttributes, Model model) {
-		User user = userSvc.findOne(id);
-		List<Roles> roles = userSvc.findRoleAll();
-		model.addAttribute("data", user);
-		model.addAttribute("datarole", roles);
-		return "formedituser";
-	}
-	
-	@RequestMapping(path ="/users/edit/save", method = RequestMethod.POST)
-	public String saveEditUser(User user, Roles roles ,RedirectAttributes redirectAttributes, Model model) {
-		user.setRoles(roles);
-		try {
-			this.userSvc.updateUser(user);
-		} catch (Exception ex) {
-			System.out.println(ex);
-			model.addAttribute("msg", "Fail, to update user profile!!");
-			model.addAttribute("data", user);
-			return "formedituser";
-		}
-		redirectAttributes.addFlashAttribute("msg", "User account has been update successfully!!");
-		return "redirect:../list";
-	}
-	
-	@RequestMapping(path = "/tester/delete/{id}", method=RequestMethod.GET)
-	public String deleteTester(@PathVariable long id, RedirectAttributes redirectAttributes, Model model) {
-		try {
-			this.userSvc.deleteOne(id);
-		} catch (Exception ex) {
-			redirectAttributes.addFlashAttribute("msgerror", "Fail to delete account!!");
-			return "redirect:../list";
-		}
-		redirectAttributes.addFlashAttribute("msgsuccess", "Success to delete account!!");
-		return "redirect:../list";
-	}
-
-	@RequestMapping(path ="/tester/createnew", method = RequestMethod.GET)
-	public String formTester(Model model) {
-		return "formtester";
-	}
-
-	@RequestMapping(path ="/tester/createnew", method = RequestMethod.POST)
-	public String saveTester(@RequestBody User user) {
-		String password =null;
-		if (user!=null){
-		 password = user.getPassword();
-		} else {
-			System.out.println("user is null");
-		}
-		//user.setRoles(role);
-		try {
-			user.setPassword(user.passwordToHash(user.getPassword()));
-			this.userSvc.createUser(user);
-		} catch (Exception ex) {
-			user.setPassword(password);
-			System.out.println(ex);
-			//model.addAttribute("msg", "Fail, Username has been used!!");
-			//model.addAttribute("data", user);
-			return "formtester";
-		}
-		//redirectAttributes.addFlashAttribute("msg", "Tester account has been created successfully!!");
-		return "redirect:list";
-	}
-	
-	//ini coba bisa
-	@RequestMapping(path="/user/list",method=RequestMethod.GET)
-	public List<User> findAllUsers(){
-		System.out.println("-------------------------------------------");
-		return userSvc.findAllUsers();
-	}
-	
-	@RequestMapping(path="/users/createnew", method= RequestMethod.GET)
-	public String formAddNewUsers(Model model){
-		return "/formusers";
-	}
-	
+	/**
+	 * Create account
+	 * @param user
+	 * @param role
+	 * @param ucBuilder
+	 * @return tester and user HttpStatus.CREATED
+	 */
 	@RequestMapping(path="/users/createnew", method= RequestMethod.POST)
-	public String saveUsers(@RequestBody User user){
-		String password = user.getPassword();
-//		user.setRoles(role);
-		try {
-			user.setPassword(user.passwordToHash(user.getPassword()));
-			this.userSvc.createUser(user);
-		} catch (Exception e) {
-			System.out.println(e);
+	 public ResponseEntity<Void> createUser(@RequestBody User user, Roles role, UriComponentsBuilder ucBuilder) {
+        System.out.println("Creating User " + user.getUsername());
+        
+        String password = user.getPassword();
+
+    	try {
+    		user.setPassword(user.passwordToHash(user.getPassword()));
+    		userSvc.createUser(user);
+    	}catch (Exception e) {
+    		System.out.println(e);
 			user.setPassword(password);
-	
-//			model.addAttribute("msg", "Fail, Username has been used!!");
-//			model.addAttribute("data", user);
-			return "formusers";
-		}	
-//	redirectAttributes.addFlashAttribute("msg", "Create account User has been successfully!!");
-	return "redirect:list";
-	}
-	
-	@RequestMapping(path="/users/delete/{id}", method=RequestMethod.GET)
-	public String deleteUser(@PathVariable long id, RedirectAttributes attributes, Model model){
-		try{
-			this.userSvc.deleteOne(id);
-		} catch (Exception e) {
-			attributes.addFlashAttribute("msgerror", "Delete Account User Failed! Try Again..");
-			return "redirect:../list";	
 		}
-		attributes.addFlashAttribute("msgsuccess", "Delete Account User Succesfully!");
-		return "redirect:../list";
+ 
+        HttpHeaders headers = new HttpHeaders();
+        headers.setLocation(ucBuilder.path("/users/{id}").buildAndExpand(user.getUserId()).toUri());
+        return new ResponseEntity<Void>(headers, HttpStatus.CREATED);
+    }
+	
+	/**
+	 * Update  by id
+	 * @param id
+	 * @param user
+	 * @return tester and user account HttpStatus.OK
+	 */
+	@RequestMapping(path = "/tester/edit/{id}", method=RequestMethod.PUT)
+	 public ResponseEntity<User> editTester(@PathVariable("id") long id, @RequestBody User user) {
+        System.out.println("Updating Tester " + id);
+         
+        User currentUser = userSvc.findOne(id);
+         
+        if (currentUser==null) {
+            System.out.println("User with id " + id + " not found");
+            return new ResponseEntity<User>(HttpStatus.NOT_FOUND);
+        }
+        currentUser.setPassword(user.passwordToHash(user.getPassword()));
+        currentUser.setUsername(user.getUsername());
+        currentUser.setEmail(user.getEmail()); 
+        
+        userSvc.updateUser(currentUser);
+        userSvc.updatePassword(currentUser);
+        return new ResponseEntity<User>(currentUser, HttpStatus.OK);
+    }
+	
+	/**
+	 * Delete account
+	 * @param id
+	 * @return tester and user delete HttpStatus.NO_CONTENT
+	 */
+	@RequestMapping(path = "/tester/delete/{id}", method=RequestMethod.DELETE)
+	public ResponseEntity<User> deleteTester(@PathVariable long id) {
+		
+		 System.out.println("Fetching & Deleting User with id " + id);
+		 User user = userSvc.findOne(id);	 
+		 if (user == null) {
+	            System.out.println("Unable to delete. User with id " + id + " not found");
+	            return new ResponseEntity<User>(HttpStatus.NOT_FOUND);
+	        }
+	 
+	        userSvc.deleteOne(id);
+	        return new ResponseEntity<User>(HttpStatus.NO_CONTENT);
 	}
 	
-	@RequestMapping(path="/tester", method=RequestMethod.GET)
-	public String userHomePage(HttpServletRequest request, Model model ){
-		return "index";
-	}
-	//ini coba bisa
+	/**
+	 * List of Questions
+	 * @return findAllQuestion
+	 */
 	@RequestMapping(path="/tester/listquestions",method=RequestMethod.GET)
-	public List<Question>findAllQuestion(){
-		System.out.println("-------------------------------------------");
+	public List<Question> findAllQuestion(){
 		return quesSvc.findAllQuestion();
 	}
 	
+
+	/**
+	 * List of Answers
+	 * @return findAllAnswer
+	 */
+	@RequestMapping(path="/tester/listanswers", method=RequestMethod.GET)
+	public List<Answer> findAllAnswer(){
+		return ansSvc.findAllAnswer();
+	}
+
+	
+	
+	/**
+	 * Delete Question by question id
+	 * @param id
+	 * @param attributes
+	 * @param model
+	 * @return
+	 */
 	@RequestMapping(path="/question/delete/{question_id}",method=RequestMethod.GET)
 	public String deleteQuestion(@PathVariable int id,RedirectAttributes attributes,Model model){
 		try{
@@ -255,14 +190,13 @@ public class AdminRestController {
 			return "redirect:/index_question";
 		}
 	
-	//inicoba bisa
-	@RequestMapping(path="/tester/listanswers", method=RequestMethod.GET)
-	public List<Answer> findAllAnswer(){
-		System.out.println("-------------------------------------------");
-		return ansSvc.findAllAnswer();
-	}
-	
-	
+	/**
+	 * Delete Answer by answer id
+	 * @param id
+	 * @param attributes
+	 * @param model
+	 * @return
+	 */
 	@RequestMapping(path="/answer/delete/{question_id}",method=RequestMethod.GET)
 	public String deleteAnswer(@PathVariable int id,RedirectAttributes attributes,Model model){
 		try{
@@ -275,6 +209,13 @@ public class AdminRestController {
 			return "redirect:/index_answer";
 	}
 	
+
+	/**
+	 * Delete Answer
+	 * @param questionId
+	 * @param model
+	 * @return
+	 */
 	@RequestMapping(path="/answer/delete/{id}",method=RequestMethod.GET)
 	public String findOneAnswer(int questionId ,Model model){
 		model.addAttribute("answer", this.ansSvc.findOne(questionId));
@@ -283,4 +224,3 @@ public class AdminRestController {
 	}
 	
 }
-//punya saya

@@ -12,9 +12,14 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -66,165 +71,51 @@ public class UserRestController {
 		return score;
 	}
 
-	@RequestMapping(path = "/dashboard", method = RequestMethod.GET)
-	public String userPage(HttpServletRequest request, Model Model, Authentication authentication) {
-		User user = userSvc.findOneUser(authentication.getName());
-		session = request.getSession();
-		session.setAttribute("idlogin", user.getUserId());
-		return "indexuser";
+	
+	/**
+	 * View List of Test
+	 * @param userId
+	 * @return findTestHaveAssign
+	 */
+	@RequestMapping(path = "/test/list/{userId}", method = RequestMethod.GET)
+	public List<TestUser> findTestHaveAssign(@PathVariable int userId){
+		return tstSvc.findTestHaveAssign(userId);
 	}
-
-	@RequestMapping(path = "/editprofile", method = RequestMethod.GET)
-	public String editProfile(Model model) {
-		int idlogin = Integer.parseInt(session.getAttribute("idlogin").toString());
-		User user = userSvc.findOne(idlogin);
-		model.addAttribute("data", user);
-		return "editprofileuser";
-	}
-
-	@RequestMapping(path = "/editprofile/save", method = RequestMethod.POST)
-	public String saveEditProfile(User user, Roles roles, RedirectAttributes redirectAttributes, Model model) {
-		user.setRoles(roles);
-		try {
-			this.userSvc.updateUser(user);
-		} catch (Exception ex) {
-			System.out.println(ex);
-			model.addAttribute("msg", "Fail, to update tester profile!!");
-			model.addAttribute("data", user);
-			return "editprofileuser";
-		}
-		redirectAttributes.addFlashAttribute("msg", "Your account has been update successfully!!");
-		return "redirect:/user/dashboard";
-	}
-
-	@RequestMapping(path = "/editpassword/save", method = RequestMethod.POST)
-	public String saveEditPassword(int iduser, String oldpassword, String newpassword, String retypepassword,
-			RedirectAttributes redirectAttributes, Model model) {
-		BCryptPasswordEncoder BCrypt = new BCryptPasswordEncoder();
-		User user = userSvc.findOne(iduser);
-		if (!BCrypt.matches(oldpassword, user.getPassword())) {
-			model.addAttribute("msgpassword", "Fail, wrong old password!!");
-			model.addAttribute("data", user);
-			return "editprofileuser";
-		} else if (!newpassword.equals(retypepassword)) {
-			model.addAttribute("msgpassword", "Fail, your new password doesn't match!!");
-			model.addAttribute("data", user);
-			return "editprofileuser";
-		}
-		user.setPassword(user.passwordToHash(newpassword));
-		userSvc.updatePassword(user);
-		redirectAttributes.addFlashAttribute("msg", "Your account has been update successfully!!");
-		return "redirect:/user/dashboard";
-	}
-
-	@RequestMapping(path = "/test/list", method = RequestMethod.GET)
-	public String Test(HttpServletRequest request, Model model) {
-		List<TestUser> testUser = tstSvc.findTestHaveAssign(Integer.parseInt(session.getAttribute("idlogin").toString()));
-		model.addAttribute("data", testUser);
-		return "listtest";
-	}
-
-	@SuppressWarnings("unchecked")
-	@RequestMapping(path = "/test/dotest", method = RequestMethod.POST)
-	public String doTest(HttpServletRequest request, Category category, FormAnswer formAnswer, TestUser testUser,
-			Model model, int init, Timestamp timestamp) {
-		Question question = new Question();
-		List<Question> listQuest = new ArrayList<Question>();
-		timestamp = new Timestamp(System.currentTimeMillis());
-		session = request.getSession();
-		if (session.getAttribute("listQuest") != null) {
-			listQuest = (List<Question>) session.getAttribute("listQuest");
-			if (init < listQuest.size()) {
-				question = listQuest.get(init);
-			}
-		} else {
-			listQuest = queSvc.findQuestionRandomOrder(category.getIdCategory());
-			for (Question q : listQuest) {
-				List<Answer> listAnswer = new ArrayList<Answer>();
-				listAnswer.addAll(ansSvc.findAnswerByQuestion(q.getIdQuestion()));
-				Collections.shuffle(listAnswer);
-				session.setAttribute("listAnswer" + q.getIdQuestion(), listAnswer);
-			}
-			Collections.shuffle(listQuest);
-			question = listQuest.get(init);
-		}
-		session.setAttribute("listQuest", listQuest);
-		Question ques = queSvc.findCountQuestion(category.getIdCategory());
-		if (session.getAttribute("answer") == null) {
-			List<FormAnswer> frmAnswers = new ArrayList<FormAnswer>();
-			for (int i = 0; i < ques.getOrderingQuestion(); i++) {
-				FormAnswer formAnswerer = new FormAnswer();
-				frmAnswers.add(formAnswerer);
-			}
-			session.setAttribute("answer", frmAnswers);
-		} else {
-			List<FormAnswer> frmAnswers = (List<FormAnswer>) session.getAttribute("answer");
-			if (formAnswer.getCheckBut().equalsIgnoreCase("next")) {
-				frmAnswers.set(init - 1, formAnswer);
-			} else if (formAnswer.getCheckBut().equalsIgnoreCase("back")) {
-				frmAnswers.set(init + 1, formAnswer);
-			} else if (formAnswer.getCheckBut().equalsIgnoreCase("finish")) {
-				frmAnswers.set(init - 1, formAnswer);
-				return "redirect:/user/test/save";
-			}
-		}
-
-		List<FormAnswer> frmAnswers = (List<FormAnswer>) session.getAttribute("answer");
-		String startTest = sdf.format(timestamp);
-		try {
-			Date date = sdf.parse(startTest);
-			testUser.setStarted(date);
-		} catch (ParseException e) {
-			e.printStackTrace();
-		}
-		testUser.setStatus("Done");
-		TestUser testUser2 = tstSvc.findUserTestById(testUser.getTestId());
-		if (testUser2.getStarted() == null) {
-			tstSvc.updateStartTest(testUser);
-		}
-		FormQuestion formQuestion = new FormQuestion();
-		formQuestion.setQuestion(question);
-		// List<Answer> answers =
-		// ansSvc.findAnswerByQuestion(question.getIdQuestion());
-		formQuestion.setAnswers((List<Answer>) session.getAttribute("listAnswer" + question.getIdQuestion()));
-		formQuestion.setCategory(category);
-		model.addAttribute("init", init);
-		model.addAttribute("category", category.getIdCategory());
-		model.addAttribute("limit", category.getTimeLimit());
-		model.addAttribute("idTest", testUser.getTestId());
-		model.addAttribute("data", formQuestion);
-		model.addAttribute("sessionChoice", frmAnswers.get(init).getChoices());
-		model.addAttribute("max", ques.getOrderingQuestion());
-		return "formtest";
-	}
-
-	@RequestMapping(path = "/test/save", method = RequestMethod.GET)
-	public String saveTest(HttpServletRequest request, Model model, Timestamp timestamp) {
-		timestamp = new Timestamp(System.currentTimeMillis());
-		TestUser testUser = new TestUser();
-		session = request.getSession();
-		List<FormAnswer> formAnswers = (List<FormAnswer>) request.getSession().getAttribute("answer");
-		int point = 0;
-		for (FormAnswer formAnswer : formAnswers) {
-			testUser.setTestId(formAnswer.getTestId());
-			Answer answer = ansSvc.findOne(formAnswer.getChoices());
-			if (answer.isCorrectAnswer()) {
-				point = point + 1;
-			}
-		}
-		double score = calculateScore(point, formAnswers.size());
-		testUser.setScore(score);
-		session.setAttribute("answer", null);
-		String endTest = sdf.format(timestamp);
-		try {
-			Date date = sdf.parse(endTest);
-			testUser.setEnded(date);
-		} catch (ParseException e) {
-			e.printStackTrace();
-		}
-  
-		tstSvc.updateEndTest(testUser);
-		return "redirect:/user/test/list";
-	}
+	
+    /**
+     * View List User have assign
+     * @param id
+     * @return getAllAssignTestUser
+     */
+    @RequestMapping(value = "/users/assign/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    public List<TestUser> getAllAssignTestUser(@PathVariable("id") int id) {
+        System.out.println("Fetching Assign Test with user id " + id);
+        return tstSvc.findTestHaveAssign(id);
+    }
+    
+    /**
+     * Edit Profile User
+     * @param id
+     * @param user
+     * @return
+     */
+    @RequestMapping(value = "/users/update/{id}", method = RequestMethod.PUT)
+    public ResponseEntity<User> updateUser(@PathVariable("id") long id, @RequestBody User user) {
+        System.out.println("Updating User " + id);
+         
+        User currentUser = userSvc.findOne(id);
+         
+        if (currentUser==null) {
+            System.out.println("User with id " + id + " not found");
+            return new ResponseEntity<User>(HttpStatus.NOT_FOUND);
+        }
+        currentUser.setPassword(user.passwordToHash(user.getPassword()));
+        currentUser.setUsername(user.getUsername());
+        currentUser.setEmail(user.getEmail()); 
+        
+        userSvc.updateUser(currentUser);
+        userSvc.updatePassword(currentUser);
+        return new ResponseEntity<User>(currentUser, HttpStatus.OK);
+    }
 
 }
