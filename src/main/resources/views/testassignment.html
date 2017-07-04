@@ -61,7 +61,6 @@
 										<tr>
 											<th>No.</th>
 											<th>Username</th>
-											<th>Name</th>
 											<th>Email</th>
 											<th>Action</th>
 										</tr>
@@ -70,7 +69,6 @@
 										<tr th:each="user,iterationStatus : ${data}">
 											<td th:text="${user != null ? iterationStatus.count : '' }" />
 											<td th:text="${user != null ? user.username : '' }" />
-											<td th:text="${user != null ? user.userName : '' }" />
 											<td th:text="${user != null ? user.email : '' }" />
 											<td><a th:href="|/tester/user/assignment/list/${user.userId}|"><button type="button" class="btn btn-primary btn-xs">Assign</button></a></td>
 										</tr>
