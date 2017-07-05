@@ -47,7 +47,7 @@
 									<thead>
 										<tr>
 											<th>No.</th>
-											<th>Name</th>
+											<th>Username</th>
 											<th>Email</th>
 											<th>Start</th>
 											<th>End</th>
@@ -58,7 +58,7 @@
 									<tbody>
 										<tr th:each="user,iterationStatus : ${userTest}">
 											<td th:text="${user != null ? iterationStatus.count : '' }" />
-											<td th:text="${user != null ? user.users.userName : '' }" />
+											<td th:text="${user != null ? user.users.username : '' }" />
 											<td th:text="${user != null ? user.users.email : '' }" />
 											<td th:text="${user != null ? user.started : '' }" />
 											<td th:text="${user != null ? user.ended : '' }" />

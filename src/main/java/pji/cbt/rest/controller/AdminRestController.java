@@ -5,6 +5,7 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -53,103 +54,129 @@ public class AdminRestController {
 	private AnswerService ansSvc;
 
 	public AdminRestController() {
+		
 	}
+	private static Logger logger = Logger.getLogger(AdminRestController.class);
+
 
 	/**
+	 * @param  		-
+	 * @method		GET
+	 * @return      list of all Actors (Admin, User, and Tester)
+	 */
+	@RequestMapping(value = "/users", method = RequestMethod.GET)
+    public ResponseEntity<List<User>> listAllUsers() {
+        List<User> users = userSvc.findAllUsers();
+        if(users.isEmpty()){
+            return new ResponseEntity<List<User>>(HttpStatus.NO_CONTENT);
+        }
+        return new ResponseEntity<List<User>>(users, HttpStatus.OK);
+    }
+	
+	
+	/**
 	 * View tester account
-	 * @return AllTester
+	 * @method	GET
+	 * @return	list AllTester
 	 */
 	@RequestMapping(path = "/tester/list", method=RequestMethod.GET)
-	public List<User> findAllUser(){
+	public List<User> findAllTester(){
 		return userSvc.findAllUser(2);
 	}
 	
-	/**
-	 * View user account
-	 * @param id
-	 * @return user HttpStatus.OK
+	 /**
+	 * @param  		-
+	 * @method		GET
+	 * @return      list of all Users
 	 */
-	@RequestMapping(value = "/users/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<User> getUser(@PathVariable("id") long id) {
-        System.out.println("Fetching User with id " + id);
-        User user = userSvc.findOne(id);
-        if (user == null) {
-            System.out.println("User with id " + id + " not found");
-            return new ResponseEntity<User>(HttpStatus.NOT_FOUND);
-        }
-        return new ResponseEntity<User>(user, HttpStatus.OK);
-    }
+	@RequestMapping(path = "/user", method=RequestMethod.GET)
+	public List<User> findAllUser(){
+		return userSvc.findAllUser(3);
+	}
 	
-	/**
-	 * Create account
-	 * @param user
-	 * @param role
-	 * @param ucBuilder
-	 * @return tester and user HttpStatus.CREATED
-	 */
-	@RequestMapping(path="/users/createnew", method= RequestMethod.POST)
-	 public ResponseEntity<Void> createUser(@RequestBody User user, Roles role, UriComponentsBuilder ucBuilder) {
-        System.out.println("Creating User " + user.getUsername());
-        
-        String password = user.getPassword();
+	
+	 /**
+	  * @param  	id
+	  * @method		GET
+	  * @return     retrieve a user by id
+	  */
+	 @RequestMapping(value = "/users/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	 public ResponseEntity<User> getUser(@PathVariable("id") long id) {
+	    logger.info("Fetching user with id : "+id);
+	    User user = userSvc.findOne(id);
+	      if (user == null) {
+	          logger.warn("User with id " + id + " not found");
+	          return new ResponseEntity<User>(HttpStatus.NOT_FOUND);
+	        }
+	        return new ResponseEntity<User>(user, HttpStatus.OK);
+	    }
+	      
+	
+	 /**
+		 * @param  		-
+		 * @method		POST
+		 * @return      create a new user
+		 */
+	    @RequestMapping(value = "/users", method = RequestMethod.POST)
+	    public ResponseEntity<Void> createUser(@RequestBody User user, Roles role, UriComponentsBuilder ucBuilder) {
+	        logger.info("Creating User : "+user.getUsername());
+	        String password = user.getPassword();
 
-    	try {
-    		user.setPassword(user.passwordToHash(user.getPassword()));
-    		userSvc.createUser(user);
-    	}catch (Exception e) {
-    		System.out.println(e);
-			user.setPassword(password);
-		}
- 
-        HttpHeaders headers = new HttpHeaders();
-        headers.setLocation(ucBuilder.path("/users/{id}").buildAndExpand(user.getUserId()).toUri());
-        return new ResponseEntity<Void>(headers, HttpStatus.CREATED);
-    }
-	
+	    	try {
+	    		user.setPassword(user.passwordToHash(user.getPassword()));
+	    		userSvc.createUser(user);
+	    	}catch (Exception e) {
+	    		logger.info(e);
+				user.setPassword(password);
+			}
+	 
+	        HttpHeaders headers = new HttpHeaders();
+	        headers.setLocation(ucBuilder.path("/users/{id}").buildAndExpand(user.getUserId()).toUri());
+	        return new ResponseEntity<Void>(headers, HttpStatus.CREATED);
+	    }
 	/**
-	 * Update  by id
-	 * @param id
-	 * @param user
-	 * @return tester and user account HttpStatus.OK
+	 * Update  	by id
+	 * @param 	id
+	 * @method	PUT
+	 * @return 	tester and user account HttpStatus.OK
 	 */
-	@RequestMapping(path = "/tester/edit/{id}", method=RequestMethod.PUT)
-	 public ResponseEntity<User> editTester(@PathVariable("id") long id, @RequestBody User user) {
-        System.out.println("Updating Tester " + id);
-         
-        User currentUser = userSvc.findOne(id);
-         
-        if (currentUser==null) {
-            System.out.println("User with id " + id + " not found");
-            return new ResponseEntity<User>(HttpStatus.NOT_FOUND);
-        }
-        currentUser.setPassword(user.passwordToHash(user.getPassword()));
-        currentUser.setUsername(user.getUsername());
-        currentUser.setEmail(user.getEmail()); 
-        
-        userSvc.updateUser(currentUser);
-        userSvc.updatePassword(currentUser);
-        return new ResponseEntity<User>(currentUser, HttpStatus.OK);
-    }
+	    @RequestMapping(value = "/admins/update/{id}", method = RequestMethod.PUT)
+	    public ResponseEntity<User> updateAdmin(@PathVariable("id") long id, @RequestBody User user) {
+	        logger.info("Updating Admin " + id);  
+	        User currentUser = userSvc.findOne(id);
+	         
+	        if (currentUser==null) {
+	        	logger.warn("User with id " + id + " not found");
+	            return new ResponseEntity<User>(HttpStatus.NOT_FOUND);
+	        }
+	        
+	        currentUser.setPassword(user.passwordToHash(user.getPassword()));
+	        currentUser.setUsername(user.getUsername());
+	        currentUser.setEmail(user.getEmail()); 
+	        
+	        userSvc.updateUser(currentUser);
+	        userSvc.updatePassword(currentUser);
+	        return new ResponseEntity<User>(currentUser, HttpStatus.OK);
+	    }
 	
-	/**
-	 * Delete account
-	 * @param id
-	 * @return tester and user delete HttpStatus.NO_CONTENT
-	 */
-	@RequestMapping(path = "/tester/delete/{id}", method=RequestMethod.DELETE)
-	public ResponseEntity<User> deleteTester(@PathVariable long id) {
-		
-		 System.out.println("Fetching & Deleting User with id " + id);
-		 User user = userSvc.findOne(id);	 
-		 if (user == null) {
-	            System.out.println("Unable to delete. User with id " + id + " not found");
+	    /**
+		 * @param  		id
+		 * @method		DELETE
+		 * @return      delete a user by id
+		 */
+	    @RequestMapping(value = "/users/delete/{id}", method = RequestMethod.DELETE)
+	    public ResponseEntity<User> deleteUser(@PathVariable("id") long id) {
+	    	logger.info("Fetching & Deleting User with id "+id); 
+	 
+	        User user = userSvc.findOne(id);
+	        if (user == null) {
+	        	logger.warn("Unable to delete. User with id " + id + " not found");
 	            return new ResponseEntity<User>(HttpStatus.NOT_FOUND);
 	        }
 	 
 	        userSvc.deleteOne(id);
 	        return new ResponseEntity<User>(HttpStatus.NO_CONTENT);
-	}
-	
+	    }
 	/**
 	 * List of Questions
 	 * @return findAllQuestion
@@ -161,8 +188,9 @@ public class AdminRestController {
 	
 
 	/**
-	 * List of Answers
-	 * @return findAllAnswer
+	 * List of 	Answers
+	 * @method	GET
+	 * @return	findAllAnswer
 	 */
 	@RequestMapping(path="/tester/listanswers", method=RequestMethod.GET)
 	public List<Answer> findAllAnswer(){
@@ -175,6 +203,7 @@ public class AdminRestController {
 	 * Delete Question by question id
 	 * @param id
 	 * @param attributes
+	 * @method		GET
 	 * @param model
 	 * @return
 	 */

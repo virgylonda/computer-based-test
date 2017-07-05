@@ -5,6 +5,7 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -59,10 +60,12 @@ public class TesterRestController {
 	
 	public TesterRestController(){
 	}
+	private static Logger logger = Logger.getLogger(TesterRestController.class);
 	
 	/**
 	 * View List of Category Question
-	 * @return findAllCategory
+	 * @method	GET
+	 * @return	ListAllCategory
 	 */
 	@RequestMapping(path="/category/list",method=RequestMethod.GET)
 	public List<Category> findAllCategory(){
@@ -71,13 +74,14 @@ public class TesterRestController {
 	
     /**
      * Create 
-     * @param category
-     * @param ucBuilder
-     * @return New Category Question HttpStatus.CREATED
+     * @param 	category
+     * @param 	ucBuilder
+     * @method	POST
+     * @return 	New Category Question HttpStatus.CREATED
      */
     @RequestMapping(value = "/testers/addcategory", method = RequestMethod.POST)
     public ResponseEntity<Void> createCategory(@RequestBody Category category, UriComponentsBuilder ucBuilder) {
-        System.out.println("Creating Category " + category.getDescription());
+    	logger.info("Creating Category " + category.getDescription());
 
     	try {
     		ctgSvc.createCategory(category);
@@ -92,14 +96,15 @@ public class TesterRestController {
 	
     /**
      * Update
-     * @param id
-     * @param category
+     * @param   id
+     * @param   category
+     * @method	PUT
      * @return  Category Question  HttpStatus.OK
      */
     @RequestMapping(value = "/testers/updatecategory/{id}", method = RequestMethod.PUT)
     public ResponseEntity<Category> updateCategory(@PathVariable("id") long id, @RequestBody Category category) {
-        System.out.println("Updating Category " + id);
-         
+    	logger.info("Updating Category " + id);
+        
         Category currentCategory = ctgSvc.findOneCategory(id);
          
         if (currentCategory==null) {
@@ -118,13 +123,14 @@ public class TesterRestController {
 	
     /**
      * Delete by Category Question
-     * @param id
-     * @return HttpStatus.NO_CONTENT
+     * @param	id
+     * @method	DELETE
+     * @return 	HttpStatus.NO_CONTENT
      */
     @RequestMapping(value = "/testers/deletecategory/{id}", method = RequestMethod.DELETE)
     public ResponseEntity<Category> deleteCategory(@PathVariable("id") long id) {
-        System.out.println("Fetching & Deleting Category with id " + id);
- 
+    	logger.info("Fetching & Deleting Category with id " + id);
+   	 
         Category category = ctgSvc.findOneCategory(id);
         if (category == null) {
             System.out.println("Unable to delete. Category with id " + id + " not found");
@@ -135,26 +141,50 @@ public class TesterRestController {
         return new ResponseEntity<Category>(HttpStatus.NO_CONTENT);
     }
 	
+    /**
+	 * @param  		id
+	 * @method		GET
+	 * @return      get a category by id
+	 */
+    @RequestMapping(value = "/testers/category/{id}", method = RequestMethod.GET)
+    public ResponseEntity<Category> getCategoryById(@PathVariable("id") int id) {
+    	Category category = ctgSvc.findOneCategory(id);
+    	return new ResponseEntity<Category>(category, HttpStatus.OK);
+    }
+    
+    /**
+	 * @param  		-
+	 * @method		GET
+	 * @return      list all question
+	 */
+    @RequestMapping(path = "/testers/allquestion", method=RequestMethod.GET)
+	public List<Question> findAllQuestion(){
+		return quesSvc.findAllQuestion();
+	}
+    
     
 	/**
 	 * View List of Question by Category Question
-	 * @param id
-	 * @return findAllQuestionByCategory
+	 * @param	id
+	 * @method	GET
+	 * @return	findAllQuestionByCategory
 	 */
 	@RequestMapping(path="/question/list/{id}",method=RequestMethod.GET)
 	public List<Question> findAllQuestionByCategory(@PathVariable int id){
+		logger.info("Fetching Question with id " + id);
 		return quesSvc.findAllQuestionByCategory(id);
 	}
  
     /**
      * Create Question by id Question and Category Question
-     * @param question
-     * @param ucBuilder
-     * @return Question HttpStatus.CREATED
+     * @param	question
+     * @param	ucBuilder
+     * @method	POST
+     * @return	Question HttpStatus.CREATED
      */
     @RequestMapping(value = "/testers/addquestion", method = RequestMethod.POST)
     public ResponseEntity<Void> createQuestion(@RequestBody Question question, UriComponentsBuilder ucBuilder) {
-        System.out.println("Creating Question " + question.getQuestion());
+    	logger.info("Creating Question " + question.getQuestion());
 
     	try {
     		quesSvc.createQuestion(question);
@@ -167,38 +197,39 @@ public class TesterRestController {
         return new ResponseEntity<Void>(headers, HttpStatus.CREATED);
     }
 	
-	/**
-	 * Update  by id Question and Category Question
-	 * @param id
-	 * @param question
-	 * @return Question HttpStatus.OK
-	 */
-	@RequestMapping(path = "/question/edit/{id}", method = RequestMethod.PUT)
-	public ResponseEntity<Question> formEditQuestion(@PathVariable("id") int id, @RequestBody Question question) {
-    System.out.println("Updating Question " + id);
-        
-        
-        Question currentQuestion = quesSvc.findOneQuestion(id);
-        List<Answer> answers = ansSvc.findAnswerByQuestion(id);
-         
-        if (currentQuestion==null) {
-            System.out.println("Question with id " + id + " not found");
-            return new ResponseEntity<Question>(HttpStatus.NOT_FOUND);
-        }
-        currentQuestion.setQuestion(question.getQuestion());
-                    
-        quesSvc.editQuestion(currentQuestion);
-        return new ResponseEntity<Question>(currentQuestion, HttpStatus.OK);
-    }
+    /**
+	   * @param  	id
+	   * @method	PUT
+	   * @return    update a question
+	   */
+	    @RequestMapping(value = "/testers/updatequestion/{id}", method = RequestMethod.PUT)
+	    public ResponseEntity<Question> updateQuestion(@PathVariable("id") int id, @RequestBody Question question) {
+	    	logger.info("Updating Question " + id);
+	        
+	        
+	        Question currentQuestion = quesSvc.findOneQuestion(id);
+	        List<Answer> answers = ansSvc.findAnswerByQuestion(id);
+	         
+	        if (currentQuestion==null) {
+	        	logger.info("Question with id " + id + " not found");
+	            return new ResponseEntity<Question>(HttpStatus.NOT_FOUND);
+	        }
+	        currentQuestion.setQuestion(question.getQuestion());
+	                    
+	        quesSvc.editQuestion(currentQuestion);
+	        return new ResponseEntity<Question>(currentQuestion, HttpStatus.OK);
+	    }
 	
     /**
-     * Delete  by  id Question and Category Question
-     * @param id
-     * @return Question HttpStatus.NOT_FOUND
+     * Delete by  id Question and Category Question
+     * @param	id
+     * @method	DELETE
+     * @return	Question HttpStatus.NOT_FOUND
      */
     @RequestMapping(value = "/testers/deletequestion/{id}", method = RequestMethod.DELETE)
     public ResponseEntity<Question> deleteQuestion(@PathVariable("id") int id) {
-        System.out.println("Fetching & Deleting Question with id " + id);
+    	logger.info("Fetching & Deleting Question with id " + id);
+		 
  
         Question question = quesSvc.findOneQuestion(id);
         if (question == null) {
@@ -211,13 +242,24 @@ public class TesterRestController {
     }
 	
     /**
-     * View List of Result Score User 
-     * @param id
-     * @return findUserTestById
-     */
+	 * @param  		id
+	 * @method		GET
+	 * @return      get a test by user id
+	 */
+    @RequestMapping(value = "/testers/scores/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    public List<TestUser> getAllScoresByUsers(@PathVariable("id") int id) {
+    	logger.info("Fetching Scores with user id " + id);
+        return testSvc.findTestByUserId(id);
+    }
+    
+    /**
+	 * @param  		id
+	 * @method		GET
+	 * @return      get user test by id
+	 */
     @RequestMapping(value = "/testers/scores/users/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<TestUser> getAllScoresByUsers2(@PathVariable("id") int id) {
-        System.out.println("Fetching Scores with user id " + id);
+    	logger.info("Fetching Scores with user id " + id);
         TestUser testUser = testSvc.findUserTestById(id);
         return new ResponseEntity<TestUser>(testUser, HttpStatus.OK);
     }
@@ -225,8 +267,9 @@ public class TesterRestController {
 	
 	/**
 	 * View List of  Detail Result Score User by id user_test
-	 * @param userId
-	 * @return findTestByUserIdDetail
+	 * @param 	userId
+	 * @method	GET
+	 * @return	findTestByUserIdDetail
 	 */
 	@RequestMapping(path="user/score/detail/{userId}",method=RequestMethod.GET)
 	public List<TestUser> findTestByUserId(@PathVariable int userId){
@@ -235,31 +278,34 @@ public class TesterRestController {
    
 	/**
 	 * View List of Assignment User
-	 * @return findAllAssignment
+	 * @method	GET
+	 * @return	findAllAssignment
 	 */
-	@RequestMapping(path="/user/assignment",method=RequestMethod.GET)
-	public List<User> findAllAssignment(){
-		return userSvc.findAllUser(3);
-	}
+	 @RequestMapping(path = "/testers/assignment", method=RequestMethod.GET)
+		public List<User> findAllUserforAssignment(){
+			return userSvc.findAllUser(3);
+		}
     
     /**
      * View List Assignment User by id_user
-     * @param id
-     * @return findTestAssignmentById
+     * @param	id
+     * @method	GET
+     * @return 	findTestAssignmentById
      */
     @RequestMapping(value = "/testers/assignment/list/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public List<TestUser> findTestAssignmentById(@PathVariable("id") int id) {
-        System.out.println("Fetching Assignment with user id " + id);
+    	logger.info("Fetching Assignment with user id " + id);
         return testSvc.findTestAssignment(id);
     }
 	
 
 	/**
 	 * List Category Detail by id
-	 * @param id
-	 * @param redirectAttributes
-	 * @param model
-	 * @return findOneCategory
+	 * @param 	id
+	 * @param	redirectAttributes
+	 * @param	model
+	 * @method	GET
+	 * @return	findOneCategory
 	 */
 	@RequestMapping(path = "/category/edit/{id}", method=RequestMethod.GET)
 	public Category findOneCategory(@PathVariable long id, RedirectAttributes redirectAttributes, Model model) {

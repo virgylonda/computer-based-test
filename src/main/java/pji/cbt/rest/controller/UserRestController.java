@@ -11,6 +11,7 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -63,7 +64,9 @@ public class UserRestController {
 
 	@Autowired
 	private UserService userSvc;
-
+	
+	private static Logger logger = Logger.getLogger(UserRestController.class);
+	
 	public double calculateScore(double point, double quest) {
 		double score = (point / quest) * 100;
 		score = Math.round(score * 100);
@@ -81,32 +84,41 @@ public class UserRestController {
 	public List<TestUser> findTestHaveAssign(@PathVariable int userId){
 		return tstSvc.findTestHaveAssign(userId);
 	}
+	 /**
+	 * @param  		id
+	 * @method		GET
+	 * @return      view user test by id
+	 */
+    @RequestMapping(value = "/users/test/{id}", method = RequestMethod.GET)
+    public ResponseEntity<TestUser> getUserTestById(@PathVariable("id") int id) {
+    	TestUser testUser = tstSvc.findUserTestById(id);
+    	return new ResponseEntity<TestUser>(testUser, HttpStatus.OK);
+    }
 	
-    /**
-     * View List User have assign
-     * @param id
-     * @return getAllAssignTestUser
-     */
+	/**
+	 * @param  		id
+	 * @method		GET
+	 * @return      view all assign test by user id
+	 */
     @RequestMapping(value = "/users/assign/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public List<TestUser> getAllAssignTestUser(@PathVariable("id") int id) {
-        System.out.println("Fetching Assign Test with user id " + id);
+    	logger.info("Fetching Assign Test with user id " + id);
         return tstSvc.findTestHaveAssign(id);
     }
     
     /**
-     * Edit Profile User
-     * @param id
-     * @param user
-     * @return
-     */
+	 * @param  		id
+	 * @method		PUT
+	 * @return      update a user
+	 */
     @RequestMapping(value = "/users/update/{id}", method = RequestMethod.PUT)
     public ResponseEntity<User> updateUser(@PathVariable("id") long id, @RequestBody User user) {
-        System.out.println("Updating User " + id);
+    	logger.info("Updating User " + id);
          
         User currentUser = userSvc.findOne(id);
          
         if (currentUser==null) {
-            System.out.println("User with id " + id + " not found");
+        	logger.info("User with id " + id + " not found");
             return new ResponseEntity<User>(HttpStatus.NOT_FOUND);
         }
         currentUser.setPassword(user.passwordToHash(user.getPassword()));
@@ -117,5 +129,4 @@ public class UserRestController {
         userSvc.updatePassword(currentUser);
         return new ResponseEntity<User>(currentUser, HttpStatus.OK);
     }
-
 }
