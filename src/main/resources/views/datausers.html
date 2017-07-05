@@ -8,14 +8,15 @@
 		<div class="alert alert-danger"
 			th:text="${msgerror != null ? msgerror : '' }"></div>
 	</div>
-</div>
-<div class="row" th:if="${msgsuccess != null}">
+</div> -->
+<div class="row">
 	<div class="col-lg-12">
-		<div class="alert alert-success"
-			th:text="${msgsuccess != null ? msgsuccess : '' }"></div>
+		<div class="alert alert-success" ng-show="statusAllert">
+        {{statusAllert}}
+        </div>
 	</div>
 </div>
-<div class="row" th:if="${msg != null}">
+<!-- <div class="row" th:if="${msg != null}">
 	<div class="col-lg-12">
 		<div class="alert alert-success"
 			th:text="${msg != null ? msg : '' }"></div>
@@ -50,11 +51,11 @@
                                 <td>{{user.name}}</td>
                                 <td>{{user.email}}</td>
                                 <td>
-                                    <button ui-sref="home.userlist" class="btn btn-success" >
+                                    <button ui-sref="home.userlist.edituser({ id : user.userId })" class="btn btn-success" >
                                             <span class="glyphicon glyphicon-edit" aria-hidden="true" />
                                             Edit
                                     </button>
-                                    <button ui-sref="home.userlist" class="btn btn-danger" >
+                                    <button ng-click="toDelete(user.userId)" class="btn btn-danger" >
                                             <span class="glyphicon glyphicon-edit" aria-hidden="true" />
                                             Delete
                                     </button>

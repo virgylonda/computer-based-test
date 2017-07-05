@@ -72,14 +72,60 @@ cbtApp.config(function($stateProvider) {
 	})
 	.state('home.testerlist.edittester', {
 		url: '/edittester/?id',
+		params : {
+			dataUser : {
+
+			}
+		},
 		views: {
 					'main@': {
 						templateUrl: 'views/editprofiletester.html',
-						controller : "AdminEditTesterController"
+						controller : "AdminGetTesterController"
 					}
 				},
 		data: {
 					displayName: 'Tester Edit'
+			  }
+	})
+	.state('home.testerlist.edittester.confirmtester', {
+		url: '/confirmtester',
+		views: {
+					'main@': {
+						templateUrl: 'views/datatester.html',
+						controller : "AdminEditTesterController"
+					}
+				},
+		data: {
+					displayName: 'Tester List'
+			  }
+	})
+	.state('home.userlist.edituser', {
+		url: '/edituser/?id',
+		params : {
+			dataUser : {
+
+			}
+		},
+		views: {
+					'main@': {
+						templateUrl: 'views/editprofileuser.html',
+						controller : "AdminGetUserController"
+					}
+				},
+		data: {
+					displayName: 'User Edit'
+			  }
+	})
+	.state('home.userlist.edituser.confirmuser', {
+		url: '/confirmuser',
+		views: {
+					'main@': {
+						templateUrl: 'views/datausers.html',
+						controller : "AdminEditUserController"
+					}
+				},
+		data: {
+					displayName: 'User List'
 			  }
 	})
 });

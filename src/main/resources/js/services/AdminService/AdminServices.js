@@ -20,15 +20,15 @@ cbtApp.factory('AdminServices', ['$http','$q', function($http,$q){
 		},
 
 		getTester: function(id){
-			return $http.get('http://localhost:9091/rest/admin/tester/edit/'+id).then(function success(res){
+			return $http.get('http://localhost:9091/rest/admin/users/'+id).then(function success(res){
 				return res;
 			}, function error(err){
 				return $q.reject(err.data);
 			}.bind(this));
 		},
 
-		editTester: function(id, formData){
-			return $http.post('http://localhost:9091/rest/admin/tester/edit'+id, formData).then(function success(res){
+		editTester: function(formData){
+			return $http.post('http://localhost:9091/rest/admin/tester/edit/save', formData).then(function success(res){
 				return res;
 			}, function error(err){
 				return $q.reject(err.data);
@@ -54,7 +54,15 @@ cbtApp.factory('AdminServices', ['$http','$q', function($http,$q){
 		},
 
 		getAllUser: function(){
-			return $http.get('http://localhost:9091/rest/admin/user/list').then(function success(res){
+			return $http.get('http://localhost:9091/rest/admin/users').then(function success(res){
+				return res;
+			}, function error(err){
+				return $q.reject(err.data);
+			}.bind(this));
+		},
+
+		getUser: function(id){
+			return $http.get('http://localhost:9091/rest/admin/users/'+id).then(function success(res){
 				return res;
 			}, function error(err){
 				return $q.reject(err.data);
