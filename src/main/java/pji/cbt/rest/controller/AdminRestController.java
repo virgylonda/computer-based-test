@@ -79,10 +79,11 @@ public class AdminRestController {
 	 * @method	GET
 	 * @return	list AllTester
 	 */
-	@RequestMapping(path = "/tester/list", method=RequestMethod.GET)
+	@RequestMapping(path = "/tester", method=RequestMethod.GET)
 	public List<User> findAllTester(){
 		return userSvc.findAllUser(2);
 	}
+	
 	
 	 /**
 	 * @param  		-
@@ -98,7 +99,7 @@ public class AdminRestController {
 	 /**
 	  * @param  	id
 	  * @method		GET
-	  * @return     retrieve a user by id
+	  * @return     retrieve a all actor by id
 	  */
 	 @RequestMapping(value = "/users/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	 public ResponseEntity<User> getUser(@PathVariable("id") long id) {
