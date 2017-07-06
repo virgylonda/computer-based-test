@@ -15,6 +15,6 @@ cbtApp.controller('AdminEditUserController', ['$scope', '$state','AdminServices'
 
 	AdminServices.getAllUser().then(function(res){
 		$scope.arrayTester = res.data;
-	})
+	});
 
 }]);

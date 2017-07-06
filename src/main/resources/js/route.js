@@ -4,7 +4,7 @@ cbtApp.config(function($stateProvider) {
 		url: 'admin-dashboard',
 		views: {
 					'main@': {
-						templateUrl: 'views/admin-dashboard.html'
+						templateUrl: 'views/admin/admin-dashboard.html'
 					}
 				},
 		data: {
@@ -15,7 +15,7 @@ cbtApp.config(function($stateProvider) {
 		url: '/testerlist',
 		views: {
 					'main@': {
-						templateUrl: 'views/datatester.html',
+						templateUrl: 'views/admin/datatester.html',
 						controller : "AdminListTesterController"
 					}
 				},
@@ -27,7 +27,7 @@ cbtApp.config(function($stateProvider) {
 		url: '/userlist',
 		views: {
 					'main@': {
-						templateUrl: 'views/datausers.html',
+						templateUrl: 'views/admin/datausers.html',
 						controller : "AdminListUsersController"
 					}
 				},
@@ -39,7 +39,7 @@ cbtApp.config(function($stateProvider) {
 		url: '/editprofileadmin',
 		views: {
 					'main@': {
-						templateUrl: 'views/editprofileadmin.html'
+						templateUrl: 'views/admin/editprofileadmin.html'
 					}
 				},
 		data: {
@@ -50,7 +50,7 @@ cbtApp.config(function($stateProvider) {
 		url: '/addtester',
 		views: {
 					'main@': {
-						templateUrl: 'views/formtester.html',
+						templateUrl: 'views/admin/formtester.html',
 						controller :"AdminAddTesterController"
 					}
 				},
@@ -62,7 +62,7 @@ cbtApp.config(function($stateProvider) {
 		url: '/adduser',
 		views: {
 					'main@': {
-						templateUrl: 'views/formusers.html',
+						templateUrl: 'views/admin/formusers.html',
 						controller :"AdminAddUserController"
 					}
 				},
@@ -79,7 +79,7 @@ cbtApp.config(function($stateProvider) {
 		},
 		views: {
 					'main@': {
-						templateUrl: 'views/editprofiletester.html',
+						templateUrl: 'views/admin/editprofiletester.html',
 						controller : "AdminGetTesterController"
 					}
 				},
@@ -91,7 +91,7 @@ cbtApp.config(function($stateProvider) {
 		url: '/confirmtester',
 		views: {
 					'main@': {
-						templateUrl: 'views/datatester.html',
+						templateUrl: 'views/admin/datatester.html',
 						controller : "AdminEditTesterController"
 					}
 				},
@@ -108,7 +108,7 @@ cbtApp.config(function($stateProvider) {
 		},
 		views: {
 					'main@': {
-						templateUrl: 'views/editprofileuser.html',
+						templateUrl: 'views/admin/editprofileuser.html',
 						controller : "AdminGetUserController"
 					}
 				},
@@ -120,7 +120,7 @@ cbtApp.config(function($stateProvider) {
 		url: '/confirmuser',
 		views: {
 					'main@': {
-						templateUrl: 'views/datausers.html',
+						templateUrl: 'views/admin/datausers.html',
 						controller : "AdminEditUserController"
 					}
 				},
