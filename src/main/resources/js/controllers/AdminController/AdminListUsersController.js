@@ -1,10 +1,5 @@
 cbtApp.controller('AdminListUsersController', ['$scope', '$state', 'AdminServices', function($scope, $state, AdminServices){
 
-
-	AdminServices.getAllUser().then(function(res){
-		$scope.arrayUsers = res.data;
-	})
-
 	$scope.toDelete = function(id) {
 
 		var confirmResult;
@@ -12,9 +7,14 @@ cbtApp.controller('AdminListUsersController', ['$scope', '$state', 'AdminService
 		if(valid == true){
 			console.log(id);
 			console.log("Panggil API delete");
-			// AdminServices.deleteUser(id).then(function(res){
-
-			// });
+			
+			AdminServices.deleteUser(id).then(function(res){
+				$state.go("home.userlist");
+			});
 		}
+
+		AdminServices.getAllUser().then(function(res){
+			$scope.arrayUsers = res.data;
+		})
     }
 }])
