@@ -23,7 +23,7 @@
    
    <body ng-app="cbtApp">
       <div id="wrapper">
-         <div ng-include = "'views/components/navbarAdmin.html'"></div>
+         <div ng-include = "'views/components/navbar.html'"></div>
             <div id="page-wrapper">
                <div ui-view="main"></div>
             </div>
@@ -66,6 +66,7 @@
       <script src="js/app.js"></script>
       <script src="js/route.js"></script>
       <script src="js/services/AdminService/AdminServices.js"></script>
+      <script src="js/services/TesterService/TesterServices.js"></script>
 
       <!-- controller -->
       <script src="js/controllers/AdminController/AdminAddTesterController.js"></script>
@@ -76,5 +77,7 @@
       <script src="js/controllers/AdminController/AdminEditTesterController.js"></script>
       <script src="js/controllers/AdminController/AdminGetUserController.js"></script>
       <script src="js/controllers/AdminController/AdminEditUserController.js"></script>
+      <script src="js/controllers/TesterController/TesterListCategories.js"></script>
+      <script src="js/controllers/NavbarController.js"></script>
    </body>
 </html>

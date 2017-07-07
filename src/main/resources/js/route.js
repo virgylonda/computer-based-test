@@ -1,5 +1,12 @@
 cbtApp.config(function($stateProvider) {
 	$stateProvider
+
+	//===========================================================================//
+
+	// ADMIN ROUTE START HERE//
+
+	//===========================================================================//
+
 	.state('home', {
 		url: 'admin-dashboard',
 		views: {
@@ -126,6 +133,37 @@ cbtApp.config(function($stateProvider) {
 				},
 		data: {
 					displayName: 'User List'
+			  }
+	})
+
+
+	//===========================================================================//
+
+	// TESTER ROUTE START HERE//
+
+	//===========================================================================//
+
+	.state('hometester', {
+		url: '/tester-dashboard',
+		views: {
+					'main@': {
+						templateUrl: 'views/tester/tester-dashboard.html',
+					}
+				},
+		data: {
+					displayName: 'Tester Dashboard'
+			  }
+	})
+	.state('hometester.listcategories', {
+		url: '/listcategories',
+		views: {
+					'main@': {
+						templateUrl: 'views/tester/listcategories.html',
+						controller: "TesterListCategories"
+					}
+				},
+		data: {
+					displayName: 'Category List'
 			  }
 	})
 });

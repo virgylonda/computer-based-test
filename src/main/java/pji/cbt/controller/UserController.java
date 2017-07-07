@@ -209,7 +209,7 @@ public class UserController {
 		for (FormAnswer formAnswer : formAnswers) {
 			testUser.setTestId(formAnswer.getTestId());
 			Answer answer = ansSvc.findOne(formAnswer.getChoices());
-			if (answer.isCorrectAnswer()) {
+			if ((null!=answer) && (answer.isCorrectAnswer())) {
 				point = point + 1;
 			}
 		}

@@ -34,8 +34,8 @@
 				<div class="col-lg-6">
 					<h1 class="page-header">Questions</h1>
 				</div>
-				<div class="col-lg-6">
-					<input type="hidden" id="timeAll" name="timeLimit" th:attr="value=${timeLimit}" />										
+				<div class="col-lg-6">	
+				<input type="hidden" id="timeALL" value="1" />								
 					<h4 class="page-header">Time remaining <span id="time">00:00</span> minutes!</h4>
 				</div>
 				<!-- /.col-lg-12 -->
@@ -152,10 +152,10 @@
 	<script src="/asset/js/demo/form-timer.js"></script>
 	<script>
 	window.onload = function () 
-		{
-			xTime = document.getElementById("timeALL").value;
-			display = document.querySelector('#time');
-			startTimer(document.getElementById("limitTime").value, display);
+	{
+		xTime = document.getElementById("timeALL").value;
+		display = document.querySelector('#time');
+		startTimer(document.getElementById("limitTime").value, display);
 	};
 	
 	</script>
@@ -170,7 +170,7 @@
 		function DoNext(){
 			var x = parseInt(document.getElementById("init").value)
 			  document.getElementById("init").value = x+1;
-			  document.getElementById("checkBut").value = "next"
+			  document.getElementById("checkBut").value = "next";
 			  return true;
 		}
 		function DoFinish(){

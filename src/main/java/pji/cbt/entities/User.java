@@ -24,10 +24,10 @@ public class User implements Serializable {
 	public User() {
 	}
 
-	public User(String username, String password, String userName, String email, Roles roles) {
+	public User(String username, String password, String name, String email, Roles roles) {
 		this.username = username;
 		this.password = password;
-		this.name = userName;
+		this.name = name;
 		this.email = email;
 		this.roles = roles;
 	}
