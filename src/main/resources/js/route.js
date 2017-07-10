@@ -166,5 +166,58 @@ cbtApp.config(function($stateProvider) {
 					displayName: 'Category List'
 			  }
 	})
+	.state('hometester.listcategories.editcategory', {
+		url: '/editcategory/?id',
+		params : {
+			dataCategory : {
+
+			}
+		},
+		views: {
+					'main@': {
+						templateUrl: 'views/tester/editcategory.html',
+						controller: "TesterGetCategoriesController"
+					}
+				},
+		data: {
+					displayName: 'Category Edit'
+			  }
+	})
+	.state('hometester.listcategories.editcategory.confirmuser', {
+		url: '/confirmuser',
+		views: {
+					'main@': {
+						templateUrl: 'views/tester/listcategories.html',
+						controller : "TesterEditCategoriesController"
+					}
+				},
+		data: {
+					displayName: 'Category Edit'
+			  }
+	})
+	.state('hometester.listcategories.listquestion', {
+		url: '/listquestion/?idCategory',
+		views: {
+					'main@': {
+						templateUrl: 'views/tester/listquestion.html',
+						controller: "TesterListQuestionController"
+					}
+				},
+		data: {
+					displayName: 'Question List'
+			  }
+	})
+	.state('hometester.listcategories.addquestion', {
+		url: '/addquestion/?idCategory',
+		views: {
+					'main@': {
+						templateUrl: 'views/tester/formaddquestion.html',
+						controller: "TesterAddQuestionController"
+					}
+				},
+		data: {
+					displayName: 'Question Add'
+			  }
+	})
 });
 

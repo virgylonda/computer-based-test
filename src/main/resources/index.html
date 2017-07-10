@@ -14,7 +14,7 @@
       <link href="static/asset/css/plugins/timeline/timeline.css" rel="stylesheet"/>
 
        <!-- SB Admin CSS - Include with every page -->
-      <link href="static/asset/css/sb-admin.css" rel="stylesheet"/>
+      <link href="/static/asset/css/sb-admin.css" rel="stylesheet"/>
 
       <link href="bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet"/>
       <link href="bower_components/metisMenu/dist/metisMenu.min.css" rel="stylesheet"/>
@@ -53,22 +53,13 @@
       <!-- SB Admin Scripts - Include with every page -->
       <script src="static/asset/js/sb-admin.js"></script>
 
-      <!-- Page-Level Demo Scripts - Dashboard - Use for reference -->
-      <!-- <script src="static/asset/js/demo/dashboard-demo.js"></script> -->
-      
-     <!--  <script>
-         $(document).ready(function() {
-            $('#dataTables-example').dataTable();
-         });
-      </script> -->
-
       <!-- route, services and app .js -->
       <script src="js/app.js"></script>
       <script src="js/route.js"></script>
       <script src="js/services/AdminService/AdminServices.js"></script>
       <script src="js/services/TesterService/TesterServices.js"></script>
 
-      <!-- controller -->
+      <!-- controller amdin-->
       <script src="js/controllers/AdminController/AdminAddTesterController.js"></script>
       <script src="js/controllers/AdminController/AdminAddUserController.js"></script>
       <script src="js/controllers/AdminController/AdminListTesterController.js"></script>
@@ -77,7 +68,13 @@
       <script src="js/controllers/AdminController/AdminEditTesterController.js"></script>
       <script src="js/controllers/AdminController/AdminGetUserController.js"></script>
       <script src="js/controllers/AdminController/AdminEditUserController.js"></script>
+
+      <!-- controller tester-->
       <script src="js/controllers/TesterController/TesterListCategories.js"></script>
       <script src="js/controllers/NavbarController.js"></script>
+      <script src="js/controllers/TesterController/TesterGetCategoriesController.js"></script>
+      <script src="js/controllers/TesterController/TesterEditCategoriesController.js"></script>
+      <script src="js/controllers/TesterController/TesterListQuestionController.js"></script>
+      <script src="js/controllers/TesterController/TesterAddQuestionController.js"></script>
    </body>
 </html>

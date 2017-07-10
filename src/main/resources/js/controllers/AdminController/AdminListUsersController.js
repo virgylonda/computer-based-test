@@ -18,7 +18,5 @@ cbtApp.controller('AdminListUsersController', ['$scope', '$state', 'AdminService
 				});
 			});
 		};
-	
-		
     }
 }])
