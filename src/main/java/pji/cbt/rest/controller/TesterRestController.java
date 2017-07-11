@@ -162,6 +162,16 @@ public class TesterRestController {
 		return quesSvc.findAllQuestion();
 	}
     
+    /**
+     * @param   idQuestion
+     * @method  GET
+     * @return  question
+     */
+   @RequestMapping(value = "/testers/question/{id}", method = RequestMethod.GET)
+   public ResponseEntity<Question> getQuestionById(@PathVariable("id") int id) {
+    Question question = quesSvc.findOneQuestion(id);
+    return new ResponseEntity<Question>(question, HttpStatus.OK);
+   }
     
 	/**
 	 * View List of Question by Category Question
