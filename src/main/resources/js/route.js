@@ -166,6 +166,18 @@ cbtApp.config(function($stateProvider) {
 					displayName: 'Category List'
 			  }
 	})
+	.state('hometester.listcategories.addnewcategory', {
+		url: '/addnewcategory',
+		views: {
+					'main@': {
+						templateUrl: 'views/tester/formaddcategory.html',
+						controller: "TesterAddCategories"
+					}
+				},
+		data: {
+					displayName: 'Category Add'
+			  }
+	})
 	.state('hometester.listcategories.editcategory', {
 		url: '/editcategory/?id',
 		params : {
@@ -183,8 +195,8 @@ cbtApp.config(function($stateProvider) {
 					displayName: 'Category Edit'
 			  }
 	})
-	.state('hometester.listcategories.editcategory.confirmuser', {
-		url: '/confirmuser',
+	.state('hometester.listcategories.editcategory.confirmcategory', {
+		url: '/confirmcategory',
 		views: {
 					'main@': {
 						templateUrl: 'views/tester/listcategories.html',
@@ -217,6 +229,35 @@ cbtApp.config(function($stateProvider) {
 				},
 		data: {
 					displayName: 'Question Add'
+			  }
+	})
+	.state('hometester.listcategories.listquestion.updatequestion', {
+		url: '/updatequestion/?id',
+		views: {
+					'main@': {
+						templateUrl: 'views/tester/formeditquestion.html',
+						controller: "TesterGetQuestionController"
+					}
+				},
+		data: {
+					displayName: 'Question Update'
+			  }
+	})
+	.state('hometester.listcategories.listquestion.confirmquestion', {
+		url: '/confirmquestion',
+		params : {
+			dataQuestion : {
+
+			}
+		},
+		views: {
+					'main@': {
+						templateUrl: 'views/tester/listquestion.html',
+						controller: "TesterEditQuestionController"
+					}
+				},
+		data: {
+					displayName: 'Question Confirm'
 			  }
 	})
 });

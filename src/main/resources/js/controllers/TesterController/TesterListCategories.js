@@ -6,7 +6,7 @@ cbtApp.controller('TesterListCategories', ['$scope', '$state', 'TesterServices',
 	})
 
 	$scope.toDelete = function(id) {
-		var valid = confirm("Are you sure want to delete user ?");
+		var valid = confirm("Are you sure want to delete category ?");
 		if(valid == true){
 			console.log(id);
 			console.log("Panggil API delete");

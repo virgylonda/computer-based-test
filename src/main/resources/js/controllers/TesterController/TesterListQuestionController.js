@@ -11,7 +11,7 @@ cbtApp.controller('TesterListQuestionController', ['$scope', '$state', 'TesterSe
 
 	$scope.toDelete = function(id) {
 		console.log(id);
-		var valid = confirm("Are you sure want to delete user ?");
+		var valid = confirm("Are you sure want to delete question ?");
 		if(valid == true){
 			console.log(id);
 			console.log("Panggil API delete");

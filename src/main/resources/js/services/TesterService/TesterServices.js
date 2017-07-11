@@ -53,5 +53,26 @@ cbtApp.factory('TesterServices', ['$http','$q', function($http,$q){
 				return $q.reject(err.data);
 			}.bind(this));
 		},
+		getQuestion: function(id){
+			return $http.get('http://localhost:9091/rest/tester/testers/question/'+id).then(function success(res){
+				return res;
+			}, function error(err){
+				return $q.reject(err.data);
+			}.bind(this));
+		},
+		editQuestion: function(id, formCategory){
+			return $http.put('http://localhost:9091/rest/tester/testers/updatequestion/'+id, formCategory).then(function success(res){
+				return res;
+			}, function error(err){
+				return $q.reject(err.data);
+			}.bind(this));
+		},
+		addCategory: function(formCategory){
+			return $http.post('http://localhost:9091/rest/tester/testers/addcategory', formCategory).then(function success(res){
+				return res;
+			}, function error(err){
+				return $q.reject(err.data);
+			}.bind(this));
+		},
 	};
 }])

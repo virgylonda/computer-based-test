@@ -20,6 +20,6 @@ cbtApp.controller('TesterGetCategoriesController', ['$scope', '$state', 'TesterS
 			"timeLimit" : $scope.categoryObject.timeLimit,
 		};
 		console.log(dataCategory);
-		$state.go("hometester.listcategories.editcategory.confirmuser", {dataCategory});	
+		$state.go("hometester.listcategories.editcategory.confirmcategory", {dataCategory});	
     }
 }])
