@@ -14,11 +14,12 @@ public class WebMvcConfig extends WebMvcConfigurerAdapter {
 		routes.addViewController("/login").setViewName("login");
 	}
 
-	
-    @Override
-    public void addCorsMappings(CorsRegistry registry) {
-        registry.addMapping("/rest/**")
-        .allowedOrigins("http://localhost:9091")
-        .allowedMethods("GET", "POST", "PUT", "DELETE");
-    }
+
+//    @Override
+//    public void addCorsMappings(CorsRegistry registry) {
+//        registry.addMapping("/rest/**")
+//        .allowedOrigins("http://localhost:9095")
+//        .allowedMethods("GET", "POST", "PUT", "DELETE");
+//    }
+
 }
