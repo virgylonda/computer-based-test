@@ -55,7 +55,7 @@
 	</select>
 	
 	<select id="findUserTestById" resultMap="resultTestUser">
-		SELECT t.started, t.ended, t.score, t.status FROM tb_user_test t WHERE t.id = #{testId}
+		SELECT t.id AS testId, u.id AS userId, t.category_id, t.started, t.ended, t.score FROM tb_user_test t, tb_user u WHERE t.id = #{testId}
 	</select>
 	
 	<delete id="deleteByIdUserAndIdCategory">

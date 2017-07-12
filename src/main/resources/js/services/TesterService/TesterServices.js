@@ -74,5 +74,26 @@ cbtApp.factory('TesterServices', ['$http','$q', function($http,$q){
 				return $q.reject(err.data);
 			}.bind(this));
 		},
+		getAllUsers: function(){
+			return $http.get('http://localhost:9091/rest/tester/testers/assignment').then(function success(res){
+				return res;
+			}, function error(err){
+				return $q.reject(err.data);
+			}.bind(this));
+		},
+		getListAssignment: function(id){
+			return $http.get('http://localhost:9091/rest/tester/testers/assignment/list/'+id).then(function success(res){
+				return res;
+			}, function error(err){
+				return $q.reject(err.data);
+			}.bind(this));
+		},
+		addAssignment: function(formAssignment){
+			return $http.post('http://localhost:9091/rest/tester/testers/assignment/save', formAssignment).then(function success(res){
+				return res;
+			}, function error(err){
+				return $q.reject(err.data);
+			}.bind(this));
+		},
 	};
 }])

@@ -260,5 +260,29 @@ cbtApp.config(function($stateProvider) {
 					displayName: 'Question Confirm'
 			  }
 	})
+	.state('hometester.userassign', {
+		url: '/userassign',
+		views: {
+					'main@': {
+						templateUrl: 'views/tester/formassigntest.html',
+						controller: "TesterListUserController"
+					}
+				},
+		data: {
+					displayName: 'Tester Assign'
+			  }
+	})
+	.state('hometester.userassign.listcategories', {
+		url: '/listcategories/?userId',
+		views: {
+					'main@': {
+						templateUrl: 'views/tester/listassignmentcategory.html',
+						controller: "TesterAssignmentListController"
+					}
+				},
+		data: {
+					displayName: 'Assignment List Categories'
+			  }
+	})
 });
 

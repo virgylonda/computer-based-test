@@ -12,7 +12,6 @@ cbtApp.controller('TesterAddCategories', ['$scope', '$state', 'TesterServices', 
 			};
 			console.log(formCategory);
 			TesterServices.addCategory(formCategory).then(function(res){
-				console.log(res);
 				$state.go("hometester.listcategories");
 			});
 		};
