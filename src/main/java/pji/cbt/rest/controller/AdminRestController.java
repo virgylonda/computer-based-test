@@ -151,12 +151,12 @@ public class AdminRestController {
 	            return new ResponseEntity<User>(HttpStatus.NOT_FOUND);
 	        }
 	        
-	        currentUser.setPassword(user.passwordToHash(user.getPassword()));
-	        currentUser.setUsername(user.getUsername());
+//	        currentUser.setPassword(user.passwordToHash(user.getPassword()));
+	        currentUser.setName(user.getName());
 	        currentUser.setEmail(user.getEmail()); 
 	        
 	        userSvc.updateUser(currentUser);
-	        userSvc.updatePassword(currentUser);
+//	        userSvc.updatePassword(currentUser);
 	        return new ResponseEntity<User>(currentUser, HttpStatus.OK);
 	    }
 	

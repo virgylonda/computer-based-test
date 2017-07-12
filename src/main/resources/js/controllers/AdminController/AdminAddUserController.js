@@ -5,7 +5,7 @@ cbtApp.controller('AdminAddUserController', ['$scope', '$state', 'AdminServices'
 		// var status = AdminServices.getTester($scope.newtester.username);
 		$scope.errorAllert = null;
 		if(status = true){
-			var formDataTester = {
+			var formDataUser = {
 				"username" : $scope.newuser.username,
 				"password" : $scope.newuser.password,
 				"name"	   : $scope.newuser.name,
@@ -14,13 +14,17 @@ cbtApp.controller('AdminAddUserController', ['$scope', '$state', 'AdminServices'
 					"roleId"	: $scope.newuser.roleId
 				}
 			}
-			var addStatus = AdminServices.addUser(formDataTester);
-			if(addStatus = true){
+			AdminServices.addUser(formDataUser).then(function(res){
 				$state.go("home.userlist");
-			}
+				$scope.statusAllert = "New User Added";
+			});
 		}
 		else{
 			$scope.errorAllert = "Username already used";
 		}
+
+		AdminServices.getAllUser().then(function(res){
+			$scope.arrayUsers = res.data;
+		})
 	}
 }])

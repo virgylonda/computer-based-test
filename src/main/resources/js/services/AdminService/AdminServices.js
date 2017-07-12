@@ -3,7 +3,7 @@ cbtApp.factory('AdminServices', ['$http','$q', function($http,$q){
 
 		// Untuk Tester
 		addTester: function(formData) {
-			return $http.post('http://localhost:9091/rest/admin/tester/createnew', formData).then(function success(res){
+			return $http.post('http://localhost:9091/rest/admin/users', formData).then(function success(res){
 				return res;
 			}, function error(err){
 				return $q.reject(err.data);
@@ -12,7 +12,7 @@ cbtApp.factory('AdminServices', ['$http','$q', function($http,$q){
 		},
 
 		getAllTester: function(){
-			return $http.get('http://localhost:9091/rest/admin/tester/list').then(function success(res){
+			return $http.get('http://localhost:9091/rest/admin/tester').then(function success(res){
 				return res;
 			}, function error(err){
 				return $q.reject(err.data);
@@ -27,8 +27,8 @@ cbtApp.factory('AdminServices', ['$http','$q', function($http,$q){
 			}.bind(this));
 		},
 
-		editTester: function(formData){
-			return $http.post('http://localhost:9091/rest/admin/tester/edit/save', formData).then(function success(res){
+		editTester: function(id, formData){
+			return $http.put('http://localhost:9091/rest/admin/admins/update/'+id, formData).then(function success(res){
 				return res;
 			}, function error(err){
 				return $q.reject(err.data);
@@ -36,7 +36,7 @@ cbtApp.factory('AdminServices', ['$http','$q', function($http,$q){
 		},
 
 		deleteTester: function(id){
-			return $http.put('http://localhost:9091/rest/admin/tester/delete'+id).then(function success(res){
+			return $http.delete('http://localhost:9091/rest/admin/users/delete/'+id).then(function success(res){
 				return res;
 			}, function error(err){
 				return $q.reject(err.data);
@@ -46,7 +46,7 @@ cbtApp.factory('AdminServices', ['$http','$q', function($http,$q){
 
 		//Untuk User
 		addUser: function(formData) {
-			return $http.post('http://localhost:9091/rest/admin/users/createnew', formData).then(function success(res){
+			return $http.post('http://localhost:9091/rest/admin/users', formData).then(function success(res){
 				return res;
 			}, function error(err){
 				return $q.reject(err.data);
@@ -54,7 +54,7 @@ cbtApp.factory('AdminServices', ['$http','$q', function($http,$q){
 		},
 
 		getAllUser: function(){
-			return $http.get('http://localhost:9091/rest/admin/users').then(function success(res){
+			return $http.get('http://localhost:9091/rest/admin/user').then(function success(res){
 				return res;
 			}, function error(err){
 				return $q.reject(err.data);
@@ -70,7 +70,7 @@ cbtApp.factory('AdminServices', ['$http','$q', function($http,$q){
 		},
 
 		editUser: function(id, formData){
-			return $http.post('http://localhost:9091/rest/admin/users/edit'+id, formData).then(function success(res){
+			return $http.put('http://localhost:9091/rest/admin/admins/update/'+id, formData).then(function success(res){
 				return res;
 			}, function error(err){
 				return $q.reject(err.data);
@@ -78,7 +78,7 @@ cbtApp.factory('AdminServices', ['$http','$q', function($http,$q){
 		},
 
 		deleteUser: function(id){
-			return $http.put('http://localhost:9091/rest/admin/users/delete'+id).then(function success(res){
+			return $http.delete('http://localhost:9091/rest/admin/users/delete/'+id).then(function success(res){
 				return res;
 			}, function error(err){
 				return $q.reject(err.data);

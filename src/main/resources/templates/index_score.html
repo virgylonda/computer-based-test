@@ -75,7 +75,7 @@
                                     <tbody>
                                         <tr th:each="score, iterationStatus : ${scores}">
                                             <td th:text="${score != null ? iterationStatus.count : '' }"/>
-                                            <td th:text="${score != null ? score.users.userName : '' }"/>
+                                            <td th:text="${score != null ? score.users.Name : '' }"/>
                                             <td th:text="${score != null ? score.categories.questionCategory : '' }"/>
                                             <td th:text="${score != null ? score.started : '' }"/>
                                             <td th:text="${score != null ? score.ended : '' }"/>

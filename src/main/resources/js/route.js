@@ -1,10 +1,17 @@
 cbtApp.config(function($stateProvider) {
 	$stateProvider
+
+	//===========================================================================//
+
+	// ADMIN ROUTE START HERE//
+
+	//===========================================================================//
+
 	.state('home', {
 		url: 'admin-dashboard',
 		views: {
 					'main@': {
-						templateUrl: 'views/admin-dashboard.html'
+						templateUrl: 'views/admin/admin-dashboard.html'
 					}
 				},
 		data: {
@@ -15,7 +22,7 @@ cbtApp.config(function($stateProvider) {
 		url: '/testerlist',
 		views: {
 					'main@': {
-						templateUrl: 'views/datatester.html',
+						templateUrl: 'views/admin/datatester.html',
 						controller : "AdminListTesterController"
 					}
 				},
@@ -27,7 +34,7 @@ cbtApp.config(function($stateProvider) {
 		url: '/userlist',
 		views: {
 					'main@': {
-						templateUrl: 'views/datausers.html',
+						templateUrl: 'views/admin/datausers.html',
 						controller : "AdminListUsersController"
 					}
 				},
@@ -39,7 +46,7 @@ cbtApp.config(function($stateProvider) {
 		url: '/editprofileadmin',
 		views: {
 					'main@': {
-						templateUrl: 'views/editprofileadmin.html'
+						templateUrl: 'views/admin/editprofileadmin.html'
 					}
 				},
 		data: {
@@ -50,7 +57,7 @@ cbtApp.config(function($stateProvider) {
 		url: '/addtester',
 		views: {
 					'main@': {
-						templateUrl: 'views/formtester.html',
+						templateUrl: 'views/admin/formtester.html',
 						controller :"AdminAddTesterController"
 					}
 				},
@@ -62,7 +69,7 @@ cbtApp.config(function($stateProvider) {
 		url: '/adduser',
 		views: {
 					'main@': {
-						templateUrl: 'views/formusers.html',
+						templateUrl: 'views/admin/formusers.html',
 						controller :"AdminAddUserController"
 					}
 				},
@@ -79,7 +86,7 @@ cbtApp.config(function($stateProvider) {
 		},
 		views: {
 					'main@': {
-						templateUrl: 'views/editprofiletester.html',
+						templateUrl: 'views/admin/editprofiletester.html',
 						controller : "AdminGetTesterController"
 					}
 				},
@@ -91,7 +98,7 @@ cbtApp.config(function($stateProvider) {
 		url: '/confirmtester',
 		views: {
 					'main@': {
-						templateUrl: 'views/datatester.html',
+						templateUrl: 'views/admin/datatester.html',
 						controller : "AdminEditTesterController"
 					}
 				},
@@ -108,7 +115,7 @@ cbtApp.config(function($stateProvider) {
 		},
 		views: {
 					'main@': {
-						templateUrl: 'views/editprofileuser.html',
+						templateUrl: 'views/admin/editprofileuser.html',
 						controller : "AdminGetUserController"
 					}
 				},
@@ -120,12 +127,137 @@ cbtApp.config(function($stateProvider) {
 		url: '/confirmuser',
 		views: {
 					'main@': {
-						templateUrl: 'views/datausers.html',
+						templateUrl: 'views/admin/datausers.html',
 						controller : "AdminEditUserController"
 					}
 				},
 		data: {
 					displayName: 'User List'
+			  }
+	})
+
+
+	//===========================================================================//
+
+	// TESTER ROUTE START HERE//
+
+	//===========================================================================//
+
+	.state('hometester', {
+		url: '/tester-dashboard',
+		views: {
+					'main@': {
+						templateUrl: 'views/tester/tester-dashboard.html',
+					}
+				},
+		data: {
+					displayName: 'Tester Dashboard'
+			  }
+	})
+	.state('hometester.listcategories', {
+		url: '/listcategories',
+		views: {
+					'main@': {
+						templateUrl: 'views/tester/listcategories.html',
+						controller: "TesterListCategories"
+					}
+				},
+		data: {
+					displayName: 'Category List'
+			  }
+	})
+	.state('hometester.listcategories.addnewcategory', {
+		url: '/addnewcategory',
+		views: {
+					'main@': {
+						templateUrl: 'views/tester/formaddcategory.html',
+						controller: "TesterAddCategories"
+					}
+				},
+		data: {
+					displayName: 'Category Add'
+			  }
+	})
+	.state('hometester.listcategories.editcategory', {
+		url: '/editcategory/?id',
+		params : {
+			dataCategory : {
+
+			}
+		},
+		views: {
+					'main@': {
+						templateUrl: 'views/tester/editcategory.html',
+						controller: "TesterGetCategoriesController"
+					}
+				},
+		data: {
+					displayName: 'Category Edit'
+			  }
+	})
+	.state('hometester.listcategories.editcategory.confirmcategory', {
+		url: '/confirmcategory',
+		views: {
+					'main@': {
+						templateUrl: 'views/tester/listcategories.html',
+						controller : "TesterEditCategoriesController"
+					}
+				},
+		data: {
+					displayName: 'Category Edit'
+			  }
+	})
+	.state('hometester.listcategories.listquestion', {
+		url: '/listquestion/?idCategory',
+		views: {
+					'main@': {
+						templateUrl: 'views/tester/listquestion.html',
+						controller: "TesterListQuestionController"
+					}
+				},
+		data: {
+					displayName: 'Question List'
+			  }
+	})
+	.state('hometester.listcategories.addquestion', {
+		url: '/addquestion/?idCategory',
+		views: {
+					'main@': {
+						templateUrl: 'views/tester/formaddquestion.html',
+						controller: "TesterAddQuestionController"
+					}
+				},
+		data: {
+					displayName: 'Question Add'
+			  }
+	})
+	.state('hometester.listcategories.listquestion.updatequestion', {
+		url: '/updatequestion/?id',
+		views: {
+					'main@': {
+						templateUrl: 'views/tester/formeditquestion.html',
+						controller: "TesterGetQuestionController"
+					}
+				},
+		data: {
+					displayName: 'Question Update'
+			  }
+	})
+	.state('hometester.listcategories.listquestion.confirmquestion', {
+		url: '/confirmquestion',
+		params : {
+			dataQuestion : {
+
+			}
+		},
+		views: {
+					'main@': {
+						templateUrl: 'views/tester/listquestion.html',
+						controller: "TesterEditQuestionController"
+					}
+				},
+		data: {
+					displayName: 'Question Confirm'
 			  }
 	})
 });

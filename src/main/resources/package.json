@@ -14,7 +14,7 @@
   },
   "scripts": {
     "test": "-test",
-    "start": "http-server ./ -a localhost -p 9092 -c-1 -o"
+    "start": "http-server ./ -a localhost -p 9095 -c-1 -o"
   },
   "repository": {
     "type": "git",
