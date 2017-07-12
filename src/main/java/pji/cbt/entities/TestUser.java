@@ -16,6 +16,18 @@ public class TestUser implements Serializable{
 	public TestUser() {
 	}
 
+	public TestUser(int testId, Date started, Date ended, double score, String status, User users,
+			Category categories) {
+		super();
+		this.testId = testId;
+		this.started = started;
+		this.ended = ended;
+		this.score = score;
+		this.status = status;
+		this.users = users;
+		this.categories = categories;
+	}
+
 	public int getTestId() {
 		return testId;
 	}

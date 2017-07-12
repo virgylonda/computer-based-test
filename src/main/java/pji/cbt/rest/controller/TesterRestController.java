@@ -163,6 +163,27 @@ public class TesterRestController {
 	}
     
     /**
+	 * @param  		-
+	 * @method		GET
+	 * @return      list all answer
+	 */
+    @RequestMapping(path = "/testers/answer", method=RequestMethod.GET)
+	public List<Answer> findAllAnswer(){
+		return ansSvc.findAllAnswer();
+	}
+    
+    /**
+	 * @param  		id
+	 * @method		GET
+	 * @return      find one answer
+	 */
+    @RequestMapping(value = "/testers/answer/{id}", method = RequestMethod.GET)
+    public ResponseEntity<Answer> getOneAnswerById(@PathVariable("id") int id) {
+    	Answer answer = ansSvc.findOne(id);
+    	return new ResponseEntity<Answer>(answer, HttpStatus.OK);
+    }
+    
+    /**
      * @param   idQuestion
      * @method  GET
      * @return  question
@@ -308,7 +329,6 @@ public class TesterRestController {
         return testSvc.findTestAssignment(id);
     }
 	
-
 	/**
 	 * List Category Detail by id
 	 * @param 	id
@@ -323,5 +343,27 @@ public class TesterRestController {
 		model.addAttribute("data", category);
 		return category;
 	}
+	
+	/**
+     * Create User Test by id User and id Categor
+     * @param	testUser
+     * @param	ucBuilder
+     * @method	POST
+     * @return	TestUser HttpStatus.CREATED
+     */
+    @RequestMapping(value = "/testers/assignment/save", method = RequestMethod.POST)
+    public ResponseEntity<Void> createUserTest(@RequestBody TestUser testUser, UriComponentsBuilder ucBuilder) {
+    	logger.info("Creating User Test " + testUser.getCategories());
+
+    	try {
+    		testSvc.saveTest(testUser);
+    	}catch (Exception e) {
+    		logger.error(e);
+		}
+ 
+        HttpHeaders headers = new HttpHeaders();
+        headers.setLocation(ucBuilder.path("/testers/scores/{id}").buildAndExpand(testUser.getTestId()).toUri());
+        return new ResponseEntity<Void>(headers, HttpStatus.CREATED);
+    }
 	
 }
