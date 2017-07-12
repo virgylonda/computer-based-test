@@ -157,10 +157,18 @@ public class TesterRestController {
 	 * @method		GET
 	 * @return      list all question
 	 */
-    @RequestMapping(path = "/testers/allquestion", method=RequestMethod.GET)
-	public List<Question> findAllQuestion(){
-		return quesSvc.findAllQuestion();
-	}
+//    @RequestMapping(path = "/testers/allquestion", method=RequestMethod.GET)
+//	public List<Question> findAllQuestion(){
+//    	List<Question> pertanyaanList = quesSvc.findAllQuestion();
+//    	
+//    	List<Object> jawabanList;
+//    	for (int i = 0; i < pertanyaanList.size(); i++) {
+//        	Object jawaban = ansSvc.findAnswerByQuestion());
+//        	jawabanList.add(jawaban);
+//		}
+//		return pertanyaanList;
+//		return jawabanList;
+//	}
     
     
 	/**
