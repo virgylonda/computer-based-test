@@ -1,3 +1,7 @@
+/**
+Author : Edric Laksa Putra
+Since : June 2017
+*/
 cbtApp.config(function($stateProvider) {
 	$stateProvider
 
@@ -284,5 +288,28 @@ cbtApp.config(function($stateProvider) {
 					displayName: 'Assignment List Categories'
 			  }
 	})
+	.state('hometester.userscore', {
+		url: '/userscore',
+		views: {
+					'main@': {
+						templateUrl: 'views/tester/formscores.html',
+						controller: "TesterListScoresController"
+					}
+				},
+		data: {
+					displayName: 'Users Scores'
+			  }
+	})
+	.state('hometester.userscore.detailscore', {
+		url: '/detailscore/?userId',
+		views: {
+					'main@': {
+						templateUrl: 'views/tester/formdetailscore.html',
+						controller: "TesterScoresDetailController"
+					}
+				},
+		data: {
+					displayName: 'Users Scores'
+			  }
+	})
 });
-

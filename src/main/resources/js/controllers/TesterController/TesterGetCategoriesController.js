@@ -1,3 +1,7 @@
+/**
+Author : Edric Laksa Putra
+Since : June 2017
+*/
 cbtApp.controller('TesterGetCategoriesController', ['$scope', '$state', 'TesterServices', function($scope, $state, TesterServices){
 	
 	var idCategory = $state.params.id;

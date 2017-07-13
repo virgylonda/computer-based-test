@@ -1,3 +1,7 @@
+/**
+Author : Edric Laksa Putra
+Since : June 2017
+*/
 cbtApp.controller('TesterEditQuestionController', ['$scope', '$state','TesterServices', function($scope, $state, TesterServices){
 	
 	var dataQuestion = $state.params.dataQuestion;

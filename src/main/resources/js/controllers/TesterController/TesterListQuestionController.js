@@ -1,3 +1,7 @@
+/**
+Author : Edric Laksa Putra
+Since : June 2017
+*/
 cbtApp.controller('TesterListQuestionController', ['$scope', '$state', 'TesterServices', function($scope, $state, TesterServices){
 
 	console.log($state.params.idCategory);

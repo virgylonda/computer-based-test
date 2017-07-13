@@ -1,3 +1,7 @@
+/**
+Author : Edric Laksa Putra
+Since : June 2017
+*/
 cbtApp.controller('TesterListCategories', ['$scope', '$state', 'TesterServices', function($scope, $state, TesterServices){
 
 	TesterServices.getAllCategories().then(function(res){

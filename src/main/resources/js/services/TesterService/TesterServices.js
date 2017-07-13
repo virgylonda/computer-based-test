@@ -1,3 +1,7 @@
+/**
+Author : Edric Laksa Putra
+Since : June 2017
+*/
 cbtApp.factory('TesterServices', ['$http','$q', function($http,$q){
 	return	{
 
@@ -74,6 +78,8 @@ cbtApp.factory('TesterServices', ['$http','$q', function($http,$q){
 				return $q.reject(err.data);
 			}.bind(this));
 		},
+
+		//	UNTUK ASSIGNMENT USER
 		getAllUsers: function(){
 			return $http.get('http://localhost:9091/rest/tester/testers/assignment').then(function success(res){
 				return res;
@@ -90,6 +96,22 @@ cbtApp.factory('TesterServices', ['$http','$q', function($http,$q){
 		},
 		addAssignment: function(formAssignment){
 			return $http.post('http://localhost:9091/rest/tester/testers/assignment/save', formAssignment).then(function success(res){
+				return res;
+			}, function error(err){
+				return $q.reject(err.data);
+			}.bind(this));
+		},
+
+		//	UNTUK SCORE
+		getListUsersScore: function(){
+			return $http.get('http://localhost:9091/rest/tester/usertest/list').then(function success(res){
+				return res;
+			}, function error(err){
+				return $q.reject(err.data);
+			}.bind(this));
+		},
+		getUserDetailScore: function(id){
+			return $http.get('http://localhost:9091/rest/tester/user/score/detail/'+id).then(function success(res){
 				return res;
 			}, function error(err){
 				return $q.reject(err.data);

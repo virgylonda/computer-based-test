@@ -1,13 +1,9 @@
+/**
+Author : Edric Laksa Putra
+Since : June 2017
+*/
 cbtApp.controller('TesterAddQuestionController', ['$scope', '$state', 'TesterServices', function($scope, $state, TesterServices){
-
-	// 	console.log($scope.question.question);
-	// 	console.log($scope.question.answer[0].answer);
-	// 	console.log($scope.question.answer[1].answer);
-	// 	console.log($scope.question.answer[2].answer);
-	// 	console.log($scope.question.answer[3].answer);
-	// 	console.log($scope.question.choice);
-	// 	console.log($state.params.idCategory);
-
+	
 	var idCategory = $state.params.idCategory;
 
 	$scope.toAdd = function(id) {

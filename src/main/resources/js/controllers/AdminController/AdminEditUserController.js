@@ -1,3 +1,7 @@
+/**
+Author : Edric Laksa Putra
+Since : June 2017
+*/
 cbtApp.controller('AdminEditUserController', ['$scope', '$state','AdminServices', function($scope, $state, AdminServices){
 	
 	$scope.userData = $state.params.dataUser;

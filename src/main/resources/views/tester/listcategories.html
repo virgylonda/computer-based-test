@@ -45,7 +45,7 @@
 						</thead>
                         <tbody>
 							<tr dir-paginate="category in arrayCategories | orderBy:sortKey:reverse|filter: search:strict |itemsPerPage:8">
-                                <td>{{$index + 1}} </td>
+                                <td> {{$index + 1}} </td>
     							<td> {{category.questionCategory}} </td>
     							<td> {{category.description}} </td>
     							<td> {{category.questionType}} </td>

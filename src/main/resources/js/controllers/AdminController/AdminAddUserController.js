@@ -1,3 +1,7 @@
+/**
+Author : Edric Laksa Putra
+Since : June 2017
+*/
 cbtApp.controller('AdminAddUserController', ['$scope', '$state', 'AdminServices', function($scope, $state, AdminServices){
 
 

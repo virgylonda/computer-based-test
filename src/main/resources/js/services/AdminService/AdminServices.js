@@ -1,3 +1,7 @@
+/**
+Author : Edric Laksa Putra
+Since : June 2017
+*/
 cbtApp.factory('AdminServices', ['$http','$q', function($http,$q){
 	return	{
 
