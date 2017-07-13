@@ -374,4 +374,12 @@ public class TesterRestController {
         return new ResponseEntity<Void>(headers, HttpStatus.CREATED);
     }
 	
+    /**
+     * View List of User Test
+     * @return findAllUserTest
+     */
+    @RequestMapping(path="/usertest/list",method=RequestMethod.GET)
+    public List<TestUser> findAllUserTest(){
+     return testSvc.findUserSummaryScore();
+    }
 }
