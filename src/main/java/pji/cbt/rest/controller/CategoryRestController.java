@@ -123,7 +123,7 @@ public class CategoryRestController {
 		 * @method		GET
 		 * @return      get a category by id
 		 */
-	 @RequestMapping(value = "/getCategoryById", method = RequestMethod.GET)
+	 @RequestMapping(value = "/getCategoryById/{id}", method = RequestMethod.GET)
 	 public ResponseEntity<Category> getCategoryById(@PathVariable("id") int id) {
 		 Category category = ctgSvc.findOneCategory(id);
 		 return new ResponseEntity<Category>(category, HttpStatus.OK);
