@@ -20,8 +20,6 @@ import pji.cbt.services.AnswerService;
 
 @RestController
 @RequestMapping("/answer")
-
-
 public class AnswerRestController {
 	@Autowired
 	HttpSession session; 
@@ -29,7 +27,7 @@ public class AnswerRestController {
 	@Autowired
 	private AnswerService ansSvc;
 
-public AnswerRestController() {
+	public AnswerRestController() {
 		
 	}
 	private static Logger logger = Logger.getLogger(AnswerRestController.class);
@@ -40,30 +38,47 @@ public AnswerRestController() {
 	 * @method	GET
 	 * @return	getAllAnswer
 	 */
-	@RequestMapping(path="(/getallanswer", method=RequestMethod.GET)
-	public List<Answer> findAllAnswer(){
+	@RequestMapping(path= "/getallanswer", method=RequestMethod.GET)
+	public List<Answer> getAllAnswer(){
 		return ansSvc.findAllAnswer();
 	}
-	
 		
 		
 		/**
-		 * List of 	Answers by Id
+		 * List	Answers by Id Question
 		 * @method	GET
-		 * @return	getAnswerById
+		 * @return	getAnswerById Question
 		 */
-	@RequestMapping(path="(/getAnswerById/{id}", method=RequestMethod.GET)
-		public ResponseEntity <Answer> findOne(@PathVariable int idAnswer){
-		Answer answer = ansSvc.findOne(idAnswer);
-		return new ResponseEntity<Answer>(answer, HttpStatus.OK);
+	@RequestMapping(path= "/getanswerbyid/{id}", method=RequestMethod.GET)
+		public List<Answer> getAnswerById(@PathVariable int id){
+		logger.info("Fetching Question with id " + id);
+		return ansSvc.findAnswerByQuestion(id);
 		
 		}
+
 	
-	/**
-	 * Delete of 	Answers by Id
-	 * @method	GET
-	 * @return	deleteAnswerById 
-	 */
+	 /**
+     * Delete by id Answer
+     * @param	id
+     * @method	DELETE
+     * @return	Answer HttpStatus.NOT_FOUND
+     */
+    @RequestMapping(value = "/deleteanswerbyid/{id}", method = RequestMethod.DELETE)
+    public ResponseEntity<Answer> deleteAnswerById(@PathVariable("id") int id) {
+    	logger.info("Fetching & Deleting Answer with id " + id);
+		 
+ 
+        Answer answer = ansSvc.findOne(id);
+        if (answer == null) {
+        	logger.info("Unable to delete. Answer with id " + id + " not found");
+            return new ResponseEntity<Answer>(HttpStatus.NOT_FOUND);
+        }
+ 
+        ansSvc.deleteAnswer(id);
+        return new ResponseEntity<Answer>(HttpStatus.NO_CONTENT);
+    }
+	
+	
 		
 }
 

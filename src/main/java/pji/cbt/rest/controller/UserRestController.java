@@ -77,16 +77,13 @@ public class UserRestController {
 	}
 
 
-  
-    
-    
     /**
 	 * @param  		-
 	 * @method		GET
 	 * @return      list of all Actors (Admin, User, and Tester)
 	 */
 	@RequestMapping(value = "/getallactor", method = RequestMethod.GET)
-    public ResponseEntity<List<User>> listAllUsers() {
+    public ResponseEntity<List<User>> getAllActor() {
         List<User> users = userSvc.findAllUsers();
         if(users.isEmpty()){
             return new ResponseEntity<List<User>>(HttpStatus.NO_CONTENT);
@@ -94,18 +91,15 @@ public class UserRestController {
         return new ResponseEntity<List<User>>(users, HttpStatus.OK);
     }
 
-	
-	
 	 /**
 	 * @param  		-
 	 * @method		GET
 	 * @return      list of all Users
 	 */
-	@RequestMapping(path = "/getAllUser", method=RequestMethod.GET)
-	public List<User> findAllUser(){
+	@RequestMapping(path = "/getallUser", method=RequestMethod.GET)
+	public List<User> getAllUser(){
 		return userSvc.findAllUser(3);
 	}
-	
 	
 	 /**
 	  * @param  	id
@@ -113,7 +107,7 @@ public class UserRestController {
 	  * @return     retrieve a all actor by id
 	  */
 	 @RequestMapping(value = "/getuserbyid/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-	 public ResponseEntity<User> getUser(@PathVariable("id") long id) {
+	 public ResponseEntity<User> getUserById(@PathVariable("id") long id) {
 	    logger.info("Fetching user with id : "+id);
 	    User user = userSvc.findOne(id);
 	      if (user == null) {
@@ -123,7 +117,6 @@ public class UserRestController {
 	        return new ResponseEntity<User>(user, HttpStatus.OK);
 	    }
 	      
-	
 	 /**
 		 * @param  		-
 		 * @method		POST
@@ -153,7 +146,7 @@ public class UserRestController {
 	 * @return 	tester and user account HttpStatus.OK
 	 */
 	    @RequestMapping(value = "/updateuser/{id}", method = RequestMethod.PUT)
-	    public ResponseEntity<User> updateAdmin(@PathVariable("id") long id, @RequestBody User user) {
+	    public ResponseEntity<User> updateUser(@PathVariable("id") long id, @RequestBody User user) {
 	        logger.info("Updating Admin " + id);  
 	        User currentUser = userSvc.findOne(id);
 	         
@@ -177,7 +170,7 @@ public class UserRestController {
 		 * @return      delete a user by id
 		 */
 	    @RequestMapping(value = "/deleteuserbyid/{id}", method = RequestMethod.DELETE)
-	    public ResponseEntity<User> deleteUser(@PathVariable("id") long id) {
+	    public ResponseEntity<User> deleteUserById(@PathVariable("id") long id) {
 	    	logger.info("Fetching & Deleting User with id "+id); 
 	 
 	        User user = userSvc.findOne(id);

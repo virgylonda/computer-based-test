@@ -114,7 +114,7 @@ public class CategoryRestController {
 	 * @return	GetAllCategory
 	 */
 	@RequestMapping(path="/getallcategory",method=RequestMethod.GET)
-	public List<Category> findAllCategory(){
+	public List<Category> getAllCategory(){
 		return ctgSvc.findAllCategory();
 	}
 	
@@ -138,7 +138,7 @@ public class CategoryRestController {
 		 * @return	findOneCategory
 		 */
 		@RequestMapping(path = "/getCategoryDetail/{id}", method=RequestMethod.GET)
-		public Category findOneCategory(@PathVariable long id, RedirectAttributes redirectAttributes, Model model) {
+		public Category getOneCategory(@PathVariable long id, RedirectAttributes redirectAttributes, Model model) {
 			Category category = this.ctgSvc.findOneCategory(id);
 			model.addAttribute("data", category);
 			return category;

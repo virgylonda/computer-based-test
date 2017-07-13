@@ -46,7 +46,7 @@ public class TestRestController {
 			 * @return      view all user for assignment
 			 */
 		    @RequestMapping(path = "/getallassignedtest", method=RequestMethod.GET)
-			public List<User> findAllUserforAssignment(){
+			public List<User> getAllUserforAssignment(){
 				return userSvc.findAllUser(3);
 			}
 		    
@@ -56,7 +56,7 @@ public class TestRestController {
 			 * @return      view test assignment by id
 			 */
 		    @RequestMapping(value = "/gettesthaveassignbyuserid/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-		    public List<TestUser> findTestAssignmentById(@PathVariable("id") int id) {
+		    public List<TestUser> getTestHaveAssignByUserId (@PathVariable("id") int id) {
 		    	logger.info("Fetching Assignment with user id " + id);
 		        return testSvc.findTestAssignment(id);
 		    }
@@ -66,25 +66,11 @@ public class TestRestController {
 			 * @method		GET
 			 * @return      get a test by user id
 			 */
-		    @RequestMapping(value = "getallscorebyuserid/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-		    public List<TestUser> getAllScoresByUsers(@PathVariable("id") int id) {
+		    @RequestMapping(value = "/getallscorebyuserid/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+		    public List<TestUser> getAllScoreByUserTestId(@PathVariable("id") int id) {
 		    	logger.info("Fetching Scores with user id " + id);
 		        return testSvc.findTestByUserId(id);
 		    }
-		    
-		    /**
-			 * @param  		id
-			 * @method		GET
-			 * @return      get user test by id
-			 */
-		    @RequestMapping(value = "/getallscorebyusertestid/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-		    public ResponseEntity<TestUser> getAllScoresByUsers2(@PathVariable("id") int id) {
-		    	logger.info("Fetching Scores with user id " + id);
-		        TestUser testUser = testSvc.findUserTestById(id);
-		        return new ResponseEntity<TestUser>(testUser, HttpStatus.OK);
-		    }
-		    
-    
 	
 
 }

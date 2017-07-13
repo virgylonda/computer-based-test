@@ -55,7 +55,7 @@ public class QuestionRestController {
     	try {
     		quesSvc.createQuestion(question);
     	}catch (Exception e) {
-    		System.out.println(e);
+    		logger.info(e);
 		}
  
         HttpHeaders headers = new HttpHeaders();
@@ -68,7 +68,7 @@ public class QuestionRestController {
 	   * @method	PUT
 	   * @return    update a question
 	   */
-	    @RequestMapping(value = "(/updatequestion/{id}", method = RequestMethod.PUT)
+	    @RequestMapping(value = "/updatequestion/{id}", method = RequestMethod.PUT)
 	    public ResponseEntity<Question> updateQuestion(@PathVariable("id") int id, @RequestBody Question question) {
 	    	logger.info("Updating Question " + id);
 	        
@@ -93,13 +93,13 @@ public class QuestionRestController {
    * @return	Question HttpStatus.NOT_FOUND
    */
   @RequestMapping(value = "/deletequestion/{id}", method = RequestMethod.DELETE)
-  public ResponseEntity<Question> deleteQuestion(@PathVariable("id") int id) {
+  public ResponseEntity<Question> deleteQuestionbyid(@PathVariable("id") int id) {
   	logger.info("Fetching & Deleting Question with id " + id);
 		 
 
       Question question = quesSvc.findOneQuestion(id);
       if (question == null) {
-          System.out.println("Unable to delete. Question with id " + id + " not found");
+    	  logger.info("Unable to delete. Question with id " + id + " not found");
           return new ResponseEntity<Question>(HttpStatus.NOT_FOUND);
       }
 
@@ -113,7 +113,7 @@ public class QuestionRestController {
 	 * @return      list all question
 	 */
   @RequestMapping(path = "/getallquestion", method=RequestMethod.GET)
-	public List<Question> findAllQuestion(){
+	public List<Question> getAllQuestion(){
 		return quesSvc.findAllQuestion();
 	}
   
@@ -124,7 +124,7 @@ public class QuestionRestController {
 	 * @return	findAllQuestionByCategory
 	 */
 	@RequestMapping(path="/getallquestionbycategoryid/{id}",method=RequestMethod.GET)
-	public List<Question> findAllQuestionByCategory(@PathVariable int id){
+	public List<Question> getAllQuestionByCategoryId (@PathVariable int id){
 		logger.info("Fetching Question with id " + id);
 		return quesSvc.findAllQuestionByCategory(id);
 	}
