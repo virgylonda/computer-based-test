@@ -129,5 +129,15 @@ public class QuestionRestController {
 		return quesSvc.findAllQuestionByCategory(id);
 	}
 	
-	
+	/**
+     * @param   idQuestion
+     * @method  GET
+     * @return  question
+     */
+   @RequestMapping(value = "/getdetailquestion/{id}", method = RequestMethod.GET)
+   public ResponseEntity<Question> getQuestionById(@PathVariable("id") int id) {
+    Question question = quesSvc.findOneQuestion(id);
+    return new ResponseEntity<Question>(question, HttpStatus.OK);
+   }
+   
 }

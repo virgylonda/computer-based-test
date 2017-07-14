@@ -72,5 +72,13 @@ public class TestRestController {
 		        return testSvc.findTestByUserId(id);
 		    }
 	
-
+		    /**
+			 * @param  		-
+			 * @method		GET
+			 * @return      view all user for showing score
+			 */
+		    @RequestMapping(path = "/getalluserscore", method=RequestMethod.GET)
+			public List<TestUser> getAllUsersScore(){
+				return testSvc.findUserSummaryScore();
+			}
 }

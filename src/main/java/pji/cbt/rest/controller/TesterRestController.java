@@ -46,6 +46,8 @@ public class TesterRestController {
 	@Autowired
 	private UserService userSvc;
 	
+	@Autowired
+	private TestUserService testSvc;
 
 	public TesterRestController(){
 	}
@@ -57,4 +59,26 @@ public class TesterRestController {
 	public List<User> getAllTester(){
 		return userSvc.findAllUser(2);
 	}
+	
+	/**
+     * Create User Test by id User and id Categor
+     * @param testUser
+     * @param ucBuilder
+     * @method POST
+     * @return TestUser HttpStatus.CREATED
+     */
+    @RequestMapping(value = "/assignment/save", method = RequestMethod.POST)
+    public ResponseEntity<Void> createUserTest(@RequestBody TestUser testUser, UriComponentsBuilder ucBuilder) {
+     logger.info("Creating User Test " + testUser.getCategories());
+
+     try {
+      testSvc.saveTest(testUser);
+     }catch (Exception e) {
+      logger.error(e);
+     }
+ 
+        HttpHeaders headers = new HttpHeaders();
+        headers.setLocation(ucBuilder.path("/testers/scores/{id}").buildAndExpand(testUser.getTestId()).toUri());
+        return new ResponseEntity<Void>(headers, HttpStatus.CREATED);
+    }
 }
