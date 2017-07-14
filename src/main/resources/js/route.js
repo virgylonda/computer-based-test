@@ -12,17 +12,27 @@ cbtApp.config(function($stateProvider) {
 	//===========================================================================//
 
 	.state('/', {
-		url: 'authentification-login',
+		url: '/?token',
 		views: {
 					'main@': {
-						templateUrl: 'views/components/login.html'
+						controller: "IndexController"
 					}
 				},
 		data: {
 					displayName: 'Login'
 			  }
 	})
-
+	.state('loginauthentification', {
+		views: {
+					'main@': {
+						templateUrl: 'views/components/login.html',
+						controller: "LoginController"
+					}
+				},
+		data: {
+					displayName: 'Login'
+			  }
+	})
 	//===========================================================================//
 
 	// ADMIN ROUTE START HERE//

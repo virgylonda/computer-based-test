@@ -41,16 +41,25 @@
                     </span>
                     </div>
                     <!-- /input-group -->
-                </li>
-                <li>
-                    <a ui-sref="home"><i class="fa fa-dashboard fa-fw"></i> Dashboard</a>
-                </li>
-                <li>
-                    <a ui-sref="home.testerlist"><i class="fa fa-user fa-fw"></i> Tester</a>
-                </li>
-                <li>
-                    <a ui-sref="home.userlist"><i class="fa fa-user fa-fw"></i> User</a>
-                </li>
+                    </li>
+                   <li>
+                        <a ui-sref="hometester"><i class="fa fa-dashboard fa-fw"></i> Dashboard</a>
+                    </li>
+                    <li>
+                        <a ui-sref="hometester.listcategories"><i class="fa fa-comments fa-fw"></i> Question</a>
+                    </li>
+                    <li>
+                        <a href=""><i class="fa fa-user fa-fw"></i> User<span class="fa arrow"></span></a>
+                        <ul class="nav nav-second-level">
+                            <li>
+                                <a ui-sref="hometester.userscore">Result Score</a>
+                            </li>
+                            <li>
+                                <a ui-sref="hometester.userassign">Assignment</a>
+                            </li>
+                        </ul>
+                        <!-- /.nav-second-level -->
+                    </li>
             </ul>
             <!-- /#side-menu -->
         </div>

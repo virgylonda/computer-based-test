@@ -21,12 +21,20 @@
       <link href="bower_components/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css"/>
    </head>
    
-   <body ng-app="cbtApp">
+   <body ng-app="cbtApp" ng-controller="IndexController">
       <div id="wrapper">
-         <div ng-include = "'views/components/navbar.html'"></div>
-            <div id="page-wrapper">
-               <div ui-view="main"></div>
-            </div>
+         <span ng-if="tokenuser == 'admin'">
+            <div ng-include = "'views/components/navbar.html'"></div>
+         </span>
+         <span ng-if="tokenuser == 'tester'">
+            <div ng-include = "'views/components/navbartester.html'"></div>
+         </span>
+         <span ng-if="tokenuser == 'user'">
+            <div ng-include = "'views/components/navbaruser.html'"></div>
+         </span>
+         <div id="page-wrapper">
+            <div ui-view="main"></div>
+         </div>
       </div>
 
 
@@ -72,7 +80,6 @@
 
       <!-- controller tester-->
       <script src="js/controllers/TesterController/TesterListCategories.js"></script>
-      <script src="js/controllers/AuthentificationController.js"></script>
       <script src="js/controllers/TesterController/TesterGetCategoriesController.js"></script>
       <script src="js/controllers/TesterController/TesterEditCategoriesController.js"></script>
       <script src="js/controllers/TesterController/TesterListQuestionController.js"></script>
@@ -86,6 +93,10 @@
       <script src="js/controllers/TesterController/TesterScoresDetailController.js"></script>
 
       <!-- controller user -->
-      <script src="js/controllers/UserController/UserShowTestController.js"></script>      
+      <script src="js/controllers/UserController/UserShowTestController.js"></script>
+
+      <!-- login authentification -->
+      <script src="js/controllers/LoginController.js"></script>
+      <script src="js/controllers/IndexController.js"></script>
    </body>
 </html>
