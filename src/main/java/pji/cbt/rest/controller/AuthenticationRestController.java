@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import pji.cbt.entities.Roles;
 import pji.cbt.entities.User;
 import pji.cbt.services.UserService;
 
@@ -25,6 +26,8 @@ public class AuthenticationRestController {
 	
 	@Autowired
 	private UserService usrService;
+	
+	Roles role;
 	
 	@RequestMapping(value = "/login", method = RequestMethod.POST)
 	public String login(@RequestBody User login) throws ServletException {
@@ -50,7 +53,7 @@ public class AuthenticationRestController {
 			throw new ServletException("Invalid login. Please check your name and password.");
 		}
 
-		jwtToken = Jwts.builder().setSubject(username).claim("roles", "user").setIssuedAt(new Date())
+		jwtToken = Jwts.builder().setSubject(username).claim("Role ID : ", user.getRole_id()).setIssuedAt(new Date())
 				.signWith(SignatureAlgorithm.HS256, "secretkey").compact();
 
 		return jwtToken;
