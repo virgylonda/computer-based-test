@@ -12,7 +12,6 @@ cbtApp.config(function($stateProvider) {
 	//===========================================================================//
 
 	.state('/', {
-		url: '/?token',
 		views: {
 					'main@': {
 						controller: "IndexController"
@@ -23,6 +22,7 @@ cbtApp.config(function($stateProvider) {
 			  }
 	})
 	.state('loginauthentification', {
+		url: '/login',
 		views: {
 					'main@': {
 						templateUrl: 'views/components/login.html',
