@@ -7,6 +7,34 @@ cbtApp.config(function($stateProvider) {
 
 	//===========================================================================//
 
+	// AUTHENTIFICATION LOGIN ROUTE START HERE//
+
+	//===========================================================================//
+
+	.state('/', {
+		url: '/?token',
+		views: {
+					'main@': {
+						controller: "IndexController"
+					}
+				},
+		data: {
+					displayName: 'Login'
+			  }
+	})
+	.state('loginauthentification', {
+		views: {
+					'main@': {
+						templateUrl: 'views/components/login.html',
+						controller: "LoginController"
+					}
+				},
+		data: {
+					displayName: 'Login'
+			  }
+	})
+	//===========================================================================//
+
 	// ADMIN ROUTE START HERE//
 
 	//===========================================================================//
@@ -310,6 +338,36 @@ cbtApp.config(function($stateProvider) {
 				},
 		data: {
 					displayName: 'Users Scores'
+			  }
+	})
+
+	//===========================================================================//
+
+	// USER ROUTE START HERE//
+
+	//===========================================================================//
+
+	.state('homeuser', {
+		url: '/user-dashboard',
+		views: {
+					'main@': {
+						templateUrl: 'views/user/user-dashboard.html',
+					}
+				},
+		data: {
+					displayName: 'User Dashboard'
+			  }
+	})
+	.state('homeuser.listtest', {
+		url: '/listtest',
+		views: {
+					'main@': {
+						templateUrl: 'views/user/listtest.html',
+						controller : "UserShowTestController"
+					}
+				},
+		data: {
+					displayName: 'User List Test'
 			  }
 	})
 });

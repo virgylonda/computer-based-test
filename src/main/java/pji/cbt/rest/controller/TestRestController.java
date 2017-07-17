@@ -95,6 +95,7 @@ public class TestRestController {
 		    	logger.info("Fetching Scores with user id " + id);
 		        return testSvc.findTestByUserId(id);
 		    }
+
 		    
 		    /**
 			 * @param  		id
@@ -131,5 +132,14 @@ public class TestRestController {
 				map.put("question",listQuest);
 				return map;
 		    }
-
+	
+		    /**
+			 * @param  		-
+			 * @method		GET
+			 * @return      view all user for showing score
+			 */
+		    @RequestMapping(path = "/getalluserscore", method=RequestMethod.GET)
+			public List<TestUser> getAllUsersScore(){
+				return testSvc.findUserSummaryScore();
+			}
 }

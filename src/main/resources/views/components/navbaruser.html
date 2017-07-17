@@ -42,15 +42,14 @@
                     </div>
                     <!-- /input-group -->
                 </li>
-                <li>
-                    <a ui-sref="home"><i class="fa fa-dashboard fa-fw"></i> Dashboard</a>
-                </li>
-                <li>
-                    <a ui-sref="home.testerlist"><i class="fa fa-user fa-fw"></i> Tester</a>
-                </li>
-                <li>
-                    <a ui-sref="home.userlist"><i class="fa fa-user fa-fw"></i> User</a>
-                </li>
+                <div ng-if="person == 'user'" class="nav">
+                    <li>
+                        <a ui-sref="homeuser"><i class="fa fa-dashboard fa-fw"></i> Dashboard</a>
+                    </li>
+                     <li>
+                        <a ui-sref="homeuser.listtest"><i class="fa fa-comments fa-fw"></i> Questions</a>
+                    </li>
+                </div>
             </ul>
             <!-- /#side-menu -->
         </div>
