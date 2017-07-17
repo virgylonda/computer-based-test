@@ -23,14 +23,14 @@ import io.jsonwebtoken.SignatureAlgorithm;
 @RestController
 @RequestMapping("/authentication")
 public class AuthenticationRestController {
- 
- @Autowired
- private UserService usrService;
- 
- Roles role;
- 
- @RequestMapping(value = "/login", method = RequestMethod.POST)
- public String login(@RequestBody User login) throws ServletException {
+	
+	@Autowired
+	private UserService usrService;
+	
+	Roles role;
+	
+	@RequestMapping(value = "/login", method = RequestMethod.POST)
+	public String login(@RequestBody User login) throws ServletException {
 
   String jwtToken = "";
 
@@ -53,8 +53,9 @@ public class AuthenticationRestController {
    throw new ServletException("Invalid login. Please check your name and password.");
   }
 
-  jwtToken = Jwts.builder().setSubject(username).claim("Role ID : ", "1").setIssuedAt(new Date())
-    .signWith(SignatureAlgorithm.HS256, "secretkey").compact();
+
+jwtToken = Jwts.builder().setSubject(username).claim("Role ID : ", user.getRole_id()).setIssuedAt(new Date())
+		.signWith(SignatureAlgorithm.HS256, "secretkey").compact();
 
   return jwtToken;
  }
