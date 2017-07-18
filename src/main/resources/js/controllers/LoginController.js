@@ -20,10 +20,33 @@ cbtApp.controller('LoginController', ['$scope', '$state', 'AuthService', functio
 			var token = res.data.token;
 			var decode = jwt_decode(token);
 			console.log(decode);
-			
+			$scope.checkRoles(decode);
 		}).catch(function (res){
 			console.log(res);
 			window.alert("Error: Login Failed");
 		});
+    }
+
+    $scope.checkRoles = function(decode) {
+    	var userId = decode.userId;
+        if(decode.roleId == '1'){
+        	$state.go("home", {userId});
+        }
+        else if(decode.roleId == '2'){
+        	$state.go("hometester", {userId});
+        }
+        else if(decode.roleId == '3'){
+        	$state.go("homeuser", {userId});
+        }
+    }
+
+    $scope.logout = function() {
+        $scope.userName = '';
+        $scope.token = null;
+        $http.defaults.headers.common.Authorization = '';
+    }
+
+    $scope.loggedIn = function() {
+        return $scope.token !== null;
     }
 }])

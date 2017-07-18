@@ -21,6 +21,7 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 
 import static java.time.ZoneOffset.UTC;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
 @CrossOrigin(origins = "http://localhost", maxAge = 3600)
 @RestController
@@ -39,7 +40,7 @@ public class AuthenticationRestController {
 	  Date expiration = Date.from(LocalDateTime.now(UTC).plusHours(2).toInstant(UTC));
 	  
 	  if (login.getUsername() == null || login.getPassword() == null) {
-	   throw new ServletException("Please fill in username and password");
+	   throw new UsernameNotFoundException("Please fill in username and password");
 	  }
 
 	  String username = login.getUsername();
@@ -48,7 +49,7 @@ public class AuthenticationRestController {
 	  User user = usrService.findOneUser(username);
 
 	  if (user == null) {
-	   throw new ServletException("Username not found.");
+	   throw new UsernameNotFoundException("Username not found.");
 	  }
 	  
 	  BCryptPasswordEncoder encoder = new BCryptPasswordEncoder(); 
@@ -59,7 +60,8 @@ public class AuthenticationRestController {
 	  
 	  return new LoginResponse(Jwts.builder()
 	    .setSubject(username)
-	    .claim("Role ID : ", user.getRole_id())
+	    .claim("roleId", user.getRole_id())
+	    .claim("userId", user.getUserId())
 	    .setExpiration(expiration)
 	    .setIssuedAt(new Date())
 	    .signWith(SignatureAlgorithm.HS256, "secretkey")
