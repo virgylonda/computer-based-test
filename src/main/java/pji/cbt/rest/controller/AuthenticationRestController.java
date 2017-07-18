@@ -1,5 +1,6 @@
 package pji.cbt.rest.controller;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 
 import javax.servlet.ServletException;
@@ -19,6 +20,8 @@ import pji.cbt.services.UserService;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 
+import static java.time.ZoneOffset.UTC;
+
 @CrossOrigin(origins = "http://localhost", maxAge = 3600)
 @RestController
 @RequestMapping("/authentication")
@@ -30,34 +33,45 @@ public class AuthenticationRestController {
 	Roles role;
 	
 	@RequestMapping(value = "/login", method = RequestMethod.POST)
-	public String login(@RequestBody User login) throws ServletException {
+	 public LoginResponse login(@RequestBody User login) throws ServletException {
 
-  String jwtToken = "";
+	  String jwtToken = "";
+	  Date expiration = Date.from(LocalDateTime.now(UTC).plusHours(2).toInstant(UTC));
+	  
+	  if (login.getUsername() == null || login.getPassword() == null) {
+	   throw new ServletException("Please fill in username and password");
+	  }
 
-  if (login.getUsername() == null || login.getPassword() == null) {
-   throw new ServletException("Please fill in username and password");
-  }
+	  String username = login.getUsername();
+	  String password = login.getPassword();
 
-  String username = login.getUsername();
-  String password = login.getPassword();
+	  User user = usrService.findOneUser(username);
 
-  User user = usrService.findOneUser(username);
+	  if (user == null) {
+	   throw new ServletException("Username not found.");
+	  }
+	  
+	  BCryptPasswordEncoder encoder = new BCryptPasswordEncoder(); 
 
-  if (user == null) {
-   throw new ServletException("Username not found.");
-  }
-  
-  BCryptPasswordEncoder encoder = new BCryptPasswordEncoder(); 
+	  if(!encoder.matches(password, user.getPassword())){
+	   throw new ServletException("Invalid login. Please check your name and password.");
+	  }
+	  
+	  return new LoginResponse(Jwts.builder()
+	    .setSubject(username)
+	    .claim("Role ID : ", user.getRole_id())
+	    .setExpiration(expiration)
+	    .setIssuedAt(new Date())
+	    .signWith(SignatureAlgorithm.HS256, "secretkey")
+	    .compact());
+	 }
 
-  if(!encoder.matches(password, user.getPassword())){
-   throw new ServletException("Invalid login. Please check your name and password.");
-  }
+	    @SuppressWarnings("unused")
+	    private static class LoginResponse {
+	        public String token;
 
-
-jwtToken = Jwts.builder().setSubject(username).claim("Role ID : ", user.getRole_id()).setIssuedAt(new Date())
-		.signWith(SignatureAlgorithm.HS256, "secretkey").compact();
-
-  return jwtToken;
- }
-
+	        public LoginResponse(final String token) {
+	            this.token = token;
+	        }
+	    }
 }
