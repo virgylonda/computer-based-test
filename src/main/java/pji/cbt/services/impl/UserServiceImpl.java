@@ -59,4 +59,10 @@ public class UserServiceImpl implements UserService {
 		return uMapper.findRoleAll();
 	}
 
+	@Override
+	public boolean exists(User user) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
 }

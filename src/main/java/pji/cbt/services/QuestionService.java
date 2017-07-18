@@ -3,6 +3,7 @@ package pji.cbt.services;
 import java.util.List;
 
 import pji.cbt.entities.Question;
+import pji.cbt.entities.User;
 
 public interface QuestionService {
 
@@ -25,4 +26,5 @@ public interface QuestionService {
 	public void editQuestion(Question question);
 	
 	public List<Question> findAllQuestionByCategory(int idCategory);
+	boolean exists(Question question);
 }

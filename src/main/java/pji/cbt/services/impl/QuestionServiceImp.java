@@ -68,6 +68,12 @@ public class QuestionServiceImp implements QuestionService {
 		qMapper.updateOrderingQuestion(category, ordering);
 	}
 
+	@Override
+	public boolean exists(Question question) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
 	
 	
 }

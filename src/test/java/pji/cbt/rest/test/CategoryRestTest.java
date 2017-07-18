@@ -1,13 +1,19 @@
 package pji.cbt.rest.test;
 
+import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.is;
+import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
 import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.header;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -27,8 +33,11 @@ import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import pji.cbt.config.WebMvcConfig;
 import pji.cbt.entities.Category;
+import pji.cbt.entities.Question;
 import pji.cbt.rest.controller.CategoryRestController;
 import pji.cbt.services.CategoryService;
 import pji.cbt.services.QuestionService;
@@ -64,23 +73,68 @@ private MockMvc mockMvc;
 	    }
 	    
 	    
-	    /**
-	     * Test CreateCategory Question
-	     * 
-	    */
-	    
-	    
-	    /**
-	     * Test UpdateCategory Question by id
-	     * 
-	    */
-	    
-	    /**
-	     * Test DeleteCategory Question by id
-	     * 
-	    */
-	    
-	    
+	    // =========================================== Create Category ========================================
+
+	    @Test
+	    public void createCategory() throws Exception {
+	        Category category = new Category("Category1asda", "ini kategori 1asdas");
+
+	        when(catService.exists(category)).thenReturn(false);
+	        doNothing().when(catService).createCategory(category);
+
+	        mockMvc.perform(
+	                post("/category")
+	                        .contentType(MediaType.APPLICATION_JSON)
+	                        .content(asJsonString(category)))
+	                        
+	                .andExpect(status().isCreated())
+	                .andExpect(header().string("location", containsString("/category/createcategory")));
+
+	        verify(catService, times(1)).exists(category);
+	        verify(catService, times(1)).createCategory(category);
+	        verifyNoMoreInteractions(catService);
+	        
+	    }
+	 
+	    // =========================================== Update Existing Category ===================================
+
+	    @Test
+	    public void updateCategory() throws Exception {
+	    	Category category = new Category("Category2asda", "ini kategori 1asdas");
+
+	        when(catService.findOneCategory(category.getIdCategory())).thenReturn(category);
+	        doNothing().when(catService).updateCategory(category);
+
+	        mockMvc.perform(
+	                put("/question/updatecategory/{id}", category.getIdCategory())
+	                        .contentType(MediaType.APPLICATION_JSON)
+	                        .content(asJsonString(category)))
+	                .andExpect(status().isOk());
+
+	        verify(catService, times(1)).findOneCategory(category.getIdCategory());
+	        verify(catService, times(1)).updateCategory(category);
+	        verifyNoMoreInteractions(catService);
+	    }
+
+	 
+	 // =========================================== DeleteCategory ============================================
+
+	    @Test
+	    public void deleteCategory() throws Exception {
+	    	Category category = new Category("Category1asda", "ini kategori 1asdas");
+	    	
+	    	 when(catService.findOneCategory(category.getIdCategory())).thenReturn(category);
+	        doNothing().when(catService).deleteOne(category.getIdCategory());
+
+	        mockMvc.perform(
+	                delete("/category/deletecategory/{id}", category.getIdCategory()))
+	                .andExpect(status().isOk());
+
+	        verify(catService, times(1)).findOneCategory(category.getIdCategory());
+	        verify(catService, times(1)).deleteOne(category.getIdCategory());
+	        verifyNoMoreInteractions(catService);
+	    }
+
 	    
 	    
 	    /**
@@ -135,6 +189,15 @@ private MockMvc mockMvc;
 	     * Test CategoryDetail by id
 	     * 
 	     */
-	    
+	    // =========================================== Json String ===========================================
+
+	    public static String asJsonString(final Object obj) {
+	        try {
+	            final ObjectMapper mapper = new ObjectMapper();
+	            return mapper.writeValueAsString(obj);
+	        } catch (Exception e) {
+	            throw new RuntimeException(e);
+	        }
+	    }
 	    
 }

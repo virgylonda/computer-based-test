@@ -29,4 +29,5 @@ public interface UserService {
 	
 	public List<Roles> findRoleAll();
 	
+	 boolean exists(User user);
 }
