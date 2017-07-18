@@ -6,7 +6,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
         </button>
-        <a class="navbar-brand" href="/admin/dashboard">Computer Based Test Admin</a>
+        <a class="navbar-brand" href="/admin/dashboard">Computer Based Test</a>
     </div>
     <!-- /.navbar-header -->
 
@@ -29,7 +29,7 @@
     <!-- /.navbar-top-links -->
 
     <div class="navbar-default navbar-static-side" role="navigation">
-        <div class="sidebar-collapse" ng-controller="NavbarController">
+        <div class="sidebar-collapse">
             <ul class="nav" id="side-menu">
                 <li class="sidebar-search">
                     <div class="input-group custom-search-form">
@@ -42,45 +42,15 @@
                     </div>
                     <!-- /input-group -->
                 </li>
-                <div ng-if="person == 'admin'" class="nav">
-                    <li>
-                        <a ui-sref="home"><i class="fa fa-dashboard fa-fw"></i> Dashboard</a>
-                    </li>
-                    <li>
-                        <a ui-sref="home.testerlist"><i class="fa fa-user fa-fw"></i> Tester</a>
-                    </li>
-                    <li>
-                        <a ui-sref="home.userlist"><i class="fa fa-user fa-fw"></i> User</a>
-                    </li>
-                </div>
-                <div ng-if="person == 'tester'" class="nav">
-                   <li>
-                        <a ui-sref="hometester"><i class="fa fa-dashboard fa-fw"></i> Dashboard</a>
-                    </li>
-                    <li>
-                        <a ui-sref="hometester.listcategories"><i class="fa fa-comments fa-fw"></i> Question</a>
-                    </li>
-                    <li>
-                        <a href=""><i class="fa fa-user fa-fw"></i> User<span class="fa arrow"></span></a>
-                        <ul class="nav nav-second-level">
-                            <!-- <li>
-                                <a href="/tester/user/score">Result Score</a>
-                            </li> -->
-                            <li>
-                                <a ui-sref="hometester.userassign">Assignment</a>
-                            </li>
-                        </ul>
-                        <!-- /.nav-second-level -->
-                    </li>
-                </div>
-                <div ng-if="person == 'user'" class="nav">
-                    <li>
-                        <a href="/user/dashboard"><i class="fa fa-dashboard fa-fw"></i> Dashboard</a>
-                    </li>
-                     <li>
-                        <a href="/user/test/list"><i class="fa fa-comments fa-fw"></i> Questions</a>
-                    </li>
-                </div>
+                <li>
+                    <a ui-sref="home"><i class="fa fa-dashboard fa-fw"></i> Dashboard</a>
+                </li>
+                <li>
+                    <a ui-sref="home.testerlist"><i class="fa fa-user fa-fw"></i> Tester</a>
+                </li>
+                <li>
+                    <a ui-sref="home.userlist"><i class="fa fa-user fa-fw"></i> User</a>
+                </li>
             </ul>
             <!-- /#side-menu -->
         </div>

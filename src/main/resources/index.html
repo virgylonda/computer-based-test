@@ -21,16 +21,14 @@
       <link href="bower_components/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css"/>
    </head>
    
-   <body ng-app="cbtApp">
-      <div id="wrapper">
-         <div ng-include = "'views/components/navbar.html'"></div>
-            <div id="page-wrapper">
-               <div ui-view="main"></div>
-            </div>
+   <body ng-app="cbtApp" ng-controller="IndexController">
+      <div id="page-wrapper">
+            <div ui-view="main"></div>
       </div>
 
 
       <!-- angular library -->
+      <script src="static/js/jsangular/jwt-decode.min.js"></script>
       <script src = "https://ajax.googleapis.com/ajax/libs/angularjs/1.3.14/angular.min.js"></script>
       <script src="static/js/jsangular/angular-animate.js"></script>
       <script src="static/js/jsangular/angular-sanitize.js"></script>
@@ -58,6 +56,8 @@
       <script src="js/route.js"></script>
       <script src="js/services/AdminService/AdminServices.js"></script>
       <script src="js/services/TesterService/TesterServices.js"></script>
+      <script src="js/services/UserService/UserServices.js"></script>
+      <script src="js/services/AuthService/AuthService.js"></script>
 
       <!-- controller amdin-->
       <script src="js/controllers/AdminController/AdminAddTesterController.js"></script>
@@ -68,10 +68,13 @@
       <script src="js/controllers/AdminController/AdminEditTesterController.js"></script>
       <script src="js/controllers/AdminController/AdminGetUserController.js"></script>
       <script src="js/controllers/AdminController/AdminEditUserController.js"></script>
+      <script src="js/controllers/AdminController/AdminController.js"></script>
+      <script src="js/controllers/AdminController/AdmiGetDetailController.js"></script>
+      <script src="js/controllers/AdminController/AdminEditController.js"></script>
+      <script src="js/controllers/AdminController/AdminEditPassController.js"></script>
 
       <!-- controller tester-->
       <script src="js/controllers/TesterController/TesterListCategories.js"></script>
-      <script src="js/controllers/NavbarController.js"></script>
       <script src="js/controllers/TesterController/TesterGetCategoriesController.js"></script>
       <script src="js/controllers/TesterController/TesterEditCategoriesController.js"></script>
       <script src="js/controllers/TesterController/TesterListQuestionController.js"></script>
@@ -81,5 +84,14 @@
       <script src="js/controllers/TesterController/TesterAddCategories.js"></script>
       <script src="js/controllers/TesterController/TesterListUserController.js"></script>
       <script src="js/controllers/TesterController/TesterAssignmentListController.js"></script>
+      <script src="js/controllers/TesterController/TesterListScoresController.js"></script>
+      <script src="js/controllers/TesterController/TesterScoresDetailController.js"></script>
+
+      <!-- controller user -->
+      <script src="js/controllers/UserController/UserShowTestController.js"></script>
+
+      <!-- login authentification -->
+      <script src="js/controllers/LoginController.js"></script>
+      <script src="js/controllers/IndexController.js"></script>
    </body>
 </html>

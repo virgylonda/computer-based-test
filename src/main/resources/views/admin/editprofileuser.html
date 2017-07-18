@@ -1,3 +1,4 @@
+<div ng-include = "'views/components/navbar.html'"></div>
 <div class="row">
     <div class="col-lg-12">
         <h1 class="page-header">Form Edit Profile</h1>
@@ -43,42 +44,3 @@
     </div>
     <!-- /.col-lg-12 -->
 </div>
-<div class="row">
-    <div class="col-lg-12">
-        <div class="panel panel-default">
-            <div class="panel-heading">
-                Form Edit Profile Password
-            </div>
-            <div class="panel-body">
-                <div class="row">
-                    <div class="col-lg-8">
-                        <!-- <div class="alert alert-danger" th:if="${msgpassword != null}" th:text="${msgpassword != null ? msgpassword : '' }">
-                        </div> -->
-                        <form>
-                            <div class="form-group">
-                                <label>Old Password</label>
-                                <input class="form-control" type="hidden" name="iduser" th:attr="value = ${data !=null ? data.userId : '' }"/>
-                                <input class="form-control" type="password" placeholder="Enter old password" name="oldpassword" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" title="Must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters" required="required"/>
-                            </div>
-                            <div class="form-group">
-                                <label>New Password</label>
-                                <input class="form-control" type="password" placeholder="Enter new password" name="newpassword" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" title="Must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters" required="required"/>
-                            </div>
-                            <div class="form-group">
-                                <label>Retype New Password</label>
-                                <input class="form-control" type="password" placeholder="Retype new password" name="retypepassword" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" title="Must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters" required="required"/>
-                            </div>
-                            <button type="submit" class="btn btn-primary">Submit</button>
-                            <a href="/tester/dashboard"><button type="button" class="btn btn-danger">Cancel</button></a>
-                        </form>
-                    </div>
-                </div>
-                <!-- /.row (nested) -->
-            </div>
-            <!-- /.panel-body -->
-        </div>
-        <!-- /.panel -->
-    </div>
-    <!-- /.col-lg-12 -->
-</div>
-<!-- /.row -->

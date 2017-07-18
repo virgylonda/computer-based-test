@@ -19,6 +19,8 @@ public class User implements Serializable {
 	
 	private String email;
 	
+	private int role_id;
+
 	private Roles roles;
 
 	public User() {
@@ -78,6 +80,14 @@ public class User implements Serializable {
 
 	public void setRoles(Roles roles) {
 		this.roles = roles;
+	}
+	
+	public int getRole_id() {
+		return role_id;
+	}
+
+	public void setRole_id(int role_id) {
+		this.role_id = role_id;
 	}
 
 	public String passwordToHash(String password){		

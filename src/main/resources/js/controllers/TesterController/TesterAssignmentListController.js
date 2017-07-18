@@ -1,3 +1,7 @@
+/**
+Author : Edric Laksa Putra
+Since : June 2017
+*/
 cbtApp.controller('TesterAssignmentListController', ['$scope', '$state', 'TesterServices', function($scope, $state, TesterServices){
 
 	var userId = $state.params.userId;
@@ -17,25 +21,30 @@ cbtApp.controller('TesterAssignmentListController', ['$scope', '$state', 'Tester
 				}
 			});
 			console.log($scope.idCategoriesArray);
-
-			for (var i = 0 ; i < $scope.idCategoriesArray.length; i++) {
-				var formAssignment = {
-						"testId" : '',
-						"started" : new Date(),
-						"ended" : '',
-						"score" : '',
-						"status" : 'Not Yet',
-						"users" :{
-							"userId"	: userId
-						},
-						"categories" :{
-							"idCategory"	: $scope.idCategoriesArray[i]
-					}
-				};
-				console.log(formAssignment);
-				TesterServices.addAssignment(formAssignment).then(function(res){
-					$state.go("hometester.userassign");
-				})
+			if($scope.idCategoriesArray.length == 0){
+				window.alert("No category selected");
+				$state.go("hometester.userassign");
+			}
+			else{
+				for (var i = 0 ; i < $scope.idCategoriesArray.length; i++) {
+					var formAssignment = {
+							"testId" : '',
+							"started" : new Date(),
+							"ended" : '',
+							"score" : '',
+							"status" : 'Not Yet',
+							"users" :{
+								"userId"	: userId
+							},
+							"categories" :{
+								"idCategory"	: $scope.idCategoriesArray[i]
+						}
+					};
+					console.log(formAssignment);
+					TesterServices.addAssignment(formAssignment).then(function(res){
+						$state.go("hometester.userassign");
+					})
+				}
 			}
 		};
     }

@@ -48,6 +48,9 @@ import pji.cbt.services.UserService;
 public class UserRestController {
 	@Autowired
 	private static final SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+	
+	private static final String SUCCESS_RESULT="<result>Success</result>";
+	private static final String FAILURE_RESULT="<result>Failure</result>";
 
 	@Autowired
 	HttpSession session;
@@ -68,6 +71,8 @@ public class UserRestController {
 	private UserService userSvc;
 	
 	private static Logger logger = Logger.getLogger(UserRestController.class);
+	
+	private String idLogin;
 	
 	public double calculateScore(double point, double quest) {
 		double score = (point / quest) * 100;
@@ -182,6 +187,56 @@ public class UserRestController {
 	        userSvc.deleteOne(id);
 	        return new ResponseEntity<User>(HttpStatus.NO_CONTENT);
 	    }
+	    
+	    /**
+		 * @param  		id
+		 * @method		PUT
+		 * @return      update profile
+		 */
+	    @RequestMapping(value = "/updateprofile/{id}", method = RequestMethod.PUT)
+	    public ResponseEntity<User> updateProfile(@PathVariable("id") long id, @RequestBody User user) {
+	    	logger.info("Updating Profile " + id);  
+	        User currentUser = userSvc.findOne(id);
+	         
+	        if (currentUser==null) {
+	        	logger.warn("User with id " + id + " not found");
+	            return new ResponseEntity<User>(HttpStatus.NOT_FOUND);
+	        }
+	        
+	        currentUser.setName(user.getName());
+	        currentUser.setEmail(user.getEmail()); 
+	        
+	        userSvc.updateUser(currentUser);
+	        return new ResponseEntity(SUCCESS_RESULT, HttpStatus.OK);
+	    	
+	    }
+	    
+	    /**
+		 * @param  		id
+		 * @method		PUT
+		 * @return      update password
+		 */
+	    @RequestMapping(value = "/updatepassword/{id}", method = RequestMethod.PUT)
+	    public ResponseEntity<User> updatePassword(@PathVariable("id") long id, @RequestBody User user) {
+	    	BCryptPasswordEncoder BCrypt = new BCryptPasswordEncoder();
+	    	logger.info("Updating Profile " + id);  
+	        User currentUser = userSvc.findOne(id);
+	         
+	        if (currentUser==null) {
+	        	logger.warn("User with id " + id + " not found");
+	            return new ResponseEntity<User>(HttpStatus.NOT_FOUND);
+	        }else if(!BCrypt.matches(user.getPassword(), currentUser.getPassword())){
+	        	logger.warn("Password not match  " + id + " not found");
+	            return new ResponseEntity<User>(HttpStatus.NOT_FOUND);
+			}
+	        
+	        currentUser.setPassword(user.passwordToHash(user.getPassword()));
+	        userSvc.updatePassword(currentUser);
+	        
+	        return new ResponseEntity(SUCCESS_RESULT, HttpStatus.OK);
+	    	
+	    }
+	    
 }
     
     

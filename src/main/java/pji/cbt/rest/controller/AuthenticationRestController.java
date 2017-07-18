@@ -1,5 +1,6 @@
 package pji.cbt.rest.controller;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 
 import javax.servlet.ServletException;
@@ -12,11 +13,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import pji.cbt.entities.Roles;
 import pji.cbt.entities.User;
 import pji.cbt.services.UserService;
 
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+
+import static java.time.ZoneOffset.UTC;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
 @CrossOrigin(origins = "http://localhost", maxAge = 3600)
 @RestController
@@ -26,34 +31,49 @@ public class AuthenticationRestController {
 	@Autowired
 	private UserService usrService;
 	
+	Roles role;
+	
 	@RequestMapping(value = "/login", method = RequestMethod.POST)
-	public String login(@RequestBody User login) throws ServletException {
+	 public LoginResponse login(@RequestBody User login) throws ServletException {
 
-		String jwtToken = "";
+	  String jwtToken = "";
+	  Date expiration = Date.from(LocalDateTime.now(UTC).plusHours(2).toInstant(UTC));
+	  
+	  if (login.getUsername() == null || login.getPassword() == null) {
+	   throw new UsernameNotFoundException("Please fill in username and password");
+	  }
 
-		if (login.getUsername() == null || login.getPassword() == null) {
-			throw new ServletException("Please fill in username and password");
-		}
+	  String username = login.getUsername();
+	  String password = login.getPassword();
 
-		String username = login.getUsername();
-		String password = login.getPassword();
+	  User user = usrService.findOneUser(username);
 
-		User user = usrService.findOneUser(username);
+	  if (user == null) {
+	   throw new UsernameNotFoundException("Username not found.");
+	  }
+	  
+	  BCryptPasswordEncoder encoder = new BCryptPasswordEncoder(); 
 
-		if (user == null) {
-			throw new ServletException("Username not found.");
-		}
-		
-		BCryptPasswordEncoder encoder = new BCryptPasswordEncoder(); 
+	  if(!encoder.matches(password, user.getPassword())){
+	   throw new ServletException("Invalid login. Please check your name and password.");
+	  }
+	  
+	  return new LoginResponse(Jwts.builder()
+	    .setSubject(username)
+	    .claim("roleId", user.getRole_id())
+	    .claim("userId", user.getUserId())
+	    .setExpiration(expiration)
+	    .setIssuedAt(new Date())
+	    .signWith(SignatureAlgorithm.HS256, "secretkey")
+	    .compact());
+	 }
 
-		if(!encoder.matches(password, user.getPassword())){
-			throw new ServletException("Invalid login. Please check your name and password.");
-		}
+	    @SuppressWarnings("unused")
+	    private static class LoginResponse {
+	        public String token;
 
-		jwtToken = Jwts.builder().setSubject(username).claim("roles", "user").setIssuedAt(new Date())
-				.signWith(SignatureAlgorithm.HS256, "secretkey").compact();
-
-		return jwtToken;
-	}
-
+	        public LoginResponse(final String token) {
+	            this.token = token;
+	        }
+	    }
 }
