@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 
 import pji.cbt.entities.Category;
+import pji.cbt.entities.User;
 
 @Service
 public interface CategoryService {
@@ -18,4 +19,6 @@ public interface CategoryService {
 	public abstract void createCategory(Category category);
 	
 	public void updateCategory(Category category);
+	
+	 boolean exists(Category category);
 }

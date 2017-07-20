@@ -90,12 +90,28 @@ cbtApp.factory('AdminServices', ['$http','$q', function($http,$q){
 		},
 		//Untuk User
 
+		//Untuk Admin sendiri
 		editAdmin: function(id, formData){
-			return $http.post('rest/admin/editprofile'+id, formData).then(function success(res){
+			return $http.put('http://localhost:9091/rest/user/updateuser/'+id, formData).then(function success(res){
 				return res;
 			}, function error(err){
 				return $q.reject(err.data);
 			}.bind(this));
-		}
+		},
+		getAdmin: function(id){
+			return $http.get('http://localhost:9091/rest/user/getuserbyid/'+id).then(function success(res){
+				return res;
+			}, function error(err){
+				return $q.reject(err.data);
+			}.bind(this));
+		},
+		editAdminPass: function(id, formData){
+			return $http.put('http://localhost:9091/rest/user/updatepassword/'+id, formData).then(function success(res){
+				return res;
+			}, function error(err){
+				return $q.reject(err.data);
+			}.bind(this));
+		},
+		//Untuk Admin sendiri
 	};
 }])

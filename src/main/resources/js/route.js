@@ -40,10 +40,11 @@ cbtApp.config(function($stateProvider) {
 	//===========================================================================//
 
 	.state('home', {
-		url: 'admin-dashboard',
+		url: 'admin-dashboard/?userId',
 		views: {
 					'main@': {
-						templateUrl: 'views/admin/admin-dashboard.html'
+						templateUrl: 'views/admin/admin-dashboard.html',
+						controller: "AdminController"
 					}
 				},
 		data: {
@@ -76,9 +77,39 @@ cbtApp.config(function($stateProvider) {
 	})
 	.state('home.editprofileadmin', {
 		url: '/editprofileadmin',
+		params : {
+			dataUser : {
+
+			}
+		},
 		views: {
 					'main@': {
-						templateUrl: 'views/admin/editprofileadmin.html'
+						templateUrl: 'views/admin/editprofileadmin.html',
+						controller : "AdmiGetDetailController"
+					}
+				},
+		data: {
+					displayName: 'Profile Admin'
+			  }
+	})
+	.state('home.editprofileadmin.confirmed', {
+		url: '/confirmed',
+		views: {
+					'main@': {
+						templateUrl: 'views/admin/admin-dashboard.html',
+						controller : "AdminEditController"
+					}
+				},
+		data: {
+					displayName: 'Profile Admin'
+			  }
+	})
+	.state('home.editprofileadmin.confirmedpass', {
+		url: '/confirmedpass',
+		views: {
+					'main@': {
+						templateUrl: 'views/admin/admin-dashboard.html',
+						controller : "AdminEditPassController"
 					}
 				},
 		data: {
@@ -176,7 +207,7 @@ cbtApp.config(function($stateProvider) {
 	//===========================================================================//
 
 	.state('hometester', {
-		url: '/tester-dashboard',
+		url: '/tester-dashboard/?userId',
 		views: {
 					'main@': {
 						templateUrl: 'views/tester/tester-dashboard.html',
@@ -348,7 +379,7 @@ cbtApp.config(function($stateProvider) {
 	//===========================================================================//
 
 	.state('homeuser', {
-		url: '/user-dashboard',
+		url: '/user-dashboard/?userId',
 		views: {
 					'main@': {
 						templateUrl: 'views/user/user-dashboard.html',

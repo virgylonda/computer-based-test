@@ -8,4 +8,6 @@ cbtApp.controller('UserShowTestController', ['$scope', '$state', 'TesterServices
 	// 	$scope.arrayUsers = res.data;
 	// })
 	console.log("cobain aja");
+	var id = $state.params.userId;
+	console.log(id);
 }])

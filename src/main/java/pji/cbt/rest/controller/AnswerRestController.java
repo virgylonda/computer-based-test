@@ -45,7 +45,6 @@ public class AnswerRestController {
 		return ansSvc.findAllAnswer();
 	}
 		
-		
 		/**
 		 * List	Answers by Id Question
 		 * @method	GET

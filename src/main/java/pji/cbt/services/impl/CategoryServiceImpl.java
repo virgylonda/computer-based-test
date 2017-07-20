@@ -43,4 +43,10 @@ public class CategoryServiceImpl implements CategoryService {
 
 	}
 
+	@Override
+	public boolean exists(Category category) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
 }

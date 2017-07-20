@@ -2,10 +2,12 @@ package pji.cbt.rest.test;
 
 import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.is;
+import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
 import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -31,6 +33,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import pji.cbt.config.WebMvcConfig;
 import pji.cbt.entities.Answer;
+import pji.cbt.entities.Category;
 import pji.cbt.entities.Question;
 import pji.cbt.rest.controller.AnswerRestController;
 import pji.cbt.services.AnswerService;
@@ -118,10 +121,24 @@ private MockMvc mockMvc;
 	    }
 	    
 
-	    /**
-	     * Test DeleteAnswer by ID
-	     */
-	    
+	 // =========================================== DeleteAnswer ============================================
+
+	    @Test
+	    public void deleteAnswer() throws Exception {
+	    	Answer answer = new Answer(1, questionAnswer, 1, "The answer is this", false);
+	    	
+	    	 when(ansService.findOne(answer.getIdAnswer())).thenReturn(answer);
+	        doNothing().when(ansService).deleteAnswer(answer.getIdAnswer());
+
+	        mockMvc.perform(
+	                delete("/category/deletecategory/{id}", answer.getIdAnswer()))
+	                .andExpect(status().isOk());
+
+	        verify(ansService, times(1)).findOne(answer.getIdAnswer());
+	        verify(ansService, times(1)).deleteAnswer(answer.getIdAnswer());
+	        verifyNoMoreInteractions(ansService);
+	    }
+
 	    
 	    
 	    

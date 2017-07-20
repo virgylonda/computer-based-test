@@ -57,7 +57,7 @@ public class CategoryRestController {
 		}
  
         HttpHeaders headers = new HttpHeaders();
-        headers.setLocation(ucBuilder.path("/testers/category/{id}").buildAndExpand(category.getIdCategory()).toUri());
+        headers.setLocation(ucBuilder.path("/getCategoryById/{id}").buildAndExpand(category.getIdCategory()).toUri());
         return new ResponseEntity<Void>(headers, HttpStatus.CREATED);
     }
 	
@@ -94,7 +94,7 @@ public class CategoryRestController {
      * @method	DELETE
      * @return 	HttpStatus.NO_CONTENT
      */
-    @RequestMapping(value = "/deletecategory{id}", method = RequestMethod.DELETE)
+    @RequestMapping(value = "/deletecategory/{id}", method = RequestMethod.DELETE)
     public ResponseEntity<Category> deleteCategory(@PathVariable("id") long id) {
     	logger.info("Fetching & Deleting Category with id " + id);
    	 
@@ -128,20 +128,5 @@ public class CategoryRestController {
 		 Category category = ctgSvc.findOneCategory(id);
 		 return new ResponseEntity<Category>(category, HttpStatus.OK);
 	    }
-	    
-	 /**
-		 * List Category Detail by id
-		 * @param 	id
-		 * @param	redirectAttributes
-		 * @param	model
-		 * @method	GET
-		 * @return	findOneCategory
-		 */
-		@RequestMapping(path = "/getCategoryDetail/{id}", method=RequestMethod.GET)
-		public Category getOneCategory(@PathVariable long id, RedirectAttributes redirectAttributes, Model model) {
-			Category category = this.ctgSvc.findOneCategory(id);
-			model.addAttribute("data", category);
-			return category;
-		}
 	
 }
