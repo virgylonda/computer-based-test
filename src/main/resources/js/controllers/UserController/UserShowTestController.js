@@ -2,12 +2,19 @@
 Author : Edric Laksa Putra
 Since : June 2017
 */
-cbtApp.controller('UserShowTestController', ['$scope', '$state', 'TesterServices', function($scope, $state, TesterServices){
+cbtApp.controller('UserShowTestController', ['$scope', '$state', 'UserServices', function($scope, $state, UserServices){
 
-	// TesterServices.getAllUsers().then(function(res){
-	// 	$scope.arrayUsers = res.data;
-	// })
-	console.log("cobain aja");
 	var id = $state.params.userId;
-	console.log(id);
+
+	UserServices.getAssignedCategory(id).then(function(res){
+		$scope.categoryObjects = res.data;
+		console.log($scope.categoryObjects);
+	});
+
+	$scope.doTest = function(categoryTest, testId){
+		console.log("mulai test !");
+		console.log(testId);
+		$state.go("homeuser.gettest", {categoryTest, testId})
+	}
+
 }])

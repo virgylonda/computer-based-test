@@ -336,7 +336,7 @@ cbtApp.config(function($stateProvider) {
 			  }
 	})
 	.state('hometester.userassign.listcategories', {
-		url: '/listcategories/?userId',
+		url: '/listcategories',
 		views: {
 					'main@': {
 						templateUrl: 'views/tester/listassignmentcategory.html',
@@ -360,7 +360,7 @@ cbtApp.config(function($stateProvider) {
 			  }
 	})
 	.state('hometester.userscore.detailscore', {
-		url: '/detailscore/?userId',
+		url: '/detailscore',
 		views: {
 					'main@': {
 						templateUrl: 'views/tester/formdetailscore.html',
@@ -371,7 +371,59 @@ cbtApp.config(function($stateProvider) {
 					displayName: 'Users Scores'
 			  }
 	})
+	.state('hometester.userlist', {
+		url: '/userlist',
+		views: {
+					'main@': {
+						templateUrl: 'views/tester/listusers.html',
+						controller : "TesterListUsersController"
+					}
+				},
+		data: {
+					displayName: 'User List'
+			  }
+	})
+	.state('hometester.userlist.adduser', {
+		url: '/adduser',
+		views: {
+					'main@': {
+						templateUrl: 'views/tester/formusers.html',
+						controller :"TesterAddUserController"
+					}
+				},
+		data: {
+					displayName: 'Add New User'
+			  }
+	})
+	.state('hometester.userlist.edituser', {
+		url: '/edituser/?id',
+		params : {
+			dataUser : {
 
+			}
+		},
+		views: {
+					'main@': {
+						templateUrl: 'views/tester/editprofileuser.html',
+						controller : "TesterGetUserController"
+					}
+				},
+		data: {
+					displayName: 'User Edit'
+			  }
+	})
+	.state('hometester.userlist.edituser.confirmuser', {
+		url: '/confirmuser',
+		views: {
+					'main@': {
+						templateUrl: 'views/tester/listusers.html',
+						controller : "TesterEditUserController"
+					}
+				},
+		data: {
+					displayName: 'User List'
+			  }
+	})
 	//===========================================================================//
 
 	// USER ROUTE START HERE//
@@ -399,6 +451,40 @@ cbtApp.config(function($stateProvider) {
 				},
 		data: {
 					displayName: 'User List Test'
+			  }
+	})
+	.state('homeuser.gettest', {
+		url: '/gettest',
+		params : {
+			categoryTest : {
+
+			},
+			testId : null
+		},
+		views: {
+					'main@': {
+						controller : "UserGetTestController"
+					}
+				},
+		data: {
+					displayName: 'User Get Test'
+			  }
+	})
+	.state('homeuser.dotest', {
+		url: '/dotest',
+		params : {
+			listQuestion : {
+
+			}
+		},
+		views: {
+					'main@': {
+						templateUrl: 'views/user/formtest.html',
+						controller : "UserDoTestController"
+					}
+				},
+		data: {
+					displayName: 'User Do Test'
 			  }
 	})
 });

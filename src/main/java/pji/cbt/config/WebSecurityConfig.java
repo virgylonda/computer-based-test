@@ -40,7 +40,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/tester/**").hasAuthority("TEST")
                 .anyRequest().authenticated()
                 .and().exceptionHandling().accessDeniedPage("/403")
-                .authenticationEntryPoint(jwtAuthEndPoint)
                 .and()
             .formLogin()
                 .loginPage("/login")

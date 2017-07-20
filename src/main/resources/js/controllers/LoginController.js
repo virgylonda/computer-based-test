@@ -43,7 +43,7 @@ cbtApp.controller('LoginController', ['$scope', '$state', 'AuthService', functio
     $scope.logout = function() {
         $scope.userName = '';
         $scope.token = null;
-        $http.defaults.headers.common.Authorization = '';
+        $state.go("/");
     }
 
     $scope.loggedIn = function() {
