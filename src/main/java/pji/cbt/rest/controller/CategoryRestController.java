@@ -53,7 +53,7 @@ public class CategoryRestController {
     	try {
     		ctgSvc.createCategory(category);
     	}catch (Exception e) {
-    		System.out.println(e);
+    		logger.warn(e);
 		}
  
         HttpHeaders headers = new HttpHeaders();
@@ -70,12 +70,12 @@ public class CategoryRestController {
      */
     @RequestMapping(value = "/updatecategory/{id}", method = RequestMethod.PUT)
     public ResponseEntity<Category> updateCategory(@PathVariable("id") long id, @RequestBody Category category) {
-    	logger.info("Updating Category " + id);
+    	logger.debug("Updating Category " + id);
         
         Category currentCategory = ctgSvc.findOneCategory(id);
          
         if (currentCategory==null) {
-            System.out.println("Category with id " + id + " not found");
+            logger.warn("Category with id " + id + " not found");
             return new ResponseEntity<Category>(HttpStatus.NOT_FOUND);
         }
         

@@ -81,7 +81,6 @@ public class UserRestController {
 		return score;
 	}
 
-
     /**
 	 * @param  		-
 	 * @method		GET
@@ -144,6 +143,7 @@ public class UserRestController {
 	        headers.setLocation(ucBuilder.path("/users/{id}").buildAndExpand(user.getUserId()).toUri());
 	        return new ResponseEntity<Void>(headers, HttpStatus.CREATED);
 	    }
+	    
 	/**
 	 * Update  	by id
 	 * @param 	id
@@ -233,8 +233,7 @@ public class UserRestController {
 	        currentUser.setPassword(user.passwordToHash(user.getPassword()));
 	        userSvc.updatePassword(currentUser);
 	        
-	        return new ResponseEntity(SUCCESS_RESULT, HttpStatus.OK);
-	    	
+	        return new ResponseEntity(SUCCESS_RESULT, HttpStatus.OK);	
 	    }
 	    
 }

@@ -7,6 +7,7 @@ import javax.servlet.http.HttpSession;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import pji.cbt.entities.Answer;
 import pji.cbt.entities.Question;
+import pji.cbt.entities.TestUser;
 import pji.cbt.services.AnswerService;
 
 @RestController
@@ -78,9 +80,16 @@ public class AnswerRestController {
         return new ResponseEntity<Answer>(HttpStatus.NO_CONTENT);
     }
     
-    
-	
-	
+    /**
+	 * @param  		id
+	 * @method		GET
+	 * @return      get answer by question id
+	 */
+    @RequestMapping(value = "/getanswer/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    public List<Answer> getAnswerByIdQuestion(@PathVariable("id") int id) {
+    	logger.info("Fetching Answer with Question id : " + id);
+        return ansSvc.findAnswerByQuestion(id);
+    }
 		
 }
 

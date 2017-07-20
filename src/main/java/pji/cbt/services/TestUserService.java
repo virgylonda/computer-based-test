@@ -12,7 +12,7 @@ public interface TestUserService {
 	
 	public TestUser findUserTestById(int testId);
 	
-	public void saveTest(TestUser testUser);
+	public void saveTest(TestUser testUser); //save test
 	
 	public List<TestUser> findUserSummaryScore();
 	
@@ -20,9 +20,9 @@ public interface TestUserService {
 	
 	public void deleteByIdUserAndIdCategory(TestUser testUser);
 	
-	public void updateStartTest(TestUser testUser);
+	public void updateStartTest(TestUser testUser); //start test
 	
 	public void deleteByIdUserAndStatus(int userId);
 	
-	public void updateEndTest(TestUser testUser);
+	public void updateEndTest(TestUser testUser); //end test
 }

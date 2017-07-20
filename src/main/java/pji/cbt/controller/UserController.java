@@ -101,6 +101,7 @@ public class UserController {
 	public String saveEditPassword(int iduser, String oldpassword, String newpassword, String retypepassword,
 			RedirectAttributes redirectAttributes, Model model) {
 		BCryptPasswordEncoder BCrypt = new BCryptPasswordEncoder();
+		
 		User user = userSvc.findOne(iduser);
 		if (!BCrypt.matches(oldpassword, user.getPassword())) {
 			model.addAttribute("msgpassword", "Fail, wrong old password!!");
@@ -180,6 +181,7 @@ public class UserController {
 		}
 		testUser.setStatus("Done");
 		TestUser testUser2 = tstSvc.findUserTestById(testUser.getTestId());
+		
 		if (testUser2.getStarted() == null) {
 			tstSvc.updateStartTest(testUser);
 		}

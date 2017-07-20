@@ -5,6 +5,7 @@ import java.util.Date;
 
 import javax.servlet.ServletException;
 
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -22,6 +23,8 @@ import io.jsonwebtoken.SignatureAlgorithm;
 
 import static java.time.ZoneOffset.UTC;
 
+import java.io.IOException;
+
 @CrossOrigin(origins = "http://localhost", maxAge = 3600)
 @RestController
 @RequestMapping("/authentication")
@@ -32,11 +35,14 @@ public class AuthenticationRestController {
 	
 	Roles role;
 	
+	private static Logger logger = Logger.getLogger(TestRestController.class);
+	
 	@RequestMapping(value = "/login", method = RequestMethod.POST)
-	 public LoginResponse login(@RequestBody User login) throws ServletException {
+	 public LoginResponse login(@RequestBody User login) throws ServletException, IOException {
 
 	  String jwtToken = "";
 	  Date expiration = Date.from(LocalDateTime.now(UTC).plusHours(2).toInstant(UTC));
+	  
 	  
 	  if (login.getUsername() == null || login.getPassword() == null) {
 	   throw new ServletException("Please fill in username and password");
@@ -46,7 +52,7 @@ public class AuthenticationRestController {
 	  String password = login.getPassword();
 
 	  User user = usrService.findOneUser(username);
-
+	  
 	  if (user == null) {
 	   throw new ServletException("Username not found.");
 	  }
@@ -60,6 +66,7 @@ public class AuthenticationRestController {
 	  return new LoginResponse(Jwts.builder()
 	    .setSubject(username)
 	    .claim("Role ID : ", user.getRole_id())
+	    .claim("User ID : ", user.getUserId())
 	    .setExpiration(expiration)
 	    .setIssuedAt(new Date())
 	    .signWith(SignatureAlgorithm.HS256, "secretkey")

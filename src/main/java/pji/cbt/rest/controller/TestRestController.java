@@ -13,16 +13,22 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import org.apache.el.stream.Stream;
 import org.apache.log4j.Logger;
+import org.mockito.internal.util.collections.ArrayUtils;
+import org.mockito.internal.util.collections.Iterables;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.util.UriComponentsBuilder;
 
 import pji.cbt.entities.Answer;
 import pji.cbt.entities.Category;
@@ -114,25 +120,30 @@ public class TestRestController {
 			 * @return      get test have assign by user id
 			 */
 		    @RequestMapping(path = "/dotest/{idcategory}", method = RequestMethod.GET)
-		    public Map<String, List<Question>> getAllQuestionForTest(HttpServletRequest request, @PathVariable("idcategory") int idcategory, TestUser testUser, Timestamp timestamp){
+		    public List<Question> getAllQuestionForTest(HttpServletRequest request, @PathVariable("idcategory") int idcategory, TestUser testUser, Timestamp timestamp){
 		    	logger.info("Fetching All Question by Category "+idcategory);
-		    	Question question = new Question();
 		    	List<Question> listQuest = new ArrayList<Question>();
-		    	List<Answer> listAnswer = new ArrayList<Answer>();
 		    	listQuest = quesSvc.findQuestionRandomOrder(idcategory);
-		    	
-		    	for (Question q : listQuest) {
-					//List<Answer> listAnswer = new ArrayList<Answer>();
-					listAnswer.addAll(ansSvc.findAnswerByQuestion(q.getIdQuestion()));
-					Collections.shuffle(listAnswer);
-				}
-		    	
+		    	List<Answer> listAnswer = ansSvc.findAnswerByQuestion(idcategory);
 				Collections.shuffle(listQuest);
-				Map<String,List<Question>> map =new HashMap();
-				map.put("question",listQuest);
-				return map;
+				
+				return listQuest;
 		    }
-	
+		      
+		    /**
+			 * @param  		id
+			 * @method		GET
+			 * @return      get answer by question id (shuffle answer)
+			 */
+		    @RequestMapping(value = "/getanswer/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+		    public List<Answer> getAnswerByIdQuestion(@PathVariable("id") int id) {
+		    	logger.info("Fetching Answer with Question id : " + id);
+		    	List<Answer> listAnswer = ansSvc.findAnswerByQuestion(id);
+		    	Collections.shuffle(listAnswer);
+		    
+		        return listAnswer;
+		    }
+		    
 		    /**
 			 * @param  		-
 			 * @method		GET
@@ -142,4 +153,5 @@ public class TestRestController {
 			public List<TestUser> getAllUsersScore(){
 				return testSvc.findUserSummaryScore();
 			}
+		    
 }
