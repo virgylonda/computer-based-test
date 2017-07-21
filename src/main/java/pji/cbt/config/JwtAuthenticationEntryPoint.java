@@ -16,20 +16,14 @@ import static javax.servlet.http.HttpServletResponse.SC_FORBIDDEN;
 
 @Component
 public class JwtAuthenticationEntryPoint implements AuthenticationEntryPoint {
-    @Override
-    public void commence(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, AuthenticationException e)
-            throws IOException, ServletException {
-        httpServletResponse.setStatus(SC_FORBIDDEN);
-        httpServletResponse.setContentType(MediaType.APPLICATION_JSON_VALUE);
+	 private static final long serialVersionUID = -8970718410437077606L;
 
-        String message;
-        if(e.getCause() != null) {
-            message = e.getCause().getMessage();
-        } else {
-            message = e.getMessage();
-        }
-        byte[] body = new ObjectMapper()
-                .writeValueAsBytes(Collections.singletonMap("error", message));
-        httpServletResponse.getOutputStream().write(body);
-    }
-}
+	    @Override
+	    public void commence(HttpServletRequest request,
+	                         HttpServletResponse response,
+	                         AuthenticationException authException) throws IOException {
+	        // This is invoked when user tries to access a secured REST resource without supplying any credentials
+	        // We should just send a 401 Unauthorized response because there is no 'login page' to redirect to
+	        response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Unauthorized");
+	    }
+	}

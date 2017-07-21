@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.apache.el.stream.Stream;
@@ -27,6 +28,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
@@ -66,10 +68,9 @@ public class TestRestController {
 	
 	public TestRestController(){
 	}
+	
 	private static Logger logger = Logger.getLogger(TestRestController.class);
-	
-	
-	   
+	 
 	  /**
 			 * @param  		-
 			 * @method		GET
@@ -113,7 +114,7 @@ public class TestRestController {
 		    	logger.info("Fetching Test Have Assign " +id);
 				return testSvc.findTestHaveAssign(id);
 			}
-		    
+		   
 		    /**
 			 * @param  		id
 			 * @method		GET
@@ -124,7 +125,7 @@ public class TestRestController {
 		    	logger.info("Fetching All Question by Category "+idcategory);
 		    	List<Question> listQuest = new ArrayList<Question>();
 		    	listQuest = quesSvc.findQuestionRandomOrder(idcategory);
-		    	List<Answer> listAnswer = ansSvc.findAnswerByQuestion(idcategory);
+		    	
 				Collections.shuffle(listQuest);
 				
 				return listQuest;
@@ -142,6 +143,36 @@ public class TestRestController {
 		    	Collections.shuffle(listAnswer);
 		    
 		        return listAnswer;
+		    }
+		    
+		    /**
+			 * @param  		id
+			 * @method		PUT
+			 * @return      get answer by question id (shuffle answer)
+			 */
+		    @RequestMapping(value = "/begintest/{id}", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
+		    public ResponseEntity<TestUser> beginTestUser(@PathVariable("id") int id, Timestamp timestamp) {
+		    	logger.info("Fetching Test User with ID : " + id);
+		    	TestUser testUser = testSvc.findUserTestById(id);
+		    	
+		    	if(testUser.getStarted() == null) {
+		    		timestamp = new Timestamp(System.currentTimeMillis());
+			    	String startTest = sdf.format(timestamp);
+					try {
+						Date date = sdf.parse(startTest);
+						testUser.setStarted(date);
+					} catch (ParseException e) {
+						e.printStackTrace();
+					}
+			    	testUser.setStatus("Done");
+			    	
+			    	testSvc.updateStartTest(testUser);
+			    	return new ResponseEntity<TestUser>(testUser, HttpStatus.OK);
+				}else{
+					logger.warn("Test has been done...");
+					return new ResponseEntity(HttpStatus.BAD_REQUEST);
+				}
+		        
 		    }
 		    
 		    /**

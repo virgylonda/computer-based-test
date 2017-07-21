@@ -8,6 +8,7 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 @Configuration
@@ -29,7 +30,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	@Override
     protected void configure(HttpSecurity http) throws Exception {
         http
-            .authorizeRequests()
+            	.authorizeRequests()
 
                 .antMatchers("/static/**", "/asset/**","/test","/test-user","/user-create","/rest/**","/answer/**","/tester/**","/question/**", "/category/**", "/authentication/**", "/test/**", "/alltester/**").permitAll()
 
@@ -38,9 +39,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/admin/**").hasAuthority("ADMIN")
                 .antMatchers("/user/**").hasAuthority("USER")
                 .antMatchers("/tester/**").hasAuthority("TEST")
-                .anyRequest().authenticated()
-                .and().exceptionHandling().accessDeniedPage("/403")
-                .and()
+                
+                .anyRequest().authenticated().and()
+                .exceptionHandling().accessDeniedPage("/403").and()
+//                .exceptionHandling().authenticationEntryPoint(jwtAuthEndPoint).and()
+//                
+//                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
             .formLogin()
                 .loginPage("/login")
                 .permitAll()
