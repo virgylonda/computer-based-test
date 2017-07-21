@@ -1,4 +1,4 @@
-<div ng-include = "'views/components/navbar.html'"></div>
+<div ng-include = "'views/components/navbartester.html'"></div>
 <div class="col-lg-12">
 	<h1 class="page-header">Data Users Account</h1>
 </div>
@@ -25,7 +25,7 @@
 </div> -->
 <div class="row">
 	<div class="col-lg-12">
-		<a ui-sref="home.userlist.adduser"><button type="button" class="btn btn-primary">Add New Users</button></a><br />
+		<a ui-sref="hometester.userlist.adduser"><button type="button" class="btn btn-primary">Add New Users</button></a><br />
 		<br />
 		<div class="panel panel-default">
 			<div class="panel-heading">DataTables Advanced Tables
@@ -52,14 +52,14 @@
 							</tr>
 						</thead>
 						<tbody>
-							<tr dir-paginate="user in arrayUsers | orderBy:sortKey:reverse|filter: search:strict |itemsPerPage:8">
+							<tr ngAnimate="'animate'" dir-paginate="user in arrayUsers | orderBy:sortKey:reverse|filter: search:strict |itemsPerPage:8">
                                 <td>{{$index + 1}}</td>
                                 <td>{{user.roles.roleName}}</td>
                                 <td>{{user.username}}</td>
                                 <td>{{user.name}}</td>
                                 <td>{{user.email}}</td>
                                 <td>
-                                    <button ui-sref="home.userlist.edituser({ id : user.userId })" class="btn btn-success" >
+                                    <button ui-sref="hometester.userlist.edituser({ id : user.userId })" class="btn btn-success" >
                                             <span class="glyphicon glyphicon-edit" aria-hidden="true" />
                                             Edit
                                     </button>

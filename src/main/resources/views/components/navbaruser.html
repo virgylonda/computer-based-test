@@ -19,7 +19,8 @@
             <ul class="dropdown-menu dropdown-user">
                 <li><a ui-sref="home.editprofileadmin"><i class="fa fa-user fa-fw"></i> User Profile</a>
                 </li>
-                <li><a href="/logout"><i class="fa fa-sign-out fa-fw"></i> Logout</a>
+                <li ng-controller="LoginController">
+                    <a href="#" ng-click="logout()"><i class="fa fa-sign-out fa-fw"></i> Logout</a>
                 </li>
             </ul>
             <!-- /.dropdown-user -->
@@ -46,7 +47,7 @@
                     <a ui-sref="homeuser"><i class="fa fa-dashboard fa-fw"></i> Dashboard</a>
                 </li>
                  <li>
-                    <a ui-sref="homeuser.listtest"><i class="fa fa-comments fa-fw"></i> Questions</a>
+                    <a ui-sref="homeuser.listtest"><i class="fa fa-comments fa-fw"></i>Test Assignment</a>
                 </li>
             </ul>
             <!-- /#side-menu -->

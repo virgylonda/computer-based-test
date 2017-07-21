@@ -11,6 +11,12 @@
             <div class="panel panel-default">
                 <div class="panel-heading">
                     DataTables Advanced Tables
+                    <div style="float: right">
+                        <input type="text" placeholder="Search..." ng-model="search"/>
+                        <button class="btn-default" type="button" disabled readonly>
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
                 </div>
                 <!-- /.panel-heading -->
                 <div class="panel-body">
@@ -27,12 +33,12 @@
     							</tr>
     						</thead>
                             <tbody>
-    							<tr dir-paginate="category in arrayList | orderBy:sortKey:reverse|filter: search:strict |itemsPerPage:10">
+    							<tr dir-paginate="category in arrayList | orderBy:sortKey:reverse|filter: search:strict |itemsPerPage:8">
     								<td>{{$index + 1}}</td>
                                     <td>{{category.categories.questionCategory}}</td>
                                     <td>{{category.categories.description}}</td>
                                     <td>{{category.categories.questionType}}</td>
-                                    <td>{{category.categories.timeLimit}}</td>
+                                    <td>{{category.categories.timeLimit / 60}} minutes</td>
     								<td>
     									<div class="form-group">
                                     		<div class="checkbox">

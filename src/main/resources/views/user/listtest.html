@@ -6,11 +6,18 @@
 </div>
 <div class="row">
 	<div class="col-lg-12">
-		<p class="articles" style="color: red"><strong>Attention, this test can only be done once, and can not be repeated.</strong></p>
-        <p class="articles" style="color: red"><strong>Please fill all the questions with the best answers</strong></p>
+		<p class="articles" style="color: red"><strong>Attention	:</strong></p>
+		<p class="articles" style="color: red"><strong>This test can only be done once, and can not be repeated.</strong></p>
+        <p class="articles" style="color: red"><strong>Please fill all the questions with the best answers.</strong></p>
         <div class="panel panel-default">
             <div class="panel-heading">
                 List Of Test
+                <div style="float: right">
+					<input type="text" placeholder="Search..." ng-model="search"/>
+	                <button class="btn-default" type="button" disabled readonly>
+	                    <i class="fa fa-search"></i>
+	                </button>
+				</div>
             </div>
             <!-- /.panel-heading -->
             <div class="panel-body">
@@ -27,20 +34,21 @@
 							</tr>
 						</thead>
                         <tbody>
-								<tr th:each="category,iterationStatus : ${data}">
-								<td th:text="${category != null ? iterationStatus.count : '' }" />
-								<td th:text="${category != null ? category.categories.questionCategory : '' }" />
-								<td th:text="${category != null ? category.categories.description : '' }" />
-								<td th:text="${category != null ? category.categories.questionType : '' }" />
-								<td th:text="${category != null ? category.categories.timeLimit / 60 +' Minute': '' }" />
+                        	<tr dir-paginate="categoryTest in categoryObjects | orderBy:sortKey:reverse|filter: search:strict |itemsPerPage:8">
+								<td>{{$index + 1}}</td>
+                                <td>{{categoryTest.categories.questionCategory}}</td>
+                                <td>{{categoryTest.categories.description}}</td>
+                                <td>{{categoryTest.categories.questionType}}</td>
+                                <td>{{categoryTest.categories.timeLimit / 60}} minutes</td>
 								<td>
-									<form action="/user/test/dotest" method="post">
-										<input type="hidden" name="testId" th:attr="value = ${category != null ? category.testId : '' }"/>
-										<input type="hidden" name="init" value="0"/>
-										<input type="hidden" name="idCategory" th:attr="value = ${category != null ? category.categories.idCategory : '' }"/>
-										<input type="hidden" name="timeLimit" th:attr="value = ${category != null ? category.categories.timeLimit : '' }"/>
-										<button type="submit" class="btn btn-primary btn-xs" th:if="${category.status != 'Done'}">Begin Test</button>
-										<button th:if="${category.status == 'Done'}" type="button" class="btn btn-default btn-circle" disabled="disabled"><i class="fa fa-check"></i></button>
+									<form ng-submit="doTest(categoryTest, categoryTest.testId)">
+										<div ng-if="categoryTest.status != 'Done'">
+											<button type="submit" class="btn btn-primary btn-xs">Begin Test</button>
+										</div>
+										<div ng-if="categoryTest.status == 'Done'">
+											<button type="button" class="btn-default btn-circle" disabled="disabled"><i class="fa fa-check"></i>
+											</button>
+										</div>
 									</form>
 								</td>
 							</tr>

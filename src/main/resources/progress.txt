@@ -1,0 +1,9 @@
+1. Kirim email ketika di assign ke user
+2. angular state dinamic
+sama state beda parameter
+3. Deployment harus semudah mungkin, harus bisa dijalankan di laptop lain
+4. deplayable di tomcat
+5. deployment tanpa tomcat
+6. category ganti testing (done)
+7. filter jalanin (done)
+8. 1 out of 10

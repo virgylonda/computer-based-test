@@ -95,7 +95,7 @@ cbtApp.factory('TesterServices', ['$http','$q', function($http,$q){
 			}.bind(this));
 		},
 		addAssignment: function(formAssignment){
-			return $http.post('http://localhost:9091/rest/tester/assignment/save', formAssignment).then(function success(res){
+			return $http.post('http://localhost:9091/alltester/assignment/save', formAssignment).then(function success(res){
 				return res;
 			}, function error(err){
 				return $q.reject(err.data);
@@ -117,5 +117,47 @@ cbtApp.factory('TesterServices', ['$http','$q', function($http,$q){
 				return $q.reject(err.data);
 			}.bind(this));
 		},
+
+		//Untuk User
+		addUser: function(formData, roles) {
+			return $http.post('http://localhost:9091/rest/user/createUser', formData, roles).then(function success(res){
+				return res;
+			}, function error(err){
+				return $q.reject(err.data);
+			}.bind(this));
+		},
+
+		getAllUser: function(){
+			return $http.get('http://localhost:9091/rest/user/getallUser').then(function success(res){
+				return res;
+			}, function error(err){
+				return $q.reject(err.data);
+			}.bind(this));
+		},
+
+		getUser: function(id){
+			return $http.get('http://localhost:9091/rest/user/getuserbyid/'+id).then(function success(res){
+				return res;
+			}, function error(err){
+				return $q.reject(err.data);
+			}.bind(this));
+		},
+
+		editUser: function(id, formData){
+			return $http.put('http://localhost:9091/rest/user/updateuser/'+id, formData).then(function success(res){
+				return res;
+			}, function error(err){
+				return $q.reject(err.data);
+			}.bind(this));
+		},
+
+		deleteUser: function(id){
+			return $http.delete('http://localhost:9091/rest/user/deleteuserbyid/'+id).then(function success(res){
+				return res;
+			}, function error(err){
+				return $q.reject(err.data);
+			}.bind(this));
+		},
+		//Untuk User
 	};
 }])

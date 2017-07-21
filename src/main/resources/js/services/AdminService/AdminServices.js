@@ -16,7 +16,7 @@ cbtApp.factory('AdminServices', ['$http','$q', function($http,$q){
 		},
 
 		getAllTester: function(){
-			return $http.get('http://localhost:9091/rest/tester/getalltester').then(function success(res){
+			return $http.get('http://localhost:9091/alltester/getalltester').then(function success(res){
 				return res;
 			}, function error(err){
 				return $q.reject(err.data);
