@@ -13,6 +13,7 @@ import org.springframework.web.filter.GenericFilterBean;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.MalformedJwtException;
 import io.jsonwebtoken.SignatureException;
 
 public class JwtFilter extends GenericFilterBean {
@@ -23,7 +24,7 @@ public class JwtFilter extends GenericFilterBean {
 		final HttpServletRequest request = (HttpServletRequest) req;
 		final HttpServletResponse response = (HttpServletResponse) res;
 		final String authHeader = request.getHeader("authorization");
-
+		
 		if ("OPTIONS".equals(request.getMethod())) {
 			response.setStatus(HttpServletResponse.SC_OK);
 
