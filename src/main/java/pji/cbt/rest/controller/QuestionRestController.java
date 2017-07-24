@@ -49,7 +49,7 @@ public class QuestionRestController {
      * @return	Question HttpStatus.CREATED
      */
     @RequestMapping(value = "/createquestion", method = RequestMethod.POST)
-    public ResponseEntity<Void> createQuestion(@RequestBody Question question, UriComponentsBuilder ucBuilder) {
+    public ResponseEntity<Question> createQuestion(@RequestBody Question question, UriComponentsBuilder ucBuilder) {
     	logger.info("Creating Question " + question.getQuestion());
 
     	try {
@@ -60,7 +60,7 @@ public class QuestionRestController {
  
         HttpHeaders headers = new HttpHeaders();
         headers.setLocation(ucBuilder.path("/question/{id}").buildAndExpand(question.getIdQuestion()).toUri());
-        return new ResponseEntity<Void>(headers, HttpStatus.CREATED);
+        return new ResponseEntity<Question>(question, HttpStatus.CREATED);
     }
 	
     /**
