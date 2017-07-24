@@ -25,9 +25,10 @@ cbtApp.controller('TesterAddQuestionController', ['$scope', '$state', 'TesterSer
 					TesterServices.addQuestion(formQuestion).then(function(res){
 						var question = res.data;
 						var answers = $scope.question.answer;
-						for (var i = 0; i < answers.length; i++) {
+						var counter = 0;
+						while(answers[counter] != null){
 							var status = false;
-							if(answers[i].key == '1'){
+							if(answers[counter].key == '1'){
 								status = true;
 							};
 
@@ -35,15 +36,16 @@ cbtApp.controller('TesterAddQuestionController', ['$scope', '$state', 'TesterSer
 								"questionAnswer" : {
 									"idQuestion" : question.idQuestion
 								},
-								"orderingAnswer" : i,
-								"answer" : answers.answer,
+								"orderingAnswer" : counter + 1,
+								"answer" : answers[counter].answer,
 								"correctAnswer" : status
 							};
 
-							TesterServices.addAnswers(formAnswers).then(function(res){	
+							TesterServices.addAnswers(formAnswers).then(function(res){
 							});
-						};
-						
+							counter++;
+						}
+
 						$state.go("hometester.listcategories.listquestion", {idCategory});
 					});
 			});

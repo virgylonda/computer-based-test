@@ -21,7 +21,7 @@ cbtApp.factory('TesterServices', ['$http','$q', function($http,$q){
 			}.bind(this));
 		},
 		getCategory: function(id){
-			return $http.get('http://localhost:9091/category/getCategoryDetail/'+id).then(function success(res){
+			return $http.get('http://localhost:9091/category/getCategoryById/'+id).then(function success(res){
 				return res;
 			}, function error(err){
 				return $q.reject(err.data);
@@ -73,6 +73,20 @@ cbtApp.factory('TesterServices', ['$http','$q', function($http,$q){
 		},
 		editQuestion: function(id, formCategory){
 			return $http.put('http://localhost:9091/question/updatequestion/'+id, formCategory).then(function success(res){
+				return res;
+			}, function error(err){
+				return $q.reject(err.data);
+			}.bind(this));
+		},
+		addAnswers: function(formAnswers){
+			return $http.post('http://localhost:9091/answer/createanswer/', formAnswers).then(function success(res){
+				return res;
+			}, function error(err){
+				return $q.reject(err.data);
+			}.bind(this));
+		},
+		getAllAnswersFromQuestion: function(id){
+			return $http.get('http://localhost:9091/answer/getanswerbyid/'+ id).then(function success(res){
 				return res;
 			}, function error(err){
 				return $q.reject(err.data);

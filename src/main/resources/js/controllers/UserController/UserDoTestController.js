@@ -6,11 +6,18 @@ cbtApp.controller('UserDoTestController', ['$scope', '$state', 'UserServices', f
 
 	var listQuestion = $state.params.listQuestion;
 	var timeLimit = $state.params.timeLimit;
+	var testId = $state.params.testId;
 	var counter = 0;
+	var score = 0;
+
 	$scope.question = {};
 	$scope.answers = [];
 	
 	$scope.onLoad = function(){
+		// update status and time begin
+		// UserServices.beginTest(testId).then(function(res){
+		// });
+
 		// this for handling question
 		$scope.question = listQuestion[counter];
 		$scope.question.counter = counter;
@@ -19,17 +26,14 @@ cbtApp.controller('UserDoTestController', ['$scope', '$state', 'UserServices', f
 		getAnswer($scope.question.idQuestion);
 	};
 
-	$scope.timerBegin = function(){
-		startTimer(timeLimit);
-	}
-
 	$scope.doNext = function(){
-		// handle answer
-		console.log($scope.answers.option);
+		// handle answer key
+		cekAnswer($scope.answers.option);
 
 		counter++;
 		$scope.question = listQuestion[counter];
 		$scope.question.counter = counter;
+		$scope.question.length = listQuestion.length;
 		// this for handling answers
 		getAnswer($scope.question.idQuestion);
 	};
@@ -38,7 +42,17 @@ cbtApp.controller('UserDoTestController', ['$scope', '$state', 'UserServices', f
 	// };
 
 	$scope.doFinnish = function(){
+		// handle answer key
+		cekAnswer($scope.answers.option);
+		$state.go("homeuser.listtest");
 	};
+
+	$scope.timerBegin = function(){
+		$scope.timer = timeLimit;
+	    setInterval(function () {
+	    	$scope.timer--;
+	    }, 1000);
+	}
 
 	function getAnswer(idQuestion){
 		UserServices.getAllAnswersFromQuestion(idQuestion).then(function(res){
@@ -47,13 +61,13 @@ cbtApp.controller('UserDoTestController', ['$scope', '$state', 'UserServices', f
 		});
 	};
 
-	function startTimer(duration) 
-	{
-	    $scope.timer = duration;
-	    setInterval(function () {
-	    	$scope.timer--;
-	    	console.log($scope.timer);
-	    }, 1000);
-	}
+	function cekAnswer(idAnswer){
+		UserService.getAnswerDetail(idAnswer).then(function(res){
+			var answerDetail = res.data;
+			if(answerDetail.correct_answer == true){
+				score++;
+			}
+		});
+	};
 
 }])

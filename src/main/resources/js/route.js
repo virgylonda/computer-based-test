@@ -477,7 +477,8 @@ cbtApp.config(function($stateProvider) {
 			listQuestion : {
 
 			},
-			timeLimit : null
+			timeLimit : null,
+			testId : null
 		},
 		views: {
 					'main@': {
