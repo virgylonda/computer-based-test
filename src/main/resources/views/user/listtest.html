@@ -1,6 +1,6 @@
 <div ng-include = "'views/components/navbaruser.html'"></div>
 <div class="col-lg-12">
-    <h1 class="page-header">Data Category</h1>
+    <h1 class="page-header">List Test Category</h1>
 </div>
 <!-- /.col-lg-12 -->
 </div>
@@ -41,7 +41,7 @@
                                 <td>{{categoryTest.categories.questionType}}</td>
                                 <td>{{categoryTest.categories.timeLimit / 60}} minutes</td>
 								<td>
-									<form ng-submit="doTest(categoryTest, categoryTest.testId)">
+									<form ng-submit="doTest(categoryTest, categoryTest.testId, categoryTest.categories.timeLimit)">
 										<div ng-if="categoryTest.status != 'Done'">
 											<button type="submit" class="btn btn-primary btn-xs">Begin Test</button>
 										</div>

@@ -3,9 +3,9 @@
 			<div class="col-lg-6">
 				<h1 class="page-header">Questions</h1>
 			</div>
-			<div class="col-lg-6">	
+			<div class="col-lg-6" ng-init="timerBegin()">	
 			<input type="hidden" id="timeALL" value="1" />								
-				<h4 class="page-header">Time remaining <span id="time">00:00</span> minutes!</h4>
+				<h4 class="page-header">Time remaining <span id="time">{{timer}}</span> second !</h4>
 			</div>
 			<!-- /.col-lg-12 -->
 		</div>
@@ -20,17 +20,16 @@
 								<form ng-init="onLoad()">
 									<div class="form-group">
 										<label>Question</label>
-										<textarea readonly="readonly" class="form-control">{{question.question}} {{question.counter}}</textarea>
+										<textarea readonly="readonly" class="form-control" style="height: 250px">{{question.question}}
+										</textarea>
+										<br><br>
 										<div class="form-group">
 											<label>Answer</label>
-											<div class="radio" th:each="choiceanswer : ${data.answers}">
+											<div class="radio" dir-paginate="answer in answers | orderBy:sortKey:reverse|filter: search:strict |itemsPerPage:5">
 												<label>
-													<input type="radio" id="optionsRadios1" name="choices" th:attr="value=${choiceanswer.idAnswer !=null ? choiceanswer.idAnswer : '' }"
-													th:checked="${choiceanswer.idAnswer==sessionChoice ? 'true':'false'}" />
-													<input disabled="disabled" class="form-control"
-													style="border: 0px; background-color: white"
-													th:attr="value=${choiceanswer.answer !=null ? choiceanswer.answer : '' }" />
+													<input type="radio" id="optionsRadios1" name="choices" ng-model="answers.option" value="{{answer.idAnswer}}"> {{answer.answer}}
 												</label>
+												<br><br>
 											</div>
 										</div>
 									</div>

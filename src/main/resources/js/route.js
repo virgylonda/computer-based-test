@@ -459,7 +459,8 @@ cbtApp.config(function($stateProvider) {
 			categoryTest : {
 
 			},
-			testId : null
+			testId : null,
+			timeLimit : null
 		},
 		views: {
 					'main@': {
@@ -475,7 +476,8 @@ cbtApp.config(function($stateProvider) {
 		params : {
 			listQuestion : {
 
-			}
+			},
+			timeLimit : null
 		},
 		views: {
 					'main@': {
