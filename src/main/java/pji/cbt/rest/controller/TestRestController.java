@@ -110,7 +110,7 @@ public class TestRestController {
 			 * @return      get test have assign by user id
 			 */
 		    @RequestMapping(path = "/list/{id}", method = RequestMethod.GET)
-			public List<TestUser> getAllTestHaveAssign(HttpServletRequest request, @PathVariable("id") int id) {
+			public List<TestUser> getAllTestHaveAssign(@PathVariable("id") int id) {
 		    	logger.info("Fetching Test Have Assign " +id);
 				return testSvc.findTestHaveAssign(id);
 			}
@@ -121,7 +121,7 @@ public class TestRestController {
 			 * @return      get test have assign by user id
 			 */
 		    @RequestMapping(path = "/dotest/{idcategory}", method = RequestMethod.GET)
-		    public List<Question> getAllQuestionForTest(HttpServletRequest request, @PathVariable("idcategory") int idcategory, TestUser testUser, Timestamp timestamp){
+		    public List<Question> getAllQuestionForTest(@PathVariable("idcategory") int idcategory, TestUser testUser, Timestamp timestamp){
 		    	logger.info("Fetching All Question by Category "+idcategory);
 		    	List<Question> listQuest = new ArrayList<Question>();
 		    	listQuest = quesSvc.findQuestionRandomOrder(idcategory);
@@ -148,7 +148,7 @@ public class TestRestController {
 		    /**
 			 * @param  		id
 			 * @method		PUT
-			 * @return      get answer by question id (shuffle answer)
+			 * @return      begin test, update begin date and status
 			 */
 		    @RequestMapping(value = "/begintest/{id}", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
 		    public ResponseEntity<TestUser> beginTestUser(@PathVariable("id") int id, Timestamp timestamp) {
@@ -172,6 +172,37 @@ public class TestRestController {
 					logger.warn("Test has been done...");
 					return new ResponseEntity(HttpStatus.BAD_REQUEST);
 				}
+		        
+		    }
+		    
+		    /**
+			 * @param  		id
+			 * @method		PUT
+			 * @return      submit test, update end date and score
+			 */
+		    @RequestMapping(value = "/submittest/{id}", method = RequestMethod.PUT)
+		    public ResponseEntity<TestUser> submitTest(@PathVariable("id") int id, @RequestBody TestUser userTest, Timestamp timestamp) {
+		    	logger.debug("Submitting test " + id);
+		    	TestUser testUser = testSvc.findUserTestById(id);
+		    	
+		    	if(testUser.getEnded() == null) {
+		    		timestamp = new Timestamp(System.currentTimeMillis());
+			    	String startTest = sdf.format(timestamp);
+					try {
+						Date date = sdf.parse(startTest);
+						testUser.setEnded(date);
+					} catch (ParseException e) {
+						e.printStackTrace();
+					}
+					testUser.setScore(userTest.getScore());
+					
+					testSvc.updateEndTest(testUser);
+			        
+			        return new ResponseEntity<TestUser>(testUser, HttpStatus.OK);
+		    	}else{
+		    		logger.warn("Error submiting test");
+		    		return new ResponseEntity(HttpStatus.BAD_REQUEST);
+		    	}
 		        
 		    }
 		    
