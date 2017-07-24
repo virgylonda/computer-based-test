@@ -5,7 +5,7 @@ Since : June 2017
 cbtApp.controller('TesterAddQuestionController', ['$scope', '$state', 'TesterServices', function($scope, $state, TesterServices){
 	
 	var idCategory = $state.params.idCategory;
-
+	
 	$scope.toAdd = function(id) {
 		var orderingQuestion;
 
@@ -23,7 +23,27 @@ cbtApp.controller('TesterAddQuestionController', ['$scope', '$state', 'TesterSer
 						}
 					};
 					TesterServices.addQuestion(formQuestion).then(function(res){
-						console.log("success add question");
+						var question = res.data;
+						var answers = $scope.question.answer;
+						for (var i = 0; i < answers.length; i++) {
+							var status = false;
+							if(answers[i].key == '1'){
+								status = true;
+							};
+
+							formAnswers = {
+								"questionAnswer" : {
+									"idQuestion" : question.idQuestion
+								},
+								"orderingAnswer" : i,
+								"answer" : answers.answer,
+								"correctAnswer" : status
+							};
+
+							TesterServices.addAnswers(formAnswers).then(function(res){	
+							});
+						};
+						
 						$state.go("hometester.listcategories.listquestion", {idCategory});
 					});
 			});
