@@ -42,9 +42,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 
                 .anyRequest().authenticated().and()
                 .exceptionHandling().accessDeniedPage("/403").and()
-//                .exceptionHandling().authenticationEntryPoint(jwtAuthEndPoint).and()
-//                
-//                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
             .formLogin()
                 .loginPage("/login")
                 .permitAll()
