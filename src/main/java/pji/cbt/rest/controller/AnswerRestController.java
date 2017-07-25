@@ -119,6 +119,42 @@ public class AnswerRestController {
         return ansSvc.findAnswerByQuestion(id);
     }
     
+    /**
+	 * @param  		id
+	 * @method		GET
+	 * @return      find one answer
+	 */
+    @RequestMapping(value = "/detail/{id}", method = RequestMethod.GET)
+    public ResponseEntity<Answer> getOneAnswerById(@PathVariable("id") int id) {
+    	Answer answer = ansSvc.findOne(id);
+    	return new ResponseEntity<Answer>(answer, HttpStatus.OK);
+    }
+    
+    /**
+     * Update
+     * @param   id
+     * @param   answer
+     * @method	PUT
+     * @return  update answer  HttpStatus.OK
+     */
+    @RequestMapping(value = "/updateanswer/{id}", method = RequestMethod.PUT)
+    public ResponseEntity<Answer> updateAnswer(@PathVariable("id") int id, @RequestBody Answer answer) {
+    	logger.info("Updating Answer" + id);
+        
+    	Answer currentAnswer = ansSvc.findOne(id);
+         
+        if(currentAnswer == null){
+        	logger.warn("Answer with id " + id + "not found");
+        	return new ResponseEntity<Answer>(HttpStatus.NOT_FOUND);
+        }
+        
+        currentAnswer.setOrderingAnswer(answer.getOrderingAnswer());
+        currentAnswer.setAnswer(answer.getAnswer());
+        currentAnswer.setCorrectAnswer(answer.isCorrectAnswer());
+                    
+        ansSvc.editAnswer(currentAnswer);
+        return new ResponseEntity<Answer>(currentAnswer, HttpStatus.OK);
+    }
 		
 }
 
