@@ -41,8 +41,7 @@ public class AnswerRestController {
 	}
 	private static Logger logger = Logger.getLogger(AnswerRestController.class);
 
-	
-	 /**
+	/**
      * Create 
      * @param 	answer
      * @param 	ucBuilder
@@ -62,7 +61,6 @@ public class AnswerRestController {
         HttpHeaders headers = new HttpHeaders();
         return new ResponseEntity<Void>(headers, HttpStatus.CREATED);
     }
-	
 	
 	/**
 	 * List of 	Answers
