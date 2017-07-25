@@ -42,9 +42,9 @@
                         <thead>
 							<tr>
 								<th>No.</th>
-								<th>Category Question</th>
+								<th class="col-lg-2">Category Question</th>
 								<th>Description</th>
-								<th>Question Type</th>
+								<th>Type</th>
 								<th>Time Limit</th>
 								<th>Action</th>
 								<th>Questions</th>
@@ -58,11 +58,11 @@
     							<td> {{category.questionType}} </td>
     							<td> {{category.timeLimit / 60}} minutes</td>
     							<td>
-                                    <button ui-sref="hometester.listcategories.editcategory({ id : category.idCategory })" class="btn btn-success" >
+                                    <button ui-sref="hometester.listcategories.editcategory({ id : category.idCategory })" class="btn btn-success" style="font-size: 12px">
                                                 <span class="glyphicon glyphicon-edit" aria-hidden="true" />
                                                 Edit
                                     </button>
-                                    <button ng-click="toDelete(category.idCategory)" class="btn btn-danger" >
+                                    <button ng-click="toDelete(category.idCategory)" class="btn btn-danger"  style="font-size: 12px">
                                             <span class="glyphicon glyphicon-remove" aria-hidden="true" />
                                             Delete
                                     </button>

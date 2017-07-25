@@ -6,4 +6,8 @@ sama state beda parameter
 5. deployment tanpa tomcat
 6. category ganti testing (done)
 7. filter jalanin (done)
-8. 1 out of 10
+8. 1 out of 10 (done)
+9. kirim array berupa list id answer ke back.
+biar mereka yg hitung
+
+bagaimana war maven build (!)

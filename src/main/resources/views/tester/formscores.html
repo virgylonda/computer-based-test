@@ -36,8 +36,8 @@
 								<td> {{$index + 1}} </td>
                                 <td> {{testUser.users.name}} </td>
                                 <td> {{testUser.users.email}} </td>
-                                <td> {{testUser.started}} </td>
-								<td> {{testUser.ended}} </td>
+                                <td> {{testUser.started | date:"MM/dd/yyyy 'at' h:mma"}} </td>
+								<td> {{testUser.ended | date:"MM/dd/yyyy 'at' h:mma"}} </td>
                                 <td> {{testUser.score}} </td>
 								<td>
                                     <a ui-sref="hometester.userscore.detailscore({ userId : testUser.users.userId })">

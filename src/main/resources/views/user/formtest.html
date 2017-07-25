@@ -3,9 +3,8 @@
 			<div class="col-lg-6">
 				<h1 class="page-header">Questions</h1>
 			</div>
-			<div class="col-lg-6" ng-init="timerBegin()">	
-			<input type="hidden" id="timeALL" value="1" />								
-				<h4 class="page-header">Time remaining <span id="time">{{timer}}</span> second !</h4>
+			<div class="col-lg-6">								
+				<h4 class="page-header">Time remaining <span id="time">00:00</span> minutes !</h4>
 			</div>
 			<!-- /.col-lg-12 -->
 		</div>
@@ -20,7 +19,7 @@
 								<form ng-init="onLoad()">
 									<div class="form-group">
 										<label>Question</label>
-										<textarea readonly="readonly" class="form-control" style="height: 250px">{{question.question}}
+										<textarea readonly="readonly" class="form-control" style="height: 175px">{{question.question}}
 										</textarea>
 										<br><br>
 										<div class="form-group">
@@ -46,7 +45,7 @@
 												data-target="#myModal">Finish
 											</button>
 											<button ng-click="doNext()" class="btn btn-default" ng-if="question.counter != question.length-1">
-												Next&gt;
+												Next  &gt;
 											</button>
 										</li>
 									</ul>
@@ -64,7 +63,7 @@
 													<p>Are you Sure want to finish it?</p>
 												</div>
 												<div class="modal-footer">
-													<button ng-click="doFinnish()" class="btn btn-primary">Submit</button>
+													<button type="submit" ng-click="doFinnish()" class="btn btn-primary" data-dismiss >Submit</button>
 													<button type="button" class="btn btn-default"
 														data-dismiss="modal">Cancel</button>
 												</div>
@@ -84,6 +83,3 @@
 				<!-- /.panel -->
 			</div>
 			<!-- /.col-lg-12 -->
-
-<!-- Page-Level Demo Scripts - Dashboard - Use for reference -->
-<script src="/asset/js/demo/form-timer.js"></script>
