@@ -10,6 +10,6 @@ cbtApp.controller('UserGetTestController', ['$scope', '$state', 'UserServices', 
 
 	UserServices.getAllQuestion(detailTest.categories.idCategory).then(function(res){
 		var listQuestion = res.data;
-		$state.go("homeuser.dotest", {listQuestion, timeLimit});
+		$state.go("homeuser.dotest", {listQuestion, timeLimit, testId});
 	})
 }])

@@ -86,35 +86,4 @@
 			<!-- /.col-lg-12 -->
 
 <!-- Page-Level Demo Scripts - Dashboard - Use for reference -->
-<script src="/asset/js/demo/dashboard-demo.js"></script>
 <script src="/asset/js/demo/form-timer.js"></script>
-<script>
-	window.onload = function () 
-		{
-			xTime = document.getElementById("timeALL").value;
-			display = document.querySelector('#time');
-			startTimer(document.getElementById("limitTime").value, display);
-	};
-
-</script>
-
-<script>
-	function DoBack(){
-		var x = parseInt(document.getElementById("init").value)
-	  		document.getElementById("init").value = x-1;
-			document.getElementById("checkBut").value = "back";
-	  		return true;
-	};
-	function DoNext(){
-		var x = parseInt(document.getElementById("init").value)
-		  document.getElementById("init").value = x+1;
-		  document.getElementById("checkBut").value = "next";
-		  return true;
-	}
-	function DoFinish(){
-		var x = parseInt(document.getElementById("init").value)
-		  document.getElementById("init").value = x+1;
-		  document.getElementById("checkBut").value = "finish";
-		  return true;
-	}
-</script>

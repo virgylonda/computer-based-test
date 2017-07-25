@@ -27,5 +27,12 @@ cbtApp.factory('UserServices', ['$http','$q', function($http,$q){
 				return $q.reject(err.data);
 			}.bind(this));
 		},
+		beginTest: function(idTest){
+			return $http.put('http://localhost:9091/test/begintest/'+ idTest).then(function success(res){
+				return res;
+			}, function error(err){
+				return $q.reject(err.data);
+			}.bind(this));
+		},
 	};
 }])
