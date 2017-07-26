@@ -52,8 +52,8 @@
                                 <td> {{$index + 1}} </td>
                                 <td> {{object.users.name}} </td>
                                 <td> {{object.categories.questionCategory}} </td>
-                                <td> {{object.started}} </td>
-                                <td> {{object.ended}} </td>
+                                <td> {{object.started | date:"MM/dd/yyyy 'at' h:mma"}} </td>
+                                <td> {{object.ended | date:"MM/dd/yyyy 'at' h:mma"}} </td>
                                 <td> {{object.score}} </td>
                             </tr>
                         </tbody>

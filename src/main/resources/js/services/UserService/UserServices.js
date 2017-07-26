@@ -34,5 +34,19 @@ cbtApp.factory('UserServices', ['$http','$q', function($http,$q){
 				return $q.reject(err.data);
 			}.bind(this));
 		},
+		getAnswerDetail: function(id){
+			return $http.get('http://localhost:9091/answer/detail/'+ id).then(function success(res){
+				return res;
+			}, function error(err){
+				return $q.reject(err.data);
+			}.bind(this));
+		},
+		saveTestScore: function(idTest, testUser){
+			return $http.put('http://localhost:9091/test/submittest/'+ idTest, testUser).then(function success(res){
+				return res;
+			}, function error(err){
+				return $q.reject(err.data);
+			}.bind(this));
+		},
 	};
 }])
