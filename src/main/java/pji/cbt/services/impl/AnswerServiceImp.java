@@ -28,7 +28,7 @@ public class AnswerServiceImp implements AnswerService {
 	@Override
 	public void deleteAnswer(int id) {
 		aMapper.deleteAnswer(id);
-		
+			
 	}
 	
 	public void createAnswer(Answer answer){
@@ -44,5 +44,10 @@ public class AnswerServiceImp implements AnswerService {
 	public void editAnswer(Answer answer) {
 		aMapper.editAnswer(answer);
 		
+	}
+
+	@Override
+	public boolean answerExists(Answer answer) {
+		return findOne(answer.getIdAnswer()) != null;
 	}
 }

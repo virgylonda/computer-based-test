@@ -28,6 +28,14 @@
 		<association property="categories" column="category_id" resultMap="resultCategory" />
 	</resultMap>
 	
+		<resultMap type="pji.cbt.entities.TestUser" id="testAssignToUser">
+		<id property="testId" column="testId"/>
+		<result property="started" column="started"/>
+		<result property="ended" column="ended"/>
+		<result property="status" column="status"/>
+		<association property="categories" column="category_id" resultMap="resultCategory" />
+	</resultMap>
+	
 	<resultMap type="pji.cbt.entities.Category" id="resultCategory">
 		<id property="idCategory" column="id"/>
 		<result property="questionCategory" column="question_category"/>
@@ -50,7 +58,7 @@
 		SELECT c.id, c.question_category, c.description, c.question_type, c.time_limit, t.id AS testId, t.status FROM tb_question_category c LEFT JOIN tb_user_test t ON c.id=t.category_id AND t.user_id = #{user.userId}
 	</select>
 	
-	<select id="findTestHaveAssign" resultMap="resultTestUser">
+	<select id="findTestHaveAssign" resultMap="testAssignToUser">
 		SELECT c.id, c.question_category, c.description, c.question_type, c.time_limit, t.id AS testId, t.status FROM tb_question_category c JOIN tb_user_test t ON c.id=t.category_id WHERE t.user_id = #{user.userId} ORDER BY t.id
 	</select>
 	

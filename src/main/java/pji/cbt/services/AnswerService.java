@@ -17,4 +17,7 @@ public interface AnswerService {
 	public void createAnswer(Answer answer);
 
 	public void editAnswer(Answer answer);
+	
+	boolean answerExists(Answer answer);
+	
 }
