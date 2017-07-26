@@ -2,7 +2,7 @@
 Author : Edric Laksa Putra
 Since : June 2017
 */
-cbtApp.controller('UserDoTestController', ['$scope', '$state', 'UserServices', '$timeout', function($scope, $state, UserServices, $timeout){
+cbtApp.controller('UserDoTestController', ['$scope', '$state', 'UserServices', '$timeout','$window','$http', function($scope, $state, UserServices, $timeout, $window, $http){
 
 	var listQuestion = $state.params.listQuestion;
 	var timeLimit = $state.params.timeLimit;
@@ -12,7 +12,7 @@ cbtApp.controller('UserDoTestController', ['$scope', '$state', 'UserServices', '
 
 	$scope.question = {};
 	$scope.answers = [];
-	var answersKey = {};
+	var answersKey = [];
 	
 	$scope.onLoad = function(){
 		// update status and time begin
@@ -35,7 +35,7 @@ cbtApp.controller('UserDoTestController', ['$scope', '$state', 'UserServices', '
 
 	$scope.doNext = function(){
 		// handle answer key
-		cekAnswer($scope.answers.option);
+		insertAnswerKey($scope.answers.option, counter);
 
 		counter++;
 		$scope.question = listQuestion[counter];
@@ -45,54 +45,46 @@ cbtApp.controller('UserDoTestController', ['$scope', '$state', 'UserServices', '
 		getAnswer($scope.question.idQuestion);
 	};
 
-	// $scope.doBack = function(){
-	// };
+	$scope.doBack = function(){
+		counter--;
+		$scope.question = listQuestion[counter];
+		$scope.question.counter = counter;
+		$scope.question.length = listQuestion.length;
 
-	$scope.doFinnish = function(){
+		getAnswer($scope.question.idQuestion);
+
+		insertAnswerKey($scope.answers.option, counter);
+	};
+
+	$scope.doFinish = function(){
 		// handle answer key
-		cekAnswer($scope.answers.option);
-		countScore(score);
+		insertAnswerKey($scope.answers.option, counter);
+		console.log(answersKey);
 
 		$state.go("homeuser.listtest");
 	};
 
 	function getAnswer(idQuestion){
 		if(idQuestion == null){
-			window.alert("No answer selected");
+			window.alert("Question invalid");
 		}
 		else{
+			var token = $window.localStorage['jwtToken']
+			$http.defaults.headers.common.Authorization = 'Bearer ' + token;
+
 			UserServices.getAllAnswersFromQuestion(idQuestion).then(function(res){
 				$scope.answers = res.data;
 			});
 		}
 	};
 
-	function cekAnswer(idAnswer){
+	function insertAnswerKey(idAnswer, counter){
 		if(idAnswer == null){
 			window.alert("No answer selected");
+			answersKey[counter] = '';
 		}
 		else{
-			UserServices.getAnswerDetail(idAnswer).then(function(res){
-				var answerDetail = res.data;
-				console.log("masuk ke cek answer");
-				if(answerDetail.correctAnswer == true){
-					console.log("true");
-					score++;
-				}
-			});
+			answersKey[counter] = idAnswer;
 		}
-	};
-
-	function countScore(score){
-		var endScore = (score/listQuestion.length) * 100;
-		var finalScore = endScore.toFixed(2);
-		console.log(finalScore);
-
-		var userTest = {
-			"testId" : testId,
-			"score" : finalScore
-		}
-		UserServices.saveTestScore(testId, userTest).then(function(res){
-		});
 	};
 }])

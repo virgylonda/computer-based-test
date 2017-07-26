@@ -5,15 +5,36 @@ Since : June 2017
 cbtApp.controller('TesterEditQuestionController', ['$scope', '$state','TesterServices', function($scope, $state, TesterServices){
 	
 	var dataQuestion = $state.params.dataQuestion;
+	var dataAnswers = $state.params.dataAnswers;
+
 	var idQuestion = dataQuestion.idQuestion;
 	var idCategory = dataQuestion.category.idCategory;
 
 	var confirmResult = confirm("Is this good ?")
 	if(confirmResult == true){
-		console.log("Panggil API edit question");
+
+		for (var i = 0; i < dataAnswers.length; i++) {
+			var correctAnswer = false
+			if(dataAnswers[i].key == '1'){
+				correctAnswer = true;
+			};
+			var formAnswer = {
+				"idAnswer" : dataAnswers[i].idAnswer,
+				"questionAnswer" : {
+					"idQuestion" : idQuestion
+				},
+				"orderingAnswer" : i+1,
+				"answer" : dataAnswers[i].answer,
+				"correctAnswer" : correctAnswer
+			};
+			TesterServices.editAnswers(dataAnswers[i].idAnswer, formAnswer).then(function(res){
+
+			});
+		};
+
 		TesterServices.editQuestion(idQuestion, dataQuestion).then(function(res){
 			$state.go("hometester.listcategories.listquestion");
-		})
+		});
 	};
 
 	TesterServices.getQuestionList(idCategory).then(function(res){

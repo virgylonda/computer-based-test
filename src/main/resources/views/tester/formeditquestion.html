@@ -25,37 +25,38 @@
                                 <label>Answer</label>
                                 <div class="radio">
                                     <label>
-                                        <input type="radio" ng-model="answerObject[0].key" id="optionsRadios1" value="1"/>
+                                        <input type="radio" name="key" ng-model="answerObject[0].key" id="optionsRadios1" value="1"/>
                                         <input class="form-control" ng-model="answerObject[0].answer" required="required"/>
                                     </label>
                                 </div>
                                 <div class="radio">
                                     <label>
-                                        <input type="radio" ng-model="answerObject[1].key" id="optionsRadios2" value="1"/>
+                                        <input type="radio" name="key" ng-model="answerObject[1].key" id="optionsRadios2" value="1"/>
                                         <input class="form-control" ng-model="answerObject[1].answer" required="required"/>
                                     </label>
                                 </div>
                                 <div class="radio">
                                     <label>
-                                        <input type="radio" ng-model="answerObject[2].key"  id="optionsRadios3" value="1"/>
+                                        <input type="radio" name="key" ng-model="answerObject[2].key"  id="optionsRadios3" value="1"/>
                                         <input class="form-control" ng-model="answerObject[2].answer"/>
                                     </label>
                                 </div>
                                 <div class="radio">
                                     <label>
-                                        <input type="radio" ng-model="answerObject[3].key" id="optionsRadios4" value="1"/>
+                                        <input type="radio" name="key" ng-model="answerObject[3].key" id="optionsRadios4" value="1"/>
                                         <input class="form-control" ng-model="answerObject[3].answer"/>
                                     </label>
                                 </div>
                                 <div class="radio">
                                     <label>
-                                        <input type="radio" ng-model="answerObject[4].key" id="optionsRadios5" value="1" checked="answerObject[4].correctAnswer"/>
+                                        <input type="radio" name="key" ng-model="answerObject[4].key" id="optionsRadios5" value="1"/>
                                         <input class="form-control" ng-model="answerObject[4].answer"/>
                                     </label>
                                 </div>
                             </div>
                             <button type="submit" class="btn btn-primary">Submit</button>
                             <button type="reset" class="btn btn-danger">Reset</button>
+                            <button ui-sref="hometester.listcategories.listquestion({ idCategory : categoryId })" class="btn btn-warning">Cancel</button>
                         </form>
                     </div>
                 </div>

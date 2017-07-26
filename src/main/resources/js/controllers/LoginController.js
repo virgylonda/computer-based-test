@@ -2,7 +2,7 @@
 Author : Edric Laksa Putra
 Since : June 2017
 */
-cbtApp.controller('LoginController', ['$scope', '$state', 'AuthService', '$http', function($scope, $state, AuthService, $http){
+cbtApp.controller('LoginController', ['$scope', '$state', 'AuthService', '$http', '$window', function($scope, $state, AuthService, $http, $window){
 
 	$scope.login = function() {
 		var user = {
@@ -18,6 +18,9 @@ cbtApp.controller('LoginController', ['$scope', '$state', 'AuthService', '$http'
 
 		AuthService.login(user).then(function(res){
 			var token = res.data.token;
+
+            $window.localStorage['jwtToken'] = token;
+
 			var decode = jwt_decode(token);
             $http.defaults.headers.common.Authorization = 'Bearer ' + token;
 			console.log(decode);
@@ -45,6 +48,7 @@ cbtApp.controller('LoginController', ['$scope', '$state', 'AuthService', '$http'
         $scope.userName = '';
         $scope.token = null;
         $http.defaults.headers.common.Authorization = '';
+        $window.localStorage['jwtToken'] = null;
         $state.go("/");
     }
 

@@ -5,15 +5,15 @@ Since : June 2017
 cbtApp.controller('TesterGetQuestionController', ['$scope', '$state','TesterServices', function($scope, $state, TesterServices){
 	
 	var idQuestion = $state.params.id;
+	$scope.categoryId = $state.params.idCategory;
 
 	TesterServices.getQuestion(idQuestion).then(function(res){
 		$scope.questionObject = res.data;
-		console.log(res);
+		console.log($scope.questionObject);
 	});
 
 	TesterServices.getAllAnswersFromQuestion(idQuestion).then(function(res){
 		$scope.answerObject = res.data;
-		console.log(res);
 	});
 
 	$scope.toUpdate = function() {
@@ -26,11 +26,13 @@ cbtApp.controller('TesterGetQuestionController', ['$scope', '$state','TesterServ
 				"idCategory"	: $scope.questionObject.category.idCategory
 			}
 		};
-		var dataAnswers = {
-			
-		};
-		console.log(dataQuestion);
-		$state.go("hometester.listcategories.listquestion.confirmquestion", {dataQuestion});	
+		var dataAnswers = $scope.answerObject;
+		for (var i = 0; i < dataAnswers.length; i++) {
+			if(dataAnswers[i].key == '1'){
+				$state.go("hometester.listcategories.listquestion.confirmquestion", {dataQuestion, dataAnswers});
+			}
+		}
+		window.alert("No key option selected");
     }
 
 }]);

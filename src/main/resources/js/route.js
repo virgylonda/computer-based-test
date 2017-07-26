@@ -40,7 +40,10 @@ cbtApp.config(function($stateProvider) {
 	//===========================================================================//
 
 	.state('home', {
-		url: 'admin-dashboard/?userId',
+		url: 'admin-dashboard',
+		params : {
+			'userId' : null
+		},
 		views: {
 					'main@': {
 						templateUrl: 'views/admin/admin-dashboard.html',
@@ -207,7 +210,10 @@ cbtApp.config(function($stateProvider) {
 	//===========================================================================//
 
 	.state('hometester', {
-		url: '/tester-dashboard/?userId',
+		url: '/tester-dashboard',
+		params : {
+			'userId' : null
+		},
 		views: {
 					'main@': {
 						templateUrl: 'views/tester/tester-dashboard.html',
@@ -311,6 +317,9 @@ cbtApp.config(function($stateProvider) {
 		params : {
 			dataQuestion : {
 
+			},
+			dataAnswers : {
+				
 			}
 		},
 		views: {
