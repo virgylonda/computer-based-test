@@ -42,7 +42,6 @@ public class AnswerRestController {
 	private static Logger logger = Logger.getLogger(AnswerRestController.class);
 
 	/**
-<<<<<<< HEAD
 	 * List of 	Answers
 	 * @method	GET
 	 * @return	getAllAnswer
@@ -53,8 +52,6 @@ public class AnswerRestController {
 	}
 	
 	 /**
-=======
->>>>>>> 5daf515a3cecf150e5f201a4b4e4908b440daef9
      * Create 
      * @param 	answer
      * @param 	ucBuilder
