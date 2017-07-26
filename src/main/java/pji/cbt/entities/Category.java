@@ -37,6 +37,15 @@ public class Category implements Serializable {
 		this.questionCategory = questionCategory;
 		this.description = description;
 	}
+	
+	public Category(int idCategory, String questionCategory, String description, String questionType, int timeLimit) {
+		super();
+		this.idCategory = idCategory;
+		this.questionCategory = questionCategory;
+		this.description = description;
+		this.questionType = questionType;
+		this.timeLimit = timeLimit;
+	}
 	public String getQuestionType() {
 		return questionType;
 	}

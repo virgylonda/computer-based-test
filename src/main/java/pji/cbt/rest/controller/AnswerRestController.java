@@ -118,7 +118,7 @@ public class AnswerRestController {
     	Answer answer = ansSvc.findOne(id);
     	
     	if(answer == null){
-    		logger.warn("user with id "+ id + " not found");
+    		logger.warn("answer with id "+ id + " not found");
     		return new ResponseEntity<Answer>(HttpStatus.NOT_FOUND);
     	}
     	return new ResponseEntity<Answer>(answer, HttpStatus.OK);

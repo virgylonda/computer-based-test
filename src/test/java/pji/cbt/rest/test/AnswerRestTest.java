@@ -103,7 +103,6 @@ private MockMvc mockMvc;
 	        verifyNoMoreInteractions(ansService);
 	    }
 	    
-	    
 	    /**
 	     * Test getAnswer by ID
 	     */
