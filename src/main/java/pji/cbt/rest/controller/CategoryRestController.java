@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import pji.cbt.entities.Answer;
 import pji.cbt.entities.Category;
 import pji.cbt.services.CategoryService;
 
@@ -99,13 +100,14 @@ public class CategoryRestController {
     	logger.info("Fetching & Deleting Category with id " + id);
    	 
         Category category = ctgSvc.findOneCategory(id);
+        
         if (category == null) {
-            System.out.println("Unable to delete. Category with id " + id + " not found");
+           logger.warn("Unable to delete. Category with id " + id + " not found");
             return new ResponseEntity<Category>(HttpStatus.NOT_FOUND);
         }
  
         ctgSvc.deleteOne(id);
-        return new ResponseEntity<Category>(HttpStatus.NO_CONTENT);
+        return new ResponseEntity<Category>(HttpStatus.OK);
     }
 	
     /**
@@ -125,7 +127,15 @@ public class CategoryRestController {
 		 */
 	 @RequestMapping(value = "/getCategoryById/{id}", method = RequestMethod.GET)
 	 public ResponseEntity<Category> getCategoryById(@PathVariable("id") int id) {
+		 logger.info("Fetching category with id : "+id);
+		 
 		 Category category = ctgSvc.findOneCategory(id);
+		 
+		 if(category == null){
+			 logger.warn("category with id "+id+ " not found");
+			 return new ResponseEntity<Category>(HttpStatus.NOT_FOUND);
+		 }
+		 
 		 return new ResponseEntity<Category>(category, HttpStatus.OK);
 	    }
 	

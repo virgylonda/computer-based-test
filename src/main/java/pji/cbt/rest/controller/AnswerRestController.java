@@ -42,6 +42,16 @@ public class AnswerRestController {
 	private static Logger logger = Logger.getLogger(AnswerRestController.class);
 
 	/**
+	 * List of 	Answers
+	 * @method	GET
+	 * @return	getAllAnswer
+	 */
+	@RequestMapping(path= "/getallanswer", method=RequestMethod.GET)
+	public List<Answer> getAllAnswer(){
+		return ansSvc.findAllAnswer();
+	}
+	
+	 /**
      * Create 
      * @param 	answer
      * @param 	ucBuilder
@@ -51,28 +61,20 @@ public class AnswerRestController {
     @RequestMapping(value = "/createanswer", method = RequestMethod.POST)
     public ResponseEntity<Void> createCategory(@RequestBody Answer answer, UriComponentsBuilder ucBuilder) {
     	logger.info("Creating answer " + answer.getAnswer());
-
-    	try {
-    		ansSvc.createAnswer(answer);;
-    	}catch (Exception e) {
-    		logger.warn(e);
-		}
- 
-        HttpHeaders headers = new HttpHeaders();
+    	
+    	if(ansSvc.answerExists(answer)){
+    		logger.info("a answer with id " + answer.getIdAnswer() + " already exists");
+    		return new ResponseEntity<Void>(HttpStatus.CONFLICT);
+    	}
+    	
+    	ansSvc.createAnswer(answer);
+    	
+    	HttpHeaders headers = new HttpHeaders();
+    	headers.setLocation(ucBuilder.path("/answer/detail/{id}").buildAndExpand(answer.getIdAnswer()).toUri());
         return new ResponseEntity<Void>(headers, HttpStatus.CREATED);
     }
-	
-	/**
-	 * List of 	Answers
-	 * @method	GET
-	 * @return	getAllAnswer
-	 */
-	@RequestMapping(path= "/getallanswer", method=RequestMethod.GET)
-	public List<Answer> getAllAnswer(){
-		return ansSvc.findAllAnswer();
-	}
 		
-		/**
+	    /**
 		 * List	Answers by Id Question
 		 * @method	GET
 		 * @return	getAnswerById Question
@@ -83,7 +85,6 @@ public class AnswerRestController {
 		return ansSvc.findAnswerByQuestion(id);
 		
 		}
-
 	
 	 /**
      * Delete by id Answer
@@ -92,29 +93,18 @@ public class AnswerRestController {
      * @return	Answer HttpStatus.NOT_FOUND
      */
     @RequestMapping(value = "/deleteanswerbyid/{id}", method = RequestMethod.DELETE)
-    public ResponseEntity<Answer> deleteAnswerById(@PathVariable("id") int id) {
+    public ResponseEntity<Void> deleteAnswerById(@PathVariable("id") int id) {
     	logger.info("Fetching & Deleting Answer with id " + id);
-		 
  
         Answer answer = ansSvc.findOne(id);
+        
         if (answer == null) {
         	logger.info("Unable to delete. Answer with id " + id + " not found");
-            return new ResponseEntity<Answer>(HttpStatus.NOT_FOUND);
+            return new ResponseEntity<Void>(HttpStatus.NOT_FOUND);
         }
  
         ansSvc.deleteAnswer(id);
-        return new ResponseEntity<Answer>(HttpStatus.NO_CONTENT);
-    }
-    
-    /**
-	 * @param  		id
-	 * @method		GET
-	 * @return      get answer by question id
-	 */
-    @RequestMapping(value = "/getanswer/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    public List<Answer> getAnswerByIdQuestion(@PathVariable("id") int id) {
-    	logger.info("Fetching Answer with Question id : " + id);
-        return ansSvc.findAnswerByQuestion(id);
+        return new ResponseEntity<Void>(HttpStatus.OK);
     }
     
     /**
@@ -124,7 +114,13 @@ public class AnswerRestController {
 	 */
     @RequestMapping(value = "/detail/{id}", method = RequestMethod.GET)
     public ResponseEntity<Answer> getOneAnswerById(@PathVariable("id") int id) {
+    	logger.info("Fetching answer with id : " + id);
     	Answer answer = ansSvc.findOne(id);
+    	
+    	if(answer == null){
+    		logger.warn("answer with id "+ id + " not found");
+    		return new ResponseEntity<Answer>(HttpStatus.NOT_FOUND);
+    	}
     	return new ResponseEntity<Answer>(answer, HttpStatus.OK);
     }
     

@@ -36,14 +36,13 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import pji.cbt.config.WebMvcConfig;
+import pji.cbt.entities.Answer;
 import pji.cbt.entities.Category;
 import pji.cbt.entities.Question;
 import pji.cbt.rest.controller.CategoryRestController;
 import pji.cbt.services.CategoryService;
 import pji.cbt.services.QuestionService;
 import pji.cbt.util.CORSFilter;
-
-
 
 @WebAppConfiguration
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -72,58 +71,78 @@ private MockMvc mockMvc;
 	                .build();
 	    }
 	    
-	    
-	    // =========================================== Create Category ========================================
-
-	    @Test
-	    public void createCategory() throws Exception {
-	        Category category = new Category("Category1asda", "ini kategori 1asdas");
-
-	        when(catService.exists(category)).thenReturn(false);
-	        doNothing().when(catService).createCategory(category);
-
-	        mockMvc.perform(
-	                post("/category")
-	                        .contentType(MediaType.APPLICATION_JSON)
-	                        .content(asJsonString(category)))
-	                        
-	                .andExpect(status().isCreated())
-	                .andExpect(header().string("location", containsString("/category/createcategory")));
-
-	        verify(catService, times(1)).exists(category);
-	        verify(catService, times(1)).createCategory(category);
-	        verifyNoMoreInteractions(catService);
-	        
-	    }
+	    /**
+	     * Test GetAllCategory
+	     */
 	 
-	    // =========================================== Update Existing Category ===================================
-
 	    @Test
-	    public void updateCategory() throws Exception {
-	    	Category category = new Category("Category2asda", "ini kategori 1asdas");
+	    public void test_get_all_category() throws Exception {
+	    	List<Category> category = Arrays.asList(new Category(1, "Ujian Matematika", "Test Matematika Dasar untuk siswa SMP", "Multiple Choice", 60));
+	    			
+
+	        when(catService.findAllCategory()).thenReturn(category);
+
+	        mockMvc.perform(get("/category/getallcategory"))
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+            .andExpect(jsonPath("$", hasSize(1)))
+            .andExpect(jsonPath("$[0].idCategory", is(1)))
+            .andExpect(jsonPath("$[0].questionCategory", is("Ujian Matematika")))
+            .andExpect(jsonPath("$[0].description", is("Test Matematika Dasar untuk siswa SMP")))
+            .andExpect(jsonPath("$[0].questionType", is("Multiple Choice")))
+            .andExpect(jsonPath("$[0].timeLimit", is(60)));
+
+		    verify(catService, times(1)).findAllCategory();
+		    verifyNoMoreInteractions(catService);
+
+	    }
+	    
+	    /**
+		  * Test GetCategory by id
+		  */
+	    
+	    @Test
+	    public void test_get_category_by_id() throws Exception {
+	    	Category category = new Category(1, "Ujian Matematika", "Test Matematika Dasar untuk siswa SMP", "Multiple Choice", 60);
+
+	        when(catService.findOneCategory(1)).thenReturn(category);
+
+	        mockMvc.perform(get("/category/getCategoryById/{id}", 1))
+	                .andExpect(status().isOk())
+	                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+	                .andExpect(jsonPath("$.idCategory", is(1)))
+	                .andExpect(jsonPath("$.questionCategory", is("Ujian Matematika")))
+	                .andExpect(jsonPath("$.description", is("Test Matematika Dasar untuk siswa SMP")))
+	                .andExpect(jsonPath("$.questionType", is("Multiple Choice")))
+	                .andExpect(jsonPath("$.timeLimit", is(60)));
+	        		
+	        verify(catService, times(1)).findOneCategory(1);
+	        verifyNoMoreInteractions(catService);
+	    }
+	    
+	    /**
+	     * Test getCategory by ID fail 404 not found
+	     */
+	    
+	    @Test
+	    public void test_get_category_by_id_fail_404_not_found() throws Exception {
+	        when(catService.findOneCategory(1)).thenReturn(null);
+
+	        mockMvc.perform(get("/category/getCategoryById/{id}", 1))
+	                .andExpect(status().isNotFound());
+
+	        verify(catService, times(1)).findOneCategory(1);
+	        verifyNoMoreInteractions(catService);
+	    }
+	    
+	    /**
+	     * Test delete category
+	     */
+	    @Test
+	    public void test_delete_category_success() throws Exception {
+	    	Category category = new Category(1, "Ujian Matematika", "Test Matematika Dasar untuk siswa SMP", "Multiple Choice", 60);
 
 	        when(catService.findOneCategory(category.getIdCategory())).thenReturn(category);
-	        doNothing().when(catService).updateCategory(category);
-
-	        mockMvc.perform(
-	                put("/question/updatecategory/{id}", category.getIdCategory())
-	                        .contentType(MediaType.APPLICATION_JSON)
-	                        .content(asJsonString(category)))
-	                .andExpect(status().isOk());
-
-	        verify(catService, times(1)).findOneCategory(category.getIdCategory());
-	        verify(catService, times(1)).updateCategory(category);
-	        verifyNoMoreInteractions(catService);
-	    }
-
-	 
-	 // =========================================== DeleteCategory ============================================
-
-	    @Test
-	    public void deleteCategory() throws Exception {
-	    	Category category = new Category("Category1asda", "ini kategori 1asdas");
-	    	
-	    	 when(catService.findOneCategory(category.getIdCategory())).thenReturn(category);
 	        doNothing().when(catService).deleteOne(category.getIdCategory());
 
 	        mockMvc.perform(
@@ -134,61 +153,26 @@ private MockMvc mockMvc;
 	        verify(catService, times(1)).deleteOne(category.getIdCategory());
 	        verifyNoMoreInteractions(catService);
 	    }
+	    
 
-	    
-	    
 	    /**
-		 * Test GetAll Category Question
-		 * 
-		 * 
-		 */
-	    @Test
-	    public void test_get_all_category() throws Exception {
-	    	List<Category> category = Arrays.asList(
-	    			new Category("Category1asda", "ini kategori 1asdas"),
-	    			new Category("Category1asdaasd", "ini katasdegori 1asdas"));
-
-	        when(catService.findAllCategory()).thenReturn(category);
-
-	        mockMvc.perform(get("/category/getallcategory"))
-	                .andExpect(status().isOk())
-	                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
-	                .andExpect(jsonPath("$", hasSize(2)))
-	                .andExpect(jsonPath("$[0].questionCategory", is("Category1asda")))
-	                .andExpect(jsonPath("$[0].description", is("ini kategori 1asdas")))
-	                .andExpect(jsonPath("$[1].questionCategory", is("Category1asdaasd")))
-	                .andExpect(jsonPath("$[1].description", is("ini katasdegori 1asdas")));
-
-	        verify(catService, times(1)).findAllCategory();
-	        verifyNoMoreInteractions(catService);
-	    }
-	    
-	    /**
-		  * Test GetCategory by id
-		  * 
-		  * 
-		  */
-	    
-	    @Test
-	    public void test_get_category_by_id() throws Exception {
-	        Category category = new Category("Category1asda", "ini kategori 1asdas");
-	        when(catService.findOneCategory(1)).thenReturn(category);
-
-	        mockMvc.perform(get("/category/getCategoryById/{id}", 1))
-	                .andExpect(status().isOk())
-	                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
-	                .andExpect(jsonPath("$.questionCategory", is("Category1asda")))
-	                .andExpect(jsonPath("$.description", is("ini kategori 1asdas")));
-	        		
-	        verify(catService, times(1)).findOneCategory(1);
-	        verifyNoMoreInteractions(catService);
-	    }
-	    
-	    
-	    /**
-	     * Test CategoryDetail by id
-	     * 
+	     * Test delete category fail 404 not found
 	     */
+	    
+	    @Test
+	    public void test_delete_category_fail_404_not_found() throws Exception {
+	    	Category category = new Category(1, "Ujian Matematika", "Test Matematika Dasar untuk siswa SMP", "Multiple Choice", 60);
+
+	        when(catService.findOneCategory(category.getIdCategory())).thenReturn(null);
+
+	        mockMvc.perform(
+	                delete("/category/deletecategory/{id}", category.getIdCategory()))
+	                .andExpect(status().isNotFound());
+
+	        verify(catService, times(1)).findOneCategory(category.getIdCategory());
+	        verifyNoMoreInteractions(catService);
+	    }
+	  
 	    // =========================================== Json String ===========================================
 
 	    public static String asJsonString(final Object obj) {
