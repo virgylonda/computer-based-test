@@ -4,10 +4,8 @@ Since : June 2017
 */
 cbtApp.controller('TesterListQuestionController', ['$scope', '$state', 'TesterServices', function($scope, $state, TesterServices){
 
-	console.log($state.params.idCategory);
 	var idCategory = $state.params.idCategory;
 	TesterServices.getQuestionList(idCategory).then(function(res){
-		console.log(res);
 		$scope.arrayQuestion = res.data;
 	})
 

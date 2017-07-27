@@ -92,6 +92,13 @@ cbtApp.factory('TesterServices', ['$http','$q', function($http,$q){
 				return $q.reject(err.data);
 			}.bind(this));
 		},
+		editAnswers: function(id, formAnswer){
+			return $http.put('http://localhost:9091/answer/updateanswer/'+id, formAnswer).then(function success(res){
+				return res;
+			}, function error(err){
+				return $q.reject(err.data);
+			}.bind(this));
+		},
 
 		//	UNTUK ASSIGNMENT USER
 		getAllUsers: function(){
