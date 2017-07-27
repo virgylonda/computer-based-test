@@ -3,6 +3,7 @@ package pji.cbt.rest.test;
 import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.is;
+import static org.mockito.Matchers.refEq;
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -36,6 +37,7 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import pji.cbt.config.WebMvcConfig;
+import pji.cbt.entities.Answer;
 import pji.cbt.entities.Category;
 import pji.cbt.entities.Question;
 import pji.cbt.entities.User;
@@ -51,7 +53,6 @@ public class QuestionRestTest {
 
 	private MockMvc mockMvc;
 	
-	private Question questionAnswer;
 	private Category category;
 	
 	 @Mock
@@ -69,55 +70,94 @@ public class QuestionRestTest {
 	                .build();
 	    }
 	 
-	 // =========================================== Create Qestion ========================================
-
+	 	 /**
+	     * Test GetAllQuestion
+	     */
+	 
 	    @Test
-	    public void createQuestion() throws Exception {
-	        Question question = new Question(1, 2, "question 1", category);
+	    public void test_get_all_question() throws Exception {
+	    	List<Question> question = Arrays.asList(
+	    			new Question(1, 1, "The question", category));
+	    			
+
+	        when(quesService.findAllQuestion()).thenReturn(question);
+
+	        mockMvc.perform(get("/question/getallquestion"))
+	                .andExpect(status().isOk())
+	                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+	                .andExpect(jsonPath("$", hasSize(1)))
+	                .andExpect(jsonPath("$[0].idQuestion", is(1)))
+	                .andExpect(jsonPath("$[0].orderingQuestion", is(1)))
+	                .andExpect(jsonPath("$[0].question", is("The question")))
+	                .andExpect(jsonPath("$[0].category", is(category)));
+
+	        verify(quesService, times(1)).findAllQuestion();
+	        verifyNoMoreInteractions(quesService);
+	    }
+	    
+	    /**
+	     * Test getQuestion by ID
+	     */
+	    @Test
+	    public void test_get_question_by_id() throws Exception {
+	        Question question = new Question(1, 1, "The question", category);
+	        
+	        when(quesService.findOneQuestion(1)).thenReturn(question);
+
+	        mockMvc.perform(get("/question/getdetailquestion/{id}", 1))
+	                .andExpect(status().isOk())
+	                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+	                .andExpect(jsonPath("$.idQuestion", is(1)))
+	                .andExpect(jsonPath("$.orderingQuestion", is(1)))
+	                .andExpect(jsonPath("$.question", is("The question")))
+	                .andExpect(jsonPath("$.category", is(category)));
+	        		
+	        verify(quesService, times(1)).findOneQuestion(1);
+	        verifyNoMoreInteractions(quesService);
+	    }
+	    
+	    /**
+	     * Test getQuestion by ID fail 404 not found
+	     */
+	    @Test
+	    public void test_get_question_by_id_fail_404_not_found() throws Exception {
+	        when(quesService.findOneQuestion(1)).thenReturn(null);
+
+	        mockMvc.perform(get("/question/getdetailquestion/{id}", 1))
+	                .andExpect(status().isNotFound());
+
+	        verify(quesService, times(1)).findOneQuestion(1);
+	        verifyNoMoreInteractions(quesService);
+	    }
+	    
+	    /**
+	     * Test create new question
+	     */
+	    @Test
+	    public void test_create_question_success() throws Exception {
+	    	Question question = new Question(1, 1, "The question", category);
 
 	        when(quesService.exists(question)).thenReturn(false);
-	        doNothing().when(quesService).createQuestion(question);
+	        doNothing().when(quesService).createQuestion(question);;
 
 	        mockMvc.perform(
-	                post("/question")
+	                post("/question/createquestion")
 	                        .contentType(MediaType.APPLICATION_JSON)
 	                        .content(asJsonString(question)))
-	                        
 	                .andExpect(status().isCreated())
-	                .andExpect(header().string("location", containsString("/question/createquestion")));
+	                .andExpect(header().string("location", containsString("/question/getdetailquestion/1")));
 
-	        verify(quesService, times(1)).exists(question);
-	        verify(quesService, times(1)).createQuestion(question);
-	        verifyNoMoreInteractions(quesService);
-	        
-	    }
-	 
-	    // =========================================== Update Existing Question ===================================
-
-	    @Test
-	    public void updateQuestion() throws Exception {
-	        Question question = new Question(1, 2, "question 2", category);
-
-	        when(quesService.findOneQuestion(question.getIdQuestion())).thenReturn(question);
-	        doNothing().when(quesService).editQuestion(question);
-
-	        mockMvc.perform(
-	                put("/question/updatequestion/{id}", question.getIdQuestion())
-	                        .contentType(MediaType.APPLICATION_JSON)
-	                        .content(asJsonString(question)))
-	                .andExpect(status().isOk());
-
-	        verify(quesService, times(1)).findOneQuestion(question.getIdQuestion());
-	        verify(quesService, times(1)).editQuestion(question);
+	        verify(quesService, times(1)).exists(refEq(question));
+	        verify(quesService, times(1)).createQuestion(refEq(question));
 	        verifyNoMoreInteractions(quesService);
 	    }
 
-	 
-	 // =========================================== DeleteQuestion ============================================
-
+	    /**
+	     * Test delete question
+	     */
 	    @Test
-	    public void deleteQuestion() throws Exception {
-	        Question question = new Question(1, 2, "question 2", category);
+	    public void test_delete_question_success() throws Exception {
+	    	Question question = new Question(1, 1, "The question", category);
 
 	        when(quesService.findOneQuestion(question.getIdQuestion())).thenReturn(question);
 	        doNothing().when(quesService).deleteQuestion(question.getIdQuestion());
@@ -130,53 +170,70 @@ public class QuestionRestTest {
 	        verify(quesService, times(1)).deleteQuestion(question.getIdQuestion());
 	        verifyNoMoreInteractions(quesService);
 	    }
-
-	 
-	 /**
-	  * Test getAll question 		-
-	  *      
-	*/
-	  @Test
-	    public void test_get_all_question() throws Exception {
-	    	List<Question> question = Arrays.asList(
-	    			new Question(1, 2, "question 1", category));
-	    			
-
-	        when(quesService.findAllQuestion()).thenReturn(question);
-
-	        mockMvc.perform(get("/question/getallquestion"))
-	                .andExpect(status().isOk())
-	                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
-	                .andExpect(jsonPath("$", hasSize(1)))
-	                .andExpect(jsonPath("$[0].idQuestion", is(1)))
-	                .andExpect(jsonPath("$[0].orderingQuestion", is(2)))
-	                .andExpect(jsonPath("$[0].question", is("question 1")))
-	                .andExpect(jsonPath("$[0].category", is(category)));
-
-	        verify(quesService, times(1)).findAllQuestion();
-	        verifyNoMoreInteractions(quesService);
-	    }
-	  
-	  /**
-	     * Test getQuestion by Id
+	    
+	    /**
+	     * Test delete question fail 404 not found
 	     */
+	    
 	    @Test
-	    public void test_get_question_by_id() throws Exception {
-	        Question question = new Question(1, 2, "question 1", category);
-	        when(quesService.findOneQuestion(1)).thenReturn(question);
+	    public void test_delete_question_fail_404_not_found() throws Exception {
+	    	Question question = new Question(1, 1, "The question", category);
 
-	        mockMvc.perform(get("/question/getallquestionbycategoryid/{id}", 1))
-	                .andExpect(status().isOk())
-	                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
-	                .andExpect(jsonPath("$.idQuestion", is(1)))
-	                .andExpect(jsonPath("$.orderingQuestion", is(2)))
-	                .andExpect(jsonPath("$.question", is("question 1")))
-	                .andExpect(jsonPath("$.category", is(category)));
-	        		
-	        verify(quesService, times(1)).findOneQuestion(1);
+	        when(quesService.findOneQuestion(question.getIdQuestion())).thenReturn(null);
+
+	        mockMvc.perform(
+	                delete("/question/deletequestion/{id}", question.getIdQuestion()))
+	                .andExpect(status().isNotFound());
+
+	        verify(quesService, times(1)).findOneQuestion(question.getIdQuestion());
 	        verifyNoMoreInteractions(quesService);
 	    }
-	    // =========================================== Json String ===========================================
+	    
+	    /**
+	     * Test update question
+	     */
+	    
+	    @Test
+	    public void test_update_question_success() throws Exception {
+	    	Question question = new Question(1, 1, "The question", category);
+
+	    	when(quesService.findOneQuestion(question.getIdQuestion())).thenReturn(question);
+	        doNothing().when(quesService).editQuestion(question);
+
+	        mockMvc.perform(
+	                put("/question/updatequestion/{id}", question.getIdQuestion())
+	                        .contentType(MediaType.APPLICATION_JSON)
+	                        .content(asJsonString(question)))
+	                .andExpect(status().isOk());
+
+	        verify(quesService, times(1)).findOneQuestion(question.getIdQuestion());
+	        verify(quesService, times(1)).editQuestion(question);
+	        verifyNoMoreInteractions(quesService);
+	    }
+	    
+	    /**
+	     * Test update question fail 404 not found
+	     */
+	    
+	    @Test
+	    public void test_update_question_fail_404_not_found() throws Exception {
+	    	Question question = new Question(1, 1, "The question", category);
+
+	        when(quesService.findOneQuestion(question.getIdQuestion())).thenReturn(null);
+
+	        mockMvc.perform(
+	                put("/question/updatequestion/{id}", question.getIdQuestion())
+	                        .contentType(MediaType.APPLICATION_JSON)
+	                        .content(asJsonString(question)))
+	                .andExpect(status().isNotFound());
+
+	        verify(quesService, times(1)).findOneQuestion(question.getIdQuestion());
+	        verifyNoMoreInteractions(quesService);
+	    }
+	    
+	    /**
+	     * JSON String
+	     */
 
 	    public static String asJsonString(final Object obj) {
 	        try {

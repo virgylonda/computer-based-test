@@ -26,5 +26,6 @@ public interface QuestionService {
 	public void editQuestion(Question question);
 	
 	public List<Question> findAllQuestionByCategory(int idCategory);
+	
 	boolean exists(Question question);
 }

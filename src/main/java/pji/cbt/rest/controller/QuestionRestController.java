@@ -49,18 +49,19 @@ public class QuestionRestController {
      * @return	Question HttpStatus.CREATED
      */
     @RequestMapping(value = "/createquestion", method = RequestMethod.POST)
-    public ResponseEntity<Question> createQuestion(@RequestBody Question question, UriComponentsBuilder ucBuilder) {
+    public ResponseEntity<Void> createQuestion(@RequestBody Question question, UriComponentsBuilder ucBuilder) {
     	logger.info("Creating Question " + question.getQuestion());
-
-    	try {
-    		quesSvc.createQuestion(question);
-    	}catch (Exception e) {
-    		logger.info(e);
-		}
- 
+    	
+    	if(quesSvc.exists(question)){
+    		logger.info("Creating question "+question.getIdQuestion()+ " already exists");
+    		return new ResponseEntity<Void>(HttpStatus.CONFLICT);
+    	}
+    	
+    	quesSvc.createQuestion(question);
+    	
         HttpHeaders headers = new HttpHeaders();
-        headers.setLocation(ucBuilder.path("/question/{id}").buildAndExpand(question.getIdQuestion()).toUri());
-        return new ResponseEntity<Question>(question, HttpStatus.CREATED);
+        headers.setLocation(ucBuilder.path("/question/getdetailquestion/{id}").buildAndExpand(question.getIdQuestion()).toUri());
+        return new ResponseEntity<Void>(headers, HttpStatus.CREATED);
     }
 	
     /**
@@ -74,12 +75,12 @@ public class QuestionRestController {
 	        
 	        
 	        Question currentQuestion = quesSvc.findOneQuestion(id);
-	        List<Answer> answers = ansSvc.findAnswerByQuestion(id);
 	         
 	        if (currentQuestion==null) {
 	        	logger.info("Question with id " + id + " not found");
 	            return new ResponseEntity<Question>(HttpStatus.NOT_FOUND);
 	        }
+	        
 	        currentQuestion.setQuestion(question.getQuestion());
 	                    
 	        quesSvc.editQuestion(currentQuestion);
@@ -98,13 +99,14 @@ public class QuestionRestController {
 		 
 
       Question question = quesSvc.findOneQuestion(id);
+      
       if (question == null) {
     	  logger.info("Unable to delete. Question with id " + id + " not found");
           return new ResponseEntity<Question>(HttpStatus.NOT_FOUND);
       }
 
       quesSvc.deleteQuestion(id);
-      return new ResponseEntity<Question>(HttpStatus.NO_CONTENT);
+      return new ResponseEntity<Question>(HttpStatus.OK);
   }
   
   /**
@@ -136,8 +138,16 @@ public class QuestionRestController {
      */
    @RequestMapping(value = "/getdetailquestion/{id}", method = RequestMethod.GET)
    public ResponseEntity<Question> getQuestionById(@PathVariable("id") int id) {
-    Question question = quesSvc.findOneQuestion(id);
-    return new ResponseEntity<Question>(question, HttpStatus.OK);
+	   logger.info("Fetching question with id : "+id);
+	  
+	   Question question = quesSvc.findOneQuestion(id);
+	   
+	   if(question == null){
+		   logger.warn("question with id " + id + " not found");
+		   return new ResponseEntity<Question>(HttpStatus.NOT_FOUND);
+	   }
+	   
+	   return new ResponseEntity<Question>(question, HttpStatus.OK);
    }
    
 }
