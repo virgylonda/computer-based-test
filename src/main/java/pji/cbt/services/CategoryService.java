@@ -20,5 +20,5 @@ public interface CategoryService {
 	
 	public void updateCategory(Category category);
 	
-	 boolean exists(Category category);
+	boolean exists(Category category);
 }

@@ -3,6 +3,7 @@ package pji.cbt.rest.test;
 import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.is;
+import static org.mockito.Matchers.refEq;
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -172,8 +173,74 @@ private MockMvc mockMvc;
 	        verify(catService, times(1)).findOneCategory(category.getIdCategory());
 	        verifyNoMoreInteractions(catService);
 	    }
+	    
+	    /**
+	     * Test update category
+	     */
+	    
+	    @Test
+	    public void test_update_category_success() throws Exception {
+	    	Category category = new Category(1, "Ujian Matematika", "Test Matematika Dasar untuk siswa SMP", "Multiple Choice", 60);
+
+	    	when(catService.findOneCategory(category.getIdCategory())).thenReturn(category);
+	        doNothing().when(catService).updateCategory(category);
+
+	        mockMvc.perform(
+	                put("/category/updatecategory/{id}", category.getIdCategory())
+	                        .contentType(MediaType.APPLICATION_JSON)
+	                        .content(asJsonString(category)))
+	                .andExpect(status().isOk());
+
+	        verify(catService, times(1)).findOneCategory(category.getIdCategory());
+	        verify(catService, times(1)).updateCategory(category);
+	        verifyNoMoreInteractions(catService);
+	    }
+	    
+	    /**
+	     * Test update category fail 404 not found
+	     */
+	    
+	    @Test
+	    public void test_update_category_fail_404_not_found() throws Exception {
+	    	Category category = new Category(1, "Ujian Matematika", "Test Matematika Dasar untuk siswa SMP", "Multiple Choice", 60);
+
+	        when(catService.findOneCategory(category.getIdCategory())).thenReturn(null);
+
+	        mockMvc.perform(
+	                put("/category/updatecategory/{id}", category.getIdCategory())
+	                        .contentType(MediaType.APPLICATION_JSON)
+	                        .content(asJsonString(category)))
+	                .andExpect(status().isNotFound());
+
+	        verify(catService, times(1)).findOneCategory(category.getIdCategory());
+	        verifyNoMoreInteractions(catService);
+	    }
+	    
+	    /**
+	     * Test create new Category
+	     */
+	    @Test
+	    public void test_create_category_success() throws Exception {
+	    	Category category = new Category(1, "Ujian Matematika", "Test Matematika Dasar untuk siswa SMP", "Multiple Choice", 60);
+
+	        when(catService.exists(category)).thenReturn(false);
+	        doNothing().when(catService).createCategory(category);
+
+	        mockMvc.perform(
+	                post("/category/createcategory")
+	                        .contentType(MediaType.APPLICATION_JSON)
+	                        .content(asJsonString(category)))
+	                .andExpect(status().isCreated())
+	                .andExpect(header().string("location", containsString("/category/getCategoryById/1")));
+
+	        verify(catService, times(1)).exists(refEq(category));
+	        verify(catService, times(1)).createCategory(refEq(category));
+	        verifyNoMoreInteractions(catService);
+	    }
 	  
-	    // =========================================== Json String ===========================================
+	    /**
+	     * JSON String
+	     */
 
 	    public static String asJsonString(final Object obj) {
 	        try {

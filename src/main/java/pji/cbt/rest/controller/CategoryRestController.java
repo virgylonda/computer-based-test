@@ -51,17 +51,18 @@ public class CategoryRestController {
     public ResponseEntity<Void> createCategory(@RequestBody Category category, UriComponentsBuilder ucBuilder) {
     	logger.info("Creating Category " + category.getDescription());
 
-    	try {
-    		ctgSvc.createCategory(category);
-    	}catch (Exception e) {
-    		logger.warn(e);
-		}
+    	if(ctgSvc.exists(category)){
+    		logger.info("a category with id "+category.getIdCategory()+" already exists");
+    		return new ResponseEntity<Void>(HttpStatus.CONFLICT);
+    	}
+    	
+    	ctgSvc.createCategory(category);
  
         HttpHeaders headers = new HttpHeaders();
-        headers.setLocation(ucBuilder.path("/getCategoryById/{id}").buildAndExpand(category.getIdCategory()).toUri());
+        headers.setLocation(ucBuilder.path("/category/getCategoryById/{id}").buildAndExpand(category.getIdCategory()).toUri());
         return new ResponseEntity<Void>(headers, HttpStatus.CREATED);
     }
-	
+    
     /**
      * Update
      * @param   id

@@ -241,6 +241,10 @@ private MockMvc mockMvc;
 	        verifyNoMoreInteractions(ansService);
 	    }
 	    
+	    /**
+	     * JSON String
+	     */
+	    
 	    public static String asJsonString(final Object obj) {
 	        try {
 	            final ObjectMapper mapper = new ObjectMapper();
