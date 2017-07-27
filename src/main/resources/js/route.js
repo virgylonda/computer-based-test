@@ -109,6 +109,11 @@ cbtApp.config(function($stateProvider) {
 	})
 	.state('home.editprofileadmin.confirmedpass', {
 		url: '/confirmedpass',
+		params : {
+			user : {
+
+			}
+		},
 		views: {
 					'main@': {
 						templateUrl: 'views/admin/admin-dashboard.html',

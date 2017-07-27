@@ -8,19 +8,18 @@ cbtApp.controller('AdminGetTesterController', ['$scope', '$state', 'AdminService
 	
 	AdminServices.getTester(testerId).then(function(res){
 		$scope.testerObject = res.data;
-		console.log(res);
 	});
 
 	$scope.toConfirm = function() {
 
-        if ($scope.dataUser.name == null) {
+        if ($scope.testerObject.name == null) {
 			$scope.status = false;
 		} else {
 			var dataUser = {
 				"userId" : $scope.testerObject.userId,
 				"username" : $scope.testerObject.username,
-				"name" : $scope.dataUser.name,
-				"email" : $scope.dataUser.email,
+				"name" : $scope.testerObject.name,
+				"email" : $scope.testerObject.email,
 				"roles"    : {
 					"roleId"	: $scope.testerObject.roles.roleId
 				}

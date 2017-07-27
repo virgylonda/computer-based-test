@@ -6,7 +6,6 @@ cbtApp.controller('TesterAssignmentListController', ['$scope', '$state', 'Tester
 
 	var userId = $state.params.userId;
 	TesterServices.getListAssignment(userId).then(function(res){
-		console.log(res);
 		$scope.arrayList = res.data;
 	})
 	
@@ -20,7 +19,6 @@ cbtApp.controller('TesterAssignmentListController', ['$scope', '$state', 'Tester
 					$scope.idCategoriesArray.push(category.categories.idCategory);
 				}
 			});
-			console.log($scope.idCategoriesArray);
 			if($scope.idCategoriesArray.length == 0){
 				window.alert("No category selected");
 				$state.go("hometester.userassign");
@@ -40,7 +38,6 @@ cbtApp.controller('TesterAssignmentListController', ['$scope', '$state', 'Tester
 								"idCategory"	: $scope.idCategoriesArray[i]
 						}
 					};
-					console.log(formAssignment);
 					TesterServices.addAssignment(formAssignment).then(function(res){
 						$state.go("hometester.userassign");
 					})

@@ -8,19 +8,18 @@ cbtApp.controller('AdmiGetDetailController', ['$scope', '$state', 'AdminServices
 	
 	AdminServices.getAdmin(userId).then(function(res){
 		$scope.userObject = res.data;
-		console.log(res);
 	});
 
 	$scope.toConfirm = function() {
 
-        if ($scope.dataUser.name == null) {
+        if ($scope.userObject.name == null) {
 			$scope.status = false;
 		} else {
 			var dataUser = {
 				"userId" : $scope.userObject.userId,
 				"username" : $scope.userObject.username,
-				"name" : $scope.dataUser.name,
-				"email" : $scope.dataUser.email,
+				"name" : $scope.userObject.name,
+				"email" : $scope.userObject.email,
 				"roles"    : {
 					"roleId"	: $scope.userObject.roles.roleId
 				}
@@ -34,26 +33,25 @@ cbtApp.controller('AdmiGetDetailController', ['$scope', '$state', 'AdminServices
     	var userId = $state.params.userId;
     	var oldpass = $scope.dataUser.oldpassword;
     	var pass = $scope.dataUser.password;
-    	var newpass = $scope.newpassword;
-    	AdminServices.getAdmin(userId).then(function(res){
-			var objectUser = res.data;
-			console.log(res);
-			//decode password dulu
-			if(objectUser.password == oldpass){
-				if(pass == newpass){
-					var dataUser = {
-						"password" : $scope.userObject.password,
-					};
+    	var newpass = $scope.dataUser.newpassword;
 
-					$state.go("home.testerlist.edittester.confirmtester", {dataUser});
-				}
-				else{
-					window.alert("Please check validate password again");
-				}
-			}
-			else{
-				window.alert("Password is wrong");
-			}
-		});
+    	if(newpass == pass){
+    		var user = {
+    			"userId" : userId,
+    			"username" : '',
+    			"password" : $scope.dataUser.password,
+    			"name" : '',
+    			"email" : '',
+    			"role_id" : '',
+    			"roles" : {
+    				"roleId" : ''
+    			}
+    		};
+
+    		$state.go("home.editprofileadmin.confirmedpass", {userId, user});
+    	}
+    	else{
+    		$scope.alert = "Update password failed. Please check again";
+    	}
     }
 }])

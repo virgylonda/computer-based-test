@@ -14,7 +14,6 @@ cbtApp.controller('TesterAddCategories', ['$scope', '$state', 'TesterServices', 
 				"questionType" : $scope.category.type,
 				"timeLimit" : $scope.category.limit
 			};
-			console.log(formCategory);
 			TesterServices.addCategory(formCategory).then(function(res){
 				$state.go("hometester.listcategories");
 			});

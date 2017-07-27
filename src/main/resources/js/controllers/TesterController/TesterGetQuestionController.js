@@ -9,7 +9,6 @@ cbtApp.controller('TesterGetQuestionController', ['$scope', '$state','TesterServ
 
 	TesterServices.getQuestion(idQuestion).then(function(res){
 		$scope.questionObject = res.data;
-		console.log($scope.questionObject);
 	});
 
 	TesterServices.getAllAnswersFromQuestion(idQuestion).then(function(res){
@@ -27,12 +26,7 @@ cbtApp.controller('TesterGetQuestionController', ['$scope', '$state','TesterServ
 			}
 		};
 		var dataAnswers = $scope.answerObject;
-		for (var i = 0; i < dataAnswers.length; i++) {
-			if(dataAnswers[i].key == '1'){
-				$state.go("hometester.listcategories.listquestion.confirmquestion", {dataQuestion, dataAnswers});
-			}
-		}
-		window.alert("No key option selected");
+		$state.go("hometester.listcategories.listquestion.confirmquestion", {dataQuestion, dataAnswers});
     }
 
 }]);

@@ -6,11 +6,9 @@ cbtApp.controller('AdminEditController', ['$scope', '$state','AdminServices', fu
 	
 	var dataUser = $state.params.dataUser;
 	var id = $state.params.userId;
-	console.log(dataUser);
 	
 	var confirmResult = confirm("Is this good ?")
 	if(confirmResult == true){
-		console.log("Panggil API edit admin");
 		AdminServices.editAdmin(id, dataUser).then(function(res){
 			$state.go("home");
 		})
@@ -18,7 +16,6 @@ cbtApp.controller('AdminEditController', ['$scope', '$state','AdminServices', fu
 
 	AdminServices.getAdmin(id).then(function(res){
 		$scope.userObject = res.data;
-		console.log(res);
 	});
 
 }]);

@@ -20,15 +20,15 @@
                         <form ng-submit="toConfirm()">
                             <div class="form-group">
                                 <label>Username</label>
-                                <input class="form-control" type="text" placeholder={{testerObject.username}} ng-model="dataUser.username" readonly="readonly"/>
+                                <input class="form-control" type="text" ng-model="testerObject.username" readonly="readonly"/>
                             </div>
                             <div class="form-group">
                                 <label>Tester Name</label>
-                                <input class="form-control" type="text" placeholder={{testerObject.name}} ng-model="dataUser.name" pattern="[a-zA-Z ]+" title="Only allow alphabet" required="required"/>
+                                <input class="form-control" type="text" ng-model="testerObject.name" pattern="[a-zA-Z ]+" title="Only allow alphabet" required="required"/>
                             </div>
                             <div class="form-group">
                                 <label>Email</label>
-                                <input class="form-control" type="email" placeholder={{testerObject.email}} ng-model="dataUser.email" required="required"/>
+                                <input class="form-control" type="email" ng-model="testerObject.email" required="required"/>
                             </div>
 
                             <button type="submit" class="btn btn-primary"><i class="fa fa-arrow-right" aria-hidden="true"></i> Confirm</button>

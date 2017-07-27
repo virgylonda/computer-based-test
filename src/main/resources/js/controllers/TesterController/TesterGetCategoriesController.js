@@ -11,7 +11,6 @@ cbtApp.controller('TesterGetCategoriesController', ['$scope', '$state', 'TesterS
 		if (res.data.questionType == 'Multiple Choice') {
 			$scope.multipleChoice = true;
 		};
-		console.log(res);
 	});
 
 	$scope.toConfirm = function() {
@@ -23,7 +22,6 @@ cbtApp.controller('TesterGetCategoriesController', ['$scope', '$state', 'TesterS
 			"questionType" : $scope.categoryObject.questionType,
 			"timeLimit" : $scope.categoryObject.timeLimit,
 		};
-		console.log(dataCategory);
 		$state.go("hometester.listcategories.editcategory.confirmcategory", {dataCategory});	
     }
 }])

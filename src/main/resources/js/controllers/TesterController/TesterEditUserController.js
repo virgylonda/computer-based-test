@@ -7,11 +7,9 @@ cbtApp.controller('TesterEditUserController', ['$scope', '$state','TesterService
 	$scope.userData = $state.params.dataUser;
 	var dataUser = $scope.userData;
 	var id = $scope.userData.userId;
-	console.log(dataUser);
 
 	var confirmResult = confirm("Is this good ?")
 	if(confirmResult == true){
-		console.log("Panggil API edit user");
 		TesterServices.editUser(id, dataUser).then(function(res){
 			$state.go("hometester.userlist");
 		})

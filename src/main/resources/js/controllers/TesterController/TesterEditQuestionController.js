@@ -14,10 +14,11 @@ cbtApp.controller('TesterEditQuestionController', ['$scope', '$state','TesterSer
 	if(confirmResult == true){
 
 		for (var i = 0; i < dataAnswers.length; i++) {
-			var correctAnswer = false
-			if(dataAnswers[i].key == '1'){
+			var correctAnswer = false;
+			if(dataAnswers[i].correctAnswer === 1){
 				correctAnswer = true;
-			};
+			}
+
 			var formAnswer = {
 				"idAnswer" : dataAnswers[i].idAnswer,
 				"questionAnswer" : {
