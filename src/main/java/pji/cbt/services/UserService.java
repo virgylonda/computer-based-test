@@ -3,6 +3,7 @@ package pji.cbt.services;
 
 import java.util.List;
 
+import pji.cbt.entities.Category;
 import pji.cbt.entities.Roles;
 import pji.cbt.entities.User;
 
@@ -29,5 +30,5 @@ public interface UserService {
 	
 	public List<Roles> findRoleAll();
 	
-	 boolean exists(User user);
+	boolean exists(User user);
 }

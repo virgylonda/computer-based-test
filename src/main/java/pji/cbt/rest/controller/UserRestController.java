@@ -34,6 +34,7 @@ import pji.cbt.entities.Question;
 import pji.cbt.entities.Roles;
 import pji.cbt.entities.TestUser;
 import pji.cbt.entities.User;
+import pji.cbt.entities.UserPassword;
 import pji.cbt.form.FormAnswer;
 import pji.cbt.form.FormQuestion;
 import pji.cbt.services.AnswerService;
@@ -126,21 +127,20 @@ public class UserRestController {
 		 * @method		POST
 		 * @return      create a new user
 		 */
-	    @RequestMapping(value = "/createUser", method = RequestMethod.POST)
+	    @RequestMapping(value = "/createuser", method = RequestMethod.POST)
 	    public ResponseEntity<Void> createUser(@RequestBody User user, Roles role, UriComponentsBuilder ucBuilder) {
-	        logger.info("Creating User : "+user.getUsername());
-	        String password = user.getPassword();
-
-	    	try {
-	    		user.setPassword(user.passwordToHash(user.getPassword()));
-	    		userSvc.createUser(user);
-	    	}catch (Exception e) {
-	    		logger.info(e);
-				user.setPassword(password);
-			}
+	        logger.info("Creating User : "+user.getUserId());
+	        
+	        if(userSvc.exists(user)){
+	        	logger.info("a user with id " + user.getUserId() + " already exists");
+	        	return new ResponseEntity<Void>(HttpStatus.CONFLICT);
+	        }
+	        
+	    	user.setPassword(user.passwordToHash(user.getPassword()));
+	    	userSvc.createUser(user);
 	 
 	        HttpHeaders headers = new HttpHeaders();
-	        headers.setLocation(ucBuilder.path("/users/{id}").buildAndExpand(user.getUserId()).toUri());
+	        headers.setLocation(ucBuilder.path("/rest/user/getuserbyid/{id}").buildAndExpand(user.getUserId()).toUri());
 	        return new ResponseEntity<Void>(headers, HttpStatus.CREATED);
 	    }
 	    
@@ -160,12 +160,10 @@ public class UserRestController {
 	            return new ResponseEntity<User>(HttpStatus.NOT_FOUND);
 	        }
 	        
-//	        currentUser.setPassword(user.passwordToHash(user.getPassword()));
 	        currentUser.setName(user.getName());
 	        currentUser.setEmail(user.getEmail()); 
 	        
 	        userSvc.updateUser(currentUser);
-//	        userSvc.updatePassword(currentUser);
 	        return new ResponseEntity<User>(currentUser, HttpStatus.OK);
 	    }
 	
@@ -175,17 +173,18 @@ public class UserRestController {
 		 * @return      delete a user by id
 		 */
 	    @RequestMapping(value = "/deleteuserbyid/{id}", method = RequestMethod.DELETE)
-	    public ResponseEntity<User> deleteUserById(@PathVariable("id") long id) {
+	    public ResponseEntity<Void> deleteUserById(@PathVariable("id") long id) {
 	    	logger.info("Fetching & Deleting User with id "+id); 
 	 
 	        User user = userSvc.findOne(id);
+	        
 	        if (user == null) {
 	        	logger.warn("Unable to delete. User with id " + id + " not found");
-	            return new ResponseEntity<User>(HttpStatus.NOT_FOUND);
+	            return new ResponseEntity<Void>(HttpStatus.NOT_FOUND);
 	        }
 	 
 	        userSvc.deleteOne(id);
-	        return new ResponseEntity<User>(HttpStatus.NO_CONTENT);
+	        return new ResponseEntity<Void>(HttpStatus.OK);
 	    }
 	    
 	    /**
@@ -217,23 +216,26 @@ public class UserRestController {
 		 * @return      update password
 		 */
 	    @RequestMapping(value = "/updatepassword/{id}", method = RequestMethod.PUT)
-	    public ResponseEntity<User> updatePassword(@PathVariable("id") long id, @RequestBody User user) {
+	    public ResponseEntity<User> updatePassword(@PathVariable("id") long id, @RequestBody UserPassword user) {
 	    	BCryptPasswordEncoder BCrypt = new BCryptPasswordEncoder();
 	    	logger.info("Updating Profile " + id);  
+	    	
 	        User currentUser = userSvc.findOne(id);
 	         
 	        if (currentUser==null) {
 	        	logger.warn("User with id " + id + " not found");
 	            return new ResponseEntity<User>(HttpStatus.NOT_FOUND);
-	        }else if(!BCrypt.matches(user.getPassword(), currentUser.getPassword())){
+	        }
+	        else if(!BCrypt.matches(user.getOldpassword(), currentUser.getPassword())){
 	        	logger.warn("Password not match  " + id + " not found");
-	            return new ResponseEntity<User>(HttpStatus.NOT_FOUND);
+	        	return new ResponseEntity<User>(HttpStatus.FORBIDDEN);
 			}
 	        
-	        currentUser.setPassword(user.passwordToHash(user.getPassword()));
+	        currentUser.setPassword(user.passwordToHash(user.getNewpassword()));
+
 	        userSvc.updatePassword(currentUser);
 	        
-	        return new ResponseEntity(SUCCESS_RESULT, HttpStatus.OK);	
+	        return new ResponseEntity<User>(HttpStatus.OK);	
 	    }
 	    
 }

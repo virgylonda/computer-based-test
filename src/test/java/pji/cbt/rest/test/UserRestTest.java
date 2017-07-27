@@ -1,10 +1,12 @@
 package pji.cbt.rest.test;
 
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 import pji.cbt.config.WebMvcConfig;
+import pji.cbt.entities.Answer;
 import pji.cbt.entities.Category;
 import pji.cbt.entities.Roles;
 import pji.cbt.entities.User;
@@ -28,6 +30,7 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.is;
+import static org.mockito.Matchers.refEq;
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -41,8 +44,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 @ContextConfiguration(classes = {WebMvcConfig.class})
 public class UserRestTest {
 	
-	
 	private MockMvc mockMvc;
+	
 	private Roles role;
 	
 	 @Mock
@@ -61,38 +64,135 @@ public class UserRestTest {
 	                .build();
 	    }
 
-	  
-	    // =========================================== Create New User ========================================
-
+	 	/**
+	     * Test getAllActor
+	     */
 	    @Test
-	    public void create_user_success() throws Exception {
-	        User user = new User("yesi","yesi123","Yesi Relita","yessirelita@gmail.com",role);
+	    public void getAllActor() throws Exception {
+	    	List<User> user = Arrays.asList(
+	    			new User("username","password","AllUser","allUser@gmail.com", role));
+
+	        when(usrService.findAllUsers()).thenReturn(user);
+
+	        mockMvc.perform(get("/rest/user/getallactor"))
+	                .andExpect(status().isOk())
+	                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+	                .andExpect(jsonPath("$", hasSize(1)))
+	                .andExpect(jsonPath("$[0].username", is("username")))
+	                .andExpect(jsonPath("$[0].password", is("password")))
+	                .andExpect(jsonPath("$[0].name", is("AllUser")))
+	                .andExpect(jsonPath("$[0].email", is("allUser@gmail.com")))
+	                .andExpect(jsonPath("$[0].roles", is(role)));
+	        
+	        verify(usrService, times(1)).findAllUsers();
+	        verifyNoMoreInteractions(usrService);
+	    }
+	    
+	    /**
+	     * Test getUser by ID
+	     */
+	    @Test
+	    public void test_get_user_by_id() throws Exception {
+	        User user = new User("username","password","AllUser","allUser@gmail.com", role);
+	        
+	        when(usrService.findOne(1)).thenReturn(user);
+
+	        mockMvc.perform(get("/rest/user/getuserbyid/{id}", 1))
+	                .andExpect(status().isOk())
+	                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+	                .andExpect(jsonPath("$.username", is("username")))
+	                .andExpect(jsonPath("$.password", is("password")))
+	                .andExpect(jsonPath("$.name", is("AllUser")))
+	                .andExpect(jsonPath("$.email", is("allUser@gmail.com")))
+	                .andExpect(jsonPath("$.roles", is(role)));
+	        		
+	        verify(usrService, times(1)).findOne(1);
+	        verifyNoMoreInteractions(usrService);
+	    }
+	    
+	    /**
+	     * Test getUser by ID fail 404 not found
+	     */
+	    
+	    @Test
+	    public void test_get_user_by_id_fail_404_not_found() throws Exception {
+	        when(usrService.findOne(1)).thenReturn(null);
+
+	        mockMvc.perform(get("/rest/user/getuserbyid/{id}", 1))
+	                .andExpect(status().isNotFound());
+
+	        verify(usrService, times(1)).findOne(1);
+	        verifyNoMoreInteractions(usrService);
+	    }
+	    
+	    /**
+	     * Test create new User
+	     */
+	    @Test
+	    public void test_create_user_success() throws Exception {
+	    	User user = new User("username","password","AllUser","allUser@gmail.com", role);
 
 	        when(usrService.exists(user)).thenReturn(false);
 	        doNothing().when(usrService).createUser(user);
 
 	        mockMvc.perform(
-	                post("/rest/user")
+	                post("/rest/user/createuser")
 	                        .contentType(MediaType.APPLICATION_JSON)
 	                        .content(asJsonString(user)))
-	                        
 	                .andExpect(status().isCreated())
-	                .andExpect(header().string("location", containsString("/rest/user/createuser")));
+	                .andExpect(header().string("location", containsString("/rest/user/getuserbyid/0")));
 
-	        verify(usrService, times(1)).exists(user);
-	        verify(usrService, times(1)).createUser(user);
+	        verify(usrService, times(1)).exists(refEq(user));
+	        verify(usrService, times(1)).createUser(refEq(user));
 	        verifyNoMoreInteractions(usrService);
-	        
 	    }
-	  
-
-	    // =========================================== Update Existing User ===================================
-
+	    
+	    /**
+	     * Test delete user
+	     */
 	    @Test
-	    public void updateuser() throws Exception {
-	        User user = new User("yesi","yesi123","Yesi Relitaaaa","yessirelita@gmail.com",role);
+	    public void test_delete_user_success() throws Exception {
+	    	User user = new User("username","password","AllUser","allUser@gmail.com", role);
 
 	        when(usrService.findOne(user.getUserId())).thenReturn(user);
+	        doNothing().when(usrService).deleteOne(user.getUserId());
+
+	        mockMvc.perform(
+	                delete("/rest/user/deleteuserbyid/{id}", user.getUserId()))
+	                .andExpect(status().isOk());
+
+	        verify(usrService, times(1)).findOne(user.getUserId());
+	        verify(usrService, times(1)).deleteOne(user.getUserId());
+	        verifyNoMoreInteractions(usrService);
+	    }
+	    
+	    /**
+	     * Test delete user fail 404 not found
+	     */
+	    
+	    @Test
+	    public void test_delete_user_fail_404_not_found() throws Exception {
+	    	User user = new User("username","password","AllUser","allUser@gmail.com", role);
+
+	        when(usrService.findOne(user.getUserId())).thenReturn(null);
+
+	        mockMvc.perform(
+	                delete("/rest/user/deleteuserbyid/{id}", user.getUserId()))
+	                .andExpect(status().isNotFound());
+
+	        verify(usrService, times(1)).findOne(user.getUserId());
+	        verifyNoMoreInteractions(usrService);
+	    }
+	    
+	    /**
+	     * Test update user
+	     */
+	    
+	    @Test
+	    public void test_update_user_success() throws Exception {
+	    	User user = new User("username","password","AllUser","allUser@gmail.com", role);
+
+	    	when(usrService.findOne(user.getUserId())).thenReturn(user);
 	        doNothing().when(usrService).updateUser(user);
 
 	        mockMvc.perform(
@@ -105,110 +205,114 @@ public class UserRestTest {
 	        verify(usrService, times(1)).updateUser(user);
 	        verifyNoMoreInteractions(usrService);
 	    }
-
-	 
-
-	    // =========================================== Delete User ============================================
-
+	    
+	    /**
+	     * Test update user fail 404 not found
+	     */
+	    
 	    @Test
-	    public void deleteuser() throws Exception {
-	        User user = new User("yesi","yesi123","Yesi Relitaaaa","yessirelita@gmail.com",role);
+	    public void test_update_user_fail_404_not_found() throws Exception {
+	    	User user = new User("username","password","AllUser","allUser@gmail.com", role);
 
-	        when(usrService.findOne(user.getUserId())).thenReturn(user);
-	        doNothing().when(usrService).deleteOne(user.getUserId());
+	        when(usrService.findOne(user.getUserId())).thenReturn(null);
 
 	        mockMvc.perform(
-	                delete("/rest/user/updateuser/{id}", user.getUserId()))
+	                put("/rest/user/updateuser/{id}", user.getUserId())
+	                        .contentType(MediaType.APPLICATION_JSON)
+	                        .content(asJsonString(user)))
+	                .andExpect(status().isNotFound());
+
+	        verify(usrService, times(1)).findOne(user.getUserId());
+	        verifyNoMoreInteractions(usrService);
+	    }
+	    
+	    /**
+	     * Test update profile
+	     */
+	    
+	    @Test
+	    public void test_update_profile_success() throws Exception {
+	    	User user = new User("username","password","AllUser","allUser@gmail.com", role);
+
+	    	when(usrService.findOne(user.getUserId())).thenReturn(user);
+	        doNothing().when(usrService).updateUser(user);
+
+	        mockMvc.perform(
+	                put("/rest/user/updateprofile/{id}", user.getUserId())
+	                        .contentType(MediaType.APPLICATION_JSON)
+	                        .content(asJsonString(user)))
 	                .andExpect(status().isOk());
 
 	        verify(usrService, times(1)).findOne(user.getUserId());
-	        verify(usrService, times(1)).deleteOne(user.getUserId());
-	        verifyNoMoreInteractions(usrService);
-	    }
-
-	    // =========================================== Get All Actor =========================================
-
-	    @Test
-	    public void getAllActor() throws Exception {
-	    	List<User> user = Arrays.asList(
-	    			new User("yesi1","yesi123","Yesi Relita","yessirelita@gmail.com",role),
-	    			new User("yesi2","yesi124","Yesi Relitaaa","yessirelita@gmail.com",role));
-
-	        when(usrService.findAllUsers()).thenReturn(user);
-
-	        mockMvc.perform(get("/rest/user/getallactor"))
-	                .andExpect(status().isOk())
-	                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
-	                .andExpect(jsonPath("$", hasSize(2)))
-	                .andExpect(jsonPath("$[0].username", is("yesi1")))
-	                .andExpect(jsonPath("$[0].password", is("yesi123")))
-	                .andExpect(jsonPath("$[0].name", is("Yesi Relita")))
-	                .andExpect(jsonPath("$[0].email", is("yessirelita@gmail.com")))
-	                .andExpect(jsonPath("$[0].role", is(role)))
-	                .andExpect(jsonPath("$[1].username", is("yesi2")))
-	                .andExpect(jsonPath("$[1].password", is("yesi124")))
-	                .andExpect(jsonPath("$[1].name", is("Yesi Relitaa")))
-	                .andExpect(jsonPath("$[1].email", is("yessirelita@gmail.com")))
-	                .andExpect(jsonPath("$[1].role", is(role)));
-	        verify(usrService, times(1)).findAllUsers();
-	        verifyNoMoreInteractions(usrService);
-	    }
-
-	    // =========================================== Get All Users ==========================================
-
-	    @Test
-	    public void getallUsers() throws Exception {
-	        List<User> users = Arrays.asList(
-	                new User("yesi1","yesi123","Yesi Relita","yessirelita@gmail.com",role),
-	                new User("yesi2","yesi123","Yesi Relitaa","yessirelita@gmail.com",role));
-
-	        when(usrService.findAllUser(3)).thenReturn(users);
-
-	        mockMvc.perform(get("/rest/user/getallUser"))
-	                .andExpect(status().isOk())
-	                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
-	                .andExpect(jsonPath("$", hasSize(2)))
-	                .andExpect(jsonPath("$[0].username", is("yesi1")))
-	                .andExpect(jsonPath("$[0].password", is("yesi123")))
-	                .andExpect(jsonPath("$[0].name", is("Yesi Relita")))
-	                .andExpect(jsonPath("$[0].email", is("yessirelita@gmail.com")))
-	                .andExpect(jsonPath("$[0].role", is(role)))
-	                .andExpect(jsonPath("$[1].username", is("yesi2")))
-	                .andExpect(jsonPath("$[1].password", is("yesi123")))
-	                .andExpect(jsonPath("$[1].name", is("Yesi Relitaa")))
-	                .andExpect(jsonPath("$[1].email", is("yessirelita@gmail.com")))
-	                .andExpect(jsonPath("$[1].role", is(role)));
-	        
-
-	        verify(usrService, times(1)).findAllUser(3);
+	        verify(usrService, times(1)).updateUser(user);
 	        verifyNoMoreInteractions(usrService);
 	    }
 	    
-	 // =========================================== Get User By ID =========================================
-
+	    /**
+	     * Test update profile fail 404 not found
+	     */
+	    
 	    @Test
-	    public void getUserby_id() throws Exception {
-	        User user = new User("yesi1","yesi123","Yesi Relita","yessirelita@gmail.com",role);
+	    public void test_update_profile_fail_404_not_found() throws Exception {
+	    	User user = new User("username","password","AllUser","allUser@gmail.com", role);
 
-	        when(usrService.findOne(24)).thenReturn(user);
+	        when(usrService.findOne(user.getUserId())).thenReturn(null);
 
-	        mockMvc.perform(get("/rest/user/getuserbyid/{id}", 24))
-	                .andExpect(status().isOk())
-	                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
-	                .andExpect(jsonPath("$.username", is("yesi")))
-	        		.andExpect(jsonPath("$.password", is("yesi123")))
-                	.andExpect(jsonPath("$.name", is("Yesi Relita")))
-                	.andExpect(jsonPath("$.email", is("yessirelita@gmail.com")))
-                	.andExpect(jsonPath("$.role", is(role)));
+	        mockMvc.perform(
+	                put("/rest/user/updateprofile/{id}", user.getUserId())
+	                        .contentType(MediaType.APPLICATION_JSON)
+	                        .content(asJsonString(user)))
+	                .andExpect(status().isNotFound());
 
-	        verify(usrService, times(1)).findOne(24);
+	        verify(usrService, times(1)).findOne(user.getUserId());
 	        verifyNoMoreInteractions(usrService);
 	    }
 
-	
-
+	    /**
+	     * Test update password
+	     */
 	    
-	 // =========================================== Json String ===========================================
+	    @Test
+	    public void test_update_password_success() throws Exception {
+	    	User user = new User("username","password","AllUser","allUser@gmail.com", role);
+
+	    	when(usrService.findOne(user.getUserId())).thenReturn(user);
+	        doNothing().when(usrService).updatePassword(user);;
+
+	        mockMvc.perform(
+	                put("/rest/user/updatepassword/{id}", user.getUserId())
+	                        .contentType(MediaType.APPLICATION_JSON)
+	                        .content(asJsonString(user)))
+	                .andExpect(status().isOk());
+
+	        verify(usrService, times(1)).findOne(user.getUserId());
+	        verify(usrService, times(1)).updatePassword(user);
+	        verifyNoMoreInteractions(usrService);
+	    }
+	    
+	    /**
+	     * Test update password fail 404 not found
+	     */
+	    
+	    @Test
+	    public void test_update_password_fail_404_not_found() throws Exception {
+	    	User user = new User("username","password","AllUser","allUser@gmail.com", role);
+
+	        when(usrService.findOne(user.getUserId())).thenReturn(null);
+
+	        mockMvc.perform(
+	                put("/rest/user/updatepassword/{id}", user.getUserId())
+	                        .contentType(MediaType.APPLICATION_JSON)
+	                        .content(asJsonString(user)))
+	                .andExpect(status().isNotFound());
+
+	        verify(usrService, times(1)).findOne(user.getUserId());
+	        verifyNoMoreInteractions(usrService);
+	    }
+	    
+	    /**
+	     * JSON String
+	     */
 
 	    public static String asJsonString(final Object obj) {
 	        try {
