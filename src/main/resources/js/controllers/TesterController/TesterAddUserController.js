@@ -26,7 +26,8 @@ cbtApp.controller('TesterAddUserController', ['$scope', '$state', 'TesterService
 			}
 
 			TesterServices.addUser(formDataUser, roles).then(function(res){
-				$state.go("hometester.userlist");
+				var alert = "New user added";
+				$state.go("hometester.userlist", {alert});
 				$scope.statusAllert = "New User Added";
 			});
 		}

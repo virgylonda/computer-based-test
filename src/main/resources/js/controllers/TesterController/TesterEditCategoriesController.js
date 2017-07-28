@@ -11,7 +11,8 @@ cbtApp.controller('TesterEditCategoriesController', ['$scope', '$state','TesterS
 	var confirmResult = confirm("Is this good ?")
 	if(confirmResult == true){
 		TesterServices.editCategory(idCategory, dataCategory).then(function(res){
-			$state.go("hometester.listcategories");
+			var alert = "Category updated";
+			$state.go("hometester.listcategories", {alert});
 		})
 	};
 

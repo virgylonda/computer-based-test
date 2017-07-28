@@ -25,9 +25,8 @@ cbtApp.controller('AdminAddTesterController', ['$scope', '$state', 'AdminService
 			}
 
 			AdminServices.addTester(formDataTester, roles).then(function(res){
-				$state.go("home.testerlist");
-				$scope.statusAllert = "New Tester Added";
-				window.alert("User added !");
+				var alert = "New tester added";
+				$state.go("home.testerlist", {alert});
 			});
 		}
 		else{

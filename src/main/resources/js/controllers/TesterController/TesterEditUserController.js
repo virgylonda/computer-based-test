@@ -11,7 +11,8 @@ cbtApp.controller('TesterEditUserController', ['$scope', '$state','TesterService
 	var confirmResult = confirm("Is this good ?")
 	if(confirmResult == true){
 		TesterServices.editUser(id, dataUser).then(function(res){
-			$state.go("hometester.userlist");
+			var alert = "User has been updated"
+			$state.go("hometester.userlist", {alert});
 		})
 	};
 

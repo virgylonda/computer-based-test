@@ -4,6 +4,7 @@ Since : June 2017
 */
 cbtApp.controller('TesterListQuestionController', ['$scope', '$state', 'TesterServices', function($scope, $state, TesterServices){
 
+	$scope.alert = $state.params.alert;
 	var idCategory = $state.params.idCategory;
 	TesterServices.getQuestionList(idCategory).then(function(res){
 		$scope.arrayQuestion = res.data;
@@ -15,7 +16,8 @@ cbtApp.controller('TesterListQuestionController', ['$scope', '$state', 'TesterSe
 		var valid = confirm("Are you sure want to delete question ?");
 		if(valid == true){
 			TesterServices.deleteQuestion(id).then(function(res){
-				$state.go("hometester.listcategories.listquestion");
+				var alert = "Question deleted";
+				$state.go("hometester.listcategories.listquestion", {alert});
 				TesterServices.getQuestionList(idCategory).then(function(res){
 					$scope.arrayQuestion = res.data;
 				});

@@ -25,7 +25,7 @@ cbtApp.controller('LoginController', ['$scope', '$state', 'AuthService', '$http'
             $http.defaults.headers.common.Authorization = 'Bearer ' + token;
 			$scope.checkRoles(decode);
 		}).catch(function (res){
-			window.alert("Error: Login Failed");
+			$scope.alert = 'Login Failed';
 		});
     }
 

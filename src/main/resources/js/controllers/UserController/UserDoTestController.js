@@ -9,16 +9,18 @@ cbtApp.controller('UserDoTestController', ['$scope', '$state', 'UserServices', '
 	var testId = $state.params.testId;
 	var counter = 0;
 	var score = 0;
+	var timer = null;
 
 	$scope.question = {};
 	$scope.answers = [];
 	var answersKey = [];
 	
 	$scope.onLoad = function(){
+		clearInterval(timer);
 		// update status and time begin
 		// UserServices.beginTest(testId).then(function(res){
 		// });
-
+		doTimer();
 		// this for handling question
 		if(listQuestion == null || listQuestion.length == 0){
 			window.alert("No question selected");
@@ -57,13 +59,17 @@ cbtApp.controller('UserDoTestController', ['$scope', '$state', 'UserServices', '
 	};
 
 	$scope.doFinish = function(){
+		//to stop the timer
+		clearInterval(timer);
+
 		// handle answer key
 		insertAnswerKey($scope.answers.option, counter);
 		
 		//lempar semua id answer ke back
 		console.log(answersKey);
 
-		$state.go("homeuser.listtest");
+		var alert = "Test has completed";
+		$state.go("homeuser.listtest", {alert});
 	};
 
 	function getAnswer(idQuestion){
@@ -87,5 +93,39 @@ cbtApp.controller('UserDoTestController', ['$scope', '$state', 'UserServices', '
 		else{
 			answersKey[counter] = idAnswer;
 		}
+	};
+
+	doTimer = function(){
+		$scope.countDown = timeLimit;    
+	    timer = setInterval(function(){
+	    	if($scope.countDown < 60){
+	    		$scope.minutes = '00';
+	    		$scope.seconds = $scope.countDown;
+	    	}
+	    	else{
+	    		var minute = $scope.countDown / 60;
+	    		$scope.minutes = Math.floor(minute);
+	    		$scope.seconds = ($scope.countDown % 60);
+	    	};
+	        if($scope.countDown == -1){
+	        	$scope.minutes = '00';
+	        	$scope.seconds = '00';
+	        	$scope.$apply();
+	        	window.alert("Time is Up !");
+	        	insertAnswerKey($scope.answers.option, counter);
+	        	for (var i = counter+1; i < listQuestion.length; i++) {
+	        		answersKey[i] = '';
+	        	}
+
+	        	//lempar semua id answer ke back
+				console.log(answersKey);
+				
+				clearInterval(timer);
+				var alert = "Test has completed";
+				$state.go("homeuser.listtest", {alert});
+	        }
+	        $scope.countDown--;
+	        $scope.$apply();
+	    }, 1000);
 	};
 }])

@@ -56,6 +56,9 @@ cbtApp.config(function($stateProvider) {
 	})
 	.state('home.testerlist', {
 		url: '/testerlist',
+		params : {
+			alert : null
+		},
 		views: {
 					'main@': {
 						templateUrl: 'views/admin/datatester.html',
@@ -230,6 +233,9 @@ cbtApp.config(function($stateProvider) {
 	})
 	.state('hometester.listcategories', {
 		url: '/listcategories',
+		params : {
+			alert : null
+		},
 		views: {
 					'main@': {
 						templateUrl: 'views/tester/listcategories.html',
@@ -283,6 +289,9 @@ cbtApp.config(function($stateProvider) {
 	})
 	.state('hometester.listcategories.listquestion', {
 		url: '/listquestion/?idCategory',
+		params : {
+			alert : null
+		},
 		views: {
 					'main@': {
 						templateUrl: 'views/tester/listquestion.html',
@@ -339,6 +348,9 @@ cbtApp.config(function($stateProvider) {
 	})
 	.state('hometester.userassign', {
 		url: '/userassign',
+		params : {
+			alert : null
+		},
 		views: {
 					'main@': {
 						templateUrl: 'views/tester/formassigntest.html',
@@ -387,6 +399,9 @@ cbtApp.config(function($stateProvider) {
 	})
 	.state('hometester.userlist', {
 		url: '/userlist',
+		params : {
+			alert : null
+		},
 		views: {
 					'main@': {
 						templateUrl: 'views/tester/listusers.html',
@@ -457,6 +472,9 @@ cbtApp.config(function($stateProvider) {
 	})
 	.state('homeuser.listtest', {
 		url: '/listtest',
+		params : {
+			alert : null
+		},
 		views: {
 					'main@': {
 						templateUrl: 'views/user/listtest.html',

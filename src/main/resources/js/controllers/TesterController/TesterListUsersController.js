@@ -4,6 +4,8 @@ Since : June 2017
 */
 cbtApp.controller('TesterListUsersController', ['$scope', '$state', 'TesterServices', function($scope, $state, TesterServices){
 
+	$scope.alert = $state.params.alert;
+
 	TesterServices.getAllUser().then(function(res){
 		$scope.arrayUsers = res.data;
 	})
@@ -12,7 +14,8 @@ cbtApp.controller('TesterListUsersController', ['$scope', '$state', 'TesterServi
 		var valid = confirm("Are you sure want to delete user ?");
 		if(valid == true){
 			TesterServices.deleteUser(id).then(function(res){
-				$state.go("hometester.userlist");
+				var alert = "User has been deleted";
+				$state.go("hometester.userlist", {alert});
 				TesterServices.getAllUser().then(function(res){
 					$scope.arrayUsers = res.data;
 				});
