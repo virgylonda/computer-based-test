@@ -23,10 +23,8 @@ cbtApp.controller('LoginController', ['$scope', '$state', 'AuthService', '$http'
 
 			var decode = jwt_decode(token);
             $http.defaults.headers.common.Authorization = 'Bearer ' + token;
-			console.log(decode);
 			$scope.checkRoles(decode);
 		}).catch(function (res){
-			console.log(res);
 			window.alert("Error: Login Failed");
 		});
     }

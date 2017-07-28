@@ -12,14 +12,9 @@ cbtApp.controller('TesterListQuestionController', ['$scope', '$state', 'TesterSe
 	$scope.idCategory = $state.params.idCategory;
 
 	$scope.toDelete = function(id) {
-		console.log(id);
 		var valid = confirm("Are you sure want to delete question ?");
 		if(valid == true){
-			console.log(id);
-			console.log("Panggil API delete");
-			
 			TesterServices.deleteQuestion(id).then(function(res){
-				console.log("berhasil");
 				$state.go("hometester.listcategories.listquestion");
 				TesterServices.getQuestionList(idCategory).then(function(res){
 					$scope.arrayQuestion = res.data;

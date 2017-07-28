@@ -6,14 +6,12 @@ cbtApp.controller('TesterListScoresController', ['$scope', '$state', 'TesterServ
 
 	TesterServices.getListUsersScore().then(function(res){
 		$scope.arrayUser = res.data;
-		console.log(res);
 		var arrayUsersScore = [];
 		for (var i = 0 ; i < $scope.arrayUser.length; i++) {
 				if ($scope.arrayUser[i].ended != null){
 					arrayUsersScore.push($scope.arrayUser[i]);
 				}
 		}
-		console.log(arrayUsersScore);
 		$scope.usersScore = arrayUsersScore;
 	})
 

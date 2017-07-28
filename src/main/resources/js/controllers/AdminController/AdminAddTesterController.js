@@ -27,10 +27,11 @@ cbtApp.controller('AdminAddTesterController', ['$scope', '$state', 'AdminService
 			AdminServices.addTester(formDataTester, roles).then(function(res){
 				$state.go("home.testerlist");
 				$scope.statusAllert = "New Tester Added";
+				window.alert("User added !");
 			});
 		}
 		else{
-			$scope.statusAllert = "Username already used";
+			window.alert("Username already used");
 		}
 
 		AdminServices.getAllTester().then(function(res){

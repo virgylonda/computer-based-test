@@ -59,6 +59,8 @@ cbtApp.controller('UserDoTestController', ['$scope', '$state', 'UserServices', '
 	$scope.doFinish = function(){
 		// handle answer key
 		insertAnswerKey($scope.answers.option, counter);
+		
+		//lempar semua id answer ke back
 		console.log(answersKey);
 
 		$state.go("homeuser.listtest");
@@ -80,7 +82,6 @@ cbtApp.controller('UserDoTestController', ['$scope', '$state', 'UserServices', '
 
 	function insertAnswerKey(idAnswer, counter){
 		if(idAnswer == null){
-			window.alert("No answer selected");
 			answersKey[counter] = '';
 		}
 		else{

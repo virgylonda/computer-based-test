@@ -7,11 +7,9 @@ cbtApp.controller('TesterEditCategoriesController', ['$scope', '$state','TesterS
 	$scope.dataCategory = $state.params.dataCategory;
 	var dataCategory = $scope.dataCategory;
 	var idCategory = $scope.dataCategory.idCategory;
-	console.log(dataCategory);
 
 	var confirmResult = confirm("Is this good ?")
 	if(confirmResult == true){
-		console.log("Panggil API edit categories");
 		TesterServices.editCategory(idCategory, dataCategory).then(function(res){
 			$state.go("hometester.listcategories");
 		})

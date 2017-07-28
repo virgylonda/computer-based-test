@@ -8,12 +8,9 @@ cbtApp.controller('UserShowTestController', ['$scope', '$state', 'UserServices',
 
 	UserServices.getAssignedCategory(id).then(function(res){
 		$scope.categoryObjects = res.data;
-		console.log($scope.categoryObjects);
 	});
 
 	$scope.doTest = function(categoryTest, testId, timeLimit){
-		console.log("mulai test !");
-		console.log(testId);
 		$state.go("homeuser.gettest", {categoryTest, testId, timeLimit})
 	}
 
