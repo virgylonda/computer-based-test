@@ -30,6 +30,8 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import java.util.Arrays;
 import java.util.List;
+
+import static org.mockito.Matchers.refEq;
 import static org.mockito.Mockito.*;
 import static org.hamcrest.Matchers.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -76,36 +78,51 @@ public class TesterRestUnitTest {
                 .build();
     }
     
- 
-
- // =========================================== View all user for assignment ==========================================
-
+    /**
+     * Test get All Tester [Role id = 2]
+     */
     @Test
-    public void test_get_all_user_for_assignment() throws Exception {
-    	List<User> user = Arrays.asList(
-    			new User("username", "password", "Mas Edrik", "contoh@gmail.com", role));
-    			
+    public void test_get_all_tester() throws Exception {
+        
+        List<User> user = Arrays.asList(
+    			new User("username","password","AllUser","allUser@gmail.com", role));
+        
+        when(usrService.findAllUser(2)).thenReturn(user);
 
-        when(usrService.findAllUser(3)).thenReturn(user);
-
-        mockMvc.perform(get("/rest/tester/testers/assignment"))
+        mockMvc.perform(get("/alltester/getalltester", 1))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
-                .andExpect(jsonPath("$", hasSize(1)))
                 .andExpect(jsonPath("$[0].username", is("username")))
                 .andExpect(jsonPath("$[0].password", is("password")))
-                .andExpect(jsonPath("$[0].name", is("Mas Edrik")))
-                .andExpect(jsonPath("$[0].email", is("contoh@gmail.com")))
+                .andExpect(jsonPath("$[0].name", is("AllUser")))
+                .andExpect(jsonPath("$[0].email", is("allUser@gmail.com")))
                 .andExpect(jsonPath("$[0].roles", is(role)));
-
-        verify(usrService, times(1)).findAllUser(3);
+        		
+        verify(usrService, times(1)).findAllUser(2);
         verifyNoMoreInteractions(usrService);
     }
     
-    
- 
-    
-    
+    /**
+     * Test assign test to user
+     */
+    @Test
+    public void test_create_answer_success() throws Exception {
+        TestUser testUser = new TestUser(1, started, ended, 30.4, "Not Yet", users, category);
+
+        when(tstService.testExists(testUser)).thenReturn(false);
+        doNothing().when(tstService).saveTest(testUser);;
+
+        mockMvc.perform(
+                post("/alltester/assignment/save")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(asJsonString(testUser)))
+                .andExpect(status().isCreated())
+                .andExpect(header().string("location", containsString("/testers/scores/1")));
+
+        verify(tstService, times(1)).testExists(refEq(testUser));
+        verify(tstService, times(1)).saveTest(refEq(testUser));
+        verifyNoMoreInteractions(ansService);
+    }
 
     public static String asJsonString(final Object obj) {
         try {

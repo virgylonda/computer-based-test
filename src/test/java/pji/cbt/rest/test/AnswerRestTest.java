@@ -58,15 +58,10 @@ private MockMvc mockMvc;
 	
 	 @Mock
 	 private AnswerService ansService;
-	 
-	 @Mock
-	 private QuestionService quesService;
 	    
-	 
 	 @InjectMocks
 	 private AnswerRestController answerController;
-	 
-		 
+	 	 
 	 @Before
 	    public void init(){
 	        MockitoAnnotations.initMocks(this);
@@ -139,6 +134,31 @@ private MockMvc mockMvc;
 	        verify(ansService, times(1)).findOne(1);
 	        verifyNoMoreInteractions(ansService);
 	    }
+	    
+	    /**
+	     * Test getAnswer by ID Question
+	     */
+	    @Test
+	    public void test_get_answer_by_id_question() throws Exception {
+	        
+	        List<Answer> answer = Arrays.asList(
+	    			new Answer(1, questionAnswer, 1, "The answer", true));
+	        
+	        when(ansService.findAnswerByQuestion(1)).thenReturn(answer);
+
+	        mockMvc.perform(get("/answer/getanswerbyid/{id}", 1))
+	                .andExpect(status().isOk())
+	                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+	                .andExpect(jsonPath("$[0].idAnswer", is(1)))
+	                .andExpect(jsonPath("$[0].questionAnswer", is(questionAnswer)))
+	                .andExpect(jsonPath("$[0].orderingAnswer", is(1)))
+	                .andExpect(jsonPath("$[0].answer", is("The answer")))
+	                .andExpect(jsonPath("$[0].correctAnswer", is(true)));
+	        		
+	        verify(ansService, times(1)).findAnswerByQuestion(1);
+	        verifyNoMoreInteractions(ansService);
+	    }
+	    
 	    
 	    /**
 	     * Test create new Answer

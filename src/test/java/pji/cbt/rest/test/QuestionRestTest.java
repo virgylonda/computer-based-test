@@ -131,6 +131,29 @@ public class QuestionRestTest {
 	    }
 	    
 	    /**
+	     * Test getQuestion by ID Category
+	     */
+	    @Test
+	    public void test_get_question_by_id_category() throws Exception {
+	        
+	        List<Question> question = Arrays.asList(
+	    			new Question(1, 1, "The question", category));
+	        
+	        when(quesService.findAllQuestionByCategory(1)).thenReturn(question);
+
+	        mockMvc.perform(get("/question/getallquestionbycategoryid/{id}", 1))
+	                .andExpect(status().isOk())
+	                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+	                .andExpect(jsonPath("$[0].idQuestion", is(1)))
+	                .andExpect(jsonPath("$[0].orderingQuestion", is(1)))
+	                .andExpect(jsonPath("$[0].question", is("The question")))
+	                .andExpect(jsonPath("$[0].category", is(category)));
+	        		
+	        verify(quesService, times(1)).findAllQuestionByCategory(1);
+	        verifyNoMoreInteractions(quesService);
+	    }
+	    
+	    /**
 	     * Test create new question
 	     */
 	    @Test

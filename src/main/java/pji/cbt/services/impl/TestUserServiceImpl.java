@@ -66,4 +66,10 @@ public class TestUserServiceImpl implements TestUserService {
 		return uMapper.findUserTestById(testId);
 	}
 
+	@Override
+	public boolean testExists(TestUser testUser) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
 }

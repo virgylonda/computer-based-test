@@ -2,6 +2,7 @@ package pji.cbt.services;
 
 import java.util.List;
 
+import pji.cbt.entities.Answer;
 import pji.cbt.entities.TestUser;
 
 public interface TestUserService {
@@ -25,4 +26,6 @@ public interface TestUserService {
 	public void deleteByIdUserAndStatus(int userId);
 	
 	public void updateEndTest(TestUser testUser); //end test
+	
+	boolean testExists(TestUser testUser);
 }

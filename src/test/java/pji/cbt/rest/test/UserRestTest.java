@@ -89,6 +89,30 @@ public class UserRestTest {
 	    }
 	    
 	    /**
+	     * Test get All User [Role id = 3]
+	     */
+	    @Test
+	    public void test_get_all_users() throws Exception {
+	        
+	        List<User> user = Arrays.asList(
+	    			new User("username","password","AllUser","allUser@gmail.com", role));
+	        
+	        when(usrService.findAllUser(3)).thenReturn(user);
+
+	        mockMvc.perform(get("/rest/user/getallUser", 1))
+	                .andExpect(status().isOk())
+	                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+	                .andExpect(jsonPath("$[0].username", is("username")))
+	                .andExpect(jsonPath("$[0].password", is("password")))
+	                .andExpect(jsonPath("$[0].name", is("AllUser")))
+	                .andExpect(jsonPath("$[0].email", is("allUser@gmail.com")))
+	                .andExpect(jsonPath("$[0].roles", is(role)));
+	        		
+	        verify(usrService, times(1)).findAllUser(3);
+	        verifyNoMoreInteractions(usrService);
+	    }
+	    
+	    /**
 	     * Test getUser by ID
 	     */
 	    @Test

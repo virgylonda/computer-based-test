@@ -54,7 +54,6 @@ public class TesterRestController {
 	private static Logger logger = Logger.getLogger(TesterRestController.class);
 	
 	
-
 	@RequestMapping(path = "/getalltester", method=RequestMethod.GET)
 	public List<User> getAllTester(){
 		return userSvc.findAllUser(2);
@@ -70,12 +69,13 @@ public class TesterRestController {
     @RequestMapping(value = "/assignment/save", method = RequestMethod.POST)
     public ResponseEntity<Void> createUserTest(@RequestBody TestUser testUser, UriComponentsBuilder ucBuilder) {
      logger.info("Creating User Test " + testUser.getCategories());
-
-     try {
-      testSvc.saveTest(testUser);
-     }catch (Exception e) {
-      logger.error(e);
+     
+     if(testSvc.testExists(testUser)){
+    	 logger.info("test user with id " + testUser.getTestId() + " already exists");
+    	 return new ResponseEntity<Void>(HttpStatus.CONFLICT);
      }
+     
+     testSvc.saveTest(testUser);
  
         HttpHeaders headers = new HttpHeaders();
         headers.setLocation(ucBuilder.path("/testers/scores/{id}").buildAndExpand(testUser.getTestId()).toUri());
