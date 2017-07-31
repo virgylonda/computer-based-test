@@ -1,6 +1,7 @@
 package pji.cbt.rest.controller;
 
 import java.sql.Timestamp;
+import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -240,7 +241,12 @@ public class TestRestController {
 							Counter ++;
 						}
 					}
+					
 					double score = (Counter/answers.size()) * 100;
+					
+					DecimalFormat formatter = new DecimalFormat("#0.00");
+					
+				    System.out.println("Ini format : " + formatter.format(score));
 					
 					System.out.printf("Value: %.2f",score);
 
