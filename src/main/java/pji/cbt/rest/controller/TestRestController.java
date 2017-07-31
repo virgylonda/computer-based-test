@@ -1,7 +1,9 @@
 package pji.cbt.rest.controller;
 
+import java.math.RoundingMode;
 import java.sql.Timestamp;
 import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -235,22 +237,29 @@ public class TestRestController {
 					}
 					
 					for (int i = 0; i < answers.size(); i++) {
-						if(answers.get(i) != ""){
+						//System.out.println("Ini id answer : "+ answers.get(i));
+						if(answers.get(i) == ""){
+							Counter = Counter + 0;
+						}
+						else{
 							Answer answer = ansSvc.findOne(Integer.parseInt(answers.get(i)));
 							if(answer.isCorrectAnswer() == true){
 								Counter ++;
 							}
 						}
 					}
+					//System.out.println("Nilai counter setelah loop : "+Counter);
+					//System.out.println("Ini size nya ans :" +answers.size());
+					double score = ((double)Counter/ (double)answers.size()*100);
 					
-					double score = (Counter/answers.size()) * 100;
+					System.out.println("nilai score : "+score);
 					
-					DecimalFormat formatter = new DecimalFormat("#0.00");
-					
-				    System.out.println("Ini format : " + formatter.format(score));
-					
-					System.out.printf("Value: %.2f",score);
+					DecimalFormat df = new DecimalFormat("#.##");
 
+				    df.setRoundingMode(RoundingMode.FLOOR);
+
+				    double result = new Double(df.format(score));
+				    testUser.setScore(result);
 					testSvc.updateEndTest(testUser);
 			        
 			        return new ResponseEntity<TestUser>(testUser, HttpStatus.OK);
