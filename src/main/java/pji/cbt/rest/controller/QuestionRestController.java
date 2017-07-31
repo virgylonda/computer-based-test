@@ -49,19 +49,19 @@ public class QuestionRestController {
      * @return	Question HttpStatus.CREATED
      */
     @RequestMapping(value = "/createquestion", method = RequestMethod.POST)
-    public ResponseEntity<Void> createQuestion(@RequestBody Question question, UriComponentsBuilder ucBuilder) {
+    public ResponseEntity<Question> createQuestion(@RequestBody Question question, UriComponentsBuilder ucBuilder) {
     	logger.info("Creating Question " + question.getQuestion());
     	
     	if(quesSvc.exists(question)){
     		logger.info("Creating question "+question.getIdQuestion()+ " already exists");
-    		return new ResponseEntity<Void>(HttpStatus.CONFLICT);
+    		return new ResponseEntity<Question>(HttpStatus.CONFLICT);
     	}
     	
     	quesSvc.createQuestion(question);
     	
         HttpHeaders headers = new HttpHeaders();
         headers.setLocation(ucBuilder.path("/question/getdetailquestion/{id}").buildAndExpand(question.getIdQuestion()).toUri());
-        return new ResponseEntity<Void>(headers, HttpStatus.CREATED);
+        return new ResponseEntity<Question>(headers, HttpStatus.CREATED);
     }
 	
     /**
