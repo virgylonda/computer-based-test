@@ -34,7 +34,8 @@ cbtApp.controller('TesterEditQuestionController', ['$scope', '$state','TesterSer
 		};
 
 		TesterServices.editQuestion(idQuestion, dataQuestion).then(function(res){
-			$state.go("hometester.listcategories.listquestion");
+			var alert = "Question updated";
+			$state.go("hometester.listcategories.listquestion", {alert});
 		});
 	};
 

@@ -45,8 +45,8 @@ cbtApp.controller('TesterAddQuestionController', ['$scope', '$state', 'TesterSer
 							});
 							counter++;
 						}
-
-						$state.go("hometester.listcategories.listquestion", {idCategory});
+						var alert = "New question added";
+						$state.go("hometester.listcategories.listquestion", {idCategory, alert});
 					});
 			});
 		};

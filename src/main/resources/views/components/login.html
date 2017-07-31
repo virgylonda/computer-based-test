@@ -27,9 +27,10 @@
 			</form>
 
 		</div>
-		<!-- <div class="panel-heading" th:if="${param.error}">
-			<h5 class="panel-title" style="color: red">Username or
-				Password is wrong. Please check again !</h5>
-		</div> -->
+		<div class="panel-heading" ng-if="alert != null">
+			<h5 class="panel-title" style="color: red">
+			Username or Password is wrong. Please check again !
+			</h5>
+		</div>
 	</div>
 </div>

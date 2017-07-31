@@ -4,6 +4,7 @@ Since : June 2017
 */
 cbtApp.controller('TesterListCategories', ['$scope', '$state', 'TesterServices', function($scope, $state, TesterServices){
 
+	$scope.alert = $state.params.alert;
 	TesterServices.getAllCategories().then(function(res){
 		$scope.arrayCategories = res.data;
 	})
@@ -12,7 +13,8 @@ cbtApp.controller('TesterListCategories', ['$scope', '$state', 'TesterServices',
 		var valid = confirm("Are you sure want to delete category ?");
 		if(valid == true){
 			TesterServices.deleteCategory(id).then(function(res){
-				$state.go("hometester.listcategories");
+				var alert = "Category deleted";
+				$state.go("hometester.listcategories", {alert});
 				TesterServices.getAllCategories().then(function(res){
 					$scope.arrayCategories = res.data;
 				})

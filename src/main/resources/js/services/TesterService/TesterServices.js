@@ -141,7 +141,7 @@ cbtApp.factory('TesterServices', ['$http','$q', function($http,$q){
 
 		//Untuk User
 		addUser: function(formData, roles) {
-			return $http.post('http://localhost:9091/rest/user/createUser', formData, roles).then(function success(res){
+			return $http.post('http://localhost:9091/rest/user/createuser', formData, roles).then(function success(res){
 				return res;
 			}, function error(err){
 				return $q.reject(err.data);

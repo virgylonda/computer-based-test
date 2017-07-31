@@ -39,7 +39,8 @@ cbtApp.controller('TesterAssignmentListController', ['$scope', '$state', 'Tester
 						}
 					};
 					TesterServices.addAssignment(formAssignment).then(function(res){
-						$state.go("hometester.userassign");
+						var alert = "Assign to user success";
+						$state.go("hometester.userassign", {alert});
 					})
 				}
 			}

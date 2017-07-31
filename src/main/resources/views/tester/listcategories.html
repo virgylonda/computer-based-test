@@ -4,24 +4,13 @@
 </div>
 <!-- /.col-lg-12 -->
 </div>
-<!-- <div class="row" th:if="${msgerror != null}">
-	<div class="col-lg-12">
-		<div class="alert alert-danger" th:text="${msgerror != null ? msgerror : '' }">
-		</div>
-	</div>
-</div>
-<div class="row" th:if="${msgsuccess != null}">
-	<div class="col-lg-12">
-		<div class="alert alert-success" th:text="${msgsuccess != null ? msgsuccess : '' }">
-        </div>
-	</div>
-</div>
-<div class="row" th:if="${msg != null}">
+<div class="row" ng-if="alert != null">
 	<div class="col-lg-12">
 		<div class="alert alert-success" th:text="${msg != null ? msg : '' }">
+        {{alert}}
         </div>
 	</div>
-</div> -->
+</div>
 <div class="row">
 	<div class="col-lg-12">
 		<a ui-sref="hometester.listcategories.addnewcategory"><button type="button" class="btn btn-primary">Add New Category</button></a><br/><br/>
