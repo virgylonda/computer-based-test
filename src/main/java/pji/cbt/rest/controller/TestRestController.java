@@ -29,6 +29,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
@@ -118,7 +119,7 @@ public class TestRestController {
 		    /**
 			 * @param  		id
 			 * @method		GET
-			 * @return      get test have assign by user id
+			 * @return      list of question (do test)
 			 */
 		    @RequestMapping(path = "/dotest/{idcategory}", method = RequestMethod.GET)
 		    public List<Question> getAllQuestionForTest(@PathVariable("idcategory") int idcategory, TestUser testUser, Timestamp timestamp){
@@ -215,5 +216,42 @@ public class TestRestController {
 			public List<TestUser> getAllUsersScore(){
 				return testSvc.findUserSummaryScore();
 			}
+		    
+		    @RequestMapping(value = "/submit/{id}", method = RequestMethod.PUT)
+		    public ResponseEntity<TestUser> submitTheTest(@PathVariable("id") int id, @RequestBody List<String> answers, Timestamp timestamp) {
+		    	logger.debug("Submitting test " + id);
+		    	TestUser testUser = testSvc.findUserTestById(id);
+		    	int Counter = 0;
+		    	
+		    	if(testUser.getEnded() == null) {
+		    		timestamp = new Timestamp(System.currentTimeMillis());
+			    	String startTest = sdf.format(timestamp);
+					try {
+						Date date = sdf.parse(startTest);
+						testUser.setEnded(date);
+					} catch (ParseException e) {
+						e.printStackTrace();
+					}
+					
+					for (int i = 0; i < answers.size(); i++) {
+						Answer answer = ansSvc.findOne(answers.indexOf(i));
+						
+						if(answer.isCorrectAnswer()==true){
+							Counter ++;
+						}
+					}
+					double score = (Counter/answers.size()) * 100;
+					
+					System.out.printf("Value: %.2f",score);
+
+					testSvc.updateEndTest(testUser);
+			        
+			        return new ResponseEntity<TestUser>(testUser, HttpStatus.OK);
+		    	}else{
+		    		logger.warn("Error submiting test");
+		    		return new ResponseEntity<TestUser>(HttpStatus.BAD_REQUEST);
+		    	}
+		        
+		    }
 		    
 }

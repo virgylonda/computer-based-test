@@ -334,6 +334,8 @@ public class UserRestTest {
 	        verifyNoMoreInteractions(usrService);
 	    }
 	    
+	    
+	    
 	    /**
 	     * JSON String
 	     */
@@ -346,8 +348,9 @@ public class UserRestTest {
 	            throw new RuntimeException(e);
 	        }
 	    }
+}
 	    
 
 	    
 	    
-	}
+	

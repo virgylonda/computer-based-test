@@ -69,6 +69,12 @@ public class TestRestTest {
 	private UserService usrService;
 	
 	@Mock
+	private AnswerService ansService;
+	
+	@Mock
+	private QuestionService quesService;
+	
+	@Mock
 	private TestUserService testService;
 
 	@InjectMocks
@@ -157,6 +163,79 @@ public class TestRestTest {
         		
         verify(testService, times(1)).findTestByUserId(1);
         verifyNoMoreInteractions(testService);
+    }
+    
+    /**
+     * Test get test have assign by user id
+     */
+    @Test
+    public void test_get_test_have_assign_by_user_id() throws Exception {
+        
+        List<TestUser> testUser = Arrays.asList(
+    			new TestUser(1, started, ended, 30.4, "Not Yet", users, category));
+        
+        when(testService.findTestHaveAssign(1)).thenReturn(testUser);
+
+        mockMvc.perform(get("/test/list/{id}", 1))
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+                .andExpect(jsonPath("$[0].testId", is(1)))
+                .andExpect(jsonPath("$[0].started", is(started)))
+                .andExpect(jsonPath("$[0].ended", is(ended)))
+                .andExpect(jsonPath("$[0].score", is(30.4)))
+                .andExpect(jsonPath("$[0].status", is("Not Yet")))
+                .andExpect(jsonPath("$[0].users", is(users)))
+                .andExpect(jsonPath("$[0].categories", is(category)));
+        		
+        verify(testService, times(1)).findTestHaveAssign(1);
+        verifyNoMoreInteractions(testService);
+    }
+    
+    /**
+     * Test do test (list of question)
+     */
+    @Test
+    public void test_do_test() throws Exception {
+        
+        List<Question> question = Arrays.asList(
+    			new Question(1, 1, "The question", category));
+        
+        when(quesService.findQuestionRandomOrder(1)).thenReturn(question);
+
+        mockMvc.perform(get("/test/dotest/{idcategory}", 1))
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+                .andExpect(jsonPath("$[0].idQuestion", is(1)))
+                .andExpect(jsonPath("$[0].orderingQuestion", is(1)))
+                .andExpect(jsonPath("$[0].question", is("The question")))
+                .andExpect(jsonPath("$[0].category", is(category)));
+        		
+        verify(quesService, times(1)).findQuestionRandomOrder(1);
+        verifyNoMoreInteractions(quesService);
+    }
+    
+    /**
+     * Test get answer by id question
+     */
+    @Test
+    public void test_get_answer_by_id_question() throws Exception {
+        
+        List<Answer> answer = Arrays.asList(
+    			new Answer(1, questionAnswer, 1, "The answer", true));
+        
+        when(ansService.findAnswerByQuestion(1)).thenReturn(answer);
+
+        mockMvc.perform(get("/test/getanswer/{id}", 1))
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+                .andExpect(jsonPath("$[0].idAnswer", is(1)))
+                .andExpect(jsonPath("$[0].questionAnswer", is(questionAnswer)))
+                .andExpect(jsonPath("$[0].orderingAnswer", is(1)))
+                .andExpect(jsonPath("$[0].answer", is("The answer")))
+                .andExpect(jsonPath("$[0].correctAnswer", is(true)));
+        		
+        verify(ansService, times(1)).findAnswerByQuestion(1);
+        verifyNoMoreInteractions(ansService);
     }
 	
     /**

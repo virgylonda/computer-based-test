@@ -64,4 +64,10 @@ public class UserServiceImpl implements UserService {
 		return findOne(user.getUserId()) != null;
 	}
 
+	@Override
+	public boolean userExists(User user) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
 }

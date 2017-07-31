@@ -6,6 +6,8 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 public class UserPassword implements Serializable{
 	
+	private int idUser;
+	
 	private String oldpassword;
 	
 	private String newpassword;
@@ -16,6 +18,16 @@ public class UserPassword implements Serializable{
 		super();
 		this.oldpassword = oldpassword;
 		this.newpassword = newpassword;
+	}
+
+	
+	
+	public int getIdUser() {
+		return idUser;
+	}
+
+	public void setIdUser(int idUser) {
+		this.idUser = idUser;
 	}
 
 	public String getOldpassword() {
