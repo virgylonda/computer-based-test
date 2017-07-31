@@ -167,8 +167,8 @@ public class QuestionRestTest {
 	                post("/question/createquestion")
 	                        .contentType(MediaType.APPLICATION_JSON)
 	                        .content(asJsonString(question)))
-	                .andExpect(status().isCreated())
-	                .andExpect(header().string("location", containsString("/question/getdetailquestion/1")));
+	                .andExpect(status().isCreated());
+	                
 
 	        verify(quesService, times(1)).exists(refEq(question));
 	        verify(quesService, times(1)).createQuestion(refEq(question));

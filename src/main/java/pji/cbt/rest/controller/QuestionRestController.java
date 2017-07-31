@@ -48,31 +48,16 @@ public class QuestionRestController {
      * @method	POST
      * @return	Question HttpStatus.CREATED
      */
-//    @RequestMapping(value = "/createquestion", method = RequestMethod.POST)
-//    public ResponseEntity<Question> createQuestion(@RequestBody Question question, UriComponentsBuilder ucBuilder) {
-//    	logger.info("Creating Question " + question.getQuestion());
-//    	
-//    	if(quesSvc.exists(question)){
-//    		logger.info("Creating question "+question.getIdQuestion()+ " already exists");
-//    		return new ResponseEntity<Question>(HttpStatus.CONFLICT);
-//    	}
-//    	
-//    	quesSvc.createQuestion(question);
-//    	
-//        HttpHeaders headers = new HttpHeaders();
-//        headers.setLocation(ucBuilder.path("/question/getdetailquestion/{id}").buildAndExpand(question.getIdQuestion()).toUri());
-//        return new ResponseEntity<Question>(question, HttpStatus.CREATED);
-//    }
-    
     @RequestMapping(value = "/createquestion", method = RequestMethod.POST)
     public ResponseEntity<Question> createQuestion(@RequestBody Question question, UriComponentsBuilder ucBuilder) {
     	logger.info("Creating Question " + question.getQuestion());
 
-    	try {
-    		quesSvc.createQuestion(question);
-    	}catch (Exception e) {
-    		logger.info(e);
-		}
+    	if(quesSvc.exists(question)){
+    		logger.info("Creating question "+question.getIdQuestion()+ " already exists");
+    		return new ResponseEntity<Question>(HttpStatus.CONFLICT);
+    	}
+    	
+    	quesSvc.createQuestion(question);
  
         HttpHeaders headers = new HttpHeaders();
         headers.setLocation(ucBuilder.path("/question/{id}").buildAndExpand(question.getIdQuestion()).toUri());
