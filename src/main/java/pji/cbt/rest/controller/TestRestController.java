@@ -233,13 +233,12 @@ public class TestRestController {
 						e.printStackTrace();
 					}
 					
-					System.out.println("INI SIZE : "+ answers.size());
 					for (int i = 0; i < answers.size(); i++) {
-						System.out.println("INI ID ANSWER : "+ answers.get(i));
-						Answer answer = ansSvc.findOne(Integer.parseInt(answers.get(i)));
-						System.out.println("INI KUNCI : "+answer.isCorrectAnswer());
-						if(answer.isCorrectAnswer() == true){
-							Counter ++;
+						if(answers.get(i) != ""){
+							Answer answer = ansSvc.findOne(Integer.parseInt(answers.get(i)));
+							if(answer.isCorrectAnswer() == true){
+								Counter ++;
+							}
 						}
 					}
 					double score = (Counter/answers.size()) * 100;
