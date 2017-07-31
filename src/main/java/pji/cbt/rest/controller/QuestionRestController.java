@@ -61,7 +61,7 @@ public class QuestionRestController {
     	
         HttpHeaders headers = new HttpHeaders();
         headers.setLocation(ucBuilder.path("/question/getdetailquestion/{id}").buildAndExpand(question.getIdQuestion()).toUri());
-        return new ResponseEntity<Question>(headers, HttpStatus.CREATED);
+        return new ResponseEntity<Question>(question, HttpStatus.CREATED);
     }
 	
     /**
