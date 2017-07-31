@@ -15,14 +15,14 @@ import org.springframework.context.annotation.Bean;
 @ComponentScan("pji.cbt")
 public class WebAppInitializer{
 	
-	@Bean
-	public FilterRegistrationBean jwtFilter() {
-		final FilterRegistrationBean registrationBean = new FilterRegistrationBean();
-		registrationBean.setFilter(new JwtFilter());
-		registrationBean.addUrlPatterns("/answer/*");
-
-		return registrationBean;
-	}
+//	@Bean
+//	public FilterRegistrationBean jwtFilter() {
+//		final FilterRegistrationBean registrationBean = new FilterRegistrationBean();
+//		registrationBean.setFilter(new JwtFilter());
+//		registrationBean.addUrlPatterns("/answer/*");
+//
+//		return registrationBean;
+//	}
 
     public static void main(String[] args) throws Exception{
         SpringApplication.run(WebAppInitializer.class, args);

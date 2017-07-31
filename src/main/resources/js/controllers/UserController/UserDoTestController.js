@@ -67,6 +67,8 @@ cbtApp.controller('UserDoTestController', ['$scope', '$state', 'UserServices', '
 		
 		//lempar semua id answer ke back
 		console.log(answersKey);
+		UserServices.saveTestScore(testId, answersKey).then(function(res){
+		});
 
 		var alert = "Test has completed";
 		$state.go("homeuser.listtest", {alert});
@@ -119,6 +121,8 @@ cbtApp.controller('UserDoTestController', ['$scope', '$state', 'UserServices', '
 
 	        	//lempar semua id answer ke back
 				console.log(answersKey);
+				UserServices.saveTestScore(testId, answersKey).then(function(res){
+				});
 				
 				clearInterval(timer);
 				var alert = "Test has completed";

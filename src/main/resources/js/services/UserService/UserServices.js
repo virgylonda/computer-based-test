@@ -41,8 +41,8 @@ cbtApp.factory('UserServices', ['$http','$q', function($http,$q){
 				return $q.reject(err.data);
 			}.bind(this));
 		},
-		saveTestScore: function(idTest, testUser){
-			return $http.put('http://localhost:9091/test/submittest/'+ idTest, testUser).then(function success(res){
+		saveTestScore: function(idTest, listAnswers){
+			return $http.put('http://localhost:9091/test/submit/'+ idTest, listAnswers).then(function success(res){
 				return res;
 			}, function error(err){
 				return $q.reject(err.data);
