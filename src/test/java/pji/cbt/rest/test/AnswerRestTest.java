@@ -174,8 +174,8 @@ private MockMvc mockMvc;
 	                post("/answer/createanswer")
 	                        .contentType(MediaType.APPLICATION_JSON)
 	                        .content(asJsonString(answer)))
-	                .andExpect(status().isCreated())
-	                .andExpect(header().string("location", containsString("/answer/detail/1")));
+	                .andExpect(status().isCreated());
+	                
 
 	        verify(ansService, times(1)).answerExists(refEq(answer));
 	        verify(ansService, times(1)).createAnswer(refEq(answer));
