@@ -58,22 +58,44 @@ public class AnswerRestController {
      * @method	POST
      * @return 	New Answer HttpStatus.CREATED
      */
+//    @RequestMapping(value = "/createanswer", method = RequestMethod.POST)
+//    public ResponseEntity<Void> createAnswer(@RequestBody Answer answer, UriComponentsBuilder ucBuilder) {
+//    	logger.info("Creating answer " + answer.getAnswer());
+//    	
+//    	if(ansSvc.answerExists(answer)){
+//    		logger.info("a answer with id " + answer.getIdAnswer() + " already exists");
+//    		return new ResponseEntity<Void>(HttpStatus.CONFLICT);
+//    	}
+//    	
+//    	ansSvc.createAnswer(answer);
+//    	
+//    	HttpHeaders headers = new HttpHeaders();
+//    	headers.setLocation(ucBuilder.path("/answer/detail/{id}").buildAndExpand(answer.getIdAnswer()).toUri());
+//        return new ResponseEntity<Void>(headers, HttpStatus.CREATED);
+//    }
+    
+    /**
+     * Create 
+     * @param 	answer
+     * @param 	ucBuilder
+     * @method	POST
+     * @return 	New Answer HttpStatus.CREATED
+     */
     @RequestMapping(value = "/createanswer", method = RequestMethod.POST)
     public ResponseEntity<Void> createCategory(@RequestBody Answer answer, UriComponentsBuilder ucBuilder) {
     	logger.info("Creating answer " + answer.getAnswer());
-    	
-    	if(ansSvc.answerExists(answer)){
-    		logger.info("a answer with id " + answer.getIdAnswer() + " already exists");
-    		return new ResponseEntity<Void>(HttpStatus.CONFLICT);
-    	}
-    	
-    	ansSvc.createAnswer(answer);
-    	
-    	HttpHeaders headers = new HttpHeaders();
-    	headers.setLocation(ucBuilder.path("/answer/detail/{id}").buildAndExpand(answer.getIdAnswer()).toUri());
+
+    	try {
+    		ansSvc.createAnswer(answer);;
+    	}catch (Exception e) {
+    		logger.warn(e);
+		}
+ 
+        HttpHeaders headers = new HttpHeaders();
         return new ResponseEntity<Void>(headers, HttpStatus.CREATED);
-    }
-		
+    }	
+    
+    
 	    /**
 		 * List	Answers by Id Question
 		 * @method	GET

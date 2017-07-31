@@ -16,13 +16,6 @@
 		<id property="idQuestion" column="id"/>
 		<result property="orderingQuestion" column="ordering"/>
 		<result property="question" column="question"/>
-		<association property="category" column="category_id" resultMap="resultCategory"/>
-	</resultMap>
-	
-	<resultMap type="pji.cbt.entities.Category" id="resultCategory">
-		<id property="idCategory" column="id"/>
-		<result property="questionCategory" column="question_category"/>
-		<result property="description" column="description"/>
 	</resultMap>
 	
 	<select id="findAllAnswer" resultMap="resultAnswer">
