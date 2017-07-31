@@ -237,7 +237,6 @@ public class TestRestController {
 					}
 					
 					for (int i = 0; i < answers.size(); i++) {
-						//System.out.println("Ini id answer : "+ answers.get(i));
 						if(answers.get(i) == ""){
 							Counter = Counter + 0;
 						}
@@ -248,18 +247,13 @@ public class TestRestController {
 							}
 						}
 					}
-					//System.out.println("Nilai counter setelah loop : "+Counter);
-					//System.out.println("Ini size nya ans :" +answers.size());
 					double score = ((double)Counter/ (double)answers.size()*100);
-					
-					System.out.println("nilai score : "+score);
-					
 					DecimalFormat df = new DecimalFormat("#.##");
 
 				    df.setRoundingMode(RoundingMode.FLOOR);
 
 				    double result = new Double(df.format(score));
-				    testUser.setScore(result);
+				    testUser.setScore(Math.round(result));
 					testSvc.updateEndTest(testUser);
 			        
 			        return new ResponseEntity<TestUser>(testUser, HttpStatus.OK);
