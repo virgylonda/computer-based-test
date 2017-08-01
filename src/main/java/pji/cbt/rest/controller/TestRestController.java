@@ -112,9 +112,16 @@ public class TestRestController {
 			 * @return      get test have assign by user id
 			 */	
 		    @RequestMapping(path = "/list/{id}", method = RequestMethod.GET)
-			public List<TestUser> getAllTestHaveAssign(@PathVariable("id") int id) {
+			public Map<String, List<TestUser>> getAllTestHaveAssign(@PathVariable("id") int id) {
 		    	logger.info("Fetching Test Have Assign " +id);
-				return testSvc.findTestHaveAssign(id);
+		    	
+		    	Map<String, List<TestUser>> map = new HashMap<String, List<TestUser>>();
+		    	
+		    	List<TestUser> testUser = testSvc.findTestHaveAssign(id);
+		    	
+		    	map.put("Testuser", testUser);
+		    	
+				return map;
 			}
 		   
 		    /**

@@ -36,11 +36,13 @@ public class AuthenticationRestController {
 	
 	Roles role;
 	
-	private static Logger logger = Logger.getLogger(TestRestController.class);
+	private static Logger logger = Logger.getLogger(AuthenticationRestController.class);
 	
 	@RequestMapping(value = "/login", method = RequestMethod.POST)
 	 public LoginResponse login(@RequestBody User login) throws ServletException, IOException {
 
+	  logger.info("Trying to login by : "+login.getUsername());
+		
 	  String jwtToken = "";
 	  Date expiration = Date.from(LocalDateTime.now(UTC).plusHours(2).toInstant(UTC));
 	  

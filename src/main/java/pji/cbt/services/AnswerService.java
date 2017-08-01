@@ -2,6 +2,8 @@ package pji.cbt.services;
 
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import pji.cbt.entities.Answer;
 
 public interface AnswerService {
