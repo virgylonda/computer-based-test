@@ -67,7 +67,6 @@ cbtApp.controller('UserDoTestController', ['$scope', '$state', 'UserServices', '
 		insertAnswerKey($scope.answers.option, counter);
 		
 		//lempar semua id answer ke back
-		console.log(answersKey);
 		UserServices.saveTestScore(testId, answersKey).then(function(res){
 		});
 
@@ -121,7 +120,6 @@ cbtApp.controller('UserDoTestController', ['$scope', '$state', 'UserServices', '
 	        	}
 
 	        	//lempar semua id answer ke back
-				console.log(answersKey);
 				UserServices.saveTestScore(testId, answersKey).then(function(res){
 				});
 				
