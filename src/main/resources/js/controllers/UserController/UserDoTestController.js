@@ -18,8 +18,9 @@ cbtApp.controller('UserDoTestController', ['$scope', '$state', 'UserServices', '
 	$scope.onLoad = function(){
 		clearInterval(timer);
 		// update status and time begin
-		// UserServices.beginTest(testId).then(function(res){
-		// });
+		UserServices.beginTest(testId).then(function(res){
+		});
+		
 		doTimer();
 		// this for handling question
 		if(listQuestion == null || listQuestion.length == 0){

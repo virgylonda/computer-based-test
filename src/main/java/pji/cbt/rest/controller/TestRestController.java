@@ -1,7 +1,9 @@
 package pji.cbt.rest.controller;
 
+import java.math.RoundingMode;
 import java.sql.Timestamp;
 import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -241,24 +243,24 @@ public class TestRestController {
 						e.printStackTrace();
 					}
 					
-					System.out.println("INI SIZE : "+ answers.size());
 					for (int i = 0; i < answers.size(); i++) {
-						System.out.println("INI ID ANSWER : "+ answers.get(i));
-						Answer answer = ansSvc.findOne(Integer.parseInt(answers.get(i)));
-						System.out.println("INI KUNCI : "+answer.isCorrectAnswer());
-						if(answer.isCorrectAnswer() == true){
-							Counter ++;
+						if(answers.get(i) == ""){
+							Counter = Counter + 0;
+						}
+						else{
+							Answer answer = ansSvc.findOne(Integer.parseInt(answers.get(i)));
+							if(answer.isCorrectAnswer() == true){
+								Counter ++;
+							}
 						}
 					}
-					
-					double score = (Counter/answers.size()) * 100;
-					
-					DecimalFormat formatter = new DecimalFormat("#0.00");
-					
-				    System.out.println("Ini format : " + formatter.format(score));
-					
-					System.out.printf("Value: %.2f",score);
+					double score = ((double)Counter/ (double)answers.size()*100);
+					DecimalFormat df = new DecimalFormat("#.##");
 
+				    df.setRoundingMode(RoundingMode.FLOOR);
+
+				    double result = new Double(df.format(score));
+				    testUser.setScore(Math.round(result));
 					testSvc.updateEndTest(testUser);
 			        
 			        return new ResponseEntity<TestUser>(testUser, HttpStatus.OK);
