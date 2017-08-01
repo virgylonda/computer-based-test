@@ -1,9 +1,7 @@
 package pji.cbt.rest.controller;
 
 import java.util.Collection;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
@@ -121,14 +119,8 @@ public class CategoryRestController {
 	 * @return	GetAllCategory
 	 */
 	@RequestMapping(path="/getallcategory",method=RequestMethod.GET)
-	public Map<String, List<Category>> getAllCategory(){
-		
-		Map<String, List<Category>> map = new HashMap<String, List<Category>>();
-		
-		List<Category> cat = ctgSvc.findAllCategory();
-		map.put("Category", cat);
-		
-		return map;
+	public List<Category> getAllCategory(){
+		return ctgSvc.findAllCategory();
 	}
 	
 	 /**
