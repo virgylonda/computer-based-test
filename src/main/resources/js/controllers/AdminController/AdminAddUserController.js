@@ -26,8 +26,8 @@ cbtApp.controller('AdminAddUserController', ['$scope', '$state', 'AdminServices'
 			}
 
 			AdminServices.addUser(formDataUser, roles).then(function(res){
-				$state.go("home.userlist");
-				$scope.statusAllert = "New User Added";
+				var alert = "New user added";
+				$state.go("home.userlist", {alert});
 			});
 		}
 		else{

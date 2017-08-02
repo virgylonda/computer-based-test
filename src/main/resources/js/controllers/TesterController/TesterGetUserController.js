@@ -11,10 +11,8 @@ cbtApp.controller('TesterGetUserController', ['$scope', '$state', 'TesterService
 	});
 
 	$scope.toConfirm = function() {
-
-        if ($scope.testerObject.name == null) {
-			$scope.status = false;
-		} else {
+		var confirmResult = confirm("Is this good ?")
+		if(confirmResult == true){
 			var dataUser = {
 				"userId" : $scope.testerObject.userId,
 				"username" : $scope.testerObject.username,
@@ -26,6 +24,9 @@ cbtApp.controller('TesterGetUserController', ['$scope', '$state', 'TesterService
 			};
 
 			$state.go("hometester.userlist.edituser.confirmuser", {dataUser});	
+		}
+		else{
+			$state.go("hometester.userlist");
 		}
     }
 }])

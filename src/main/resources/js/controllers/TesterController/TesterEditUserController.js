@@ -8,13 +8,10 @@ cbtApp.controller('TesterEditUserController', ['$scope', '$state','TesterService
 	var dataUser = $scope.userData;
 	var id = $scope.userData.userId;
 
-	var confirmResult = confirm("Is this good ?")
-	if(confirmResult == true){
-		TesterServices.editUser(id, dataUser).then(function(res){
-			var alert = "User has been updated"
-			$state.go("hometester.userlist", {alert});
-		})
-	};
+	TesterServices.editUser(id, dataUser).then(function(res){
+		var alert = "User has been updated"
+		$state.go("hometester.userlist", {alert});
+	})
 
 	TesterServices.getAllUser().then(function(res){
 		$scope.arrayTester = res.data;

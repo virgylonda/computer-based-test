@@ -71,6 +71,9 @@ cbtApp.config(function($stateProvider) {
 	})
 	.state('home.userlist', {
 		url: '/userlist',
+		params : {
+			alert : null
+		},
 		views: {
 					'main@': {
 						templateUrl: 'views/admin/datausers.html',

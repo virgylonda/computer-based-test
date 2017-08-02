@@ -11,7 +11,11 @@ cbtApp.controller('AdminEditTesterController', ['$scope', '$state','AdminService
 	var confirmResult = confirm("Is this good ?")
 	if(confirmResult == true){
 		AdminServices.editTester(id, dataUser).then(function(res){
-			$state.go("home.testerlist");
+			var alert = "Tester has been updated";
+			$state.go("home.testerlist", {alert});
 		})
-	};
+	}
+	else{
+		$state.go("home.testerlist");
+	}
 }]);

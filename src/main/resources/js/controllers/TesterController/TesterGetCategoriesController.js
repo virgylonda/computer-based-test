@@ -14,14 +14,19 @@ cbtApp.controller('TesterGetCategoriesController', ['$scope', '$state', 'TesterS
 	});
 
 	$scope.toConfirm = function() {
-
-		var dataCategory = {
-			"description" : $scope.categoryObject.description,
-			"idCategory" : $scope.categoryObject.idCategory,
-			"questionCategory" : $scope.categoryObject.questionCategory,
-			"questionType" : $scope.categoryObject.questionType,
-			"timeLimit" : $scope.categoryObject.timeLimit,
-		};
-		$state.go("hometester.listcategories.editcategory.confirmcategory", {dataCategory});	
+		var confirmResult = confirm("Is this good ?")
+		if(confirmResult == true){
+			var dataCategory = {
+				"description" : $scope.categoryObject.description,
+				"idCategory" : $scope.categoryObject.idCategory,
+				"questionCategory" : $scope.categoryObject.questionCategory,
+				"questionType" : $scope.categoryObject.questionType,
+				"timeLimit" : $scope.categoryObject.timeLimit,
+			};
+			$state.go("hometester.listcategories.editcategory.confirmcategory", {dataCategory});
+		}
+		else{
+			$state.go("hometester.listcategories");
+		}	
     }
 }])
