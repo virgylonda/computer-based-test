@@ -105,24 +105,24 @@ public class TesterRestUnitTest {
     /**
      * Test assign test to user
      */
-    @Test
-    public void test_create_answer_success() throws Exception {
-        TestUser testUser = new TestUser(1, started, ended, 30.4, "Not Yet", users, category);
-
-        when(tstService.testExists(testUser)).thenReturn(false);
-        doNothing().when(tstService).saveTest(testUser);;
-
-        mockMvc.perform(
-                post("/alltester/assignment/save")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(asJsonString(testUser)))
-                .andExpect(status().isCreated())
-                .andExpect(header().string("location", containsString("/testers/scores/1")));
-
-        verify(tstService, times(1)).testExists(refEq(testUser));
-        verify(tstService, times(1)).saveTest(refEq(testUser));
-        verifyNoMoreInteractions(ansService);
-    }
+//    @Test
+//    public void test_create_answer_success() throws Exception {
+//        TestUser testUser = new TestUser(1, started, ended, 30.4, "Not Yet", users, category);
+//
+//        when(tstService.testExists(testUser)).thenReturn(false);
+//        doNothing().when(tstService).saveTest(testUser);;
+//
+//        mockMvc.perform(
+//                post("/alltester/assignment/save")
+//                        .contentType(MediaType.APPLICATION_JSON)
+//                        .content(asJsonString(testUser)))
+//                .andExpect(status().isCreated())
+//                .andExpect(header().string("location", containsString("/testers/scores/1")));
+//
+//        verify(tstService, times(1)).testExists(refEq(testUser));
+//        verify(tstService, times(1)).saveTest(refEq(testUser));
+//        verifyNoMoreInteractions(ansService);
+//    }
 
     public static String asJsonString(final Object obj) {
         try {

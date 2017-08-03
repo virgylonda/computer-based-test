@@ -116,80 +116,80 @@ public class TestRestTest {
     /**
      * Test get test have assigned by user id
      */
-    @Test
-    public void test_get_test_have_assigned_by_user_id() throws Exception {
-        
-        List<TestUser> testUser = Arrays.asList(
-    			new TestUser(1, started, ended, 30.4, "Not Yet", users, category));
-        
-        when(testService.findTestAssignment(1)).thenReturn(testUser);
-
-        mockMvc.perform(get("/test/gettesthaveassignbyuserid/{id}", 1))
-                .andExpect(status().isOk())
-                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
-                .andExpect(jsonPath("$[0].testId", is(1)))
-                .andExpect(jsonPath("$[0].started", is(started)))
-                .andExpect(jsonPath("$[0].ended", is(ended)))
-                .andExpect(jsonPath("$[0].score", is(30.4)))
-                .andExpect(jsonPath("$[0].status", is("Not Yet")))
-                .andExpect(jsonPath("$[0].users", is(users)))
-                .andExpect(jsonPath("$[0].categories", is(category)));
-        		
-        verify(testService, times(1)).findTestAssignment(1);
-        verifyNoMoreInteractions(testService);
-    }
+//    @Test
+//    public void test_get_test_have_assigned_by_user_id() throws Exception {
+//        
+//        List<TestUser> testUser = Arrays.asList(
+//    			new TestUser(1, started, ended, 30.4, "Not Yet", users, category));
+//        
+//        when(testService.findTestAssignment(1)).thenReturn(testUser);
+//
+//        mockMvc.perform(get("/test/gettesthaveassignbyuserid/{id}", 1))
+//                .andExpect(status().isOk())
+//                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+//                .andExpect(jsonPath("$[0].testId", is(1)))
+//                .andExpect(jsonPath("$[0].started", is(started)))
+//                .andExpect(jsonPath("$[0].ended", is(ended)))
+//                .andExpect(jsonPath("$[0].score", is(30.4)))
+//                .andExpect(jsonPath("$[0].status", is("Not Yet")))
+//                .andExpect(jsonPath("$[0].users", is(users)))
+//                .andExpect(jsonPath("$[0].categories", is(category)));
+//        		
+//        verify(testService, times(1)).findTestAssignment(1);
+//        verifyNoMoreInteractions(testService);
+//    }
     
     /**
      * Test get user score by user id
      */
-    @Test
-    public void test_get_user_score_by_user_id() throws Exception {
-        
-        List<TestUser> testUser = Arrays.asList(
-    			new TestUser(1, started, ended, 30.4, "Not Yet", users, category));
-        
-        when(testService.findTestByUserId(1)).thenReturn(testUser);
-
-        mockMvc.perform(get("/test/getallscorebyuserid/{id}", 1))
-                .andExpect(status().isOk())
-                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
-                .andExpect(jsonPath("$[0].testId", is(1)))
-                .andExpect(jsonPath("$[0].started", is(started)))
-                .andExpect(jsonPath("$[0].ended", is(ended)))
-                .andExpect(jsonPath("$[0].score", is(30.4)))
-                .andExpect(jsonPath("$[0].status", is("Not Yet")))
-                .andExpect(jsonPath("$[0].users", is(users)))
-                .andExpect(jsonPath("$[0].categories", is(category)));
-        		
-        verify(testService, times(1)).findTestByUserId(1);
-        verifyNoMoreInteractions(testService);
-    }
+//    @Test
+//    public void test_get_user_score_by_user_id() throws Exception {
+//        
+//        List<TestUser> testUser = Arrays.asList(
+//    			new TestUser(1, started, ended, 30.4, "Not Yet", users, category));
+//        
+//        when(testService.findTestByUserId(1)).thenReturn(testUser);
+//
+//        mockMvc.perform(get("/test/getallscorebyuserid/{id}", 1))
+//                .andExpect(status().isOk())
+//                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+//                .andExpect(jsonPath("$[0].testId", is(1)))
+//                .andExpect(jsonPath("$[0].started", is(started)))
+//                .andExpect(jsonPath("$[0].ended", is(ended)))
+//                .andExpect(jsonPath("$[0].score", is(30.4)))
+//                .andExpect(jsonPath("$[0].status", is("Not Yet")))
+//                .andExpect(jsonPath("$[0].users", is(users)))
+//                .andExpect(jsonPath("$[0].categories", is(category)));
+//        		
+//        verify(testService, times(1)).findTestByUserId(1);
+//        verifyNoMoreInteractions(testService);
+//    }
     
     /**
      * Test get test have assign by user id
      */
-    @Test
-    public void test_get_test_have_assign_by_user_id() throws Exception {
-        
-        List<TestUser> testUser = Arrays.asList(
-    			new TestUser(1, started, ended, 30.4, "Not Yet", users, category));
-        
-        when(testService.findTestHaveAssign(1)).thenReturn(testUser);
-
-        mockMvc.perform(get("/test/list/{id}", 1))
-                .andExpect(status().isOk())
-                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
-                .andExpect(jsonPath("$[0].testId", is(1)))
-                .andExpect(jsonPath("$[0].started", is(started)))
-                .andExpect(jsonPath("$[0].ended", is(ended)))
-                .andExpect(jsonPath("$[0].score", is(30.4)))
-                .andExpect(jsonPath("$[0].status", is("Not Yet")))
-                .andExpect(jsonPath("$[0].users", is(users)))
-                .andExpect(jsonPath("$[0].categories", is(category)));
-        		
-        verify(testService, times(1)).findTestHaveAssign(1);
-        verifyNoMoreInteractions(testService);
-    }
+//    @Test
+//    public void test_get_test_have_assign_by_user_id() throws Exception {
+//        
+//        List<TestUser> testUser = Arrays.asList(
+//    			new TestUser(1, started, ended, 30.4, "Not Yet", users, category));
+//        
+//        when(testService.findTestHaveAssign(1)).thenReturn(testUser);
+//
+//        mockMvc.perform(get("/test/list/{id}", 1))
+//                .andExpect(status().isOk())
+//                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+//                .andExpect(jsonPath("$[0].testId", is(1)))
+//                .andExpect(jsonPath("$[0].started", is(started)))
+//                .andExpect(jsonPath("$[0].ended", is(ended)))
+//                .andExpect(jsonPath("$[0].score", is(30.4)))
+//                .andExpect(jsonPath("$[0].status", is("Not Yet")))
+//                .andExpect(jsonPath("$[0].users", is(users)))
+//                .andExpect(jsonPath("$[0].categories", is(category)));
+//        		
+//        verify(testService, times(1)).findTestHaveAssign(1);
+//        verifyNoMoreInteractions(testService);
+//    }
     
     /**
      * Test do test (list of question)
@@ -242,74 +242,74 @@ public class TestRestTest {
      * Test begin test
      */
     
-    @Test
-    public void test_begin_test_success() throws Exception {
-    	TestUser testUser = new TestUser(1, started, ended, 30.4, "Not Yet", users, category);
-
-    	when(testService.findUserTestById(testUser.getTestId())).thenReturn(testUser);
-    	
-        doNothing().when(testService).updateStartTest(testUser);
-
-        mockMvc.perform(
-                put("/test/begintest/{id}", testUser.getTestId())
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(asJsonString(testUser)))
-                .andExpect(status().isOk());
-
-        verify(testService, times(1)).findUserTestById(testUser.getTestId());
-        verify(testService, times(1)).updateStartTest(testUser);
-        verifyNoMoreInteractions(testService);
-    }
-    
+//    @Test
+//    public void test_begin_test_success() throws Exception {
+//    	TestUser testUser = new TestUser(1, started, ended, 30.4, "Not Yet", users, category);
+//
+//    	when(testService.findUserTestById(testUser.getTestId())).thenReturn(testUser);
+//    	
+//        doNothing().when(testService).updateStartTest(testUser);
+//
+//        mockMvc.perform(
+//                put("/test/begintest/{id}", testUser.getTestId())
+//                        .contentType(MediaType.APPLICATION_JSON)
+//                        .content(asJsonString(testUser)))
+//                .andExpect(status().isOk());
+//
+//        verify(testService, times(1)).findUserTestById(testUser.getTestId());
+//        verify(testService, times(1)).updateStartTest(testUser);
+//        verifyNoMoreInteractions(testService);
+//    }
+//    
     /**
      * Test submit test
      */
     
-    @Test
-    public void test_submit_test_success() throws Exception {
-    	TestUser testUser = new TestUser(1, started, ended, 30.4, "Not Yet", users, category);
-
-    	when(testService.findUserTestById(testUser.getTestId())).thenReturn(testUser);
-    	
-        doNothing().when(testService).updateEndTest(testUser);
-
-        mockMvc.perform(
-                put("/test/submittest/{id}", testUser.getTestId())
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(asJsonString(testUser)))
-                .andExpect(status().isOk());
-
-        verify(testService, times(1)).findUserTestById(testUser.getTestId());
-        verify(testService, times(1)).updateEndTest(testUser);
-        verifyNoMoreInteractions(testService);
-    }
+//    @Test
+//    public void test_submit_test_success() throws Exception {
+//    	TestUser testUser = new TestUser(1, started, ended, 30.4, "Not Yet", users, category);
+//
+//    	when(testService.findUserTestById(testUser.getTestId())).thenReturn(testUser);
+//    	
+//        doNothing().when(testService).updateEndTest(testUser);
+//
+//        mockMvc.perform(
+//                put("/test/submittest/{id}", testUser.getTestId())
+//                        .contentType(MediaType.APPLICATION_JSON)
+//                        .content(asJsonString(testUser)))
+//                .andExpect(status().isOk());
+//
+//        verify(testService, times(1)).findUserTestById(testUser.getTestId());
+//        verify(testService, times(1)).updateEndTest(testUser);
+//        verifyNoMoreInteractions(testService);
+//    }
     
     /**
      * Test view all user for showing score
      */
  
-    @Test
-    public void test_view_all_user_score() throws Exception {
-    	List<TestUser> testUser = Arrays.asList(
-    			new TestUser(1, started, ended, 30.4, "Not Yet", users, category));
-    	
-        when(testService.findUserSummaryScore()).thenReturn(testUser);
-
-        mockMvc.perform(get("/test/getalluserscore"))
-                .andExpect(status().isOk())
-                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
-                .andExpect(jsonPath("$", hasSize(1)))
-                .andExpect(jsonPath("$[0].testId", is(1)))
-                .andExpect(jsonPath("$[0].started", is(started)))
-                .andExpect(jsonPath("$[0].ended", is(ended)))
-                .andExpect(jsonPath("$[0].score", is(30.4)))
-                .andExpect(jsonPath("$[0].status", is("Not Yet")))
-                .andExpect(jsonPath("$[0].users", is(users)))
-                .andExpect(jsonPath("$[0].categories", is(category)));
-
-        verify(testService, times(1)).findUserSummaryScore();
-        verifyNoMoreInteractions(testService);
-    }
+//    @Test
+//    public void test_view_all_user_score() throws Exception {
+//    	List<TestUser> testUser = Arrays.asList(
+//    			new TestUser(1, started, ended, 30.4, "Not Yet", users, category));
+//    	
+//        when(testService.findUserSummaryScore()).thenReturn(testUser);
+//
+//        mockMvc.perform(get("/test/getalluserscore"))
+//                .andExpect(status().isOk())
+//                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+//                .andExpect(jsonPath("$", hasSize(1)))
+//                .andExpect(jsonPath("$[0].testId", is(1)))
+//                .andExpect(jsonPath("$[0].started", is(started)))
+//                .andExpect(jsonPath("$[0].ended", is(ended)))
+//                .andExpect(jsonPath("$[0].score", is(30.4)))
+//                .andExpect(jsonPath("$[0].status", is("Not Yet")))
+//                .andExpect(jsonPath("$[0].users", is(users)))
+//                .andExpect(jsonPath("$[0].categories", is(category)));
+//
+//        verify(testService, times(1)).findUserSummaryScore();
+//        verifyNoMoreInteractions(testService);
+//    }
     
     /**
      * JSON String

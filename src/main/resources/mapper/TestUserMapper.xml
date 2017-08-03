@@ -28,7 +28,7 @@
 		<association property="categories" column="category_id" resultMap="resultCategory" />
 	</resultMap>
 	
-		<resultMap type="pji.cbt.entities.TestUser" id="testAssignToUser">
+	<resultMap type="pji.cbt.entities.TestUser" id="testAssignToUser">
 		<id property="testId" column="testId"/>
 		<result property="started" column="started"/>
 		<result property="ended" column="ended"/>

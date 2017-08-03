@@ -318,23 +318,23 @@ public class TesterController {
 			return "listassignment";
 		}
 		
-		@RequestMapping(path="/user/assignment/save",method=RequestMethod.POST)
-		public String dataUserAssignmentSave(FormAssignment formAssignment,RedirectAttributes redirectAttributes, Model model){
-			try{
-				testSvc.deleteByIdUserAndStatus(formAssignment.getUser().getUserId());
-				for(int idCategory : formAssignment.explodeString(formAssignment.getCategories())){
-					TestUser testUser = new TestUser();
-					Category category = new Category();
-					category.setIdCategory(idCategory);
-					testUser.setCategories(category);
-					testUser.setUsers(formAssignment.getUser());
-					testSvc.saveTest(testUser);
-				}
-			} catch (Exception ex) {
-				redirectAttributes.addFlashAttribute("msgerror","Fail asign test to user!!");
-				return "redirect:/tester/user/assignment";
-			}
-			redirectAttributes.addFlashAttribute("msgsuccess","Success asign test to user!!");
-			return "redirect:/tester/user/assignment";
-		}
+//		@RequestMapping(path="/user/assignment/save",method=RequestMethod.POST)
+//		public String dataUserAssignmentSave(FormAssignment formAssignment,RedirectAttributes redirectAttributes, Model model){
+//			try{
+//				testSvc.deleteByIdUserAndStatus(formAssignment.getUser().getUserId());
+//				for(int idCategory : formAssignment.explodeString(formAssignment.getCategories())){
+//					TestUser testUser = new TestUser();
+//					Category category = new Category();
+//					category.setIdCategory(idCategory);
+//					testUser.setCategories(category);
+//					testUser.setUsers(formAssignment.getUser());
+//					testSvc.saveTest(testUser);
+//				}
+//			} catch (Exception ex) {
+//				redirectAttributes.addFlashAttribute("msgerror","Fail asign test to user!!");
+//				return "redirect:/tester/user/assignment";
+//			}
+//			redirectAttributes.addFlashAttribute("msgsuccess","Success asign test to user!!");
+//			return "redirect:/tester/user/assignment";
+//		}
 } 

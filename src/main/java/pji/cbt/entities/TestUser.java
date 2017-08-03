@@ -2,6 +2,7 @@ package pji.cbt.entities;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
 public class TestUser implements Serializable{
 
@@ -11,13 +12,13 @@ public class TestUser implements Serializable{
 	private double score;
 	private String status;
 	private User users;
-	private Category categories;
+	private List<Category> categories;
 	
 	public TestUser() {
 	}
 
 	public TestUser(int testId, Date started, Date ended, double score, String status, User users,
-			Category categories) {
+			List<Category> categories) {
 		super();
 		this.testId = testId;
 		this.started = started;
@@ -76,11 +77,11 @@ public class TestUser implements Serializable{
 		this.users = users;
 	}
 
-	public Category getCategories() {
+	public List<Category> getCategories() {
 		return categories;
 	}
 
-	public void setCategories(Category categories) {
+	public void setCategories(List<Category> categories) {
 		this.categories = categories;
 	}	
 }
