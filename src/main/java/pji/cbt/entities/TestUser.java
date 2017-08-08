@@ -12,13 +12,13 @@ public class TestUser implements Serializable{
 	private double score;
 	private String status;
 	private User users;
-	private List<Category> categories;
+	private Category categories;
 	
 	public TestUser() {
 	}
 
 	public TestUser(int testId, Date started, Date ended, double score, String status, User users,
-			List<Category> categories) {
+			Category categories) {
 		super();
 		this.testId = testId;
 		this.started = started;
@@ -77,11 +77,11 @@ public class TestUser implements Serializable{
 		this.users = users;
 	}
 
-	public List<Category> getCategories() {
+	public Category getCategories() {
 		return categories;
 	}
 
-	public void setCategories(List<Category> categories) {
+	public void setCategories(Category categories) {
 		this.categories = categories;
 	}	
 }
