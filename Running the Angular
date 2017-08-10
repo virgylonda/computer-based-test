@@ -1,0 +1,13 @@
+# computer-based-test
+
+How to running the angular
+
+-after we run the spring rest server
+
+1. clone the repository
+2. git clone 'git address' in the cmd
+3. enter the folder and cmd
+4. type 'npm install' in the cmd
+5. type 'npm install http-server -g' in the cmd
+6. type 'npm start' in the cmd
+7. new tab in the browser will open and app is ready to use
