@@ -206,7 +206,7 @@ public class UserRestController {
 	        currentUser.setEmail(user.getEmail()); 
 	        
 	        userSvc.updateUser(currentUser);
-	        return new ResponseEntity(SUCCESS_RESULT, HttpStatus.OK);
+	        return new ResponseEntity<User>(HttpStatus.OK);
 	    	
 	    }
 	    

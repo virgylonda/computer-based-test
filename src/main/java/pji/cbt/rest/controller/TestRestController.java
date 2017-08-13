@@ -141,6 +141,19 @@ public class TestRestController {
 				
 				return listQuest;
 		    }
+		    
+		    @RequestMapping(path = "/dotests/{idcategory}", method = RequestMethod.GET)
+		    public Map<String, List<Question>> getAllQuestionForTests(@PathVariable("idcategory") int idcategory, TestUser testUser, Timestamp timestamp){
+		    	logger.info("Fetching All Question by Category "+idcategory);
+		    	Map<String, List<Question>> map = new HashMap<String, List<Question>>();
+		    	List<Question> listQuest = new ArrayList<Question>();
+		    	listQuest = quesSvc.findQuestionRandomOrder(idcategory);
+		    	
+				Collections.shuffle(listQuest);
+				map.put("Questions", listQuest);
+				
+				return map;
+		    }
 		      
 		    /**
 			 * @param  		id
@@ -154,6 +167,19 @@ public class TestRestController {
 		    	Collections.shuffle(listAnswer);
 		    
 		        return listAnswer;
+		    }
+		    
+		    @RequestMapping(value = "/getanswers/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+		    public Map<String, List<Answer>> getAnswerByIdQuestions(@PathVariable("id") int id) {
+		    	logger.info("Fetching Answer with Question id : " + id);
+		    	
+		    	Map<String, List<Answer>> map = new HashMap<String, List<Answer>>();
+		    	
+		    	List<Answer> listAnswer = ansSvc.findAnswerByQuestion(id);
+		    	Collections.shuffle(listAnswer);
+		    	
+		    	map.put("Answers", listAnswer);
+		        return map;
 		    }
 		    
 		    /**
