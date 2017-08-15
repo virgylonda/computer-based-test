@@ -289,7 +289,7 @@ public class TestRestController {
 				    testUser.setScore(Math.round(result));
 					testSvc.updateEndTest(testUser);
 			        
-			        return new ResponseEntity<TestUser>(testUser, HttpStatus.OK);
+			        return new ResponseEntity<TestUser>(HttpStatus.OK);
 		    	}else{
 		    		logger.warn("Error submiting test");
 		    		return new ResponseEntity<TestUser>(HttpStatus.BAD_REQUEST);
