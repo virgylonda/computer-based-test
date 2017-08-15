@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import pji.cbt.entities.Roles;
 import pji.cbt.entities.User;
+import pji.cbt.exception.ForbiddenException;
 import pji.cbt.services.UserService;
 
 import io.jsonwebtoken.Jwts;
@@ -48,7 +49,7 @@ public class AuthenticationRestController {
 	  
 	  
 	  if (login.getUsername() == null || login.getPassword() == null) {
-	   throw new UsernameNotFoundException("Please fill in username and password");
+	   throw new ForbiddenException("Please fill in username and password");
 	  }
 
 	  String username = login.getUsername();
@@ -57,13 +58,13 @@ public class AuthenticationRestController {
 	  User user = usrService.findOneUser(username);
 	  
 	  if (user == null) {
-	   throw new UsernameNotFoundException("Username not found.");
+	   throw new ForbiddenException("Username not found.");
 	  }
 	  
 	  BCryptPasswordEncoder encoder = new BCryptPasswordEncoder(); 
 
 	  if(!encoder.matches(password, user.getPassword())){
-	   throw new ServletException("Invalid login. Please check your name and password.");
+	   throw new ForbiddenException("Invalid login. Please check your name and password.");
 	  }
 	  
 	  return new LoginResponse(Jwts.builder()
