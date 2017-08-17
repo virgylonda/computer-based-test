@@ -80,6 +80,7 @@ local.properties
 .settings/
 .loadpath
 .recommenders/
+.springBeans
 
 # External tool builders
 .externalToolBuilders/
