@@ -140,11 +140,5 @@
 			</plugin>
 		</plugins>
 	</build>
-	<issueManagement>
-		<system>github.com</system>
-	</issueManagement>
-	<organization>
-		<name>PJI Solutions</name>
-		<url>http://www.pji-solutions.com</url>
-	</organization>
+
 </project>

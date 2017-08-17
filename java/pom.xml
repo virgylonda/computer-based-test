@@ -12,4 +12,12 @@
 		<module>cbt-backend</module>
 		<module>packaging</module>
 	</modules>
+	
+	<issueManagement>
+		<system>github.com</system>
+	</issueManagement>
+	<organization>
+		<name>PJI Solutions</name>
+		<url>http://www.pji-solutions.com</url>
+	</organization>
 </project>
