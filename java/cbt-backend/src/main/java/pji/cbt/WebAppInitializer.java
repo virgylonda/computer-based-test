@@ -7,6 +7,7 @@ import javax.servlet.ServletRegistration.Dynamic;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.WebApplicationInitializer;
@@ -16,13 +17,14 @@ import org.springframework.web.servlet.DispatcherServlet;
 import pji.cbt.config.AppConfig;
 import pji.cbt.config.JwtFilter;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
+import org.springframework.boot.web.support.SpringBootServletInitializer;
 import org.springframework.context.annotation.Bean;
 
 @Configuration
 @EnableAutoConfiguration
 @SpringBootApplication
 @ComponentScan("pji.cbt")
-public class WebAppInitializer implements WebApplicationInitializer {
+public class WebAppInitializer extends SpringBootServletInitializer implements WebApplicationInitializer {
 	
 	@Bean
 	public FilterRegistrationBean jwtFilter() {
@@ -35,6 +37,11 @@ public class WebAppInitializer implements WebApplicationInitializer {
 
     public static void main(String[] args) throws Exception{
         SpringApplication.run(WebAppInitializer.class, args);
+    }
+    
+    @Override
+    protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
+       return application.sources(WebAppInitializer.class);
     }
 
 	@Override
