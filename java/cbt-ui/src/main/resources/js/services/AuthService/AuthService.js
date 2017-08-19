@@ -7,7 +7,7 @@ cbtApp.factory('AuthService', ['$http','$q', function($http,$q){
 
 		// Untuk Tester
 		login: function(user) {
-			return $http.post('http://localhost:9091/authentication/login', user).then(function success(res){
+			return $http.post('http://initest.com:9091/authentication/login', user).then(function success(res){
 				return res;
 			}, function error(err){
 				return $q.reject(err.data);

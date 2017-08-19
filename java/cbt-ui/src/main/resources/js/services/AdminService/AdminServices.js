@@ -7,7 +7,7 @@ cbtApp.factory('AdminServices', ['$http','$q', function($http,$q){
 
 		// Untuk Tester
 		addTester: function(formData, roles) {
-			return $http.post('http://localhost:9091/rest/user/createuser', formData, roles).then(function success(res){
+			return $http.post('http://initest.com:9091/rest/user/createuser', formData, roles).then(function success(res){
 				return res;
 			}, function error(err){
 				return $q.reject(err.data);
@@ -16,7 +16,7 @@ cbtApp.factory('AdminServices', ['$http','$q', function($http,$q){
 		},
 
 		getAllTester: function(){
-			return $http.get('http://localhost:9091/alltester/getalltester').then(function success(res){
+			return $http.get('http://initest.com:9091/alltester/getalltester').then(function success(res){
 				return res;
 			}, function error(err){
 				return $q.reject(err.data);
@@ -24,7 +24,7 @@ cbtApp.factory('AdminServices', ['$http','$q', function($http,$q){
 		},
 
 		getTester: function(id){
-			return $http.get('http://localhost:9091/rest/user/getuserbyid/'+id).then(function success(res){
+			return $http.get('http://initest.com:9091/rest/user/getuserbyid/'+id).then(function success(res){
 				return res;
 			}, function error(err){
 				return $q.reject(err.data);
@@ -32,7 +32,7 @@ cbtApp.factory('AdminServices', ['$http','$q', function($http,$q){
 		},
 
 		editTester: function(id, formData){
-			return $http.put('http://localhost:9091/rest/user/updateuser/'+id, formData).then(function success(res){
+			return $http.put('http://initest.com:9091/rest/user/updateuser/'+id, formData).then(function success(res){
 				return res;
 			}, function error(err){
 				return $q.reject(err.data);
@@ -40,7 +40,7 @@ cbtApp.factory('AdminServices', ['$http','$q', function($http,$q){
 		},
 
 		deleteTester: function(id){
-			return $http.delete('http://localhost:9091/rest/user/deleteuserbyid/'+id).then(function success(res){
+			return $http.delete('http://initest.com:9091/rest/user/deleteuserbyid/'+id).then(function success(res){
 				return res;
 			}, function error(err){
 				return $q.reject(err.data);
@@ -50,7 +50,7 @@ cbtApp.factory('AdminServices', ['$http','$q', function($http,$q){
 
 		//Untuk User
 		addUser: function(formData, roles) {
-			return $http.post('http://localhost:9091/rest/user/createuser', formData, roles).then(function success(res){
+			return $http.post('http://initest.com:9091/rest/user/createuser', formData, roles).then(function success(res){
 				return res;
 			}, function error(err){
 				return $q.reject(err.data);
@@ -58,7 +58,7 @@ cbtApp.factory('AdminServices', ['$http','$q', function($http,$q){
 		},
 
 		getAllUser: function(){
-			return $http.get('http://localhost:9091/rest/user/getallUser').then(function success(res){
+			return $http.get('http://initest.com:9091/rest/user/getallUser').then(function success(res){
 				return res;
 			}, function error(err){
 				return $q.reject(err.data);
@@ -66,7 +66,7 @@ cbtApp.factory('AdminServices', ['$http','$q', function($http,$q){
 		},
 
 		getUser: function(id){
-			return $http.get('http://localhost:9091/rest/user/getuserbyid/'+id).then(function success(res){
+			return $http.get('http://initest.com:9091/rest/user/getuserbyid/'+id).then(function success(res){
 				return res;
 			}, function error(err){
 				return $q.reject(err.data);
@@ -74,7 +74,7 @@ cbtApp.factory('AdminServices', ['$http','$q', function($http,$q){
 		},
 
 		editUser: function(id, formData){
-			return $http.put('http://localhost:9091/rest/user/updateuser/'+id, formData).then(function success(res){
+			return $http.put('http://initest.com:9091/rest/user/updateuser/'+id, formData).then(function success(res){
 				return res;
 			}, function error(err){
 				return $q.reject(err.data);
@@ -82,7 +82,7 @@ cbtApp.factory('AdminServices', ['$http','$q', function($http,$q){
 		},
 
 		deleteUser: function(id){
-			return $http.delete('http://localhost:9091/rest/user/deleteuserbyid/'+id).then(function success(res){
+			return $http.delete('http://initest.com:9091/rest/user/deleteuserbyid/'+id).then(function success(res){
 				return res;
 			}, function error(err){
 				return $q.reject(err.data);
@@ -92,21 +92,21 @@ cbtApp.factory('AdminServices', ['$http','$q', function($http,$q){
 
 		//Untuk Admin sendiri
 		editAdmin: function(id, formData){
-			return $http.put('http://localhost:9091/rest/user/updateuser/'+id, formData).then(function success(res){
+			return $http.put('http://initest.com:9091/rest/user/updateuser/'+id, formData).then(function success(res){
 				return res;
 			}, function error(err){
 				return $q.reject(err.data);
 			}.bind(this));
 		},
 		getAdmin: function(id){
-			return $http.get('http://localhost:9091/rest/user/getuserbyid/'+id).then(function success(res){
+			return $http.get('http://initest.com:9091/rest/user/getuserbyid/'+id).then(function success(res){
 				return res;
 			}, function error(err){
 				return $q.reject(err.data);
 			}.bind(this));
 		},
 		editAdminPass: function(id, formData){
-			return $http.put('http://localhost:9091/rest/user/updatepassword/'+id, formData).then(function success(res){
+			return $http.put('http://initest.com:9091/rest/user/updatepassword/'+id, formData).then(function success(res){
 				return res;
 			}, function error(err){
 				return $q.reject(err.data);
