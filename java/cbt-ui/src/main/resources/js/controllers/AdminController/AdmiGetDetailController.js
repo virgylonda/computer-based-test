@@ -5,7 +5,7 @@ Since : June 2017
 cbtApp.controller('AdmiGetDetailController', ['$scope', '$state', 'AdminServices', function($scope, $state, AdminServices){
 
 	var userId = $state.params.userId;
-	
+	console.log(userId);
 	AdminServices.getAdmin(userId).then(function(res){
 		$scope.userObject = res.data;
 	});

@@ -223,7 +223,8 @@ cbtApp.config(function($stateProvider) {
 	.state('hometester', {
 		url: '/tester-dashboard',
 		params : {
-			'userId' : null
+			'userId' : null,
+			alert : null
 		},
 		views: {
 					'main@': {
@@ -456,6 +457,39 @@ cbtApp.config(function($stateProvider) {
 					displayName: 'User List'
 			  }
 	})
+	.state('hometester.editprofile', {
+		url: '/editprofile',
+		params : {
+			userId : null
+		},
+		views: {
+					'main@': {
+						templateUrl: 'views/tester/editprofiletester.html',
+						controller : "TesterGetDetailController"
+					}
+				},
+		data: {
+					displayName: 'Tester Detail'
+			  }
+	})
+	.state('hometester.editprofile.confirmed', {
+		url: '/confirmed',
+		params : {
+			dataUser : {
+
+			},
+			alert : null
+		},
+		views: {
+					'main@': {
+						templateUrl: 'views/tester/tester-dashboard.html',
+						controller : "TesterEditProfileController"
+					}
+				},
+		data: {
+					displayName: 'Edit Tester Confirmed'
+			  }
+	})
 	//===========================================================================//
 
 	// USER ROUTE START HERE//
@@ -523,6 +557,39 @@ cbtApp.config(function($stateProvider) {
 				},
 		data: {
 					displayName: 'User Do Test'
+			  }
+	})
+	.state('homeuser.editprofile', {
+		url: '/editprofile',
+		params : {
+			userId : null
+		},
+		views: {
+					'main@': {
+						templateUrl: 'views/user/editprofileuser.html',
+						controller : "UserGetDetailController"
+					}
+				},
+		data: {
+					displayName: 'User List Test'
+			  }
+	})
+	.state('homeuser.editprofile.confirmed', {
+		url: '/confirmed',
+		params : {
+			dataUser : {
+
+			},
+			alert : null
+		},
+		views: {
+					'main@': {
+						templateUrl: 'views/user/user-dashboard.html',
+						controller : "UserEditProfileController"
+					}
+				},
+		data: {
+					displayName: 'User List Test'
 			  }
 	})
 });
