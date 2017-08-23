@@ -45,7 +45,7 @@ import pji.cbt.services.UserService;
 
 
 @RestController
-@RequestMapping("/rest/user")
+@RequestMapping("/secure")
 public class UserRestController {
 	@Autowired
 	private static final SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");

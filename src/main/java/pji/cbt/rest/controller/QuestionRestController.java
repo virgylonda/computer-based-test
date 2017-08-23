@@ -23,7 +23,7 @@ import pji.cbt.services.QuestionService;
 
 
 @RestController
-@RequestMapping("/question")
+@RequestMapping("/secure")
 public class QuestionRestController {
 
 	@Autowired

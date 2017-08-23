@@ -37,7 +37,7 @@ import pji.cbt.services.TestUserService;
 import pji.cbt.services.UserService;
 
 @RestController
-@RequestMapping("/alltester")
+@RequestMapping("/secure")
 public class TesterRestController {
 	
 	@Autowired

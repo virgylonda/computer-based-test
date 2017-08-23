@@ -30,7 +30,7 @@ import pji.cbt.entities.TestUser;
 import pji.cbt.services.AnswerService;
 
 @RestController
-@RequestMapping("/answer")
+@RequestMapping("/secure")
 public class AnswerRestController {
 	@Autowired
 	HttpSession session; 

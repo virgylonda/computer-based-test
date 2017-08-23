@@ -26,7 +26,7 @@ import pji.cbt.services.CategoryService;
 
 
 @RestController
-@RequestMapping("/category")
+@RequestMapping("/secure")
 public class CategoryRestController {
 	
 	@Autowired
