@@ -7,35 +7,35 @@ cbtApp.factory('TesterServices', ['$http','$q', function($http,$q){
 
 		// UNTUK CATEGORY
 		getAllCategories: function(){
-			return $http.get('http://initest.com:9091/category/getallcategory').then(function success(res){
+			return $http.get('http://initest.com:9091/secure/getallcategory').then(function success(res){
 				return res;
 			}, function error(err){
 				return $q.reject(err.data);
 			}.bind(this));
 		},
 		deleteCategory: function(id){
-			return $http.delete('http://initest.com:9091/category/deletecategory/'+id).then(function success(res){
+			return $http.delete('http://initest.com:9091/secure/deletecategory/'+id).then(function success(res){
 				return res;
 			}, function error(err){
 				return $q.reject(err.data);
 			}.bind(this));
 		},
 		getCategory: function(id){
-			return $http.get('http://initest.com:9091/category/getCategoryById/'+id).then(function success(res){
+			return $http.get('http://initest.com:9091/secure/getCategoryById/'+id).then(function success(res){
 				return res;
 			}, function error(err){
 				return $q.reject(err.data);
 			}.bind(this));
 		},
 		editCategory: function(id, formCategory){
-			return $http.put('http://initest.com:9091/category/updatecategory/'+id, formCategory).then(function success(res){
+			return $http.put('http://initest.com:9091/secure/updatecategory/'+id, formCategory).then(function success(res){
 				return res;
 			}, function error(err){
 				return $q.reject(err.data);
 			}.bind(this));
 		},
 		addCategory: function(formCategory){
-			return $http.post('http://initest.com:9091/category/createcategory', formCategory).then(function success(res){
+			return $http.post('http://initest.com:9091/secure/createcategory', formCategory).then(function success(res){
 				return res;
 			}, function error(err){
 				return $q.reject(err.data);
@@ -44,56 +44,56 @@ cbtApp.factory('TesterServices', ['$http','$q', function($http,$q){
 
 		// UNTUK QUESTION
 		getQuestionList: function(id){
-			return $http.get('http://initest.com:9091/question/getallquestionbycategoryid/'+id).then(function success(res){
+			return $http.get('http://initest.com:9091/secure/getallquestionbycategoryid/'+id).then(function success(res){
 				return res;
 			}, function error(err){
 				return $q.reject(err.data);
 			}.bind(this));
 		},
 		deleteQuestion: function(id){
-			return $http.delete('http://initest.com:9091/question/deletequestion/'+id).then(function success(res){
+			return $http.delete('http://initest.com:9091/secure/deletequestion/'+id).then(function success(res){
 				return res;
 			}, function error(err){
 				return $q.reject(err.data);
 			}.bind(this));
 		},
 		addQuestion: function(formQuestion){
-			return $http.post('http://initest.com:9091/question/createquestion/', formQuestion).then(function success(res){
+			return $http.post('http://initest.com:9091/secure/createquestion/', formQuestion).then(function success(res){
 				return res;
 			}, function error(err){
 				return $q.reject(err.data);
 			}.bind(this));
 		},
 		getQuestion: function(id){
-			return $http.get('http://initest.com:9091/question/getdetailquestion/'+id).then(function success(res){
+			return $http.get('http://initest.com:9091/secure/getdetailquestion/'+id).then(function success(res){
 				return res;
 			}, function error(err){
 				return $q.reject(err.data);
 			}.bind(this));
 		},
 		editQuestion: function(id, formCategory){
-			return $http.put('http://initest.com:9091/question/updatequestion/'+id, formCategory).then(function success(res){
+			return $http.put('http://initest.com:9091/secure/updatequestion/'+id, formCategory).then(function success(res){
 				return res;
 			}, function error(err){
 				return $q.reject(err.data);
 			}.bind(this));
 		},
 		addAnswers: function(formAnswers){
-			return $http.post('http://initest.com:9091/answer/createanswer/', formAnswers).then(function success(res){
+			return $http.post('http://initest.com:9091/secure/createanswer/', formAnswers).then(function success(res){
 				return res;
 			}, function error(err){
 				return $q.reject(err.data);
 			}.bind(this));
 		},
 		getAllAnswersFromQuestion: function(id){
-			return $http.get('http://initest.com:9091/answer/getanswerbyid/'+ id).then(function success(res){
+			return $http.get('http://initest.com:9091/secure/getanswerbyid/'+ id).then(function success(res){
 				return res;
 			}, function error(err){
 				return $q.reject(err.data);
 			}.bind(this));
 		},
 		editAnswers: function(id, formAnswer){
-			return $http.put('http://initest.com:9091/answer/updateanswer/'+id, formAnswer).then(function success(res){
+			return $http.put('http://initest.com:9091/secure/updateanswer/'+id, formAnswer).then(function success(res){
 				return res;
 			}, function error(err){
 				return $q.reject(err.data);
@@ -102,21 +102,21 @@ cbtApp.factory('TesterServices', ['$http','$q', function($http,$q){
 
 		//	UNTUK ASSIGNMENT USER
 		getAllUsers: function(){
-			return $http.get('http://initest.com:9091/test/getallassignedtest').then(function success(res){
+			return $http.get('http://initest.com:9091/secure/getallassignedtest').then(function success(res){
 				return res;
 			}, function error(err){
 				return $q.reject(err.data);
 			}.bind(this));
 		},
 		getListAssignment: function(id){
-			return $http.get('http://initest.com:9091/test/gettesthaveassignbyuserid/'+id).then(function success(res){
+			return $http.get('http://initest.com:9091/secure/gettesthaveassignbyuserid/'+id).then(function success(res){
 				return res;
 			}, function error(err){
 				return $q.reject(err.data);
 			}.bind(this));
 		},
 		addAssignment: function(formAssignment){
-			return $http.post('http://initest.com:9091/alltester/assignment/save', formAssignment).then(function success(res){
+			return $http.post('http://initest.com:9091/secure/assignment/save', formAssignment).then(function success(res){
 				return res;
 			}, function error(err){
 				return $q.reject(err.data);
@@ -125,14 +125,14 @@ cbtApp.factory('TesterServices', ['$http','$q', function($http,$q){
 
 		//	UNTUK SCORE
 		getListUsersScore: function(){
-			return $http.get('http://initest.com:9091/test/getalluserscore').then(function success(res){
+			return $http.get('http://initest.com:9091/secure/getalluserscore').then(function success(res){
 				return res;
 			}, function error(err){
 				return $q.reject(err.data);
 			}.bind(this));
 		},
 		getUserDetailScore: function(id){
-			return $http.get('http://initest.com:9091/test/getallscorebyuserid/'+id).then(function success(res){
+			return $http.get('http://initest.com:9091/secure/getallscorebyuserid/'+id).then(function success(res){
 				return res;
 			}, function error(err){
 				return $q.reject(err.data);
@@ -141,7 +141,7 @@ cbtApp.factory('TesterServices', ['$http','$q', function($http,$q){
 
 		//Untuk User
 		addUser: function(formData, roles) {
-			return $http.post('http://initest.com:9091/rest/user/createuser', formData, roles).then(function success(res){
+			return $http.post('http://initest.com:9091/secure/createuser', formData, roles).then(function success(res){
 				return res;
 			}, function error(err){
 				return $q.reject(err.data);
@@ -149,7 +149,7 @@ cbtApp.factory('TesterServices', ['$http','$q', function($http,$q){
 		},
 
 		getAllUser: function(){
-			return $http.get('http://initest.com:9091/rest/user/getallUser').then(function success(res){
+			return $http.get('http://initest.com:9091/secure/getallUser').then(function success(res){
 				return res;
 			}, function error(err){
 				return $q.reject(err.data);
@@ -157,7 +157,7 @@ cbtApp.factory('TesterServices', ['$http','$q', function($http,$q){
 		},
 
 		getUser: function(id){
-			return $http.get('http://initest.com:9091/rest/user/getuserbyid/'+id).then(function success(res){
+			return $http.get('http://initest.com:9091/secure/getuserbyid/'+id).then(function success(res){
 				return res;
 			}, function error(err){
 				return $q.reject(err.data);
@@ -165,7 +165,7 @@ cbtApp.factory('TesterServices', ['$http','$q', function($http,$q){
 		},
 
 		editUser: function(id, formData){
-			return $http.put('http://initest.com:9091/rest/user/updateuser/'+id, formData).then(function success(res){
+			return $http.put('http://initest.com:9091/secure/updateuser/'+id, formData).then(function success(res){
 				return res;
 			}, function error(err){
 				return $q.reject(err.data);
@@ -173,7 +173,7 @@ cbtApp.factory('TesterServices', ['$http','$q', function($http,$q){
 		},
 
 		deleteUser: function(id){
-			return $http.delete('http://initest.com:9091/rest/user/deleteuserbyid/'+id).then(function success(res){
+			return $http.delete('http://initest.com:9091/secure/deleteuserbyid/'+id).then(function success(res){
 				return res;
 			}, function error(err){
 				return $q.reject(err.data);
@@ -183,21 +183,21 @@ cbtApp.factory('TesterServices', ['$http','$q', function($http,$q){
 
 		//Untuk Tester sendiri
 		editTester: function(id, formData){
-			return $http.put('http://initest.com:9091/rest/user/updateuser/'+id, formData).then(function success(res){
+			return $http.put('http://initest.com:9091/secure/updateuser/'+id, formData).then(function success(res){
 				return res;
 			}, function error(err){
 				return $q.reject(err.data);
 			}.bind(this));
 		},
 		getTester: function(id){
-			return $http.get('http://initest.com:9091/rest/user/getuserbyid/'+id).then(function success(res){
+			return $http.get('http://initest.com:9091/secure/getuserbyid/'+id).then(function success(res){
 				return res;
 			}, function error(err){
 				return $q.reject(err.data);
 			}.bind(this));
 		},
 		editTesterPass: function(id, formData){
-			return $http.put('http://initest.com:9091/rest/user/updatepassword/'+id, formData).then(function success(res){
+			return $http.put('http://initest.com:9091/secure/updatepassword/'+id, formData).then(function success(res){
 				return res;
 			}, function error(err){
 				return $q.reject(err.data);
