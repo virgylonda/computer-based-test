@@ -81,7 +81,7 @@ CREATE TABLE tb_answer
   id integer NOT NULL DEFAULT nextval('tb_answer_id_seq'::regclass),
   question_id integer,
   ordering integer NOT NULL,
-  answer character varying(255) NOT NULL,
+  answer character varying(500) NOT NULL,
   correct_answer boolean NOT NULL,
   CONSTRAINT tb_answer_pkey PRIMARY KEY (id),
   CONSTRAINT tb_answer_question_id_fkey FOREIGN KEY (question_id)
@@ -96,7 +96,7 @@ CREATE TABLE public.tb_question
   id integer NOT NULL DEFAULT nextval('tb_question_id_seq'::regclass),
   category_id integer,
   ordering integer NOT NULL,
-  question character varying(500) NOT NULL,
+  question character varying(2000) NOT NULL,
   time_limit numeric(32),
   CONSTRAINT tb_question_pkey PRIMARY KEY (id),
   CONSTRAINT tb_question_category_id_fkey FOREIGN KEY (category_id)
