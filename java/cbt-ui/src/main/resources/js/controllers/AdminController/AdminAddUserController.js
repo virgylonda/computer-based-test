@@ -31,7 +31,7 @@ cbtApp.controller('AdminAddUserController', ['$scope', '$state', 'AdminServices'
 			});
 		}
 		else{
-			$scope.errorAllert = "Username already used";
+			$scope.errorAllert = "Username already been used";
 		}
 
 		AdminServices.getAllUser().then(function(res){

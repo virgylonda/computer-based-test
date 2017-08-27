@@ -10,10 +10,10 @@ cbtApp.controller('TesterListCategories', ['$scope', '$state', 'TesterServices',
 	})
 
 	$scope.toDelete = function(id) {
-		var valid = confirm("Are you sure want to delete category ?");
+		var valid = confirm("Are you sure want to delete test ?");
 		if(valid == true){
 			TesterServices.deleteCategory(id).then(function(res){
-				var alert = "Category deleted";
+				var alert = "Test deleted";
 				$state.go("hometester.listcategories", {alert});
 				TesterServices.getAllCategories().then(function(res){
 					$scope.arrayCategories = res.data;

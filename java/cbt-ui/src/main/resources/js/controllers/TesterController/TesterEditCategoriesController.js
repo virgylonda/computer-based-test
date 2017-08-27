@@ -9,7 +9,7 @@ cbtApp.controller('TesterEditCategoriesController', ['$scope', '$state','TesterS
 	var idCategory = $scope.dataCategory.idCategory;
 
 	TesterServices.editCategory(idCategory, dataCategory).then(function(res){
-		var alert = "Category updated";
+		var alert = "Test updated";
 		$state.go("hometester.listcategories", {alert});
 	})
 

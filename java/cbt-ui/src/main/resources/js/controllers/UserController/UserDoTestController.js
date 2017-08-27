@@ -76,7 +76,7 @@ cbtApp.controller('UserDoTestController', ['$scope', '$state', 'UserServices', '
 
 	function getAnswer(idQuestion){
 		if(idQuestion == null){
-			window.alert("Question invalid");
+			window.alert("Question is invalid");
 		}
 		else{
 			var token = $window.localStorage['jwtToken']

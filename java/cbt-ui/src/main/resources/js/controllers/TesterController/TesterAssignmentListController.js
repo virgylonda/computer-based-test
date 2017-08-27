@@ -11,7 +11,7 @@ cbtApp.controller('TesterAssignmentListController', ['$scope', '$state', 'Tester
 	
 	$scope.toAddCategory = function() {
 
-		var confirmResult = confirm("Assign category to user ?")
+		var confirmResult = confirm("Assign test to user ?")
 		if(confirmResult == true){
 			$scope.idCategoriesArray = [];
 			angular.forEach($scope.arrayList, function(category){
