@@ -42,7 +42,7 @@ cbtApp.factory('UserServices', ['$http','$q', function($http,$q){
 			}.bind(this));
 		},
 		saveTestScore: function(idTest, listAnswers){
-			return $http.put('http://initest.com:9091/secure/test/submit/'+ idTest, listAnswers).then(function success(res){
+			return $http.put('http://initest.com:9091/secure/submit/'+ idTest, listAnswers).then(function success(res){
 				return res;
 			}, function error(err){
 				return $q.reject(err.data);

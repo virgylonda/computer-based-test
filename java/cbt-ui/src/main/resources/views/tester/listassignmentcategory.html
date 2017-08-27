@@ -1,6 +1,6 @@
 <div ng-include = "'views/components/navbartester.html'"></div>
 <div class="col-lg-12">
-    <h1 class="page-header">Data Assignment</h1>
+    <h1 class="page-header">Test Assignment</h1>
 </div>
 <!-- /.col-lg-12 -->
 </div>
@@ -10,7 +10,7 @@
     	<div class="col-lg-12">
             <div class="panel panel-default">
                 <div class="panel-heading">
-                    DataTables Advanced Tables
+                    Assignment
                     <div style="float: right">
                         <input type="text" placeholder="Search..." ng-model="search"/>
                         <button class="btn-default" type="button" disabled readonly>
@@ -33,7 +33,7 @@
     							</tr>
     						</thead>
                             <tbody>
-    							<tr dir-paginate="category in arrayList | orderBy:sortKey:reverse|filter: search:strict |itemsPerPage:8">
+    							<tr dir-paginate="category in arrayList | orderBy:sortKey:reverse|filter: search:strict |itemsPerPage:10">
     								<td>{{$index + 1}}</td>
                                     <td>{{category.categories.questionCategory}}</td>
                                     <td>{{category.categories.description}}</td>

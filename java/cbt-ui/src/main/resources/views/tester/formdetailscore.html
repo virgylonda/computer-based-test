@@ -25,8 +25,7 @@
 <div class="row">
 	<div class="col-lg-12">
 		<div class="panel panel-default">
-            <div class="panel-heading">
-                DataTables Advanced Tables
+            <div class="panel-heading">Test Scores
                 <div style="float: right">
                     <input type="text" placeholder="Search..." ng-model="search"/>
                     <button class="btn-default" type="button" disabled readonly>
@@ -41,14 +40,14 @@
                             <tr>
                                 <th>No.</th>
                                 <th>Name</th>
-                                <th>Category</th>
+                                <th>Test</th>
                                 <th>Started</th>
                                 <th>Ended</th>
                                 <th>Score</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr dir-paginate="object in detailObject | orderBy:sortKey:reverse|filter: search:strict |itemsPerPage:8">
+                            <tr dir-paginate="object in detailObject | orderBy:sortKey:reverse|filter: search:strict |itemsPerPage:10">
                                 <td> {{$index + 1}} </td>
                                 <td> {{object.users.name}} </td>
                                 <td> {{object.categories.questionCategory}} </td>

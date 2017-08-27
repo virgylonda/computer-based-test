@@ -40,7 +40,7 @@
 							</tr>
 						</thead>
 						<tbody>
-							<tr dir-paginate="user in arrayUsers | orderBy:sortKey:reverse|filter: search:strict |itemsPerPage:8">
+							<tr dir-paginate="user in arrayUsers | orderBy:sortKey:reverse|filter: search:strict |itemsPerPage:10">
                                 <td>{{$index + 1}}</td>
                                 <td>{{user.roles.roleName}}</td>
                                 <td>{{user.username}}</td>
