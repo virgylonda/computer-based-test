@@ -6,6 +6,11 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 public class UserPassword implements Serializable{
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1368872512464416666L;
+
 	private int idUser;
 	
 	private String oldpassword;

@@ -2,10 +2,13 @@ package pji.cbt.entities;
 
 import java.io.Serializable;
 import java.util.Date;
-import java.util.List;
 
 public class TestUser implements Serializable{
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 8544676142194409979L;
 	private int testId;
 	private Date started;
 	private Date ended;

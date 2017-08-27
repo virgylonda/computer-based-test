@@ -43,8 +43,8 @@
 		DELETE FROM tb_user WHERE id = #{userId}
 	</select>
 
-	<insert id="createUser" flushCache="true" parameterType="pji.cbt.entities.User" statementType="PREPARED" useGeneratedKeys="true" keyProperty="userId" keyColumn="id">
-		INSERT INTO tb_user(role_id,username,password,name,email) VALUES(#{roles.roleId},#{username}, #{password}, #{name}, #{email})
+	<insert id="createUser" flushCache="true" parameterType="pji.cbt.entities.User">
+		INSERT INTO tb_user(id,role_id,username,password,name,email) VALUES(nextval('tb_user_id_seq'),#{roles.roleId},#{username}, #{password}, #{name}, #{email})
 	</insert>
 	
 	<update id='updateUser'>

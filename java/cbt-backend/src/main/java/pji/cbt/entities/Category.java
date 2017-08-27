@@ -1,10 +1,13 @@
 package pji.cbt.entities;
 
 import java.io.Serializable;
-import java.sql.Timestamp;
 
 public class Category implements Serializable {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -4739327016119277121L;
 	private int idCategory;
 	private String questionCategory;
 	private String description;

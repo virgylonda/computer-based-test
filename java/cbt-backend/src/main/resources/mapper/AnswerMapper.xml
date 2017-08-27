@@ -34,7 +34,7 @@
 		SELECT * FROM tb_answer WHERE question_id = #{questionAnswer.idQuestion} ;
 	</select>
 	
-	<insert id="createAnswer" parameterType="pji.cbt.entities.Answer" flushCache="true" statementType="PREPARED" keyProperty="" keyColumn="">
+	<insert id="createAnswer" parameterType="pji.cbt.entities.Answer" flushCache="true"  keyProperty="" keyColumn="">
 		INSERT INTO tb_answer (question_id, ordering, answer, correct_answer) values (#{questionAnswer.idQuestion},(SELECT count(ordering)+1 FROM tb_answer WHERE question_id = #{questionAnswer.idQuestion}),#{answer},#{correctAnswer})
 	</insert>
 	

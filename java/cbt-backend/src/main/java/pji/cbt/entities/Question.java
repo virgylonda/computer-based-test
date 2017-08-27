@@ -4,6 +4,10 @@ import java.io.Serializable;
 
 public class Question implements Serializable {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 8933782251010758042L;
 	private int idQuestion;
 	private int orderingQuestion;
 	private String question;
