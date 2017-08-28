@@ -19,6 +19,8 @@ public class Answer implements Serializable {
 	private String answer;
 	private boolean correctAnswer;
 	
+	private Organization organization;
+	
 	public Answer(){
 		
 	}
@@ -60,6 +62,14 @@ public class Answer implements Serializable {
 	}
 	public void setCorrectAnswer(boolean correctAnswer) {
 		this.correctAnswer = correctAnswer;
+	}
+
+	public Organization getOrganization() {
+		return organization;
+	}
+
+	public void setOrganization(Organization organization) {
+		this.organization = organization;
 	}
 	
 }

@@ -29,7 +29,6 @@ import pji.cbt.entities.User;
 import pji.cbt.form.FormAnswer;
 import pji.cbt.form.FormQuestion;
 import pji.cbt.services.AnswerService;
-import pji.cbt.services.CategoryService;
 import pji.cbt.services.QuestionService;
 import pji.cbt.services.TestUserService;
 import pji.cbt.services.UserService;
@@ -49,9 +48,6 @@ public class UserController {
 
 	@Autowired
 	private QuestionService queSvc;
-	
-	@Autowired
-	private CategoryService catSvc;
 
 	@Autowired
 	private AnswerService ansSvc;

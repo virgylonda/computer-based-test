@@ -13,6 +13,8 @@ public class Question implements Serializable {
 	private String question;
 	private Category category;
 	
+	private Organization organization;
+	
 	public Question() {
 	}
 	
@@ -46,6 +48,14 @@ public class Question implements Serializable {
 	}
 	public Category getCategory() {
 		return category;
+	}
+	
+	public Organization getOrganization() {
+		return organization;
+	}
+
+	public void setOrganization(Organization organization) {
+		this.organization = organization;
 	}
 	
 }

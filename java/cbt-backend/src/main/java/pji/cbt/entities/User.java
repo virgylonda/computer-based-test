@@ -27,6 +27,8 @@ public class User implements Serializable {
 	private int role_id;
 
 	private Roles roles;
+	
+	private Organization organization;
 
 	public User() {
 	}
@@ -93,6 +95,14 @@ public class User implements Serializable {
 
 	public void setRole_id(int role_id) {
 		this.role_id = role_id;
+	}
+	
+	public Organization getOrganization() {
+		return organization;
+	}
+
+	public void setOrganization(Organization organization) {
+		this.organization = organization;
 	}
 
 	public String passwordToHash(String password){		

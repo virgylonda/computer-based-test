@@ -14,6 +14,8 @@ public class Category implements Serializable {
 	private String questionType;
 	private int timeLimit;
 	
+	private Organization organization;
+	
 	public int getIdCategory() {
 		return idCategory;
 	}
@@ -62,7 +64,13 @@ public class Category implements Serializable {
 		this.timeLimit = timeLimit;
 	}
 	
-	
+	public Organization getOrganization() {
+		return organization;
+	}
+
+	public void setOrganization(Organization organization) {
+		this.organization = organization;
+	}	
 	
 		
 		

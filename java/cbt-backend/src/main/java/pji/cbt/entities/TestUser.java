@@ -17,6 +17,8 @@ public class TestUser implements Serializable{
 	private User users;
 	private Category categories;
 	
+	private Organization organization;
+	
 	public TestUser() {
 	}
 
@@ -87,4 +89,12 @@ public class TestUser implements Serializable{
 	public void setCategories(Category categories) {
 		this.categories = categories;
 	}	
+	
+	public Organization getOrganization() {
+		return organization;
+	}
+
+	public void setOrganization(Organization organization) {
+		this.organization = organization;
+	}
 }

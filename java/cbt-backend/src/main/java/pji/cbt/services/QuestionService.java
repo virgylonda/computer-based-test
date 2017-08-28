@@ -3,7 +3,6 @@ package pji.cbt.services;
 import java.util.List;
 
 import pji.cbt.entities.Question;
-import pji.cbt.entities.User;
 
 public interface QuestionService {
 
