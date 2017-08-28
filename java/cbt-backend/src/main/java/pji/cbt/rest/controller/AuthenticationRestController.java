@@ -1,5 +1,8 @@
 package pji.cbt.rest.controller;
 
+import static java.time.ZoneOffset.UTC;
+
+import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.Date;
 
@@ -14,18 +17,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.SignatureAlgorithm;
 import pji.cbt.entities.Roles;
 import pji.cbt.entities.User;
 import pji.cbt.exception.ForbiddenException;
 import pji.cbt.services.UserService;
-
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
-
-import static java.time.ZoneOffset.UTC;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
-
-import java.io.IOException;
 
 @CrossOrigin(origins = "http://localhost", maxAge = 3600)
 @RestController

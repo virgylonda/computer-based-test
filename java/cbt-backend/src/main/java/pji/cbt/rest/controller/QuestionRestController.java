@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import pji.cbt.entities.Answer;
 import pji.cbt.entities.Question;
 import pji.cbt.services.AnswerService;
 import pji.cbt.services.QuestionService;
