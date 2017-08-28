@@ -10,7 +10,7 @@ import pji.cbt.mapper.AnswerMapper;
 import pji.cbt.services.AnswerService;
 
 @Service
-public class AnswerServiceImp implements AnswerService {
+public class AnswerServiceImpl implements AnswerService {
 	
 	@Autowired
 	private AnswerMapper aMapper;
