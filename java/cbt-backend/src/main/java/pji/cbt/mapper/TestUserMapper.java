@@ -3,6 +3,7 @@ package pji.cbt.mapper;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import pji.cbt.entities.TestUser;
 
@@ -17,7 +18,7 @@ public interface TestUserMapper {
 	
 	public void saveTest(TestUser testUser);
 	
-	public List<TestUser> findUserSummaryScore();
+	public List<TestUser> findUserSummaryScore(@Param("orgId") long orgId);
 	
 	public List<TestUser> findTestAssignment(int userId);
 	

@@ -16,8 +16,8 @@ public class CategoryServiceImpl implements CategoryService {
 	private CategoryMapper cMapper;
 	
 	@Override
-	public List<Category> findAllCategory() {
-		return this.cMapper.findAllCategory();
+	public List<Category> findAllCategory(long orgId) {
+		return this.cMapper.findAllCategory(orgId);
 	}
 
 	@Override

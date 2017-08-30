@@ -2,6 +2,7 @@ package pji.cbt.rest.controller;
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.apache.log4j.Logger;
@@ -9,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -16,7 +18,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import io.jsonwebtoken.Claims;
 import pji.cbt.entities.Category;
+import pji.cbt.entities.Organization;
 import pji.cbt.services.CategoryService;
 
 
@@ -36,6 +40,11 @@ public class CategoryRestController {
 	private static Logger logger = Logger.getLogger(CategoryRestController.class);
 	
 	
+	   @ModelAttribute("claims")
+	    public Claims getClaims(HttpServletRequest request) 
+	    {
+	        return (Claims) request.getAttribute("claims");
+	    }
 	
 	 /**
      * Create 
@@ -45,8 +54,14 @@ public class CategoryRestController {
      * @return 	New Category Question HttpStatus.CREATED
      */
     @RequestMapping(value = "/createcategory", method = RequestMethod.POST)
-    public ResponseEntity<Void> createCategory(@RequestBody Category category, UriComponentsBuilder ucBuilder) {
+    public ResponseEntity<Void> createCategory(@ModelAttribute("claims") Claims claims, @RequestBody Category category, UriComponentsBuilder ucBuilder) {
     	logger.info("Creating Category " + category.getDescription());
+    	
+        Integer strOrgId=(Integer) claims.get("orgId");
+		logger.debug("parsed orgId: "+strOrgId);	
+		Organization o = new Organization();
+		o.setId(strOrgId.longValue());
+		category.setOrganization(o);
 
     	if(ctgSvc.exists(category)){
     		logger.info("a category with id "+category.getIdCategory()+" already exists");
@@ -114,8 +129,10 @@ public class CategoryRestController {
 	 * @return	GetAllCategory
 	 */
 	@RequestMapping(path="/getallcategory",method=RequestMethod.GET)
-	public List<Category> getAllCategory(){
-		return ctgSvc.findAllCategory();
+	public List<Category> getAllCategory(@ModelAttribute("claims") Claims claims){
+        Integer strOrgId=(Integer) claims.get("orgId");
+		logger.debug("parsed orgId: "+strOrgId);	
+		return ctgSvc.findAllCategory(strOrgId.longValue());
 	}
 	
 	 /**

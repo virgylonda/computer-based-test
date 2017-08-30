@@ -14,7 +14,7 @@ public interface TestUserService {
 	
 	public void saveTest(TestUser testUser); //save test
 	
-	public List<TestUser> findUserSummaryScore();
+	public List<TestUser> findUserSummaryScore(long orgId);
 	
 	public List<TestUser> findTestAssignment(int userId);
 	

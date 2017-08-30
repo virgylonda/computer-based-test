@@ -9,7 +9,7 @@ import pji.cbt.entities.Category;
 @Service
 public interface CategoryService {
 
-	public abstract List<Category> findAllCategory();
+	public abstract List<Category> findAllCategory(long orgId);
 
 	public abstract Category findOneCategory(long id);
 	

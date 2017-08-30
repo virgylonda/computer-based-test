@@ -106,14 +106,14 @@ public class TesterController {
 		
 		@RequestMapping(path="/category/list",method=RequestMethod.GET)
 		public String dataCategory(Model model){
-			List<Category>category = this.ctgSvc.findAllCategory();
+			List<Category>category = this.ctgSvc.findAllCategory(0l);
 			model.addAttribute("data", category);
 			return "datacategory";
 		}
 		
 		@RequestMapping(path="/category/test",method=RequestMethod.GET)
 		public String testCategory(Model model){
-			List<Category>category = this.ctgSvc.findAllCategory();
+			List<Category>category = this.ctgSvc.findAllCategory(0l);
 			model.addAttribute("data", category);
 			return "datacategory";
 		}
@@ -298,7 +298,7 @@ public class TesterController {
 		
 		@RequestMapping(path="/user/score",method=RequestMethod.GET)
 		public String dataUserTest(Model model){
-			List<TestUser> userTest = this.testSvc.findUserSummaryScore();
+			List<TestUser> userTest = this.testSvc.findUserSummaryScore(0l);
 			model.addAttribute("userTest",userTest);
 			return "index_usertest";
 		}

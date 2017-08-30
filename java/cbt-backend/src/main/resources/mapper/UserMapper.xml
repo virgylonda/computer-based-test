@@ -52,7 +52,7 @@
 	</delete>
 
 	<insert id="createUser" flushCache="true" parameterType="pji.cbt.entities.User">
-		INSERT INTO tb_user(id,role_id,username,password,name,email) VALUES(nextval('tb_user_id_seq'),#{roles.roleId},#{username}, #{password}, #{name}, #{email})
+		INSERT INTO tb_user(id,role_id,username,password,name,email,organization_id) VALUES(nextval('tb_user_id_seq'),#{roles.roleId},#{username}, #{password}, #{name}, #{email}, #{organization.id})
 	</insert>
 	
 	<update id='updateUser'>

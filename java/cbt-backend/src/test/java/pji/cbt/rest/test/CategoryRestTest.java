@@ -81,7 +81,7 @@ private MockMvc mockMvc;
 	    	List<Category> category = Arrays.asList(new Category(1, "Ujian Matematika", "Test Matematika Dasar untuk siswa SMP", "Multiple Choice", 60));
 	    			
 
-	        when(catService.findAllCategory()).thenReturn(category);
+	        when(catService.findAllCategory(0l)).thenReturn(category);
 
 	        mockMvc.perform(get("/category/getallcategory"))
             .andExpect(status().isOk())
@@ -93,7 +93,7 @@ private MockMvc mockMvc;
             .andExpect(jsonPath("$[0].questionType", is("Multiple Choice")))
             .andExpect(jsonPath("$[0].timeLimit", is(60)));
 
-		    verify(catService, times(1)).findAllCategory();
+		    verify(catService, times(1)).findAllCategory(0l);
 		    verifyNoMoreInteractions(catService);
 
 	    }

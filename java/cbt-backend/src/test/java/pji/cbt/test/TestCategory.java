@@ -27,7 +27,7 @@ public class TestCategory {
 	 List<Category> category = new ArrayList<Category>();
 	
 	 //Act
-	 category = ctgSvc.findAllCategory();
+	 category = ctgSvc.findAllCategory(0l);
 	
 	 //Assert
 	 for(Category categories : category){

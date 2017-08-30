@@ -24,6 +24,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
+import pji.cbt.entities.Organization;
 import pji.cbt.entities.Roles;
 import pji.cbt.entities.User;
 import pji.cbt.entities.UserPassword;
@@ -133,7 +134,7 @@ public class UserRestController {
 		 * @return      create a new user
 		 */
 	    @RequestMapping(value = "/createuser", method = RequestMethod.POST)
-	    public ResponseEntity<Void> createUser(@RequestBody User user, Roles role, UriComponentsBuilder ucBuilder) {
+	    public ResponseEntity<Void> createUser(@ModelAttribute("claims") Claims claims, @RequestBody User user, Roles role, UriComponentsBuilder ucBuilder) {
 	        logger.info("Creating User : "+user.getUserId());
 	        
 	        if(userSvc.exists(user)){
@@ -141,6 +142,14 @@ public class UserRestController {
 	        	return new ResponseEntity<Void>(HttpStatus.CONFLICT);
 	        }
 	        
+	        Integer strOrgId=(Integer) claims.get("orgId");
+			logger.debug("parsed orgId: "+strOrgId);	
+			long orgId = strOrgId.longValue();
+			
+			Organization o = new Organization();
+			o.setId(orgId);
+	        
+			user.setOrganization(o);
 	    	user.setPassword(user.passwordToHash(user.getPassword()));
 	    	userSvc.createUser(user);
 	 

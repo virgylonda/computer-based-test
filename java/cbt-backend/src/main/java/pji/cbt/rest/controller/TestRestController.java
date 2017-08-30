@@ -12,6 +12,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.apache.log4j.Logger;
@@ -19,14 +20,17 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import io.jsonwebtoken.Claims;
 import pji.cbt.entities.Answer;
 import pji.cbt.entities.Question;
+import pji.cbt.entities.Roles;
 import pji.cbt.entities.TestUser;
 import pji.cbt.entities.User;
 import pji.cbt.services.AnswerService;
@@ -62,6 +66,13 @@ public class TestRestController {
 	}
 	
 	private static Logger logger = Logger.getLogger(TestRestController.class);
+	
+	   @ModelAttribute("claims")
+	    public Claims getClaims(HttpServletRequest request) 
+	    {
+	        return (Claims) request.getAttribute("claims");
+	    }
+	   
 	 
 	  /**
 			 * @param  		-
@@ -69,8 +80,11 @@ public class TestRestController {
 			 * @return      view all user for assignment
 			 */
 		    @RequestMapping(path = "/getallassignedtest", method=RequestMethod.GET)
-			public List<User> getAllUserforAssignment(){
-				return userSvc.findAllUser(3);
+			public List<User> getAllUserforAssignment(@ModelAttribute("claims") Claims claims){
+		        Integer strOrgId=(Integer) claims.get("orgId");
+				logger.debug("parsed orgId: "+strOrgId);	
+				long orgId = strOrgId.longValue();
+				return userSvc.findUserInOrg(Roles.ROLE_USER, orgId);
 			}
 		    
 		    /**
@@ -237,8 +251,12 @@ public class TestRestController {
 			 * @return      view all user for showing score
 			 */
 		    @RequestMapping(path = "/getalluserscore", method=RequestMethod.GET)
-			public List<TestUser> getAllUsersScore(){
-				return testSvc.findUserSummaryScore();
+			public List<TestUser> getAllUsersScore(@ModelAttribute("claims") Claims claims){
+		        Integer strOrgId=(Integer) claims.get("orgId");
+				logger.debug("parsed orgId: "+strOrgId);	
+				long orgId = strOrgId.longValue();
+		  
+		    	return testSvc.findUserSummaryScore(orgId);
 			}
 		    
 		    @RequestMapping(value = "/submit/{id}", method = RequestMethod.PUT)

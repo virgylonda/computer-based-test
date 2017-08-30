@@ -51,7 +51,11 @@
  	</select>
 
 	<select id="findUserSummaryScore" resultMap="resultTestUser">
-		SELECT u.id, u.name AS name, u.email AS email , MIN(t.started) AS started, MAX(t.ended) AS ended, ROUND(AVG(t.score),2) AS score FROM tb_user_test t JOIN tb_user u ON t.user_id=u.id GROUP BY t.user_id, u.id, u.name, u.email
+		SELECT u.id, u.name AS name, u.email AS email , MIN(t.started) AS started, MAX(t.ended) AS ended, ROUND(AVG(t.score),2) AS score 
+		FROM tb_user_test t JOIN tb_user u ON t.user_id=u.id 
+		JOIN tb_question_category c ON c.id = t.category_id
+		WHERE c.organization_id=#{orgId}
+		GROUP BY t.user_id, u.id, u.name, u.email
 	</select>
 	
 	<select id="findTestAssignment" resultMap="resultTestUser">
