@@ -8,6 +8,10 @@ public class Roles implements Serializable{
 	 * 
 	 */
 	private static final long serialVersionUID = 652948249212186561L;
+	
+	public static final int ROLE_ADMIN=1;
+	public static final int ROLE_TESTER=2;
+	public static final int ROLE_USER=3;
 
 	private int roleId;
 	

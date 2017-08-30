@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="pji.cbt.mapper.OrganizationMapper">
+	
+
+	
+	<resultMap type="pji.cbt.entities.Organization" id="resultOrganization">
+		<id property="id" column="id"/>
+		<result property="orgType" column="org_type"/>
+		<result property="name" column="org_name"/>
+	</resultMap>	
+	
+	
+	<insert id="createOrganization" flushCache="true" parameterType="pji.cbt.entities.Organization">
+		INSERT INTO tb_organization(orgType,name) VALUES(#{orgType},#{name})
+	</insert>
+	
+	<delete id="deleteOne" >
+		DELETE FROM tb_organization WHERE id = #{userId}
+	</delete>
+	
+
+    <select id="findAllOrganization" resultMap="resultOrganization">
+    		SELECT o.id, o.org_type, o.name as org_name
+    		FROM tb_organization o
+    		ORDER BY o.id
+    </select>
+    
+    <select id="findOne" resultMap="resultOrganization">
+        	SELECT o.id, o.org_type, o.name as org_name
+    		FROM tb_organization o
+			WHERE o.id=#{id}
+    </select>
+    
+    <update id="updateOrganization">
+    	UPDATE tb_organization 
+    	SET
+    		name = #{name}
+    		org_type = #{orgType}
+    	WHERE
+    		id = #{id}
+    </update>
+
+	
+	
+
+
+</mapper>

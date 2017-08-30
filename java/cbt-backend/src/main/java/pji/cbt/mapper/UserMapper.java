@@ -4,6 +4,7 @@ package pji.cbt.mapper;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import pji.cbt.entities.Roles;
 import pji.cbt.entities.User;
@@ -35,4 +36,6 @@ public interface UserMapper {
 	public void updatePassword(User paramUser);
 	
 	public List<Roles> findRoleAll();
+
+	public abstract List<User> findUserInOrg(@Param("roleId") int roleId, @Param("orgId") long orgId);
 }

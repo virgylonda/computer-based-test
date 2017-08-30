@@ -68,6 +68,7 @@ public class AuthenticationRestController {
 	    .setSubject(username)
 	    .claim("roleId", user.getRole_id())
 	    .claim("userId", user.getUserId())
+	    .claim("orgId", user.getOrganization().getId())
 	    .setExpiration(expiration)
 	    .setIssuedAt(new Date())
 	    .signWith(SignatureAlgorithm.HS256, "secretkey")

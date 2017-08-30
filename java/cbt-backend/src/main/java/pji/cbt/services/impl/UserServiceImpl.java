@@ -70,4 +70,9 @@ public class UserServiceImpl implements UserService {
 		return false;
 	}
 
+	@Override
+	public List<User> findUserInOrg(int role_id, long orgId) {
+ 		return uMapper.findUserInOrg(role_id, orgId);
+	}
+
 }

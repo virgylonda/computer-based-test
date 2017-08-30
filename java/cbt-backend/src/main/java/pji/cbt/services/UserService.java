@@ -32,4 +32,6 @@ public interface UserService {
 	boolean exists(User user);
 	
 	boolean userExists(User user);
+
+	public abstract List<User> findUserInOrg(int role_id, long orgId);
 }

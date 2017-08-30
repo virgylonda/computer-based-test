@@ -22,9 +22,9 @@
 		SELECT * FROM tb_answer;
 	</select>
 	
-	<select id="deleteAnswer" parameterType="int" flushCache="true" statementType="PREPARED">
+	<delete id="deleteAnswer" parameterType="int" flushCache="true" statementType="PREPARED">
 		DELETE FROM tb_answer WHERE id = #{idAnswer};
-	</select>
+	</delete>
 	
 	<select id="findOne" resultMap="resultAnswer">
 		SELECT * FROM tb_answer WHERE id = #{idAnswer} ;

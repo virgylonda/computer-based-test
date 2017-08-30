@@ -3,6 +3,7 @@ package pji.cbt.rest.controller;
 import java.text.SimpleDateFormat;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.apache.log4j.Logger;
@@ -12,16 +13,21 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.Jwts;
 import pji.cbt.entities.Roles;
 import pji.cbt.entities.User;
 import pji.cbt.entities.UserPassword;
+import pji.cbt.exception.ForbiddenException;
 import pji.cbt.services.AnswerService;
 import pji.cbt.services.CategoryService;
 import pji.cbt.services.QuestionService;
@@ -67,6 +73,14 @@ public class UserRestController {
 		return score;
 	}
 
+	
+	
+	   @ModelAttribute("claims")
+	    public Claims getClaims(HttpServletRequest request) 
+	    {
+	        return (Claims) request.getAttribute("claims");
+	    }
+	
     /**
 	 * @param  		-
 	 * @method		GET
@@ -87,8 +101,14 @@ public class UserRestController {
 	 * @return      list of all Users
 	 */
 	@RequestMapping(path = "/getallUser", method=RequestMethod.GET)
-	public List<User> getAllUser(){
-		return userSvc.findAllUser(3);
+	public List<User> getAllUser(@ModelAttribute("claims") Claims claims){
+		logger.debug("Starting getAllTester");
+
+        Integer strOrgId=(Integer) claims.get("orgId");
+		logger.debug("parsed orgId: "+strOrgId);	
+		long orgId = strOrgId.longValue();
+		
+		return userSvc.findUserInOrg(Roles.ROLE_USER,orgId);
 	}
 	
 	 /**

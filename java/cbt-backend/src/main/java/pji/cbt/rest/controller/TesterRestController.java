@@ -10,13 +10,17 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.Jwts;
 import pji.cbt.entities.TestUser;
 import pji.cbt.entities.User;
+import pji.cbt.exception.ForbiddenException;
 import pji.cbt.services.TestUserService;
 import pji.cbt.services.UserService;
 
@@ -39,7 +43,28 @@ public class TesterRestController {
 	
 	
 	@RequestMapping(path = "/getalltester", method=RequestMethod.GET)
-	public List<User> getAllTester(){
+	public List<User> getAllTester(@RequestHeader(value="Authorization") String authorization){
+		logger.debug("Starting getAllTester");
+		logger.debug("Bearer: "+authorization);
+		
+		   if (authorization != null && authorization.startsWith("Bearer ")) {
+		        // Extract the user part from the header
+		        String jwt = authorization.substring("Bearer ".length());
+
+		        try {
+		            // Throws an JwtException in case of error (e.g. expired)
+		            Claims claims = Jwts.parser()
+		                    .setSigningKey("secretkey".getBytes("UTF-8"))
+		                    .parseClaimsJws(jwt)
+		                    .getBody();
+
+		            String orgId=(String)claims.get("orgId");
+		    		logger.info("orgId: "+orgId);
+		        } catch (Exception e) {
+		            throw new ForbiddenException(e.getMessage());
+		        }
+		    }		
+		
 		return userSvc.findAllUser(2);
 	}
 	

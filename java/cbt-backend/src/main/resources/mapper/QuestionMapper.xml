@@ -25,9 +25,9 @@
 		SELECT * FROM tb_question
 	</select>
 	
-	<select id="deleteQuestion" parameterType="int" flushCache="true" statementType="PREPARED">
+	<delete id="deleteQuestion" parameterType="int" flushCache="true" statementType="PREPARED">
 		DELETE FROM tb_question WHERE id = #{idQuestion}
-	</select>
+	</delete>
 	
 	<select  id="findOneQuestion" resultMap="resultQuestion">
 		SELECT * FROM tb_question WHERE id = #{idQuestion}
