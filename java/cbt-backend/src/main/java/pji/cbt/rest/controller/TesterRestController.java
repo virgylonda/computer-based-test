@@ -43,27 +43,9 @@ public class TesterRestController {
 	
 	
 	@RequestMapping(path = "/getalltester", method=RequestMethod.GET)
-	public List<User> getAllTester(@RequestHeader(value="Authorization") String authorization){
+	public List<User> getAllTester(){
 		logger.debug("Starting getAllTester");
-		logger.debug("Bearer: "+authorization);
-		
-		   if (authorization != null && authorization.startsWith("Bearer ")) {
-		        // Extract the user part from the header
-		        String jwt = authorization.substring("Bearer ".length());
-
-		        try {
-		            // Throws an JwtException in case of error (e.g. expired)
-		            Claims claims = Jwts.parser()
-		                    .setSigningKey("secretkey".getBytes("UTF-8"))
-		                    .parseClaimsJws(jwt)
-		                    .getBody();
-
-		            String orgId=(String)claims.get("orgId");
-		    		logger.info("orgId: "+orgId);
-		        } catch (Exception e) {
-		            throw new ForbiddenException(e.getMessage());
-		        }
-		    }		
+	
 		
 		return userSvc.findAllUser(2);
 	}
