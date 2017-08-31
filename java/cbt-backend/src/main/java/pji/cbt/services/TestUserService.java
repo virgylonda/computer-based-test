@@ -27,4 +27,6 @@ public interface TestUserService {
 	public void updateEndTest(TestUser testUser); //end test
 	
 	boolean testExists(TestUser testUser);
+
+	public List<TestUser> findTestAssignment(int id, long orgId);
 }

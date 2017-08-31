@@ -15,6 +15,10 @@
 	
 	<insert id="createOrganization" flushCache="true" parameterType="pji.cbt.entities.Organization">
 		INSERT INTO tb_organization(orgType,name) VALUES(#{orgType},#{name})
+		
+	  <selectKey order="AFTER" keyProperty="id" resultType="long">
+    	SELECT currval('tb_organization_id_seq'::regclass)
+  	  </selectKey>	
 	</insert>
 	
 	<delete id="deleteOne" >

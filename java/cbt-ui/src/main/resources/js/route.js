@@ -33,6 +33,19 @@ cbtApp.config(function($stateProvider) {
 					displayName: 'Login'
 			  }
 	})
+	
+	.state('register', {
+		url: '/register',
+		views: {
+					'main@': {
+						templateUrl: 'views/components/register.html',
+						controller: "RegisterController"
+					}
+				},
+		data: {
+					displayName: 'Register'
+			  }
+	})	
 	//===========================================================================//
 
 	// ADMIN ROUTE START HERE//
@@ -247,7 +260,7 @@ cbtApp.config(function($stateProvider) {
 					}
 				},
 		data: {
-					displayName: 'Category List'
+					displayName: 'Test List'
 			  }
 	})
 	.state('hometester.listcategories.addnewcategory', {
@@ -259,7 +272,7 @@ cbtApp.config(function($stateProvider) {
 					}
 				},
 		data: {
-					displayName: 'Category Add'
+					displayName: 'Add Test'
 			  }
 	})
 	.state('hometester.listcategories.editcategory', {
@@ -276,7 +289,7 @@ cbtApp.config(function($stateProvider) {
 					}
 				},
 		data: {
-					displayName: 'Category Edit'
+					displayName: 'Edit Test'
 			  }
 	})
 	.state('hometester.listcategories.editcategory.confirmcategory', {
@@ -288,7 +301,7 @@ cbtApp.config(function($stateProvider) {
 					}
 				},
 		data: {
-					displayName: 'Category Edit'
+					displayName: 'Confirm Test'
 			  }
 	})
 	.state('hometester.listcategories.listquestion', {

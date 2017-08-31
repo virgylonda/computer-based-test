@@ -45,7 +45,7 @@ public class RegisterRestController {
 		 */
 	    @RequestMapping(value = "/register", method = RequestMethod.POST)
 	    public ResponseEntity<Void> createUser(@RequestBody User user, Roles role, UriComponentsBuilder ucBuilder) {
-	        logger.info("Creating User : "+user.getUserId());
+	        logger.info("Creating User : "+user.getUsername() );
 	        
 	        if(userSvc.exists(user)){
 	        	logger.info("a user with id " + user.getUsername() + " already exists");

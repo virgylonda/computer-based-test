@@ -20,7 +20,7 @@ public interface TestUserMapper {
 	
 	public List<TestUser> findUserSummaryScore(@Param("orgId") long orgId);
 	
-	public List<TestUser> findTestAssignment(int userId);
+	public List<TestUser> findTestAssignment(@Param("userId") int userId, @Param("orgId") long orgId);
 	
 	public void deleteByIdUserAndIdCategory(TestUser testUser);
 	

@@ -59,7 +59,9 @@
 	</select>
 	
 	<select id="findTestAssignment" resultMap="resultTestUser">
-		SELECT c.id, c.question_category, c.description, c.question_type, c.time_limit, t.id AS testId, t.status FROM tb_question_category c LEFT JOIN tb_user_test t ON c.id=t.category_id AND t.user_id = #{user.userId}
+		SELECT c.id, c.question_category, c.description, c.question_type, c.time_limit, t.id AS testId, t.status 
+		FROM tb_question_category c LEFT JOIN tb_user_test t ON c.id=t.category_id AND t.user_id = #{userId}
+		WHERE ((c.organization_id = #{orgId}) or (0 = #{orgId}))
 	</select>
 	
 	<select id="findTestHaveAssign" resultMap="testAssignToUser">

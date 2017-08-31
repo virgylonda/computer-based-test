@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import pji.cbt.entities.Roles;
 import pji.cbt.entities.User;
+import pji.cbt.mapper.OrganizationMapper;
 import pji.cbt.mapper.UserMapper;
 import pji.cbt.services.UserService;
 
@@ -15,11 +16,17 @@ public class UserServiceImpl implements UserService {
 	
 	@Autowired
 	private UserMapper uMapper;
+	
+	@Autowired
+	private OrganizationMapper oMapper;
 
 	public UserServiceImpl() {
 	}
 
 	public void createUser(User tester) {
+		if (tester.getOrganization().getId()==0l){
+			oMapper.createOrganization(tester.getOrganization());
+		}
 		uMapper.createUser(tester);
 	}
 	

@@ -93,9 +93,13 @@ public class TestRestController {
 			 * @return      view test assignment by id
 			 */
 		    @RequestMapping(value = "/gettesthaveassignbyuserid/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-		    public List<TestUser> getTestHaveAssignByUserId (@PathVariable("id") int id) {
-		    	logger.info("Fetching Assignment with user id " + id);
-		        return testSvc.findTestAssignment(id);
+		    public List<TestUser> getTestHaveAssignByUserId (@ModelAttribute("claims") Claims claims, @PathVariable("id") int id) {
+		    	logger.debug("Fetching Assignment with user id " + id);
+		        Integer strOrgId=(Integer) claims.get("orgId");
+				logger.debug("parsed orgId: "+strOrgId);	
+				long orgId = strOrgId.longValue();	    	
+		    	
+		        return testSvc.findTestAssignment(id,orgId);
 		    }
 	
 		    /**

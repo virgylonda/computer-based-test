@@ -32,8 +32,8 @@ public class TestUserServiceImpl implements TestUserService {
 	}
 
 	@Override
-	public List<TestUser> findTestAssignment(int userId) {
-		return uMapper.findTestAssignment(userId);
+	public List<TestUser> findTestAssignment(int userId, long orgId) {
+		return uMapper.findTestAssignment(userId, orgId);
 	}
 
 	@Override
@@ -70,6 +70,11 @@ public class TestUserServiceImpl implements TestUserService {
 	public boolean testExists(TestUser testUser) {
 		// TODO Auto-generated method stub
 		return false;
+	}
+
+	@Override
+	public List<TestUser> findTestAssignment(int userId) {
+		return findTestAssignment( userId,0l);
 	}
 
 }

@@ -6,7 +6,6 @@ import java.util.List;
 import org.apache.ibatis.annotations.Mapper;
 
 import pji.cbt.entities.Organization;
-import pji.cbt.entities.Roles;
 import pji.cbt.entities.User;
 
 /**
